@@ -1,0 +1,111 @@
+(function () {
+  'use strict';
+
+  // ─── Fade-in observer ───
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(function (el) {
+    observer.observe(el);
+  });
+
+  // ─── Nav scroll behaviour ───
+  var nav = document.querySelector('nav');
+  var navToggle = document.querySelector('.nav-toggle');
+  var navLinksEl = document.querySelector('.nav-links');
+
+  window.addEventListener('scroll', function () {
+    nav.classList.toggle('nav-scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // ─── Active nav link by pathname ───
+  var currentPath = window.location.pathname.replace(/\/$/, '').split('/').pop() || 'index.html';
+  if (currentPath === '' || currentPath === '/') currentPath = 'index.html';
+
+  document.querySelectorAll('.nav-links a:not(.nav-cta)').forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (!href) return;
+    var linkPage = href.replace(/^\.\//, '').split('#')[0] || 'index.html';
+    if (linkPage === currentPath) {
+      link.classList.add('nav-active');
+    }
+  });
+
+  // ─── Hamburger toggle ───
+  if (navToggle) {
+    navToggle.addEventListener('click', function () {
+      navLinksEl.classList.toggle('open');
+      navToggle.classList.toggle('active');
+      var expanded = navToggle.classList.contains('active');
+      navToggle.setAttribute('aria-expanded', expanded);
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navLinksEl.classList.remove('open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ─── Smooth scroll for same-page anchors ───
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      var id = this.getAttribute('href');
+      if (id === '#') return;
+      var target = document.querySelector(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ─── Case study accordion ───
+  document.querySelectorAll('.case-card-header').forEach(function (header) {
+    header.addEventListener('click', function () {
+      var card = this.closest('.case-card');
+      var wasOpen = card.classList.contains('open');
+
+      document.querySelectorAll('.case-card.open').forEach(function (c) {
+        c.classList.remove('open');
+      });
+
+      if (!wasOpen) {
+        card.classList.add('open');
+      }
+    });
+  });
+
+  // ─── Contact form validation ───
+  var contactForm = document.querySelector('.contact-form form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      var valid = true;
+      var requiredFields = contactForm.querySelectorAll('[required]');
+
+      requiredFields.forEach(function (field) {
+        field.style.borderColor = '';
+        if (!field.value.trim()) {
+          field.style.borderColor = '#c0392b';
+          valid = false;
+        }
+        if (field.type === 'email' && field.value.trim()) {
+          var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRe.test(field.value.trim())) {
+            field.style.borderColor = '#c0392b';
+            valid = false;
+          }
+        }
+      });
+
+      if (!valid) {
+        e.preventDefault();
+      }
+    });
+  }
+})();

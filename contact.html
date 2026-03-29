@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Noein Solutions</title>
+  <meta name="description" content="Get in touch with Noein Solutions. Whether you need a BEP produced, an information management framework, or a digital delivery strategy — start with a conversation.">
+  <meta property="og:title" content="Contact — Noein Solutions">
+  <meta property="og:description" content="Start a conversation about your digital delivery needs.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://noeinsolutions.com/contact.html">
+  <link rel="canonical" href="https://noeinsolutions.com/contact.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0c'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='400' fill='%23c9a55a' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="capsar.html">Capsar.io</a></li>
+      <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="hero-glow"></div>
+    <div class="page-hero-inner">
+      <div class="hero-label">Contact</div>
+      <h1>Start a <em>conversation</em></h1>
+    </div>
+  </div>
+
+  <!-- Contact Content -->
+  <div class="contact-page">
+    <div class="contact-info">
+      <p>Whether you need a BEP produced, an information management framework designed, or a digital delivery strategy for your programme &mdash; it starts with a conversation. Tell me what you&rsquo;re working on and I&rsquo;ll come back with how I can help.</p>
+
+      <a href="mailto:andrea.aita@noeinsolutions.com" class="contact-detail">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        andrea.aita@noeinsolutions.com
+      </a>
+      <a href="https://www.linkedin.com/in/andrea-aita/" target="_blank" rel="noopener" class="contact-detail">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <div class="contact-detail">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        London, UK
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form name="contact" method="POST" netlify data-netlify="true">
+        <input type="hidden" name="form-name" value="contact">
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required aria-required="true">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required aria-required="true">
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" placeholder="Your company or organisation">
+        </div>
+
+        <div class="form-group">
+          <label for="service">What can I help with?</label>
+          <select id="service" name="service" required aria-required="true">
+            <option value="" disabled selected>Select a service area</option>
+            <option value="Information Management & Strategy">Information Management &amp; Strategy</option>
+            <option value="BEP & EIR Production">BEP &amp; EIR Production</option>
+            <option value="Programme Digital Delivery">Programme Digital Delivery</option>
+            <option value="Capsar.io Beta">Capsar.io Beta Access</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell me about your project, timeline, and what you're looking for..." required aria-required="true"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send message</button>
+        <div class="form-note">Typically respond within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+        <p>Digital Delivery Consulting for AEC. Strategy, information management, and programme delivery &mdash; done properly.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Pages</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="capsar.html">Capsar.io</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <a href="mailto:andrea.aita@noeinsolutions.com" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          andrea.aita@noeinsolutions.com
+        </a>
+        <a href="https://www.linkedin.com/in/andrea-aita/" target="_blank" rel="noopener" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          London, UK
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Noein Solutions Ltd. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
