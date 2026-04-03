@@ -68,6 +68,11 @@
 
   window.addEventListener('scroll', function () {
     nav.classList.toggle('nav-scrolled', window.scrollY > 50);
+    if (navLinksEl && navLinksEl.classList.contains('open')) {
+      navLinksEl.classList.remove('open');
+      navToggle.classList.remove('active');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
   }, { passive: true });
 
   // ─── Active nav link by pathname ───
@@ -199,9 +204,9 @@
   // ─── Reduced motion check ───
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ─── Interactive dot-grid canvas (hero only) ───
+  // ─── Interactive dot-grid canvas (hero only, desktop only) ───
   var heroCanvas = document.getElementById('heroCanvas');
-  if (heroCanvas) {
+  if (heroCanvas && window.innerWidth > 768 && !reducedMotion) {
     var ctx = heroCanvas.getContext('2d');
     var dots = [];
     var GRID = 25;
@@ -278,23 +283,4 @@
     requestAnimationFrame(animateDots);
   }
 
-  // ─── Cursor orb (follows mouse globally) ───
-  var cursorOrb = document.getElementById('cursorOrb');
-  if (cursorOrb && !reducedMotion && window.innerWidth > 968) {
-    cursorOrb.style.display = 'block';
-    var orbX = 0, orbY = 0, targetX = 0, targetY = 0;
-
-    document.addEventListener('mousemove', function (e) {
-      targetX = e.clientX;
-      targetY = e.clientY;
-    });
-
-    function moveOrb() {
-      orbX += (targetX - orbX) * 0.08;
-      orbY += (targetY - orbY) * 0.08;
-      cursorOrb.style.transform = 'translate(' + (orbX - 300) + 'px, ' + (orbY - 300) + 'px)';
-      requestAnimationFrame(moveOrb);
-    }
-    requestAnimationFrame(moveOrb);
-  }
 })();

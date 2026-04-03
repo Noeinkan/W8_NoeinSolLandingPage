@@ -19,6 +19,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
   <!-- Navigation -->
   <nav>
     <a href="index.html" class="nav-logo">Noein<span>.</span></a>
@@ -35,26 +37,23 @@
     </ul>
   </nav>
 
-  <main>
-
-  <!-- Cursor Orb -->
-  <div class="cursor-orb" id="cursorOrb"></div>
+  <main id="main-content">
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" aria-label="Introduction">
     <canvas class="hero-canvas" id="heroCanvas"></canvas>
     <div class="hero-blob hero-blob--1"></div>
     <div class="hero-blob hero-blob--2"></div>
     <div class="hero-blob hero-blob--3"></div>
     <div class="hero-inner hero-inner--centered">
       <div class="hero-label">Digital Delivery Consulting</div>
-      <h1>Digital delivery that<br><em>actually works.</em></h1>
+      <h1>For AEC programmes that need<br>digital delivery <em>done right.</em></h1>
       <p class="hero-sub">
-        Information management strategy, CDE governance, BEP production, and programme-level digital delivery — all under one roof. Better information, fewer errors, faster decisions, more competitive bids.
+        10+ years. &pound;9bn programme. 500+ professionals trained. Andrea Aita delivers the BEP frameworks, CDE governance, and information strategies that complex programmes need &mdash; and actually adopt.
       </p>
       <div class="hero-actions hero-actions--center">
-        <a href="contact.html" class="btn btn-primary">Book a call</a>
-        <a href="services.html" class="btn btn-outline">View services</a>
+        <a href="contact.html" class="btn btn-primary">Start a conversation</a>
+        <a href="case-studies.html" class="btn btn-outline">See the work</a>
       </div>
     </div>
   </section>
@@ -96,87 +95,8 @@
     </div>
   </div>
 
-  <!-- Why Noein -->
-  <section class="fade-in">
-    <div class="section-label">Why Noein</div>
-    <h2 class="section-title">Not just advice &mdash; actual delivery</h2>
-    <p class="section-sub">Three things that set Noein apart from typical consultancies.</p>
-
-    <div class="value-props">
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        </div>
-        <h3>Strategy to execution</h3>
-        <p>Not just recommendations in a slide deck. Noein delivers the frameworks, documents, and systems &mdash; from information management strategy all the way to compliant BEPs and configured CDEs.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <h3>Technology-enabled</h3>
-        <p>Proprietary tooling through Capsar.io means BEPs are drafted faster, EIR requirements are tracked automatically, and compliance gaps are caught before submission &mdash; not after.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        </div>
-        <h3>Programme-proven</h3>
-        <p>Tested on a &pound;9bn national infrastructure programme, not just small projects. The methods, frameworks, and tools have been validated at scale across complex multi-party supply chains.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services Preview -->
-  <section class="fade-in">
-    <div class="section-label">Services</div>
-    <h2 class="section-title">Three ways to work together</h2>
-    <p class="section-sub">From strategic advisory to hands-on BEP production and full programme delivery.</p>
-
-    <div class="services-grid">
-      <a href="services.html#information-management" class="service-card">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <h3>Information Management &amp; Strategy</h3>
-        <p>CDE governance, naming conventions, information requirements, reporting structures, and supply chain capability assessment.</p>
-        <div class="card-arrow">Learn more <span>&rarr;</span></div>
-      </a>
-      <a href="services.html#bep-eir" class="service-card">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </div>
-        <h3>BEP &amp; EIR Production</h3>
-        <p>Compliant BEPs in days, not weeks. EIR drafting and review so the supply chain can actually respond properly.</p>
-        <div class="card-arrow">Learn more <span>&rarr;</span></div>
-      </a>
-      <a href="services.html#programme-delivery" class="service-card">
-        <div class="service-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <h3>Programme Digital Delivery</h3>
-        <p>Embedded digital delivery lead or advisor &mdash; setting up the full IM ecosystem and driving adoption across teams.</p>
-        <div class="card-arrow">Learn more <span>&rarr;</span></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Capsar.io Banner -->
-  <div class="capsar-banner fade-in">
-    <div class="capsar-banner-inner">
-      <div class="section-label">The Technology Edge</div>
-      <h2>Powered by <em style="font-family:var(--font-display);color:var(--accent);">Capsar.io</em></h2>
-      <p>The only BEP tool that reads your EIR and writes your response. Built by a practitioner, for practitioners. AI-assisted, privacy-first, ISO 19650-native.</p>
-      <div class="hero-actions hero-actions--center">
-        <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener" class="btn btn-primary">Try Capsar.io</a>
-        <a href="capsar.html" class="btn btn-outline">Learn more</a>
-      </div>
-      <div class="capsar-badge">Free during beta</div>
-    </div>
-  </div>
-
-  <!-- Testimonials -->
-  <div class="testimonial-section fade-in">
+  <!-- Testimonials (moved up — trust before services) -->
+  <div class="testimonial-section fade-in" aria-label="Client testimonials">
     <div class="testimonial-inner">
       <div class="section-label" style="justify-content:center;">What Clients Say</div>
       <div class="testimonials-grid">
@@ -217,11 +137,76 @@
     </div>
   </div>
 
+  <!-- Why Noein -->
+  <section class="fade-in" aria-label="Why Noein Solutions">
+    <div class="section-label">Why Noein</div>
+    <h2 class="section-title">Not just advice &mdash; actual delivery</h2>
+    <p class="section-sub">Three things that set Noein apart from typical consultancies.</p>
+
+    <div class="value-props">
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Strategy to execution</h3>
+        <p>Not just recommendations in a slide deck. Noein delivers the frameworks, documents, and systems &mdash; from information management strategy all the way to compliant BEPs and configured CDEs.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Technology-enabled</h3>
+        <p>Proprietary tooling through Capsar.io means BEPs are drafted faster, EIR requirements are tracked automatically, and compliance gaps are caught before submission &mdash; not after.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Programme-proven</h3>
+        <p>Tested on a &pound;9bn national infrastructure programme, not just small projects. The methods, frameworks, and tools have been validated at scale across complex multi-party supply chains.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Preview -->
+  <section class="fade-in" aria-label="Services overview">
+    <div class="section-label">Services</div>
+    <h2 class="section-title">Three ways to work together</h2>
+    <p class="section-sub">From strategic advisory to hands-on BEP production and full programme delivery.</p>
+
+    <div class="services-grid">
+      <a href="services.html#information-management" class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Information Management &amp; Strategy</h3>
+        <p>CDE governance, naming conventions, information requirements, reporting structures, and supply chain capability assessment.</p>
+        <div class="card-arrow">Learn more <span>&rarr;</span></div>
+      </a>
+      <a href="services.html#bep-eir" class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h3>BEP &amp; EIR Production</h3>
+        <p>Compliant BEPs in days, not weeks. EIR drafting and review so the supply chain can actually respond properly.</p>
+        <div class="card-arrow">Learn more <span>&rarr;</span></div>
+      </a>
+      <a href="services.html#programme-delivery" class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Programme Digital Delivery</h3>
+        <p>Embedded digital delivery lead or advisor &mdash; setting up the full IM ecosystem and driving adoption across teams.</p>
+        <div class="card-arrow">Learn more <span>&rarr;</span></div>
+      </a>
+    </div>
+  </section>
+
   <!-- Who's Behind This -->
-  <section class="about-preview fade-in">
+  <section class="about-preview fade-in" aria-label="About Andrea Aita">
     <div class="about-preview-inner">
       <div class="about-preview-photo">
-        <img src="assets/headshot.jpg" alt="Andrea Aita — Digital Delivery Consultant" loading="lazy" />
+        <img src="assets/headshot.jpg" alt="Andrea Aita — Digital Delivery Consultant" loading="lazy" width="280" height="350" />
       </div>
       <div class="about-preview-content">
         <div class="section-label">Who&rsquo;s Behind This</div>
@@ -250,16 +235,29 @@
   </section>
 
   <!-- Contact CTA -->
-  <section class="contact-section fade-in">
+  <section class="contact-section fade-in" aria-label="Get in touch">
     <div class="section-label">Get in Touch</div>
-    <h2 class="section-title">Let&rsquo;s talk about your project</h2>
+    <h2 class="section-title">Ready to get your digital delivery right?</h2>
     <p class="section-sub">Whether you need a BEP produced, an information management framework designed, or a digital delivery strategy for your programme &mdash; it starts with a conversation.</p>
     <div class="hero-actions hero-actions--center">
-      <a href="contact.html#booking" class="btn btn-primary">Book a call</a>
-      <a href="contact.html" class="btn btn-outline">Send a message</a>
-      <a href="mailto:andrea.aita@noeinsolutions.com" class="btn btn-outline">Email directly</a>
+      <a href="contact.html" class="btn btn-primary">Start a conversation</a>
+      <a href="contact.html#message" class="btn btn-outline">Send a message</a>
     </div>
   </section>
+
+  <!-- Capsar.io Banner (moved to just before footer) -->
+  <div class="capsar-banner fade-in">
+    <div class="capsar-banner-inner">
+      <div class="section-label">The Technology Edge</div>
+      <h2>Powered by <em style="font-family:var(--font-display);color:var(--accent);">Capsar.io</em></h2>
+      <p>The only BEP tool that reads your EIR and writes your response. Built by a practitioner, for practitioners. AI-assisted, privacy-first, ISO 19650-native.</p>
+      <div class="hero-actions hero-actions--center">
+        <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener" class="btn btn-primary">Try Capsar.io</a>
+        <a href="capsar.html" class="btn btn-outline">Learn more</a>
+      </div>
+      <div class="capsar-badge">Free during beta</div>
+    </div>
+  </div>
 
   </main>
 
