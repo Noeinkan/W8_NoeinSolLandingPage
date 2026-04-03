@@ -41,8 +41,13 @@
       var target = parseInt(el.getAttribute('data-count'), 10);
       var prefix = el.getAttribute('data-prefix') || '';
       var suffix = el.getAttribute('data-suffix') || '';
+
+      if (reducedMotion) {
+        el.textContent = prefix + target + suffix;
+        return;
+      }
+
       var duration = 1600;
-      var start = 0;
       var startTime = null;
 
       function step(timestamp) {

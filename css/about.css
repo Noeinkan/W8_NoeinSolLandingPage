@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════════════
+   About Page — Timeline, Credentials, Approach
+   ═══════════════════════════════════════════════════════════ */
+
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-dim), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.5rem;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent);
+  z-index: 1;
+  transform: translateX(-5px);
+}
+
+.timeline-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-org {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent-dim);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.timeline-date { color: var(--text-tertiary); font-weight: 400; }
+
+.timeline-item p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 600px;
+}
+
+/* Credentials grid */
+.credentials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.credential-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.75rem;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.credential-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 0%, rgba(201, 165, 90, 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.credential-card:hover {
+  border-color: var(--border);
+  background: var(--bg-card-hover);
+  transform: translateY(-6px);
+}
+
+.credential-card:hover::after { opacity: 1; }
+
+.credential-card-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 1rem;
+  border-radius: 10px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(201, 165, 90, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.credential-card h4 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+}
+
+.credential-card p {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+/* How I work */
+.approach-text {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 720px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 968px) {
+  .credentials-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .credentials-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 1440px) {
+  .credential-card    { padding: 2rem; }
+  .credential-card h4 { font-size: 1.05rem; }
+  .credential-card p  { font-size: 0.88rem; }
+  .timeline-item h3   { font-size: 1.4rem; }
+  .timeline-item p    { font-size: 1rem; max-width: 680px; }
+  .approach-text      { font-size: 1.15rem; max-width: 800px; }
+}

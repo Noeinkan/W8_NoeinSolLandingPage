@@ -1,0 +1,168 @@
+/* ═══════════════════════════════════════════════════════════
+   Case Studies — Accordion Cards
+   ═══════════════════════════════════════════════════════════ */
+
+.case-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.case-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.case-card:hover { border-color: var(--border); }
+
+.case-card-header {
+  padding: 2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.case-card-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.75rem;
+}
+
+.case-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+}
+
+.case-card-client {
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+}
+
+.case-card-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+  transition: all 0.3s;
+}
+
+.case-card-toggle svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.case-card.open .case-card-toggle svg { transform: rotate(180deg); }
+.case-card.open .case-card-toggle     { border-color: var(--accent); color: var(--accent); }
+
+.case-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s var(--ease-out);
+}
+
+.case-card.open .case-card-body { max-height: 800px; }
+
+.case-card-content {
+  padding: 0 2rem 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.case-card-content h4 {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.case-card-content p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.case-metrics {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.case-metric { text-align: center; }
+
+.case-metric .metric-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.case-metric .metric-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.case-card-quote {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  border-left: 2px solid var(--accent-dim);
+}
+
+.case-card-quote p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.case-card-quote cite {
+  font-style: normal;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  display: block;
+  margin-top: 0.5rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 968px) {
+  .case-studies-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 1440px) {
+  .case-card-header    { padding: 2.25rem; }
+  .case-card-header h3 { font-size: 1.35rem; }
+  .case-card-content   { padding: 0 2.25rem 2.25rem; }
+}
