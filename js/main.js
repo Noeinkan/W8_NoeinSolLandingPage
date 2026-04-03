@@ -31,7 +31,7 @@
         animateCounters();
       }
     });
-  }, { threshold: 0.3 });
+  }, { threshold: 0.1 });
 
   var statsSection = document.querySelector('.stats');
   if (statsSection) statsObserver.observe(statsSection);
@@ -198,6 +198,25 @@
       if (document.getElementById(hashId) && document.querySelector('[data-tab="' + hashId + '"]')) {
         switchTab(hashId);
       }
+    }
+  }
+
+  // ─── Contact form success state ───
+  if (window.location.search.indexOf('sent=1') !== -1) {
+    var successEl = document.getElementById('formSuccess');
+    if (successEl) {
+      successEl.style.display = 'flex';
+      document.querySelectorAll('.contact-tab').forEach(function (t) {
+        t.classList.remove('contact-tab--active');
+      });
+      var messageTab = document.getElementById('message');
+      if (messageTab) messageTab.classList.add('contact-tab--active');
+      document.querySelectorAll('.contact-option-link').forEach(function (l) {
+        l.classList.remove('active');
+      });
+      document.querySelectorAll('[data-tab="message"]').forEach(function (l) {
+        l.classList.add('active');
+      });
     }
   }
 

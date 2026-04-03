@@ -1597,6 +1597,21 @@ main > section:nth-child(even) > * {
   text-align: center;
 }
 
+.form-success {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(201, 165, 90, 0.08);
+  border: 1px solid rgba(201, 165, 90, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  font-size: 0.92rem;
+}
+
+.form-success svg { flex-shrink: 0; stroke: var(--accent); }
+
 /* ═══════════════════════════════════════════════════════════
    About page — Timeline
    ═══════════════════════════════════════════════════════════ */
@@ -1653,6 +1668,11 @@ main > section:nth-child(even) > * {
   letter-spacing: 0.02em;
 }
 
+.timeline-date {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
 .timeline-item p {
   font-size: 0.92rem;
   color: var(--text-secondary);
@@ -1663,7 +1683,7 @@ main > section:nth-child(even) > * {
 /* Credentials grid */
 .credentials-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
 }
 
@@ -2564,9 +2584,8 @@ a.footer-contact-item:hover { color: var(--accent); }
   .about-preview-photo { width: 220px; height: 275px; }
   .about-preview-credentials { justify-content: center; }
   .about-preview-actions { justify-content: center; }
-  .logo-bar-inner { flex-direction: column; gap: 1rem; }
-  .logo-bar-logos { gap: 1.5rem; }
 }
+
 
 /* ─── Nav: hamburger at tablet width ─── */
 @media (max-width: 900px) {
@@ -2589,6 +2608,8 @@ a.footer-contact-item:hover { color: var(--accent); }
   }
 
   .nav-links.open { display: flex; }
+  .logo-bar-inner { flex-direction: column; gap: 1rem; }
+  .logo-bar-logos { gap: 1.5rem; justify-content: flex-start; }
 }
 
 @media (max-width: 640px) {
