@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  // ─── Fade-in observer ───
+  // ─── Fade-in observer (with staggered children) ───
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -11,6 +11,45 @@
   document.querySelectorAll('.fade-in').forEach(function (el) {
     observer.observe(el);
   });
+
+  // ─── Animated stat counters ───
+  var statsAnimated = false;
+  var statsObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && !statsAnimated) {
+        statsAnimated = true;
+        animateCounters();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  var statsSection = document.querySelector('.stats');
+  if (statsSection) statsObserver.observe(statsSection);
+
+  function animateCounters() {
+    document.querySelectorAll('.stat-number[data-count]').forEach(function (el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1600;
+      var start = 0;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        el.textContent = prefix + current + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = prefix + target + suffix;
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
 
   // ─── Nav scroll behaviour ───
   var nav = document.querySelector('nav');
@@ -107,5 +146,43 @@
         e.preventDefault();
       }
     });
+  }
+
+  // ─── Contact page tab switching ───
+  var tabLinks = document.querySelectorAll('[data-tab]');
+  if (tabLinks.length) {
+    function switchTab(tabId) {
+      document.querySelectorAll('.contact-tab').forEach(function (tab) {
+        tab.classList.remove('contact-tab--active');
+      });
+      document.querySelectorAll('.contact-option-link').forEach(function (link) {
+        link.classList.remove('active');
+      });
+      var targetTab = document.getElementById(tabId);
+      if (targetTab) targetTab.classList.add('contact-tab--active');
+      document.querySelectorAll('[data-tab="' + tabId + '"]').forEach(function (link) {
+        link.classList.add('active');
+      });
+    }
+
+    tabLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var tabId = this.getAttribute('data-tab');
+        switchTab(tabId);
+        var target = document.getElementById(tabId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Handle hash on page load
+    if (window.location.hash) {
+      var hashId = window.location.hash.substring(1);
+      if (document.getElementById(hashId) && document.querySelector('[data-tab="' + hashId + '"]')) {
+        switchTab(hashId);
+      }
+    }
   }
 })();
