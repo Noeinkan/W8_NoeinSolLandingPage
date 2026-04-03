@@ -1,0 +1,61 @@
+---
+description: Core project identity, conventions, and coding standards for the Noein Solutions landing page
+alwaysApply: true
+---
+
+# Noein Solutions — Landing Page
+
+Marketing / brochure site for **Noein Solutions** (digital delivery consulting for AEC) and its SaaS product **Capsar.io**. Principal: Andrea Aita. Production domain: `noeinsolutions.com`.
+
+## Tech Stack
+
+- **Plain HTML5** multi-page static site (no framework, no build step, no bundler)
+- **Single CSS file** (`css/styles.css`, ~2400 lines) with CSS custom properties
+- **Single JS file** (`js/main.js`) — vanilla ES5-style IIFE, no modules/imports
+- **Google Fonts**: DM Sans (body), Instrument Serif (display headings)
+- **No package.json** — zero npm dependencies
+- **Deploy**: bash `deploy.sh` via rsync/scp to Docker nginx on Hetzner
+
+## Design Tokens (`:root`)
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--bg-primary` | `#0a0a0c` | Page background |
+| `--bg-elevated` | `#111114` | Raised surfaces |
+| `--bg-card` | `#16161a` | Card backgrounds |
+| `--accent` | `#c9a55a` | Gold brand accent |
+| `--text-primary` | `#e8e6e3` | Body text |
+| `--text-secondary` | `#9a9898` | Muted text |
+| `--font-display` | `'Instrument Serif'` | Headings, brand |
+| `--font-body` | `'DM Sans'` | Body copy |
+
+## Conventions
+
+- **No build pipeline** — edit HTML/CSS/JS directly; changes go live via `deploy.sh`
+- **Duplicated page shell** — nav and footer are copy-pasted across all `.html` files (no includes/partials). When editing nav or footer, update every page.
+- **BEM-ish class naming** — compound names like `.hero-inner--centered`, `.contact-tab--active`
+- **Section rhythm** — `.section-label` → `.section-title` → `.section-sub` → content
+- **Fade-in pattern** — add `.fade-in` to any section; `IntersectionObserver` in `main.js` adds `.visible`
+- **Buttons** — `.btn .btn-primary` (gold filled) or `.btn .btn-outline` (bordered)
+- **Typography** — use HTML entities for special chars (`&mdash;`, `&rsquo;`, `&pound;`)
+- **Icons** — inline SVGs, no icon library
+- **Accessibility** — `aria-label`/`aria-expanded` on interactive elements; focus styles in CSS
+
+## Coding Standards
+
+- Keep JS as vanilla ES5 (no `const`/`let`/arrow functions/`class`) — the current codebase uses `var` and `function` throughout
+- CSS goes in `css/styles.css` — group new rules under the relevant comment banner section
+- Prefer CSS custom properties over hardcoded values
+- External links: `target="_blank" rel="noopener"`
+- Images: use `loading="lazy"` for below-fold images
+- Forms: include `aria-required="true"` on required fields
+
+## External Services
+
+- **FormSubmit.co** — contact form POST endpoint (honeypot `_honey` field)
+- **Calendly** — embedded booking widget on contact page
+- **Capsar.io app** — `https://app.noeinsolutions.com`
+
+## Deploy
+
+`deploy.sh` rsyncs to `root@77.42.70.26:/var/www/noeinsol`, excludes `.git`, `.cursor`, `*.plan.md`, deploy/nginx configs, then reloads Docker nginx. Run with `--dry-run` to preview.

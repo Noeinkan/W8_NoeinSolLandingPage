@@ -8,8 +8,18 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.fade-in').forEach(function (el) {
+  document.querySelectorAll('.fade-in, .slide-in-left').forEach(function (el) {
     observer.observe(el);
+  });
+
+  // ─── Stagger index on grid children ───
+  var grids = document.querySelectorAll('.value-props, .services-grid, .testimonials-grid, .credentials-grid, .module-grid, .pain-grid, .case-studies-grid');
+  grids.forEach(function (grid) {
+    var children = grid.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].classList.add('stagger-child');
+      children[i].style.setProperty('--i', i);
+    }
   });
 
   // ─── Animated stat counters ───
@@ -184,5 +194,107 @@
         switchTab(hashId);
       }
     }
+  }
+
+  // ─── Reduced motion check ───
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Interactive dot-grid canvas (hero only) ───
+  var heroCanvas = document.getElementById('heroCanvas');
+  if (heroCanvas) {
+    var ctx = heroCanvas.getContext('2d');
+    var dots = [];
+    var GRID = 25;
+    var RADIUS = 300;
+    var K = 0.045;
+    var DAMPING = 0.5;
+    var mouseX = -9999;
+    var mouseY = -9999;
+
+    function initDots() {
+      dots = [];
+      var w = heroCanvas.width = heroCanvas.offsetWidth;
+      var h = heroCanvas.height = heroCanvas.offsetHeight;
+      for (var x = GRID; x < w; x += GRID) {
+        for (var y = GRID; y < h; y += GRID) {
+          dots.push({ ox: x, oy: y, x: x, y: y, vx: 0, vy: 0 });
+        }
+      }
+    }
+
+    initDots();
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initDots, 200);
+    });
+
+    var heroSection = document.querySelector('.hero');
+    if (heroSection) {
+      heroSection.addEventListener('mousemove', function (e) {
+        var rect = heroCanvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      });
+      heroSection.addEventListener('mouseleave', function () {
+        mouseX = -9999;
+        mouseY = -9999;
+      });
+    }
+
+    function animateDots() {
+      if (reducedMotion) return;
+      ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        var dx = mouseX - d.ox;
+        var dy = mouseY - d.oy;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < RADIUS && dist > 0) {
+          var force = (RADIUS - dist) / RADIUS;
+          d.vx -= (dx / dist) * force * 2;
+          d.vy -= (dy / dist) * force * 2;
+        }
+
+        var sx = d.ox - d.x;
+        var sy = d.oy - d.y;
+        d.vx += sx * K;
+        d.vy += sy * K;
+        d.vx *= DAMPING;
+        d.vy *= DAMPING;
+        d.x += d.vx;
+        d.y += d.vy;
+
+        var displacement = Math.sqrt(sx * sx + sy * sy);
+        var alpha = 0.10 + Math.min(displacement / 40, 0.12);
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(201,165,90,' + alpha.toFixed(2) + ')';
+        ctx.fill();
+      }
+      requestAnimationFrame(animateDots);
+    }
+    requestAnimationFrame(animateDots);
+  }
+
+  // ─── Cursor orb (follows mouse globally) ───
+  var cursorOrb = document.getElementById('cursorOrb');
+  if (cursorOrb && !reducedMotion && window.innerWidth > 968) {
+    cursorOrb.style.display = 'block';
+    var orbX = 0, orbY = 0, targetX = 0, targetY = 0;
+
+    document.addEventListener('mousemove', function (e) {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    function moveOrb() {
+      orbX += (targetX - orbX) * 0.08;
+      orbY += (targetY - orbY) * 0.08;
+      cursorOrb.style.transform = 'translate(' + (orbX - 300) + 'px, ' + (orbY - 300) + 'px)';
+      requestAnimationFrame(moveOrb);
+    }
+    requestAnimationFrame(moveOrb);
   }
 })();

@@ -1,0 +1,74 @@
+---
+description: Project file index and architecture map for the Noein Solutions landing page
+alwaysApply: true
+---
+
+# Project Index
+
+## File Tree
+
+```
+W8_NoeinSolLandingPage/
+├── index.html              # Home — hero, stats, value props, services preview, Capsar banner, testimonials, about preview, contact CTA
+├── about.html              # About — headshot hero, career timeline, credentials
+├── services.html           # Services — jump nav to #information-management, #bep-eir, #programme-delivery
+├── case-studies.html        # Case Studies — accordion cards (expand/collapse)
+├── capsar.html             # Capsar.io product page — pain points, features, comparison, CTAs
+├── contact.html            # Contact — booking tab (Calendly) + message tab (FormSubmit form)
+│
+├── css/
+│   └── styles.css          # Single global stylesheet (~2400 lines), CSS custom properties
+│
+├── js/
+│   └── main.js             # Single IIFE — IntersectionObserver, nav, counters, accordion, tabs, form validation
+│
+├── assets/
+│   └── headshot.jpg        # Professional portrait (used on index + about)
+│
+├── Andrea_Aita_CV_EN.pdf   # CV file (in repo, not linked from site)
+│
+├── deploy.sh               # Bash deploy script (rsync/scp to Hetzner server)
+├── nginx.conf              # Reference nginx config (HTTPS, redirects, caching, security)
+├── landing-block.conf      # Docker nginx server block snippet for production
+├── DEPLOYMENT.md           # Deployment documentation
+└── UI_UX_ANALYSIS.md       # UX audit notes (untracked)
+```
+
+## Page Architecture
+
+Every HTML page follows the same structure:
+
+1. `<head>` — charset, viewport, title, meta description, OG tags, canonical URL, inline SVG favicon, Google Fonts preload, `css/styles.css`
+2. `<nav>` — fixed top bar, logo `Noein.`, links, hamburger toggle, `.nav-cta`
+3. Page-specific content sections
+4. `<footer>` — brand, page links, contact info
+5. `<script src="js/main.js">`
+
+Nav and footer are **duplicated** across all 6 pages — edits must be mirrored manually.
+
+## JavaScript Modules (within single IIFE)
+
+| Feature | Selector / Trigger | Behavior |
+|---------|-------------------|----------|
+| Fade-in | `.fade-in` | IntersectionObserver adds `.visible` |
+| Stat counters | `.stat-number[data-count]` | Animated count-up on `.stats` section entering viewport |
+| Nav scroll | `nav` | Adds `.nav-scrolled` after 50px scroll |
+| Active link | `.nav-links a` | Matches pathname to set `.nav-active` |
+| Hamburger | `.nav-toggle` | Toggles `.open` / `.active` on menu |
+| Smooth scroll | `a[href^="#"]` | `scrollIntoView` for same-page anchors |
+| Accordion | `.case-card-header` | Toggles `.open` (one open at a time) |
+| Form validation | `.contact-form form` | Client-side required + email regex check |
+| Tab switching | `[data-tab]` | Switches `.contact-tab--active`, reads hash on load |
+
+## CSS Organization (comment banner sections in styles.css)
+
+Global reset & tokens → Navigation → Buttons → Hero → Stats → Logo bar → Sections → Value props → Services grid → Capsar (pain grid, steps, comparison) → Case studies → Contact (layout, form, tabs) → Footer → Responsive breakpoints → Print & accessibility
+
+## Key URLs
+
+| URL | Purpose |
+|-----|---------|
+| `https://noeinsolutions.com` | Production site (canonical) |
+| `https://app.noeinsolutions.com` | Capsar.io SaaS app |
+| `https://formsubmit.co/andrea.aita@noeinsolutions.com` | Contact form endpoint |
+| `https://calendly.com/andrea-aita-noeinsolutions` | Booking widget |

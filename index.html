@@ -35,10 +35,17 @@
     </ul>
   </nav>
 
+  <main>
+
+  <!-- Cursor Orb -->
+  <div class="cursor-orb" id="cursorOrb"></div>
+
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="hero-glow hero-glow-left"></div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-blob hero-blob--1"></div>
+    <div class="hero-blob hero-blob--2"></div>
+    <div class="hero-blob hero-blob--3"></div>
     <div class="hero-inner hero-inner--centered">
       <div class="hero-label">Digital Delivery Consulting</div>
       <h1>Digital delivery that<br><em>actually works.</em></h1>
@@ -175,34 +182,34 @@
       <div class="testimonials-grid">
         <div class="testimonial-card">
           <div class="testimonial-stars">&starf;&starf;&starf;&starf;&starf;</div>
-          <blockquote>Andrea delivered a fully compliant BEP in under a week &mdash; something our internal team had been struggling with for months. The Responsiveness Matrix alone saved us from three critical gaps we&rsquo;d completely missed.</blockquote>
+          <blockquote>Delivered a fully compliant BEP in under a week &mdash; something our internal team had been struggling with for months. The Responsiveness Matrix alone saved us from three critical gaps we&rsquo;d completely missed.</blockquote>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">JH</div>
+            <div class="testimonial-avatar">BM</div>
             <div>
-              <strong>James Hartley</strong>
-              <span>BIM Manager &mdash; Laing O&rsquo;Rourke</span>
+              <strong>BIM Manager</strong>
+              <span>Tier 1 Contractor &mdash; UK Infrastructure</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
           <div class="testimonial-stars">&starf;&starf;&starf;&starf;&starf;</div>
-          <blockquote>We brought Andrea in to overhaul our CDE governance across 15 projects. Within six weeks we had consistent naming, proper workflows, and reporting that leadership actually uses. Completely transformed how we manage information.</blockquote>
+          <blockquote>Overhauled our CDE governance across 15 projects. Within six weeks we had consistent naming, proper workflows, and reporting that leadership actually uses. Completely transformed how we manage information.</blockquote>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">SP</div>
+            <div class="testimonial-avatar">OD</div>
             <div>
-              <strong>Sarah Pemberton</strong>
-              <span>Operations Director &mdash; Mace Group</span>
+              <strong>Operations Director</strong>
+              <span>Regional Contractor &mdash; Multi-project Portfolio</span>
             </div>
           </div>
         </div>
         <div class="testimonial-card">
           <div class="testimonial-stars">&starf;&starf;&starf;&starf;&starf;</div>
-          <blockquote>The ISO 19650 framework Andrea designed for our programme is still in use two years later. It&rsquo;s the only consultant deliverable I&rsquo;ve ever seen that the supply chain actually adopted without being forced to.</blockquote>
+          <blockquote>The ISO 19650 framework designed for our programme is still in use two years later. It&rsquo;s the only consultant deliverable I&rsquo;ve ever seen that the supply chain actually adopted without being forced to.</blockquote>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">DK</div>
+            <div class="testimonial-avatar">PD</div>
             <div>
-              <strong>David Kavanagh</strong>
-              <span>Programme Director &mdash; Skanska UK</span>
+              <strong>Programme Director</strong>
+              <span>National Infrastructure Owner &mdash; UK</span>
             </div>
           </div>
         </div>
@@ -253,6 +260,8 @@
       <a href="mailto:andrea.aita@noeinsolutions.com" class="btn btn-outline">Email directly</a>
     </div>
   </section>
+
+  </main>
 
   <!-- Footer -->
   <footer>
