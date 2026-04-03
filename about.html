@@ -33,6 +33,22 @@
     "sameAs": ["https://www.linkedin.com/in/andrea-aita-0b0794123/"]
   }
   </script>
+  <!-- Microsoft Clarity: heatmaps & session recordings. Get your project ID at clarity.microsoft.com/projects -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","YOUR_CLARITY_PROJECT_ID");
+  </script>
+  <!-- Google Analytics 4: traffic & conversion tracking. Get your measurement ID (G-XXXXXXXXXX) at analytics.google.com -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA4_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'YOUR_GA4_MEASUREMENT_ID');
+  </script>
 </head>
 <body>
 
@@ -73,7 +89,11 @@
       </div>
       <div class="hero-photo-wrapper">
         <div class="hero-photo">
-          <img src="assets/headshot.jpg" alt="Andrea Aita — BIM & Digital Delivery Consultant" loading="lazy" width="340" height="420" />
+          <!-- Convert headshot.jpg to headshot.webp (target <200KB) to activate WebP delivery -->
+          <picture>
+            <source type="image/webp" srcset="assets/headshot.webp">
+            <img src="assets/headshot.jpg" alt="Andrea Aita — BIM & Digital Delivery Consultant" loading="lazy" width="340" height="420" />
+          </picture>
           <div class="hero-photo-accent"></div>
         </div>
         <div class="hero-credentials">

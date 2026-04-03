@@ -307,4 +307,116 @@
     requestAnimationFrame(animateDots);
   }
 
+  // ─── FAQ accordion ───
+  document.querySelectorAll('.faq-header').forEach(function (header) {
+    header.addEventListener('click', function () {
+      var item = this.closest('.faq-item');
+      var isOpen = item.classList.contains('faq-open');
+
+      document.querySelectorAll('.faq-item.faq-open').forEach(function (openItem) {
+        openItem.classList.remove('faq-open');
+        openItem.querySelector('.faq-header').setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isOpen) {
+        item.classList.add('faq-open');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ─── GA4 conversion event helpers ───
+  function trackEvent(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params || {});
+  }
+
+  // Track primary CTA clicks
+  document.querySelectorAll('.btn-primary').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      trackEvent('cta_click', { cta_text: btn.textContent.trim() });
+    });
+  });
+
+  // Track Calendly widget load (contact page)
+  var calendlyWidget = document.querySelector('.calendly-inline-widget');
+  if (calendlyWidget) {
+    window.addEventListener('message', function (e) {
+      if (e.data && e.data.event && e.data.event.indexOf('calendly') === 0) {
+        trackEvent('calendly_' + e.data.event.replace('calendly.', ''), {});
+      }
+    });
+  }
+
+  // Track form submissions (contact page)
+  var contactFormEl = document.querySelector('.contact-form form');
+  if (contactFormEl) {
+    contactFormEl.addEventListener('submit', function () {
+      trackEvent('form_submit', { form_name: 'contact' });
+    });
+  }
+
+  // ─── Exit-intent overlay ───
+  var exitOverlay = document.getElementById('exitOverlay');
+  if (exitOverlay && !sessionStorage.getItem('exit_shown')) {
+    var exitShown = false;
+
+    function showExitOverlay() {
+      if (exitShown) return;
+      exitShown = true;
+      sessionStorage.setItem('exit_shown', '1');
+      exitOverlay.classList.add('exit-overlay--visible');
+      var firstFocus = exitOverlay.querySelector('a, button');
+      if (firstFocus) firstFocus.focus();
+      trackEvent('exit_intent_shown', {});
+    }
+
+    function hideExitOverlay() {
+      exitOverlay.classList.remove('exit-overlay--visible');
+    }
+
+    document.addEventListener('mouseleave', function (e) {
+      if (e.clientY < 10) showExitOverlay();
+    });
+
+    var closeBtn = document.getElementById('exitOverlayClose');
+    var dismissBtn = document.getElementById('exitOverlayDismiss');
+    if (closeBtn) closeBtn.addEventListener('click', hideExitOverlay);
+    if (dismissBtn) dismissBtn.addEventListener('click', hideExitOverlay);
+
+    exitOverlay.addEventListener('click', function (e) {
+      if (e.target === exitOverlay) hideExitOverlay();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') hideExitOverlay();
+    });
+  }
+
+  // ─── Sticky mobile CTA ───
+  var stickyCta = document.getElementById('stickyCta');
+  if (stickyCta && !sessionStorage.getItem('sticky_cta_dismissed')) {
+    var hero = document.querySelector('.hero');
+    if (hero) {
+      var stickyObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            stickyCta.classList.add('sticky-cta--visible');
+          } else {
+            stickyCta.classList.remove('sticky-cta--visible');
+          }
+        });
+      }, { threshold: 0 });
+      stickyObserver.observe(hero);
+    }
+
+    var stickyClose = document.getElementById('stickyCtaClose');
+    if (stickyClose) {
+      stickyClose.addEventListener('click', function () {
+        stickyCta.classList.remove('sticky-cta--visible');
+        stickyCta.style.display = 'none';
+        sessionStorage.setItem('sticky_cta_dismissed', '1');
+      });
+    }
+  }
+
 })();

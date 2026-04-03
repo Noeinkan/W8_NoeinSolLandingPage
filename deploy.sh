@@ -17,22 +17,26 @@ err()  { echo -e "${RED}[error]${NC} $1"; exit 1; }
 
 EXCLUDES_RSYNC=(
     --exclude '.git'
+    --exclude '.claude'
+    --exclude '.cursor'
+    --exclude '.env'
+    --exclude '.env.*'
     --exclude 'deploy.sh'
     --exclude 'nginx.conf'
     --exclude 'landing-block.conf'
-    --exclude 'DEPLOYMENT.md'
-    --exclude '.cursor'
-    --exclude '*.plan.md'
+    --exclude '*.md'
 )
 
 EXCLUDES_TAR=(
     --exclude='.git'
+    --exclude='.claude'
+    --exclude='.cursor'
+    --exclude='.env'
+    --exclude='.env.*'
     --exclude='deploy.sh'
     --exclude='nginx.conf'
     --exclude='landing-block.conf'
-    --exclude='DEPLOYMENT.md'
-    --exclude='.cursor'
-    --exclude='*.plan.md'
+    --exclude='*.md'
 )
 
 deploy_files() {
