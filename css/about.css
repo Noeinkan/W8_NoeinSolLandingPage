@@ -84,6 +84,40 @@
   color: var(--accent-dim);
 }
 
+/* ── Hero 2×2 cert grid (inside photo wrapper, below headshot) ── */
+
+/* Shrink the headshot slightly to make room for the cert grid below */
+.hero-photo {
+  height: 300px !important;
+}
+
+.hero-cert-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  width: 340px;
+}
+
+/* Override thumbnail aspect ratio — shorter/wider for compact hero display */
+.hero-cert-grid-2x2 .cert-img-card-thumb {
+  aspect-ratio: 16 / 9;
+}
+
+/* Slightly more compact card info text */
+.hero-cert-grid-2x2 .cert-img-card-info {
+  padding: 0.5rem 0.65rem 0.6rem;
+  gap: 0.1rem;
+}
+
+.hero-cert-grid-2x2 .cert-img-card-title {
+  font-size: 0.78rem;
+}
+
+.hero-cert-grid-2x2 .cert-img-card-sub {
+  font-size: 0.68rem;
+}
+
 /* ── Recognition section: 2×2 cert grid with tall thumbnails ── */
 .recognition-section { padding-top: 1rem; }
 
