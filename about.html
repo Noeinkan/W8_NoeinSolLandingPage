@@ -169,33 +169,37 @@
           <h4>MSc Building Engineering &amp; Architecture</h4>
           <p>University of Padova &middot; Magna cum laude</p>
         </div>
-        <div class="credential-card">
+        <div class="credential-card credential-card--viewable" data-cert="assets/certs/autodesk-40-under-40.jpg" data-cert-title="Autodesk 40 Under 40 — Champion of Construction">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
           <h4>Autodesk 40 Under 40</h4>
           <p>Champion of Construction &middot; 2023</p>
+          <button class="cert-btn" aria-label="View Autodesk 40 Under 40 certificate">View certificate</button>
         </div>
-        <div class="credential-card">
+        <div class="credential-card credential-card--viewable" data-cert="assets/certs/lean-six-sigma.jpg" data-cert-title="Lean Six Sigma Green Belt">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
           <h4>Lean Six Sigma Green Belt</h4>
           <p>Process optimisation &amp; quality management</p>
+          <button class="cert-btn" aria-label="View Lean Six Sigma certificate">View certificate</button>
         </div>
-        <div class="credential-card">
+        <div class="credential-card credential-card--viewable" data-cert="assets/certs/ibm-data-science.jpg" data-cert-title="IBM Data Science Professional Certificate">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>
           <h4>IBM Data Science</h4>
           <p>Professional Certificate &middot; Data-driven decision making</p>
+          <button class="cert-btn" aria-label="View IBM Data Science certificate">View certificate</button>
         </div>
-        <div class="credential-card">
+        <div class="credential-card credential-card--viewable" data-cert="assets/certs/rics-bim.jpg" data-cert-title="RICS Certified BIM Professional">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <h4>RICS Certified BIM Professional</h4>
           <p>Royal Institution of Chartered Surveyors &middot; BIM &amp; Digital</p>
+          <button class="cert-btn" aria-label="View RICS BIM certificate">View certificate</button>
         </div>
         <div class="credential-card">
           <div class="credential-card-icon">
@@ -269,6 +273,65 @@
     </div>
   </footer>
 
+  <!-- Certificate lightbox -->
+  <div id="cert-lightbox" class="cert-lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer" hidden>
+    <div class="cert-lightbox-backdrop"></div>
+    <div class="cert-lightbox-panel">
+      <button class="cert-lightbox-close" aria-label="Close certificate viewer">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="cert-lightbox-img-wrap">
+        <!-- transparent overlay prevents right-click/drag save on the image -->
+        <div class="cert-lightbox-guard" aria-hidden="true"></div>
+        <img id="cert-lightbox-img" src="" alt="" draggable="false" />
+      </div>
+      <p id="cert-lightbox-title" class="cert-lightbox-title"></p>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const lightbox  = document.getElementById('cert-lightbox');
+      const img       = document.getElementById('cert-lightbox-img');
+      const title     = document.getElementById('cert-lightbox-title');
+      const closeBtn  = lightbox.querySelector('.cert-lightbox-close');
+      const backdrop  = lightbox.querySelector('.cert-lightbox-backdrop');
+
+      function open(src, label) {
+        img.src = src;
+        img.alt = label;
+        title.textContent = label;
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function close() {
+        lightbox.hidden = true;
+        img.src = '';
+        document.body.style.overflow = '';
+      }
+
+      // Wire up all viewable cards
+      document.querySelectorAll('.credential-card--viewable').forEach(function (card) {
+        card.querySelector('.cert-btn').addEventListener('click', function (e) {
+          e.stopPropagation();
+          open(card.dataset.cert, card.dataset.certTitle);
+        });
+      });
+
+      closeBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+
+      // Keyboard: Escape to close
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !lightbox.hidden) close();
+      });
+
+      // Block right-click on the image
+      img.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    })();
+  </script>
 </body>
 </html>
