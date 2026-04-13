@@ -147,13 +147,383 @@
   color: var(--text-tertiary);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   Service Cards Grid (Fiverr-style overview)
+   ═══════════════════════════════════════════════════════════ */
+
+.svc-cards-wrap {
+  padding: 0 0 5rem;
+}
+
+.svc-cards-grid {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.svc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.svc-card:hover {
+  border-color: var(--accent-dim);
+  transform: translateY(-3px);
+}
+
+.svc-card--featured {
+  border-color: var(--accent-dim);
+  background: linear-gradient(160deg, #1c1c21 0%, #18161a 100%);
+  box-shadow: 0 0 40px rgba(201, 165, 90, 0.08);
+}
+
+.svc-card-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0a0a0c;
+  background: var(--accent);
+  padding: 0.25rem 0.7rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+  width: fit-content;
+}
+
+.svc-card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--accent-glow);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.svc-card-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.svc-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.svc-card-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.svc-card-list {
+  list-style: none;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.svc-card-list li {
+  font-size: 0.855rem;
+  color: var(--text-secondary);
+  padding: 0.4rem 0 0.4rem 1.25rem;
+  position: relative;
+  line-height: 1.45;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.svc-card-list li:first-child { border-top: 1px solid var(--border-subtle); }
+
+.svc-card-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+}
+
+.svc-card-meta {
+  margin-bottom: 1.25rem;
+}
+
+.svc-card-timeline {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.svc-card-timeline svg { color: var(--accent); flex-shrink: 0; }
+
+.svc-card-price {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.svc-card-price span {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+}
+
+.svc-card-price-note {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.svc-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.svc-card-detail-link {
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.svc-card-detail-link:hover { color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════
+   How It Works
+   ═══════════════════════════════════════════════════════════ */
+
+.how-it-works-wrap {
+  padding: 4rem 0 5rem;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, #0d0d10 0%, transparent 100%);
+}
+
+.how-it-works-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.how-it-works-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.how-it-works-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 3rem;
+}
+
+.how-it-works-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.hiw-step {
+  flex: 1;
+  padding: 0 2.5rem;
+  text-align: center;
+}
+
+.hiw-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-dim), transparent);
+  flex-shrink: 0;
+}
+
+.hiw-step-num {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--accent-glow-strong);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+
+.hiw-step h4 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+
+.hiw-step p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════════ */
+
+.faq-wrap {
+  padding: 5rem 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.faq-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.faq-item:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.faq-question {
+  list-style: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 1.25rem 2rem 1.25rem 0;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.faq-question::-webkit-details-marker { display: none; }
+
+.faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--accent);
+  transition: transform 0.25s;
+}
+
+.faq-item[open] .faq-question { color: var(--accent); }
+
+.faq-item[open] .faq-question::after {
+  content: '−';
+}
+
+.faq-answer {
+  padding: 0 0 1.25rem;
+}
+
+.faq-answer p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.faq-answer p strong { color: var(--text-primary); }
+
+.faq-answer a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+}
+
+.faq-answer a:hover { color: var(--white); }
+
+/* ═══════════════════════════════════════════════════════════
+   Final CTA Band
+   ═══════════════════════════════════════════════════════════ */
+
+.services-cta-band {
+  padding: 5rem 0;
+  border-top: 1px solid var(--border-subtle);
+  background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(201,165,90,0.07) 0%, transparent 70%);
+}
+
+.services-cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.services-cta-inner h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.services-cta-inner p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 968px) {
   .service-block { grid-template-columns: 1fr; }
+  .svc-cards-grid { grid-template-columns: 1fr; max-width: 520px; }
+  .how-it-works-steps { flex-direction: column; gap: 2rem; }
+  .hiw-divider { width: 1px; height: 30px; background: linear-gradient(180deg, var(--accent-dim), transparent); margin: 0 auto; }
+  .hiw-step { padding: 0 1rem; }
 }
 
 @media (max-width: 640px) {
   .service-pricing { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .svc-card { padding: 1.5rem; }
+  .svc-card-actions { flex-direction: column; align-items: flex-start; }
 }
 
 @media (min-width: 1440px) {
@@ -163,4 +533,6 @@
   .service-block ul li    { font-size: 0.95rem; }
   .service-outcome p      { font-size: 1.05rem; }
   .service-pricing .price { font-size: 1.75rem; }
+  .svc-card-title         { font-size: 1.55rem; }
+  .svc-card-price         { font-size: 1.8rem; }
 }
