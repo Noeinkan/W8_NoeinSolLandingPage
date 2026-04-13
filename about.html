@@ -91,11 +91,7 @@
       </div>
       <div class="hero-photo-wrapper">
         <div class="hero-photo">
-          <!-- Convert headshot.jpg to headshot.webp (target <200KB) to activate WebP delivery -->
-          <picture>
-            <source type="image/webp" srcset="assets/headshot.webp">
-            <img src="assets/headshot.jpg" alt="Andrea Aita — BIM & Digital Delivery Consultant" loading="lazy" width="340" height="420" />
-          </picture>
+          <img src="assets/headshot.jpg" alt="Andrea Aita — BIM & Digital Delivery Consultant" loading="eager" width="340" height="420" />
           <div class="hero-photo-accent"></div>
         </div>
         <div class="hero-credentials">
@@ -161,52 +157,84 @@
       <h2 class="section-title">Qualifications &amp; recognition</h2>
       <p class="section-sub">Academic foundations and industry recognition.</p>
 
-      <div class="credentials-grid">
-        <div class="credential-card">
+      <!-- 2×2 image cards for certifiable credentials -->
+      <div class="credentials-grid credentials-grid--image">
+        <button class="cert-img-card" data-cert="assets/certs/autodesk-40-under-40.jpg" data-cert-title="Autodesk 40 Under 40 — Champion of Construction" aria-label="View Autodesk 40 Under 40 certificate">
+          <div class="cert-img-card-thumb">
+            <img src="assets/certs/autodesk-40-under-40.jpg" alt="" loading="lazy" draggable="false" />
+            <div class="cert-img-card-overlay">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <span>View certificate</span>
+            </div>
+          </div>
+          <div class="cert-img-card-info">
+            <span class="cert-img-card-title">Autodesk 40 Under 40</span>
+            <span class="cert-img-card-sub">Champion of Construction &middot; 2023</span>
+          </div>
+        </button>
+
+        <button class="cert-img-card" data-cert="assets/certs/rics-bim.jpg" data-cert-title="RICS Certified BIM Professional" aria-label="View RICS BIM certificate">
+          <div class="cert-img-card-thumb">
+            <img src="assets/certs/rics-bim.jpg" alt="" loading="lazy" draggable="false" />
+            <div class="cert-img-card-overlay">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <span>View certificate</span>
+            </div>
+          </div>
+          <div class="cert-img-card-info">
+            <span class="cert-img-card-title">RICS Certified BIM Professional</span>
+            <span class="cert-img-card-sub">Royal Institution of Chartered Surveyors</span>
+          </div>
+        </button>
+
+        <button class="cert-img-card" data-cert="assets/certs/lean-six-sigma.jpg" data-cert-title="Lean Six Sigma Green Belt" aria-label="View Lean Six Sigma certificate">
+          <div class="cert-img-card-thumb">
+            <img src="assets/certs/lean-six-sigma.jpg" alt="" loading="lazy" draggable="false" />
+            <div class="cert-img-card-overlay">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <span>View certificate</span>
+            </div>
+          </div>
+          <div class="cert-img-card-info">
+            <span class="cert-img-card-title">Lean Six Sigma Green Belt</span>
+            <span class="cert-img-card-sub">Process optimisation &amp; quality management</span>
+          </div>
+        </button>
+
+        <button class="cert-img-card" data-cert="assets/certs/ibm-data-science.jpg" data-cert-title="IBM Data Science Professional Certificate" aria-label="View IBM Data Science certificate">
+          <div class="cert-img-card-thumb">
+            <img src="assets/certs/ibm-data-science.jpg" alt="" loading="lazy" draggable="false" />
+            <div class="cert-img-card-overlay">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <span>View certificate</span>
+            </div>
+          </div>
+          <div class="cert-img-card-info">
+            <span class="cert-img-card-title">IBM Data Science</span>
+            <span class="cert-img-card-sub">Professional Certificate</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Compact text cards for academic / professional registration -->
+      <div class="credentials-grid credentials-grid--compact">
+        <div class="credential-card credential-card--compact">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           </div>
-          <h4>MSc Building Engineering &amp; Architecture</h4>
-          <p>University of Padova &middot; Magna cum laude</p>
-        </div>
-        <div class="credential-card credential-card--viewable" data-cert="assets/certs/autodesk-40-under-40.jpg" data-cert-title="Autodesk 40 Under 40 — Champion of Construction">
-          <div class="credential-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <div>
+            <h4>MSc Building Engineering &amp; Architecture</h4>
+            <p>University of Padova &middot; Magna cum laude</p>
           </div>
-          <h4>Autodesk 40 Under 40</h4>
-          <p>Champion of Construction &middot; 2023</p>
-          <button class="cert-btn" aria-label="View Autodesk 40 Under 40 certificate">View certificate</button>
         </div>
-        <div class="credential-card credential-card--viewable" data-cert="assets/certs/lean-six-sigma.jpg" data-cert-title="Lean Six Sigma Green Belt">
-          <div class="credential-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <h4>Lean Six Sigma Green Belt</h4>
-          <p>Process optimisation &amp; quality management</p>
-          <button class="cert-btn" aria-label="View Lean Six Sigma certificate">View certificate</button>
-        </div>
-        <div class="credential-card credential-card--viewable" data-cert="assets/certs/ibm-data-science.jpg" data-cert-title="IBM Data Science Professional Certificate">
-          <div class="credential-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <h4>IBM Data Science</h4>
-          <p>Professional Certificate &middot; Data-driven decision making</p>
-          <button class="cert-btn" aria-label="View IBM Data Science certificate">View certificate</button>
-        </div>
-        <div class="credential-card credential-card--viewable" data-cert="assets/certs/rics-bim.jpg" data-cert-title="RICS Certified BIM Professional">
-          <div class="credential-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h4>RICS Certified BIM Professional</h4>
-          <p>Royal Institution of Chartered Surveyors &middot; BIM &amp; Digital</p>
-          <button class="cert-btn" aria-label="View RICS BIM certificate">View certificate</button>
-        </div>
-        <div class="credential-card">
+        <div class="credential-card credential-card--compact">
           <div class="credential-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M7 11l5-8 5 8v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 17h6"/></svg>
           </div>
-          <h4>Chartered Civil Engineer</h4>
-          <p>Registered in Italy &middot; Civil and Environmental Section</p>
+          <div>
+            <h4>Chartered Civil Engineer</h4>
+            <p>Registered in Italy &middot; Civil and Environmental Section</p>
+          </div>
         </div>
       </div>
     </div>
@@ -313,11 +341,10 @@
         document.body.style.overflow = '';
       }
 
-      // Wire up all viewable cards
-      document.querySelectorAll('.credential-card--viewable').forEach(function (card) {
-        card.querySelector('.cert-btn').addEventListener('click', function (e) {
-          e.stopPropagation();
-          open(card.dataset.cert, card.dataset.certTitle);
+      // Wire up image cards in credentials grid
+      document.querySelectorAll('.cert-img-card').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          open(btn.dataset.cert, btn.dataset.certTitle);
         });
       });
 
