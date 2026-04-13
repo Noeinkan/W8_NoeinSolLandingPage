@@ -359,6 +359,8 @@
   var exitOverlay = document.getElementById('exitOverlay');
   if (exitOverlay && !sessionStorage.getItem('exit_shown')) {
     var exitShown = false;
+    var exitIntentReady = false;
+    setTimeout(function () { exitIntentReady = true; }, 8000);
 
     function showExitOverlay() {
       if (exitShown) return;
@@ -375,7 +377,7 @@
     }
 
     document.addEventListener('mouseleave', function (e) {
-      if (e.clientY < 10) showExitOverlay();
+      if (exitIntentReady && e.clientY < 10) showExitOverlay();
     });
 
     var closeBtn = document.getElementById('exitOverlayClose');
