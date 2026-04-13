@@ -28,14 +28,23 @@
   border-color: var(--accent);
 }
 
+/* ─── Override global section padding for service detail wrapper ─── */
+main > section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* ─── Service Sections (detail) ─── */
+
 .service-section {
-  padding: 5rem 0;
+  padding: 4rem 0;
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.service-section:last-child { border-bottom: none; }
+.service-section:first-child { padding-top: 0; }
+.service-section:last-child  { border-bottom: none; padding-bottom: 0; }
 
-.service-section-header { margin-bottom: 2.5rem; }
+.service-section-header { margin-bottom: 3rem; }
 
 .service-section-tag {
   display: inline-block;
@@ -55,76 +64,82 @@
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 400;
   color: var(--white);
-  margin-bottom: 1rem;
+  line-height: 1.25;
+  max-width: 760px;
 }
 
 .service-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 2.5rem;
+  gap: 3.5rem;
+  margin-bottom: 3rem;
 }
 
 .service-block h3 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--white);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
 }
 
 .service-block p {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .service-list-intro {
   font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-tertiary);
-  margin-bottom: 0.65rem;
+  margin-bottom: 1rem;
 }
 
 .service-block ul { list-style: none; }
 
 .service-block ul li {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
-  padding: 0.35rem 0 0.35rem 1.25rem;
+  padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.5;
+  line-height: 1.55;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
+.service-block ul li:first-child { border-top: 1px solid var(--border-subtle); }
+
 .service-block ul li::before {
-  content: '\2192';
+  content: '→';
   position: absolute;
   left: 0;
-  color: var(--accent-dim);
+  color: var(--accent);
+  font-size: 0.85rem;
 }
 
 .service-outcome {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  padding: 1.75rem 2rem;
   margin-bottom: 2rem;
 }
 
 .service-outcome h4 {
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
 }
 
 .service-outcome p {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   font-style: italic;
   font-family: var(--font-display);
 }
@@ -132,27 +147,32 @@
 .service-pricing {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .service-pricing .price {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   color: var(--accent);
+  line-height: 1;
 }
 
 .service-pricing .price-note {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: var(--text-tertiary);
+  line-height: 1.5;
 }
 
+
 /* ═══════════════════════════════════════════════════════════
-   Service Cards Grid (Fiverr-style overview)
+   Service Cards Grid
    ═══════════════════════════════════════════════════════════ */
 
 .svc-cards-wrap {
-  padding: 0 0 5rem;
+  padding: 4rem 0 6rem;
 }
 
 .svc-cards-grid {
@@ -165,71 +185,85 @@
   align-items: start;
 }
 
+/* ─── Base card ─── */
 .svc-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 2rem;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  transition: border-color 0.3s, transform 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
 .svc-card:hover {
-  border-color: var(--accent-dim);
-  transform: translateY(-3px);
+  border-color: rgba(201, 165, 90, 0.35);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+  transform: translateY(-4px);
 }
 
+/* ─── Featured card ─── */
 .svc-card--featured {
-  border-color: var(--accent-dim);
-  background: linear-gradient(160deg, #1c1c21 0%, #18161a 100%);
-  box-shadow: 0 0 40px rgba(201, 165, 90, 0.08);
+  border-color: rgba(201, 165, 90, 0.4);
+  background: linear-gradient(160deg, #1e1b14 0%, #18161a 60%, #1a1014 100%);
+  box-shadow: 0 0 50px rgba(201, 165, 90, 0.1), 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
+.svc-card--featured:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 60px rgba(201, 165, 90, 0.18), 0 12px 50px rgba(0, 0, 0, 0.45);
+  transform: translateY(-6px);
+}
+
+/* ─── Badge ─── */
 .svc-card-badge {
   display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #0a0a0c;
   background: var(--accent);
-  padding: 0.25rem 0.7rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 4px;
   margin-bottom: 1.25rem;
   width: fit-content;
 }
 
+/* ─── Icon ─── */
 .svc-card-icon {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   background: var(--accent-glow);
+  border: 1px solid rgba(201, 165, 90, 0.2);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
 }
 
+/* ─── Tag + title ─── */
 .svc-card-tag {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
 }
 
 .svc-card-title {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
   font-weight: 400;
   color: var(--white);
   line-height: 1.25;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .svc-card-title em {
@@ -237,18 +271,19 @@
   color: var(--accent);
 }
 
+/* ─── List ─── */
 .svc-card-list {
   list-style: none;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   flex-grow: 1;
 }
 
 .svc-card-list li {
-  font-size: 0.855rem;
+  font-size: 0.875rem;
   color: var(--text-secondary);
-  padding: 0.4rem 0 0.4rem 1.25rem;
+  padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.45;
+  line-height: 1.5;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -259,9 +294,11 @@
   position: absolute;
   left: 0;
   color: var(--accent);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  top: 0.55rem;
 }
 
+/* ─── Timeline ─── */
 .svc-card-meta {
   margin-bottom: 1.25rem;
 }
@@ -269,17 +306,30 @@
 .svc-card-timeline {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   font-size: 0.8rem;
   color: var(--text-tertiary);
+  background: var(--accent-glow);
+  border: 1px solid rgba(201, 165, 90, 0.12);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  width: fit-content;
 }
 
 .svc-card-timeline svg { color: var(--accent); flex-shrink: 0; }
 
+/* ─── Divider before pricing ─── */
+.svc-card-price-section {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.25rem;
+}
+
+/* ─── Price ─── */
 .svc-card-price {
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.75rem;
   color: var(--accent);
+  line-height: 1;
   margin-bottom: 0.35rem;
 }
 
@@ -292,10 +342,11 @@
 .svc-card-price-note {
   font-size: 0.78rem;
   color: var(--text-tertiary);
-  line-height: 1.5;
+  line-height: 1.55;
   margin-bottom: 1.5rem;
 }
 
+/* ─── Actions ─── */
 .svc-card-actions {
   display: flex;
   align-items: center;
@@ -304,23 +355,25 @@
 }
 
 .svc-card-detail-link {
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   color: var(--text-tertiary);
   text-decoration: none;
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .svc-card-detail-link:hover { color: var(--accent); }
+
 
 /* ═══════════════════════════════════════════════════════════
    How It Works
    ═══════════════════════════════════════════════════════════ */
 
 .how-it-works-wrap {
-  padding: 4rem 0 5rem;
+  padding: 5rem 0;
   border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
-  background: linear-gradient(180deg, #0d0d10 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(201, 165, 90, 0.03) 0%, transparent 100%);
 }
 
 .how-it-works-inner {
@@ -345,15 +398,15 @@
 
 .how-it-works-title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
   font-weight: 400;
   color: var(--white);
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 
 .how-it-works-steps {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0;
 }
 
@@ -364,16 +417,17 @@
 }
 
 .hiw-divider {
-  width: 60px;
+  width: 80px;
   height: 1px;
-  background: linear-gradient(90deg, var(--accent-dim), transparent);
+  background: linear-gradient(90deg, transparent, rgba(201, 165, 90, 0.3), transparent);
   flex-shrink: 0;
+  margin-top: 2rem;
 }
 
 .hiw-step-num {
   font-family: var(--font-display);
-  font-size: 2.5rem;
-  color: var(--accent-glow-strong);
+  font-size: 3rem;
+  color: rgba(201, 165, 90, 0.18);
   line-height: 1;
   margin-bottom: 0.75rem;
   font-weight: 400;
@@ -381,17 +435,20 @@
 
 .hiw-step h4 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 400;
   color: var(--white);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
 }
 
 .hiw-step p {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: 1.7;
+  max-width: 240px;
+  margin: 0 auto;
 }
+
 
 /* ═══════════════════════════════════════════════════════════
    FAQ
@@ -410,13 +467,12 @@
 
 .faq-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .faq-item {
@@ -429,14 +485,15 @@
 
 .faq-question {
   list-style: none;
-  font-size: 0.95rem;
+  font-size: 0.97rem;
   font-weight: 500;
   color: var(--text-primary);
-  padding: 1.25rem 2rem 1.25rem 0;
+  padding: 1.4rem 2.5rem 1.4rem 0;
   cursor: pointer;
   position: relative;
   transition: color 0.2s;
   user-select: none;
+  line-height: 1.4;
 }
 
 .faq-question::-webkit-details-marker { display: none; }
@@ -444,13 +501,14 @@
 .faq-question::after {
   content: '+';
   position: absolute;
-  right: 0;
+  right: 0.25rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 300;
   color: var(--accent);
   transition: transform 0.25s;
+  line-height: 1;
 }
 
 .faq-item[open] .faq-question { color: var(--accent); }
@@ -460,24 +518,31 @@
 }
 
 .faq-answer {
-  padding: 0 0 1.25rem;
+  padding: 0 0 1.5rem;
 }
 
 .faq-answer p {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.75;
 }
+
+.faq-answer p + p { margin-top: 0.75rem; }
 
 .faq-answer p strong { color: var(--text-primary); }
 
 .faq-answer a {
   color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid var(--accent-dim);
+  border-bottom: 1px solid rgba(201, 165, 90, 0.35);
+  transition: color 0.2s, border-color 0.2s;
 }
 
-.faq-answer a:hover { color: var(--white); }
+.faq-answer a:hover {
+  color: var(--white);
+  border-color: var(--white);
+}
+
 
 /* ═══════════════════════════════════════════════════════════
    Final CTA Band
@@ -486,7 +551,7 @@
 .services-cta-band {
   padding: 5rem 0;
   border-top: 1px solid var(--border-subtle);
-  background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(201,165,90,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 120% at 50% 0%, rgba(201, 165, 90, 0.07) 0%, transparent 70%);
 }
 
 .services-cta-inner {
@@ -498,41 +563,60 @@
 
 .services-cta-inner h2 {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
   font-weight: 400;
   color: var(--white);
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .services-cta-inner p {
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.75;
   margin-bottom: 2rem;
 }
 
-/* ─── Responsive ─── */
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+
 @media (max-width: 968px) {
-  .service-block { grid-template-columns: 1fr; }
+  .service-block { grid-template-columns: 1fr; gap: 2rem; }
   .svc-cards-grid { grid-template-columns: 1fr; max-width: 520px; }
-  .how-it-works-steps { flex-direction: column; gap: 2rem; }
-  .hiw-divider { width: 1px; height: 30px; background: linear-gradient(180deg, var(--accent-dim), transparent); margin: 0 auto; }
+  .how-it-works-steps { flex-direction: column; align-items: center; gap: 2.5rem; }
+  .hiw-divider {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(180deg, rgba(201, 165, 90, 0.3), transparent);
+    margin: 0 auto;
+    margin-top: 0;
+  }
   .hiw-step { padding: 0 1rem; }
+  .hiw-step p { max-width: none; }
+}
+
+@media (max-width: 768px) {
+  .svc-cards-wrap { padding: 3rem 0 4rem; }
+  .service-section { padding: 3rem 0; }
+  .service-section:first-child { padding-top: 0; }
 }
 
 @media (max-width: 640px) {
   .service-pricing { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .svc-card { padding: 1.5rem; }
-  .svc-card-actions { flex-direction: column; align-items: flex-start; }
+  .svc-card { padding: 1.75rem; }
+  .svc-card-actions { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .svc-card-title { font-size: 1.3rem; }
 }
 
 @media (min-width: 1440px) {
   .service-section h2     { font-size: 2.6rem; }
-  .service-block h3       { font-size: 1.25rem; }
-  .service-block p        { font-size: 1rem; }
-  .service-block ul li    { font-size: 0.95rem; }
+  .service-block h3       { font-size: 1.3rem; }
+  .service-block p        { font-size: 1.02rem; }
+  .service-block ul li    { font-size: 0.98rem; }
   .service-outcome p      { font-size: 1.05rem; }
-  .service-pricing .price { font-size: 1.75rem; }
-  .svc-card-title         { font-size: 1.55rem; }
-  .svc-card-price         { font-size: 1.8rem; }
+  .service-pricing .price { font-size: 1.85rem; }
+  .svc-card-title         { font-size: 1.6rem; }
+  .svc-card-price         { font-size: 1.9rem; }
 }
