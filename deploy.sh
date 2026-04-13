@@ -52,6 +52,20 @@ deploy_files() {
     fi
 }
 
+verify_remote_setup() {
+    log "Checking nginx volume mount for ${REMOTE_DIR}..."
+    ssh "$SERVER" "grep -F '${REMOTE_DIR}:${REMOTE_DIR}:ro' ${APP_DIR}/docker-compose.yml >/dev/null" \
+        || err "Missing ${REMOTE_DIR} volume mount in ${APP_DIR}/docker-compose.yml"
+
+    log "Checking HTTPS server block for ${DOMAIN}..."
+    ssh "$SERVER" "grep -F 'server_name ${DOMAIN};' ${APP_DIR}/nginx/conf.d/default.conf >/dev/null" \
+        || err "Missing HTTPS server block for ${DOMAIN} in ${APP_DIR}/nginx/conf.d/default.conf"
+
+    log "Checking nginx can see deployed site files..."
+    ssh "$SERVER" "cd ${APP_DIR} && docker compose exec nginx sh -lc 'test -f ${REMOTE_DIR}/index.html'" \
+        || err "Docker nginx cannot access ${REMOTE_DIR}/index.html"
+}
+
 deploy() {
     log "Deploying to ${DOMAIN} (${SERVER})..."
 
@@ -80,20 +94,15 @@ setup_server() {
     log "Checking Docker nginx is running..."
     ssh "$SERVER" "cd ${APP_DIR} && docker compose ps nginx 2>&1" || err "Docker nginx not running — start the app first"
 
+    verify_remote_setup
+
     log "Checking existing nginx server blocks..."
     ssh "$SERVER" "cd ${APP_DIR} && docker compose exec nginx grep 'server_name' /etc/nginx/conf.d/default.conf 2>&1"
 
     echo ""
     log "Files deployed to ${REMOTE_DIR}"
     log ""
-    log "IMPORTANT: The landing page is served by the app's Docker nginx."
-    log "Make sure the Docker nginx config has:"
-    log "  1. A volume mount for ${REMOTE_DIR} in docker-compose.yml"
-    log "  2. An HTTPS server block for ${DOMAIN} in nginx/conf.d/default.conf"
-    log ""
-    log "If both are in place, reload nginx:"
-    log "  ssh ${SERVER} 'cd ${APP_DIR} && docker compose exec nginx nginx -s reload'"
-    log ""
+    log "Verified Docker nginx mount and HTTPS server block for ${DOMAIN}."
     log "Site should be live at https://${DOMAIN}"
 }
 

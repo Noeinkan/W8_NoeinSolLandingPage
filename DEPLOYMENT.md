@@ -78,9 +78,13 @@ Edit `/opt/bep-generator/docker-compose.yml` on the server. Under the `nginx` se
 - /var/www/noeinsol:/var/www/noeinsol:ro
 ```
 
+Without this mount, nginx will not be able to serve the landing page files even if the HTTPS server block exists.
+
 ### 3. Add landing page server block
 
 Add the contents of `landing-block.conf` (in this repo) to `/opt/bep-generator/nginx/conf.d/default.conf` on the server, before the `www` redirect block.
+
+This block must include `server_name noeinsolutions.com;` and the certificate paths under `/etc/letsencrypt/live/noeinsolutions.com/`.
 
 ### 4. Restart Docker nginx
 
@@ -89,7 +93,12 @@ cd /opt/bep-generator
 docker compose up -d --force-recreate nginx
 ```
 
-Use `--force-recreate` for the first time (picks up volume mount changes). After that, `deploy.sh` handles reloads automatically.
+Use `--force-recreate` for the first time because nginx needs to be recreated to pick up new volume mounts. After that, `deploy.sh` handles reloads automatically.
+
+`bash deploy.sh --setup` now fails fast if either of these is missing:
+
+- `/var/www/noeinsol:/var/www/noeinsol:ro` in `/opt/bep-generator/docker-compose.yml`
+- an HTTPS block with `server_name noeinsolutions.com;` in `/opt/bep-generator/nginx/conf.d/default.conf`
 
 ---
 
@@ -190,3 +199,14 @@ ssh root@77.42.70.26 "systemctl disable nginx && systemctl stop nginx"
 
 - Check certificate status: `ssh root@77.42.70.26 "certbot certificates"`
 - Renew: `ssh root@77.42.70.26 "certbot renew"`
+- If the browser shows `NET::ERR_CERT_COMMON_NAME_INVALID`, check which cert is actually being served:
+
+```bash
+openssl s_client -connect noeinsolutions.com:443 -servername noeinsolutions.com </dev/null 2>/dev/null | openssl x509 -noout -subject -issuer -dates
+```
+
+- If you see the old `77.42.70.26.nip.io` certificate instead of `noeinsolutions.com`, the live nginx config is missing the apex HTTPS block or Docker nginx was recreated without the `/var/www/noeinsol` mount. Fix both, then run:
+
+```bash
+ssh root@77.42.70.26 "cd /opt/bep-generator && docker compose up -d --force-recreate nginx"
+```

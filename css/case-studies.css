@@ -109,6 +109,27 @@
   line-height: 1.65;
 }
 
+.case-points {
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+}
+
+.case-points li {
+  position: relative;
+  padding: 0.25rem 0 0.25rem 1rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.case-points li::before {
+  content: '\2022';
+  position: absolute;
+  left: 0;
+  color: var(--accent-dim);
+}
+
 .case-metrics {
   display: flex;
   gap: 2rem;

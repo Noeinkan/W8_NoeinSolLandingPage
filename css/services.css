@@ -78,6 +78,14 @@
   line-height: 1.7;
 }
 
+.service-list-intro {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.65rem;
+}
+
 .service-block ul { list-style: none; }
 
 .service-block ul li {
