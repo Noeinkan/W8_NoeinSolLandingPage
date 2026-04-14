@@ -3,6 +3,24 @@
    ═══════════════════════════════════════════════════════════ */
 
 /* Pain points grid */
+.capsar-proof-card {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 2rem;
+}
+
+.capsar-proof-visual {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #121216;
+}
+
 .pain-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -14,6 +32,13 @@
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 2rem;
+  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+.pain-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(201, 165, 90, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
 }
 
 .pain-card .pain-num {
@@ -108,8 +133,9 @@
 }
 
 .module-item:hover {
-  border-color: var(--border);
+  border-color: rgba(201, 165, 90, 0.3);
   background: var(--bg-card-hover);
+  transform: translateY(-3px);
 }
 
 .module-item-icon {
@@ -398,6 +424,7 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 968px) {
+  .capsar-proof-card { grid-template-columns: 1fr; }
   .pain-grid        { grid-template-columns: 1fr; }
   .step-flow        { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .step-flow::before { display: none; }

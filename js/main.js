@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ─── Fade-in observer (with staggered children) ───
   var observer = new IntersectionObserver(function (entries) {
@@ -112,6 +113,7 @@
   }
 
   // ─── Smooth scroll for same-page anchors ───
+  var scrollBehavior = reducedMotion ? 'auto' : 'smooth';
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       var id = this.getAttribute('href');
@@ -119,23 +121,30 @@
       var target = document.querySelector(id);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
       }
     });
   });
 
   // ─── Case study accordion ───
-  document.querySelectorAll('.case-card-header').forEach(function (header) {
-    header.addEventListener('click', function () {
+  document.querySelectorAll('.case-card-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function () {
       var card = this.closest('.case-card');
       var wasOpen = card.classList.contains('open');
 
       document.querySelectorAll('.case-card.open').forEach(function (c) {
         c.classList.remove('open');
+        var button = c.querySelector('.case-card-toggle');
+        if (button) {
+          button.setAttribute('aria-expanded', 'false');
+          button.setAttribute('aria-label', button.getAttribute('aria-label').replace('Collapse', 'Expand'));
+        }
       });
 
       if (!wasOpen) {
         card.classList.add('open');
+        this.setAttribute('aria-expanded', 'true');
+        this.setAttribute('aria-label', this.getAttribute('aria-label').replace('Expand', 'Collapse'));
       }
     });
   });
@@ -143,20 +152,27 @@
   // ─── Contact form validation ───
   var contactForm = document.querySelector('.contact-form form');
   if (contactForm) {
+    var errorSummary = document.getElementById('formErrorSummary');
     contactForm.addEventListener('submit', function (e) {
       var valid = true;
+      var errorMessages = [];
       var requiredFields = contactForm.querySelectorAll('[required]');
 
       requiredFields.forEach(function (field) {
         field.style.borderColor = '';
+        field.removeAttribute('aria-invalid');
         if (!field.value.trim()) {
           field.style.borderColor = '#c0392b';
+          field.setAttribute('aria-invalid', 'true');
+          errorMessages.push((field.name || 'Field') + ' is required.');
           valid = false;
         }
         if (field.type === 'email' && field.value.trim()) {
           var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRe.test(field.value.trim())) {
             field.style.borderColor = '#c0392b';
+            field.setAttribute('aria-invalid', 'true');
+            errorMessages.push('Please enter a valid email address.');
             valid = false;
           }
         }
@@ -164,71 +180,101 @@
 
       if (!valid) {
         e.preventDefault();
+        if (errorSummary) {
+          errorSummary.style.display = 'block';
+          errorSummary.textContent = 'Please fix the following: ' + errorMessages.join(' ');
+        }
+      } else if (errorSummary) {
+        errorSummary.style.display = 'none';
+        errorSummary.textContent = '';
       }
     });
   }
 
   // ─── Contact page tab switching ───
-  var tabLinks = document.querySelectorAll('[data-tab]');
-  if (tabLinks.length) {
+  var tabLinks = document.querySelectorAll('.contact-option-link[data-tab]');
+  var tabTriggers = document.querySelectorAll('[data-tab]');
+  if (tabTriggers.length) {
     function switchTab(tabId) {
       document.querySelectorAll('.contact-tab').forEach(function (tab) {
         tab.classList.remove('contact-tab--active');
       });
       document.querySelectorAll('.contact-option-link').forEach(function (link) {
         link.classList.remove('active');
+        link.setAttribute('aria-selected', 'false');
+        link.setAttribute('tabindex', '-1');
       });
       var targetTab = document.getElementById(tabId);
       if (targetTab) targetTab.classList.add('contact-tab--active');
       document.querySelectorAll('[data-tab="' + tabId + '"]').forEach(function (link) {
         link.classList.add('active');
+        link.setAttribute('aria-selected', 'true');
+        link.setAttribute('tabindex', '0');
       });
     }
 
-    tabLinks.forEach(function (link) {
+    tabTriggers.forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
         var tabId = this.getAttribute('data-tab');
         switchTab(tabId);
         var target = document.getElementById(tabId);
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
         }
+      });
+    });
+
+    tabLinks.forEach(function (link) {
+      link.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        var tabs = Array.prototype.slice.call(document.querySelectorAll('.contact-option-link'));
+        var idx = tabs.indexOf(this);
+        var nextIdx = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+        tabs[nextIdx].focus();
+        tabs[nextIdx].click();
       });
     });
 
     // Handle hash on page load
     if (window.location.hash) {
       var hashId = window.location.hash.substring(1);
+      if (hashId === 'message') hashId = 'message-panel';
       if (document.getElementById(hashId) && document.querySelector('[data-tab="' + hashId + '"]')) {
         switchTab(hashId);
       }
     }
-  }
 
-  // ─── Contact form success state ───
-  if (window.location.search.indexOf('sent=1') !== -1) {
-    var successEl = document.getElementById('formSuccess');
-    if (successEl) {
-      successEl.style.display = 'flex';
-      document.querySelectorAll('.contact-tab').forEach(function (t) {
-        t.classList.remove('contact-tab--active');
-      });
-      var messageTab = document.getElementById('message');
-      if (messageTab) messageTab.classList.add('contact-tab--active');
-      document.querySelectorAll('.contact-option-link').forEach(function (l) {
-        l.classList.remove('active');
-      });
-      document.querySelectorAll('[data-tab="message"]').forEach(function (l) {
-        l.classList.add('active');
-      });
+    // ─── Contact form success state ───
+    if (window.location.search.indexOf('sent=1') !== -1) {
+      var successEl = document.getElementById('formSuccess');
+      if (successEl) {
+        successEl.style.display = 'flex';
+        switchTab('message-panel');
+      }
     }
   }
 
-  // ─── Reduced motion check ───
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   // ─── Interactive dot-grid canvas (hero only, desktop only) ───
+  // ─── Services jump-nav active state ───
+  var serviceJumpLinks = document.querySelectorAll('.service-jump-link');
+  if (serviceJumpLinks.length) {
+    var updateActiveJumpLink = function () {
+      var active = null;
+      serviceJumpLinks.forEach(function (link) {
+        var section = document.querySelector(link.getAttribute('href'));
+        if (section && section.getBoundingClientRect().top <= 140) {
+          active = link;
+        }
+      });
+      serviceJumpLinks.forEach(function (link) { link.classList.remove('active'); });
+      if (active) active.classList.add('active');
+    };
+    updateActiveJumpLink();
+    window.addEventListener('scroll', updateActiveJumpLink, { passive: true });
+  }
+
   var heroCanvas = document.getElementById('heroCanvas');
   if (heroCanvas && window.innerWidth > 768 && !reducedMotion) {
     var ctx = heroCanvas.getContext('2d');
@@ -357,18 +403,16 @@
 
   // ─── Exit-intent overlay ───
   var exitOverlay = document.getElementById('exitOverlay');
-  if (exitOverlay && !sessionStorage.getItem('exit_shown')) {
+  if (exitOverlay && !sessionStorage.getItem('exit_shown') && !reducedMotion && window.innerWidth > 1024) {
     var exitShown = false;
     var exitIntentReady = false;
-    setTimeout(function () { exitIntentReady = true; }, 8000);
+    setTimeout(function () { exitIntentReady = true; }, 12000);
 
     function showExitOverlay() {
       if (exitShown) return;
       exitShown = true;
       sessionStorage.setItem('exit_shown', '1');
       exitOverlay.classList.add('exit-overlay--visible');
-      var firstFocus = exitOverlay.querySelector('a, button');
-      if (firstFocus) firstFocus.focus();
       trackEvent('exit_intent_shown', {});
     }
 
@@ -377,7 +421,8 @@
     }
 
     document.addEventListener('mouseleave', function (e) {
-      if (exitIntentReady && e.clientY < 10) showExitOverlay();
+      var scrollRatio = (window.scrollY + window.innerHeight) / Math.max(document.body.scrollHeight, 1);
+      if (exitIntentReady && e.clientY < 10 && scrollRatio > 0.35) showExitOverlay();
     });
 
     var closeBtn = document.getElementById('exitOverlayClose');

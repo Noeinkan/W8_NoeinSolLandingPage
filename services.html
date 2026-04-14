@@ -21,21 +21,28 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/services.css">
-  <!-- Microsoft Clarity: heatmaps & session recordings. Get your project ID at clarity.microsoft.com/projects -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","YOUR_CLARITY_PROJECT_ID");
-  </script>
-  <!-- Google Analytics 4: traffic & conversion tracking. Get your measurement ID (G-XXXXXXXXXX) at analytics.google.com -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA4_MEASUREMENT_ID"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'YOUR_GA4_MEASUREMENT_ID');
+    (function () {
+      var clarityId = 'YOUR_CLARITY_PROJECT_ID';
+      var ga4Id = 'YOUR_GA4_MEASUREMENT_ID';
+      if (clarityId && clarityId.indexOf('YOUR_') !== 0) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script',clarityId);
+      }
+      if (ga4Id && ga4Id.indexOf('YOUR_') !== 0) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      }
+    })();
   </script>
 </head>
 <body>
@@ -67,7 +74,11 @@
       <div class="hero-label">Services</div>
       <h1>Three ways to <em>work together</em></h1>
       <p class="page-hero-sub">From a single BEP deliverable to full programme-level digital delivery. Every engagement is tailored to what your team actually needs, using methods shaped on airports, major infrastructure, and regulated delivery environments.</p>
-
+      <div class="service-jump-nav" aria-label="Jump to service details">
+        <a href="#information-management" class="service-jump-link">Information Management</a>
+        <a href="#bep-eir" class="service-jump-link">BEP &amp; EIR</a>
+        <a href="#programme-delivery" class="service-jump-link">Programme Delivery</a>
+      </div>
     </div>
   </div>
 

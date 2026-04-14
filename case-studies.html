@@ -21,21 +21,28 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/case-studies.css">
-  <!-- Microsoft Clarity: heatmaps & session recordings. Get your project ID at clarity.microsoft.com/projects -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","YOUR_CLARITY_PROJECT_ID");
-  </script>
-  <!-- Google Analytics 4: traffic & conversion tracking. Get your measurement ID (G-XXXXXXXXXX) at analytics.google.com -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA4_MEASUREMENT_ID"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'YOUR_GA4_MEASUREMENT_ID');
+    (function () {
+      var clarityId = 'YOUR_CLARITY_PROJECT_ID';
+      var ga4Id = 'YOUR_GA4_MEASUREMENT_ID';
+      if (clarityId && clarityId.indexOf('YOUR_') !== 0) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script',clarityId);
+      }
+      if (ga4Id && ga4Id.indexOf('YOUR_') !== 0) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      }
+    })();
   </script>
 </head>
 <body>
@@ -82,11 +89,11 @@
             <h3>Digital Delivery Framework for National Infrastructure Programme</h3>
             <div class="case-card-client">Client: National infrastructure owner &middot; UK</div>
           </div>
-          <button class="case-card-toggle" aria-label="Expand case study">
+          <button class="case-card-toggle" aria-label="Expand case study: Digital Delivery Framework for National Infrastructure Programme" aria-expanded="false" aria-controls="case-study-1">
             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
-        <div class="case-card-body">
+        <div class="case-card-body" id="case-study-1">
           <div class="case-card-content">
             <h4>Challenge</h4>
             <p>A &pound;9bn national infrastructure programme with dozens of supply chain partners needed a unified information management framework. Each contractor was following different standards, naming conventions, and BEP formats. The client had no visibility into what was being delivered, when, or to what quality.</p>
@@ -130,11 +137,11 @@
             <h3>BEP Production for Tier 1 Contractor Bid</h3>
             <div class="case-card-client">Client: Tier 1 contractor &middot; Competitive bid</div>
           </div>
-          <button class="case-card-toggle" aria-label="Expand case study">
+          <button class="case-card-toggle" aria-label="Expand case study: BEP Production for Tier 1 Contractor Bid" aria-expanded="false" aria-controls="case-study-2">
             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
-        <div class="case-card-body">
+        <div class="case-card-body" id="case-study-2">
           <div class="case-card-content">
             <h4>Challenge</h4>
             <p>A Tier 1 contractor needed a compliant pre-appointment BEP for a major public-sector bid. The EIR was 45 pages, the deadline was 7 days away, and the internal team had started from a blank template with no structured approach to capturing the EIR requirements.</p>
@@ -178,11 +185,11 @@
             <h3>EIR Review &amp; Supply Chain Readiness</h3>
             <div class="case-card-client">Client: Public-sector asset owner &middot; Framework programme</div>
           </div>
-          <button class="case-card-toggle" aria-label="Expand case study">
+          <button class="case-card-toggle" aria-label="Expand case study: EIR Review and Supply Chain Readiness" aria-expanded="false" aria-controls="case-study-3">
             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
-        <div class="case-card-body">
+        <div class="case-card-body" id="case-study-3">
           <div class="case-card-content">
             <h4>Challenge</h4>
             <p>A public-sector client had drafted an EIR for a multi-year framework programme, but the supply chain was struggling to respond. BEPs coming back were inconsistent, incomplete, and didn&rsquo;t address key requirements. The client suspected the problem started with the EIR itself.</p>
@@ -226,11 +233,11 @@
             <h3>CDE Governance &amp; Reporting for Regional Contractor</h3>
             <div class="case-card-client">Client: Regional contractor &middot; Multi-project portfolio</div>
           </div>
-          <button class="case-card-toggle" aria-label="Expand case study">
+          <button class="case-card-toggle" aria-label="Expand case study: CDE Governance and Reporting for Regional Contractor" aria-expanded="false" aria-controls="case-study-4">
             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
-        <div class="case-card-body">
+        <div class="case-card-body" id="case-study-4">
           <div class="case-card-content">
             <h4>Challenge</h4>
             <p>A regional contractor running 15+ concurrent projects had a CDE that was essentially used as a file dump. No naming conventions, no workflow states, no reporting, no governance. Project teams were managing documents by email. The CDE licence was expensive and underutilised.</p>

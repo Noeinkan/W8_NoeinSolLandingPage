@@ -20,21 +20,30 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <!-- Microsoft Clarity: heatmaps & session recordings. Get your project ID at clarity.microsoft.com/projects -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","YOUR_CLARITY_PROJECT_ID");
-  </script>
-  <!-- Google Analytics 4: traffic & conversion tracking. Get your measurement ID (G-XXXXXXXXXX) at analytics.google.com -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA4_MEASUREMENT_ID"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'YOUR_GA4_MEASUREMENT_ID');
+    (function () {
+      var clarityId = 'YOUR_CLARITY_PROJECT_ID';
+      var ga4Id = 'YOUR_GA4_MEASUREMENT_ID';
+
+      if (clarityId && clarityId.indexOf('YOUR_') !== 0) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script',clarityId);
+      }
+
+      if (ga4Id && ga4Id.indexOf('YOUR_') !== 0) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      }
+    })();
   </script>
 </head>
 <body>
@@ -67,12 +76,12 @@
       <h1>Let&rsquo;s <em>talk</em></h1>
       <p class="page-hero-sub">Book a call directly, send a message, or reach out on LinkedIn &mdash; whichever works best for you.</p>
 
-      <div class="contact-options-nav">
-        <a href="#booking" class="contact-option-link active" data-tab="booking">
+      <div class="contact-options-nav" role="tablist" aria-label="Contact options">
+        <a href="#booking" id="tab-booking" class="contact-option-link active" data-tab="booking" role="tab" aria-selected="true" aria-controls="booking" tabindex="0">
           <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Book a call
         </a>
-        <a href="#message" class="contact-option-link" data-tab="message">
+        <a href="#message-panel" id="tab-message" class="contact-option-link" data-tab="message-panel" role="tab" aria-selected="false" aria-controls="message-panel" tabindex="-1">
           <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           Send a message
         </a>
@@ -81,7 +90,7 @@
   </div>
 
   <!-- Booking Tab -->
-  <div id="booking" class="contact-tab contact-tab--active">
+  <div id="booking" class="contact-tab contact-tab--active" role="tabpanel" aria-labelledby="tab-booking" tabindex="-1">
     <div class="contact-page contact-page--booking">
       <div class="contact-info">
         <h2>Book a 30-minute call</h2>
@@ -103,7 +112,7 @@
           London, UK
         </div>
 
-        <a href="#message" class="btn btn-outline contact-alt-btn" data-tab="message">Or send a message instead</a>
+        <a href="#message-panel" class="btn btn-outline contact-alt-btn" data-tab="message-panel">Or send a message instead</a>
       </div>
 
       <div class="calendly-embed-wrapper">
@@ -115,7 +124,7 @@
   </div>
 
   <!-- Message Tab -->
-  <div id="message" class="contact-tab">
+  <div id="message-panel" class="contact-tab" role="tabpanel" aria-labelledby="tab-message" tabindex="-1">
     <div class="contact-page">
       <div class="contact-info">
         <h2>Send a message</h2>
@@ -145,7 +154,8 @@
           <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <p>Message sent. I&rsquo;ll get back to you within 24 hours.</p>
         </div>
-        <form action="https://formsubmit.co/andrea.aita@noeinsolutions.com" method="POST">
+        <form action="https://formsubmit.co/andrea.aita@noeinsolutions.com" method="POST" novalidate>
+          <div class="form-error-summary" id="formErrorSummary" role="alert" aria-live="polite" style="display:none;"></div>
           <input type="hidden" name="_subject" value="New enquiry from noeinsolutions.com">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="https://noeinsolutions.com/contact.html?sent=1">
@@ -179,8 +189,8 @@
           </div>
 
           <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me about your project, timeline, and what you're looking for..." required aria-required="true"></textarea>
+            <label for="messageField">Message</label>
+            <textarea id="messageField" name="message" placeholder="Tell me about your project, timeline, and what you're looking for..." required aria-required="true"></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send message</button>
