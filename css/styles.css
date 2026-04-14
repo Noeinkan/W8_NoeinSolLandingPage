@@ -1822,26 +1822,26 @@ a.footer-contact-item:hover { color: var(--accent); }
   nav { padding: 1rem 2.25rem; }
   .nav-logo   { font-size: 1.5rem; }
   .nav-links  { gap: 2.5rem; }
-  .nav-links a { font-size: 0.95rem; }
+  .nav-links a { font-size: 1rem; }
   .nav-cta    { padding: 0.6rem 1.5rem; }
 
   .hero        { padding: 6rem 3rem 5rem; }
   .hero h1     { font-size: 5rem; margin-bottom: 2rem; }
   .hero-label  { font-size: 0.9rem; margin-bottom: 2rem; }
-  .hero-sub    { font-size: 1.25rem; max-width: 720px; margin-bottom: 3rem; }
+  .hero-sub    { font-size: 1.32rem; max-width: 760px; margin-bottom: 3rem; }
 
   .btn { padding: 1rem 2rem; font-size: 1.05rem; }
 
   .page-hero     { padding: 7rem 3rem 3rem; }
   .page-hero h1  { font-size: 4rem; }
-  .page-hero-sub { font-size: 1.2rem; max-width: 720px; }
+  .page-hero-sub { font-size: 1.24rem; max-width: 760px; }
 
   .stats      { padding: 2.5rem 3rem; }
   .stat-number { font-size: 3rem; }
-  .stat-label  { font-size: 0.9rem; }
+  .stat-label  { font-size: 0.98rem; }
 
   section        { padding: 5rem 3rem; }
-  .section-label { font-size: 0.82rem; }
+  .section-label { font-size: 0.84rem; }
   .section-title { font-size: 3.2rem; margin-bottom: 1.25rem; }
   .section-sub   { font-size: 1.15rem; max-width: 680px; margin-bottom: 4rem; }
 
@@ -1849,13 +1849,13 @@ a.footer-contact-item:hover { color: var(--accent); }
   .value-icon  { width: 56px; height: 56px; }
   .value-icon svg { width: 26px; height: 26px; }
   .value-card h3  { font-size: 1.5rem; }
-  .value-card p   { font-size: 1rem; }
+  .value-card p   { font-size: 1.04rem; line-height: 1.72; }
 
   .service-card  { padding: 2.75rem; }
   .service-icon  { width: 52px; height: 52px; }
   .service-icon svg { width: 24px; height: 24px; }
   .service-card h3  { font-size: 1.5rem; }
-  .service-card p   { font-size: 1rem; }
+  .service-card p   { font-size: 1.04rem; line-height: 1.72; }
   .service-card .card-arrow { font-size: 0.95rem; }
 
   .capsar-banner { padding: 4rem 3rem; }
@@ -1878,27 +1878,35 @@ a.footer-contact-item:hover { color: var(--accent); }
   .footer-links a         { font-size: 0.95rem; }
   .footer-contact-item    { font-size: 0.95rem; }
 
-  .logo-bar-item  { font-size: 1.15rem; }
+  .logo-bar-label { font-size: 0.8rem; }
+  .logo-bar-item  { font-size: 1.2rem; }
   .logo-bar-logos { gap: 3rem; }
   .trust-band-inner { max-width: 1400px; padding-top: 2rem; }
   .trust-band-value { font-size: 1.65rem; }
+  .trust-band-detail { font-size: 0.82rem; }
 
   .testimonials-grid { gap: 2rem; }
   .testimonial-card  { padding: 2.5rem; }
-  .testimonial-card blockquote { font-size: 1rem; }
+  .testimonial-card blockquote { font-size: 1.04rem; line-height: 1.75; }
 
   .about-preview       { padding: 5rem 3rem; }
   .about-preview-inner { gap: 6rem; grid-template-columns: 360px 1fr; }
   .about-preview-photo { width: 340px; height: 450px; }
-  .about-preview-text  { font-size: 1.05rem; }
+  .about-preview-text  { font-size: 1.1rem; }
 
   .contact-info h2 { font-size: 1.8rem; }
-  .contact-info p  { font-size: 1.05rem; }
+  .contact-info p  { font-size: 1.1rem; }
   .contact-form    { padding: 3rem; }
   .form-group label { font-size: 0.88rem; }
   .form-group input,
   .form-group select,
   .form-group textarea { font-size: 1rem; padding: 0.85rem 1.15rem; }
+
+  .footer-brand p      { font-size: 1rem; }
+  .footer-links a      { font-size: 1rem; }
+  .footer-contact-item { font-size: 1rem; }
+  .faq-header          { font-size: 1rem; }
+  .faq-body p          { font-size: 0.98rem; }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1921,47 +1929,79 @@ a.footer-contact-item:hover { color: var(--accent); }
   nav { padding: 1.1rem 2.5rem; }
   .nav-logo  { font-size: 1.65rem; }
   .nav-links { gap: 3rem; }
-  .nav-links a { font-size: 1.05rem; }
+  .nav-links a { font-size: 1.08rem; }
 
   .hero      { padding: 7rem 4rem 6rem; }
   .hero h1   { font-size: 5.8rem; }
   .hero-label { font-size: 1rem; }
-  .hero-sub  { font-size: 1.35rem; max-width: 800px; }
+  .hero-sub  { font-size: 1.42rem; max-width: 840px; }
 
   .btn { padding: 1.1rem 2.25rem; font-size: 1.1rem; border-radius: 10px; }
 
   .page-hero     { padding: 8rem 4rem 4rem; }
   .page-hero h1  { font-size: 4.8rem; }
-  .page-hero-sub { font-size: 1.3rem; max-width: 800px; }
+  .page-hero-sub { font-size: 1.36rem; max-width: 840px; }
 
   .stat-number { font-size: 3.5rem; }
-  .stat-label  { font-size: 1rem; }
+  .stat-label  { font-size: 1.05rem; }
 
   section        { padding: 6rem 4rem; }
   .section-title { font-size: 3.8rem; }
   .section-sub   { font-size: 1.25rem; max-width: 750px; }
+  .section-label,
+  .logo-bar-label,
+  .trust-band-detail,
+  .footer-heading { font-size: 0.9rem; }
 
   .value-props { gap: 2rem; }
   .value-card  { padding: 3rem; }
   .value-card h3 { font-size: 1.65rem; }
-  .value-card p  { font-size: 1.08rem; line-height: 1.7; }
+  .value-card p  { font-size: 1.12rem; line-height: 1.75; }
 
   .services-grid { gap: 2rem; }
   .service-card  { padding: 3rem; }
   .service-card h3 { font-size: 1.65rem; }
-  .service-card p  { font-size: 1.08rem; }
+  .service-card p  { font-size: 1.12rem; line-height: 1.75; }
 
   .capsar-banner-inner h2 { font-size: 3.2rem; }
   .capsar-banner-inner p  { font-size: 1.25rem; max-width: 700px; }
 
   .testimonial-quote blockquote { font-size: 2.1rem; }
+  .testimonial-card blockquote   { font-size: 1.08rem; line-height: 1.8; }
 
   .contact-section .section-title { font-size: 3.5rem; }
 
   .hero-photo { width: 420px; height: 520px; }
   .hero-glow  { width: 800px; height: 800px; }
 
+  .logo-bar-item     { font-size: 1.28rem; }
+  .trust-band-value  { font-size: 1.78rem; }
+  .about-preview-text { font-size: 1.16rem; }
+  .contact-info p     { font-size: 1.16rem; }
+  .footer-brand p,
+  .footer-links a,
+  .footer-contact-item { font-size: 1.04rem; }
+  .faq-header { font-size: 1.04rem; }
+  .faq-body p { font-size: 1rem; }
+
   .footer-inner { gap: 4rem; }
+}
+
+@media (min-width: 2200px) {
+  .nav-links a      { font-size: 1.12rem; }
+  .hero-sub         { font-size: 1.5rem; max-width: 880px; }
+  .page-hero-sub    { font-size: 1.42rem; max-width: 880px; }
+  .section-sub      { font-size: 1.3rem; max-width: 800px; }
+  .value-card p,
+  .service-card p,
+  .testimonial-card blockquote,
+  .about-preview-text,
+  .contact-info p   { font-size: 1.18rem; }
+  .footer-brand p,
+  .footer-links a,
+  .footer-contact-item,
+  .faq-header,
+  .faq-body p       { font-size: 1.08rem; }
 }
 
 /* ═══════════════════════════════════════════════════════════
