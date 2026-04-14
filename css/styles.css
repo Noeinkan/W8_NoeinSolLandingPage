@@ -122,6 +122,19 @@ nav.nav-scrolled {
 
 .nav-links a.nav-active:not(.nav-cta) { color: var(--accent); }
 
+.lang-switch {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+}
+
+.lang-switch:hover {
+  border-color: var(--accent);
+}
+
 /* ─── Mobile hamburger ─── */
 .nav-toggle {
   display: none;
@@ -1772,6 +1785,7 @@ a.footer-contact-item:hover { color: var(--accent); }
 
   .nav-links.open { display: flex; }
   .nav-links a { font-size: 0.95rem; }
+  .lang-switch { width: auto; text-align: center; }
   .nav-cta { width: 100%; text-align: center; justify-content: center; }
   .logo-bar-inner { flex-direction: column; gap: 1rem; }
   .logo-bar-logos { gap: 1.5rem; justify-content: center; }

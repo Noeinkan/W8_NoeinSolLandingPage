@@ -1,6 +1,8 @@
 (function () {
   'use strict';
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pageLang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+  var isItalian = pageLang.indexOf('it') === 0;
 
   // ─── Fade-in observer (with staggered children) ───
   var observer = new IntersectionObserver(function (entries) {
@@ -127,6 +129,21 @@
   });
 
   // ─── Case study accordion ───
+  function setCaseToggleState(button, expanded) {
+    if (!button) return;
+    button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (button.dataset.labelExpand && button.dataset.labelCollapse) {
+      button.setAttribute('aria-label', expanded ? button.dataset.labelCollapse : button.dataset.labelExpand);
+      return;
+    }
+    var currentLabel = button.getAttribute('aria-label') || '';
+    if (isItalian) {
+      button.setAttribute('aria-label', expanded ? currentLabel.replace('Espandi', 'Comprimi') : currentLabel.replace('Comprimi', 'Espandi'));
+    } else {
+      button.setAttribute('aria-label', expanded ? currentLabel.replace('Expand', 'Collapse') : currentLabel.replace('Collapse', 'Expand'));
+    }
+  }
+
   document.querySelectorAll('.case-card-toggle').forEach(function (toggle) {
     toggle.addEventListener('click', function () {
       var card = this.closest('.case-card');
@@ -135,16 +152,12 @@
       document.querySelectorAll('.case-card.open').forEach(function (c) {
         c.classList.remove('open');
         var button = c.querySelector('.case-card-toggle');
-        if (button) {
-          button.setAttribute('aria-expanded', 'false');
-          button.setAttribute('aria-label', button.getAttribute('aria-label').replace('Collapse', 'Expand'));
-        }
+        setCaseToggleState(button, false);
       });
 
       if (!wasOpen) {
         card.classList.add('open');
-        this.setAttribute('aria-expanded', 'true');
-        this.setAttribute('aria-label', this.getAttribute('aria-label').replace('Expand', 'Collapse'));
+        setCaseToggleState(this, true);
       }
     });
   });
@@ -164,7 +177,7 @@
         if (!field.value.trim()) {
           field.style.borderColor = '#c0392b';
           field.setAttribute('aria-invalid', 'true');
-          errorMessages.push((field.name || 'Field') + ' is required.');
+          errorMessages.push((field.name || (isItalian ? 'Campo' : 'Field')) + (isItalian ? ' e obbligatorio.' : ' is required.'));
           valid = false;
         }
         if (field.type === 'email' && field.value.trim()) {
@@ -172,7 +185,7 @@
           if (!emailRe.test(field.value.trim())) {
             field.style.borderColor = '#c0392b';
             field.setAttribute('aria-invalid', 'true');
-            errorMessages.push('Please enter a valid email address.');
+            errorMessages.push(isItalian ? 'Inserisci un indirizzo email valido.' : 'Please enter a valid email address.');
             valid = false;
           }
         }
@@ -182,7 +195,7 @@
         e.preventDefault();
         if (errorSummary) {
           errorSummary.style.display = 'block';
-          errorSummary.textContent = 'Please fix the following: ' + errorMessages.join(' ');
+          errorSummary.textContent = (isItalian ? 'Correggi i seguenti campi: ' : 'Please fix the following: ') + errorMessages.join(' ');
         }
       } else if (errorSummary) {
         errorSummary.style.display = 'none';
