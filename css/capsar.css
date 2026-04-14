@@ -424,28 +424,77 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 968px) {
-  .capsar-proof-card { grid-template-columns: 1fr; }
+  .capsar-proof-card { grid-template-columns: 1fr; gap: 1.4rem; padding: 1.5rem; }
+  .capsar-proof-visual { border-radius: 10px; }
   .pain-grid        { grid-template-columns: 1fr; }
-  .step-flow        { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .step-flow        { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
   .step-flow::before { display: none; }
-  .module-grid      { grid-template-columns: repeat(3, 1fr); }
+  .module-grid      { grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+  .module-item      { padding: 1.2rem 0.85rem; }
   .screenshot-grid  { grid-template-columns: 1fr; }
-  .comparison-table { font-size: 0.85rem; }
+  .mockup-screen { min-height: 120px; padding: 1rem; }
+  .comparison-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 10px;
+  }
+  .comparison-table thead,
+  .comparison-table tbody {
+    display: table;
+    min-width: 760px;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .comparison-table thead th,
+  .comparison-table tbody td {
+    padding: 1rem 1.1rem;
+    font-size: 0.86rem;
+  }
+  .privacy-callout { padding: 1.2rem 1.3rem; }
 }
 
 @media (max-width: 640px) {
   .step-flow        { grid-template-columns: repeat(2, 1fr); }
   .module-grid      { grid-template-columns: repeat(2, 1fr); }
-  .comparison-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .comparison-table thead,
+  .comparison-table tbody { min-width: 680px; }
+  .mockup-url { font-size: 0.6rem; }
+  .mockup-label { font-size: 0.7rem; }
+  .privacy-callout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
   .step-flow > .step-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 
 @media (max-width: 480px) {
   .step-flow { grid-template-columns: 1fr; }
+  .module-grid { grid-template-columns: 1fr; }
+  .module-item h4 { font-size: 0.86rem; }
+  .module-item p { font-size: 0.76rem; }
+}
+
+@media (max-width: 360px) {
+  .capsar-proof-card { padding: 1.1rem; }
+  .pain-card { padding: 1.35rem; }
+  .mockup-screen { padding: 0.8rem; min-height: 108px; }
+  .comparison-table thead,
+  .comparison-table tbody { min-width: 620px; }
+  .privacy-callout { padding: 1rem 1rem; }
 }
 
 @media (min-width: 1440px) {
   .pain-card    { padding: 2.5rem; }
   .pain-card h3 { font-size: 1.25rem; }
   .pain-card p  { font-size: 0.95rem; }
+}
+
+@media (min-width: 2560px) {
+  .pain-card p { font-size: 1rem; }
+  .step-item h4 { font-size: 1rem; }
+  .step-item p  { font-size: 0.92rem; }
+  .module-item h4 { font-size: 0.92rem; }
+  .module-item p  { font-size: 0.82rem; }
 }

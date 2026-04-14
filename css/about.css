@@ -405,9 +405,43 @@
 }
 
 /* ─── Responsive ─── */
+@media (max-width: 968px) {
+  .timeline {
+    padding-left: 1.7rem;
+  }
+  .timeline-item::before {
+    left: -1.7rem;
+    width: 10px;
+    height: 10px;
+    transform: translateX(-4px);
+  }
+  .timeline-item {
+    padding-bottom: 2.25rem;
+  }
+  .recognition-grid,
+  .credentials-grid--image,
+  .credentials-grid--compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .credential-card--compact {
+    align-items: flex-start;
+  }
+  .approach-text {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+}
+
 @media (max-width: 640px) {
   .credentials-grid--image,
   .credentials-grid--compact { grid-template-columns: 1fr; }
+  .timeline-item h3 { font-size: 1.12rem; }
+  .timeline-item p,
+  .timeline-points li { font-size: 0.88rem; }
+  .cert-lightbox { padding: 1rem; }
+  .cert-lightbox-img-wrap { max-height: 72vh; }
+  .cert-lightbox-img-wrap img { max-height: 72vh; }
 }
 
 @media (min-width: 1440px) {
