@@ -1,39 +1,448 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Capsar.io — Piattaforma BEP/EIR | Noein Solutions</title>
-  <meta name="description" content="Capsar.io: piattaforma BEP/EIR con assistenza AI su infrastruttura dedicata, orientata a privacy e progetti ad alta riservatezza.">
-  <meta property="og:title" content="Capsar.io — Piattaforma BEP/EIR">
-  <meta property="og:description" content="Authoring guidato BEP, analisi EIR e matrice di rispondenza in un unico ambiente.">
+  <title>Capsar.io &mdash; Piattaforma BEP & EIR orientata alla privacy | Noein Solutions</title>
+  <meta name="description" content="Capsar.io e una piattaforma privacy-first per BEP ed EIR con authoring guidato, tracciamento requisiti ed export strutturati per programmi infrastrutturali.">
+  <meta property="og:title" content="Capsar.io &mdash; Piattaforma BEP & EIR orientata alla privacy">
+  <meta property="og:description" content="Una piattaforma BEP ed EIR orientata alla privacy, sviluppata da un professionista per team infrastrutturali, pubblico-settore e contesti ad alta riservatezza.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://noeinsolutions.com/it/capsar.html">
   <meta property="og:image" content="https://noeinsolutions.com/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Noein Solutions &mdash; Consulenza Digital Delivery per AEC">
   <link rel="canonical" href="https://noeinsolutions.com/it/capsar.html">
   <link rel="alternate" hreflang="en" href="https://noeinsolutions.com/capsar.html">
   <link rel="alternate" hreflang="it" href="https://noeinsolutions.com/it/capsar.html">
   <link rel="alternate" hreflang="x-default" href="https://noeinsolutions.com/capsar.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0c'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='400' fill='%23c9a55a' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/capsar.css">
+  <script>
+    (function () {
+      var clarityId = 'YOUR_CLARITY_PROJECT_ID';
+      var ga4Id = 'YOUR_GA4_MEASUREMENT_ID';
+      if (clarityId && clarityId.indexOf('YOUR_') !== 0) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script',clarityId);
+      }
+      if (ga4Id && ga4Id.indexOf('YOUR_') !== 0) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      }
+    })();
+  </script>
 </head>
 <body>
+
   <a href="#main-content" class="skip-link">Vai al contenuto</a>
-  <nav><a href="index.html" class="nav-logo">Noein<span>.</span></a><button class="nav-toggle" aria-label="Apri menu" aria-expanded="false"><span></span><span></span><span></span></button><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="about.html">Chi sono</a></li><li><a href="services.html">Servizi</a></li><li><a href="case-studies.html">Case study</a></li><li><a href="capsar.html">Capsar.io</a></li><li><a href="../capsar.html" class="lang-switch"><span class="lang-option">🇬🇧 EN</span><span class="lang-option is-active">🇮🇹 IT</span></a></li><li><a href="contact.html" class="nav-cta">Contattami</a></li></ul></nav>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+    <button class="nav-toggle" aria-label="Apri menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Chi sono</a></li>
+      <li><a href="services.html">Servizi</a></li>
+      <li><a href="case-studies.html">Case study</a></li>
+      <li><a href="capsar.html">Capsar.io</a></li>
+      <li><a href="../capsar.html" class="lang-switch" aria-label="Passa alla lingua inglese"><span class="lang-option">🇬🇧 EN</span><span class="lang-option is-active">🇮🇹 IT</span></a></li>
+      <li><a href="contact.html" class="nav-cta">Contattami</a></li>
+    </ul>
+  </nav>
+
   <main id="main-content">
-    <section class="hero" style="min-height:auto; padding-bottom:4rem;">
-      <div class="hero-inner hero-inner--centered">
-        <div class="hero-label">Capsar.io</div>
-        <h1>La piattaforma BEP che legge l'EIR<br>e <em>guida la risposta</em></h1>
-        <p class="hero-sub">Authoring guidato, estrazione requisiti EIR, tracciamento rispondenza e export documentale professionale, con attenzione a sicurezza e sovranita del dato.</p>
-        <div class="hero-actions hero-actions--center">
-          <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener" class="btn btn-primary">Prova Capsar.io</a>
-          <a href="services.html#bep-eir" class="btn btn-outline">Servizi BEP/EIR</a>
+
+  <!-- Hero -->
+  <section class="hero" style="min-height:auto; padding-bottom:4rem;">
+    <div class="hero-glow"></div>
+    <div class="hero-glow hero-glow-left"></div>
+    <div class="hero-inner hero-inner--centered">
+      <div class="hero-label">Capsar.io</div>
+      <h1>Una piattaforma BEP che legge il tuo EIR<br>e <em>guida la risposta</em></h1>
+      <p class="hero-sub">
+        Authoring BEP assistito dall'AI, estrazione requisiti EIR, tracciamento rispondenza ed export documentale professionale in un'unica piattaforma. Sviluppata da un professionista con esperienza operativa su infrastrutture, aviazione e programmi regolati. Nativa ISO 19650.
+      </p>
+      <div class="hero-actions hero-actions--center">
+        <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Prova Capsar.io</a>
+        <a href="services.html#bep-eir" class="btn btn-outline">Servizi di consulenza BEP</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in">
+    <div class="capsar-proof-card">
+      <div>
+        <div class="section-label">Prova prodotto</div>
+        <h2 class="section-title" style="text-align:left;">Scopri il flusso prima di decidere</h2>
+        <p class="section-sub" style="text-align:left; margin-left:0;">Qui trovi un'anteprima live dell'authoring BEP e del tracciamento requisiti. I team possono valutare come Capsar mappa i requisiti EIR sulle risposte BEP prima dell'onboarding.</p>
+        <a href="#platform-preview" class="btn btn-outline">Vai all'anteprima prodotto</a>
+      </div>
+      <div class="capsar-proof-visual" aria-hidden="true">
+        <div class="mockup-chrome">
+          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <div class="mockup-url">app.noeinsolutions.com/preview</div>
+        </div>
+        <div class="mockup-screen mockup-screen--bep">
+          <div class="mockup-sidebar">
+            <div class="mockup-sidebar-item active"></div>
+            <div class="mockup-sidebar-item"></div>
+            <div class="mockup-sidebar-item"></div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-heading"></div>
+            <div class="mockup-field"></div>
+            <div class="mockup-field short"></div>
+            <div class="mockup-ai-badge">Guided workflow</div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <!-- Pain Points -->
+  <section class="fade-in">
+    <div class="section-label">Il problema</div>
+    <h2 class="section-title">Perche i BEP sono ancora fragili</h2>
+    <p class="section-sub">Quattro criticita che ogni BIM Manager e Information Manager riconosce subito.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-num">01</div>
+        <h3>Paralisi da pagina bianca</h3>
+        <p>Every BEP starts from a blank template or a copy of the last one. There&rsquo;s no structured starting point, so teams spend days just getting the document framework right before writing any actual content.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">02</div>
+        <h3>EIR complessi e poco strutturati</h3>
+        <p>Client requirements are buried in 30&ndash;50 page documents con no structure. Extracting what matters &mdash; and tracking whether the BEP actually responds to it &mdash; is manual and error-prone.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">03</div>
+        <h3>Niente AI adatta a progetti riservati</h3>
+        <p>Generic AI tools send your project data to third-party providers. On sensitive infrastructure and defence projects, that&rsquo;s a non-starter. Teams need AI assistance without the privacy risk.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-num">04</div>
+        <h3>Competenza ISO 19650 presunta, non incorporata</h3>
+        <p>Templates assume the author already knows the standard inside out. They don&rsquo;t explain what each section needs, what good looks like, or how to align con the specific EIR. Expertise should be in the tool, not assumed from the user.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Come funziona -->
+  <div class="section-full fade-in" style="padding:6rem 2rem;">
+    <div class="section-full-inner">
+      <div class="section-label">Come funziona</div>
+      <h2 class="section-title">Da EIR a BEP conforme &mdash; guidato in ogni passaggio</h2>
+      <p class="section-sub">Cinque passaggi. Una piattaforma. Nessuna pagina bianca. Costruita sul modo in cui i team reali rispondono a EIR reali.</p>
+
+      <div class="step-flow">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h4>Upload EIR</h4>
+          <p>Drop the client&rsquo;s EIR PDF into Capsar</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h4>AI Extracts</h4>
+          <p>Requirements parsed and structured automatically</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h4>Guided Authoring</h4>
+          <p>Smart Help on every field con AI-assisted content</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <h4>Gap Analysis</h4>
+          <p>Responsiveness Matrix shows what&rsquo;s covered and what&rsquo;s not</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <h4>Export</h4>
+          <p>Professional PDF &amp; editable DOCX deliverables</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modules -->
+  <section class="fade-in">
+    <div class="section-label">Piattaforma</div>
+    <h2 class="section-title">10 moduli integrati</h2>
+    <p class="section-sub">Workflow core di gestione informativa ISO 19650 &mdash; connessi, non a silos, e modellati su criticita reali osservate in programma.</p>
+
+    <div class="page-hero-sub" style="max-width:760px; margin:0 auto 2.5rem; text-align:center;">
+      Built around the tasks teams spend the most time on: understanding the EIR, drafting the BEP, tracking coverage, planning delivery, and keeping outputs consistent.
+    </div>
+
+    <div class="module-grid">
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h4>BEP Manager</h4>
+        <p>Guided 14-section BEP authoring con consistent structure and prompts.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h4>EIR Manager</h4>
+        <p>Requirement extraction and tracking from client EIR documents.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h4>OIR Manager</h4>
+        <p>Organisational requirements captured in the same workflow.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h4>TIDP/MIDP</h4>
+        <p>Delivery planning and tracking for information production and review.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h4>DC Manager</h4>
+        <p>Document control and validation before submission.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </div>
+        <h4>LOIN Tables</h4>
+        <p>Level of Information Need tables con IDS export support.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/></svg>
+        </div>
+        <h4>IFC Import</h4>
+        <p>Model data extraction from IFC files where model inputs are needed.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h4>Responsibility Matrix</h4>
+        <p>Role and task assignments across delivery teams.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h4>Capability Assessment</h4>
+        <p>Supply chain readiness checks aligned to ISO 19650-2 Cl.5.3.</p>
+      </div>
+      <div class="module-item">
+        <div class="module-item-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <h4>Snippets</h4>
+        <p>Reusable content library for recurring responses and standards text.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Confronto -->
+  <div class="section-full fade-in" style="padding:6rem 2rem;">
+    <div class="section-full-inner">
+      <div class="section-label">Confronto</div>
+      <h2 class="section-title">La differenza di Capsar</h2>
+      <p class="section-sub">Confronto diretto: approccio tradizionale vs approccio Capsar.</p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Senza Capsar</th>
+            <th>Con Capsar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tempo per BEP</td>
+            <td>2&ndash;4 weeks of manual drafting from blank templates</td>
+            <td>3&ndash;5 days con AI-assisted authoring and guided workflows</td>
+          </tr>
+          <tr>
+            <td>Qualita</td>
+            <td>Inconsistent structure, missed requirements, no gap tracking</td>
+            <td>14-section ISO 19650 structure, Smart Help on every field, real-time guidance</td>
+          </tr>
+          <tr>
+            <td>Conformita EIR</td>
+            <td>Manual cross-referencing &mdash; requirements often missed or misinterpreted</td>
+            <td>Automated Responsiveness Matrix con 100% requirement tracking and gap alerts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Privacy -->
+  <section class="fade-in">
+    <div class="privacy-callout">
+      <div class="privacy-callout-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div>
+        <h4>I tuoi dati restano tuoi</h4>
+        <p>Capsar.io runs AI on dedicated infrastructure. Your project data is never sent to OpenAI, Google, Anthropic, or any third-party AI provider. Suitable for sensitive infrastructure, public-sector, and confidentiality-sensitive projects where data sovereignty matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="fade-in" id="platform-preview">
+    <div class="section-label">Anteprima piattaforma</div>
+    <h2 class="section-title">Anteprima della piattaforma</h2>
+    <p class="section-sub">Uno sguardo all'interfaccia Capsar.io, progettata per professionisti operativi.</p>
+
+    <div class="screenshot-grid">
+      <div class="screenshot-mockup">
+        <div class="mockup-chrome">
+          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <div class="mockup-url">app.noeinsolutions.com/bep</div>
+        </div>
+        <div class="mockup-screen mockup-screen--bep">
+          <div class="mockup-sidebar">
+            <div class="mockup-sidebar-item active"></div>
+            <div class="mockup-sidebar-item"></div>
+            <div class="mockup-sidebar-item"></div>
+            <div class="mockup-sidebar-item"></div>
+            <div class="mockup-sidebar-item"></div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-heading"></div>
+            <div class="mockup-field"></div>
+            <div class="mockup-field short"></div>
+            <div class="mockup-field"></div>
+            <div class="mockup-ai-badge">Smart Help AI</div>
+          </div>
+        </div>
+        <div class="mockup-label">BEP Manager &mdash; Smart Help AI on every field</div>
+      </div>
+      <div class="screenshot-mockup">
+        <div class="mockup-chrome">
+          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <div class="mockup-url">app.noeinsolutions.com/matrix</div>
+        </div>
+        <div class="mockup-screen mockup-screen--matrix">
+          <div class="mockup-table-header">
+            <div></div><div></div><div></div><div></div>
+          </div>
+          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div><div class="mockup-cell pass"></div></div>
+          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell gap"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div></div>
+          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div></div>
+        </div>
+        <div class="mockup-label">EIR Responsiveness Matrix &mdash; live gap analysis</div>
+      </div>
+      <div class="screenshot-mockup">
+        <div class="mockup-chrome">
+          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <div class="mockup-url">app.noeinsolutions.com/dc</div>
+        </div>
+        <div class="mockup-screen mockup-screen--dc">
+          <div class="mockup-stats-bar">
+            <div class="mockup-stat-block pass-bg"></div>
+            <div class="mockup-stat-block warn-bg"></div>
+            <div class="mockup-stat-block"></div>
+          </div>
+          <div class="mockup-file-row"></div>
+          <div class="mockup-file-row"></div>
+          <div class="mockup-file-row"></div>
+          <div class="mockup-file-row"></div>
+        </div>
+        <div class="mockup-label">DC Manager &mdash; validation &amp; compliance</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beta CTA -->
+  <div class="section-full fade-in" style="padding:6rem 2rem;">
+    <div class="section-full-inner" style="text-align:center; max-width:700px;">
+      <div class="section-label" style="justify-content:center;">Accesso anticipato</div>
+      <h2 class="section-title" style="text-align:center;">Accesso anticipato aperto</h2>
+      <p style="font-size:1.05rem; color:var(--text-secondary); line-height:1.7; margin-bottom:2rem;">Gratuito durante la beta. Limited spots. If you write BEPs, manage EIRs, or run digital delivery per AEC projects &mdash; Capsar.io was built for you.</p>
+      <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Prova Capsar.io</a>
+      <div class="capsar-badge" style="justify-content:center; margin-top:1.25rem;">Gratuito durante la beta &mdash; posti limitati</div>
+    </div>
+  </div>
+
   </main>
-  <footer><div class="footer-inner"><div class="footer-brand"><a href="index.html" class="nav-logo">Noein<span>.</span></a><p>Consulenza digital delivery per AEC.</p></div><div><div class="footer-heading">Pagine</div><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="about.html">Chi sono</a></li><li><a href="services.html">Servizi</a></li><li><a href="case-studies.html">Case study</a></li><li><a href="capsar.html">Capsar.io</a></li><li><a href="contact.html">Contatti</a></li></ul></div></div><div class="footer-bottom"><p>&copy; 2026 Noein Solutions Ltd. &nbsp;&middot;&nbsp; <a href="privacy.html" style="color:var(--text-tertiary); text-decoration:underline;">Informativa Privacy</a></p></div></footer>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+        <p>Consulenza di digital delivery per AEC. Strategia, gestione informativa e delivery di programma, con metodo.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Pagine</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Chi sono</a></li>
+          <li><a href="services.html">Servizi</a></li>
+          <li><a href="case-studies.html">Case study</a></li>
+          <li><a href="capsar.html">Capsar.io</a></li>
+          <li><a href="contact.html">Contatti</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contatti</div>
+        <a href="mailto:andrea.aita@noeinsolutions.com" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          andrea.aita@noeinsolutions.com
+        </a>
+        <a href="https://www.linkedin.com/in/andrea-aita-0b0794123/" target="_blank" rel="noopener noreferrer" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          London, UK
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Noein Solutions Ltd. Tutti i diritti riservati. &nbsp;&middot;&nbsp; <a href="privacy.html" style="color:var(--text-tertiary); text-decoration:underline;">Informativa Privacy</a></p>
+    </div>
+  </footer>
+
   <script src="../js/main.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
