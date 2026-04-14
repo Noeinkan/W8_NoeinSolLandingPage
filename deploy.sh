@@ -213,10 +213,12 @@ smoke_test_live_site() {
     homepage="$(curl -fsSL "https://${DOMAIN}")" \
         || err "Failed to fetch https://${DOMAIN} homepage."
 
-    [[ "$homepage" == *"Noein Solutions"* ]] \
-        || err "Homepage smoke check failed: expected 'Noein Solutions' marker."
-    [[ "$homepage" != *"Capsar.io"* ]] \
-        || err "Homepage smoke check failed: Capsar app page is being served."
+    [[ "$homepage" == *"<title>Noein Solutions — Digital Delivery Consulting</title>"* ]] \
+        || err "Homepage smoke check failed: expected homepage title marker."
+    [[ "$homepage" == *'<link rel="canonical" href="https://noeinsolutions.com/">'* ]] \
+        || err "Homepage smoke check failed: expected homepage canonical URL."
+    [[ "$homepage" != *'<link rel="canonical" href="https://noeinsolutions.com/capsar.html">'* ]] \
+        || err "Homepage smoke check failed: Capsar page is being served for the homepage."
 
     log "Smoke checks passed."
 }
