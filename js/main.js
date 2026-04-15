@@ -209,13 +209,45 @@
   if (leadMagnetForm && window.location.search.indexOf('lead=iso19650') !== -1) {
     var leadSuccess = document.getElementById('leadMagnetSuccess');
     var leadDownloadLink = document.getElementById('leadMagnetDownloadLink');
+    function triggerChecklistDownload(downloadUrl) {
+      if (!downloadUrl) return false;
+      if (!window.fetch || !window.URL || !window.URL.createObjectURL) return false;
+      fetch(downloadUrl, { credentials: 'same-origin' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('download_failed');
+          return res.blob();
+        })
+        .then(function (blob) {
+          var blobUrl = window.URL.createObjectURL(blob);
+          var tempLink = document.createElement('a');
+          tempLink.href = blobUrl;
+          tempLink.download = 'iso-19650-bep-readiness-checklist.txt';
+          document.body.appendChild(tempLink);
+          tempLink.click();
+          document.body.removeChild(tempLink);
+          setTimeout(function () {
+            window.URL.revokeObjectURL(blobUrl);
+          }, 1000);
+        })
+        .catch(function () {
+          if (leadDownloadLink) {
+            leadDownloadLink.click();
+            leadDownloadLink.focus();
+          }
+        });
+      return true;
+    }
     if (leadSuccess) {
       leadSuccess.style.display = 'flex';
     }
     if (leadDownloadLink) {
-      setTimeout(function () {
-        leadDownloadLink.click();
-      }, 350);
+      var href = leadDownloadLink.getAttribute('href');
+      var started = href ? triggerChecklistDownload(href) : false;
+      if (!started) {
+        setTimeout(function () {
+          leadDownloadLink.click();
+        }, 350);
+      }
       if (window.history && window.history.replaceState) {
         window.history.replaceState({}, document.title, window.location.pathname);
       }
