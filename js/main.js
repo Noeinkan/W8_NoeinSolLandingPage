@@ -467,6 +467,8 @@
   if (leadMagnetFormEl) {
     leadMagnetFormEl.addEventListener('submit', function () {
       trackEvent('form_submit', { form_name: 'lead_magnet_iso19650' });
+      var leadDirectLink = document.getElementById('leadMagnetDownloadLink');
+      if (leadDirectLink) leadDirectLink.click();
     });
   }
 
