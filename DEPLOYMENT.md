@@ -43,9 +43,10 @@ Every regular deploy (`bash deploy.sh`) now does all of the following before it 
 1. Syncs files to `/var/www/noeinsol/` and sets ownership.
 2. Ensures nginx has the required mount in Compose:
    - `/var/www/noeinsol:/var/www/noeinsol:ro`
-3. Ensures nginx has the managed landing HTTPS blocks for:
+3. Ensures nginx has the managed landing HTTPS default block for:
    - `noeinsolutions.com`
-   - `www.noeinsolutions.com` redirect
+   - `www.noeinsolutions.com` (redirected to apex inside same block)
+   - `default_server` on `443` to prevent wrong-certificate fallback to unrelated hosts
 4. Ensures the nginx container can read `/var/www/noeinsol/index.html`.
    - If not, it force-recreates nginx to pick up mounts.
 5. Runs `nginx -t` inside the container before reload.

@@ -75,10 +75,6 @@ has_remote_apex_block() {
     ssh_run "grep -F 'server_name ${DOMAIN};' '${REMOTE_NGINX_PATH}' >/dev/null 2>&1"
 }
 
-has_remote_www_redirect_block() {
-    ssh_run "grep -F 'server_name ${WWW_DOMAIN};' '${REMOTE_NGINX_PATH}' >/dev/null 2>&1"
-}
-
 ensure_remote_compose_mount() {
     if has_remote_mount; then
         log "Compose mount present (${MOUNT_LINE})."
@@ -131,12 +127,7 @@ PY" || err "Failed to repair ${REMOTE_COMPOSE_PATH}"
 }
 
 ensure_remote_nginx_blocks() {
-    if has_remote_apex_block && has_remote_www_redirect_block; then
-        log "Nginx blocks present for ${DOMAIN} and ${WWW_DOMAIN}."
-        return
-    fi
-
-    log "Nginx landing blocks missing. Repairing ${REMOTE_NGINX_PATH}..."
+    log "Syncing managed nginx landing block in ${REMOTE_NGINX_PATH}..."
     scp -q "${LOCAL_NGINX_TEMPLATE}" "${SERVER}:/tmp/noeinsol-https-block.conf" \
         || err "Failed to upload nginx template."
 
@@ -159,6 +150,19 @@ if block_re.search(text):
     text = block_re.sub(template, text)
 else:
     text = text.rstrip() + '\\n\\n' + template
+
+# Remove legacy standalone www redirect block to avoid conflicting server_name warnings.
+legacy_www_re = re.compile(
+    r'\\n?#\\s*www redirect\\s*→\\s*landing page\\s*\\([^\\n]*\\)\\n'
+    r'server\\s*\\{\\n'
+    r'\\s*listen\\s+443\\s+ssl(?:\\s+http2)?;\\n'
+    r'\\s*server_name\\s+www\\.noeinsolutions\\.com;\\n'
+    r'.*?'
+    r'\\s*return\\s+301\\s+https://noeinsolutions\\.com[^\\n]*;\\n'
+    r'\\}\\n?',
+    re.S
+)
+text = legacy_www_re.sub('\\n', text)
 
 nginx_path.write_text(text)
 PY" || err "Failed to repair ${REMOTE_NGINX_PATH}"
