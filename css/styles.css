@@ -416,6 +416,20 @@ textarea:focus-visible {
 
 .hero-actions--center { justify-content: center; }
 
+.cta-micro-proof {
+  flex-basis: 100%;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: -0.25rem;
+  letter-spacing: 0.01em;
+}
+
+.cta-micro-proof--overlay {
+  margin-top: 0;
+  margin-bottom: 0.1rem;
+}
+
 /* ─── Hero photo (About page) ─── */
 .hero-photo-wrapper {
   position: relative;
@@ -950,6 +964,93 @@ main > section:nth-child(even) > * {
 .testimonial-attribution strong {
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Lead Magnet
+   ═══════════════════════════════════════════════════════════ */
+.lead-magnet {
+  padding: 5rem 2rem;
+}
+
+.lead-magnet-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.lead-magnet-content .section-title {
+  margin-bottom: 1rem;
+}
+
+.lead-magnet-content .section-sub {
+  max-width: 62ch;
+}
+
+.lead-magnet-points {
+  list-style: none;
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.lead-magnet-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.lead-magnet-points li::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.lead-magnet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 2rem;
+}
+
+.lead-magnet-submit {
+  width: 100%;
+  justify-content: center;
+}
+
+.lead-magnet-consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.lead-magnet-consent input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 0.15rem;
+  accent-color: var(--accent);
+}
+
+.lead-magnet-consent label {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+.lead-magnet-consent a {
+  color: var(--text-secondary);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1771,6 +1872,7 @@ a.footer-contact-item:hover { color: var(--accent); }
   .services-grid     { grid-template-columns: 1fr; }
   .value-props       { grid-template-columns: 1fr; }
   .stats-inner       { grid-template-columns: repeat(2, 1fr); }
+  .lead-magnet-inner { grid-template-columns: 1fr; }
   .contact-page      { grid-template-columns: 1fr; }
   .contact-page--booking { grid-template-columns: 1fr; }
   .footer-inner      { grid-template-columns: 1fr 1fr; }
@@ -1847,6 +1949,8 @@ a.footer-contact-item:hover { color: var(--accent); }
   .testimonials-linkedin { padding: 0.9rem 1rem; }
   .testimonials-linkedin a { margin-left: 0; }
   .capsar-banner { padding: 3rem 1.25rem; }
+  .lead-magnet { padding: 3rem 1.25rem; }
+  .lead-magnet-card { padding: 1.5rem; }
   .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
   .contact-form  { padding: 1.5rem; }
   .logo-bar      { padding: 2rem 1.25rem; }

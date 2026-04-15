@@ -80,7 +80,7 @@ function testCapsarPage() {
 
 function testIndexPage() {
   const html = read('index.html');
-  assert(html.includes('class="trust-strip fade-in"'), 'trust strip missing');
+  assert(html.includes('class="trust-band fade-in"'), 'trust band missing');
   assert(html.includes('contact.html#message-panel'), 'index message CTA still points to old hash');
 }
 

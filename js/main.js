@@ -204,6 +204,24 @@
     });
   }
 
+  // ─── Lead magnet auto-download + success state ───
+  var leadMagnetForm = document.querySelector('.lead-magnet-form');
+  if (leadMagnetForm && window.location.search.indexOf('lead=iso19650') !== -1) {
+    var leadSuccess = document.getElementById('leadMagnetSuccess');
+    var leadDownloadLink = document.getElementById('leadMagnetDownloadLink');
+    if (leadSuccess) {
+      leadSuccess.style.display = 'flex';
+    }
+    if (leadDownloadLink) {
+      setTimeout(function () {
+        leadDownloadLink.click();
+      }, 350);
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }
+
   // ─── Contact page tab switching ───
   var tabLinks = document.querySelectorAll('.contact-option-link[data-tab]');
   var tabTriggers = document.querySelectorAll('[data-tab]');
@@ -411,6 +429,12 @@
   if (contactFormEl) {
     contactFormEl.addEventListener('submit', function () {
       trackEvent('form_submit', { form_name: 'contact' });
+    });
+  }
+  var leadMagnetFormEl = document.querySelector('.lead-magnet-form');
+  if (leadMagnetFormEl) {
+    leadMagnetFormEl.addEventListener('submit', function () {
+      trackEvent('form_submit', { form_name: 'lead_magnet_iso19650' });
     });
   }
 
