@@ -7,6 +7,9 @@ Production deployment guide for `noeinsolutions.com`.
 ## Quick Reference
 
 ```bash
+# Run local checks only (no upload)
+bash deploy.sh --check
+
 # Safe regular deploy (sync + repair + validate + smoke test)
 bash deploy.sh
 
@@ -40,18 +43,22 @@ Remote config paths:
 
 Every regular deploy (`bash deploy.sh`) now does all of the following before it reports success:
 
-1. Syncs files to `/var/www/noeinsol/` and sets ownership.
-2. Ensures nginx has the required mount in Compose:
+1. Runs local preflight checks before any upload:
+   - required site files exist
+   - every local HTML link/src/action/srcset points to an existing local file
+   - each HTML file has `<title>` and canonical link
+2. Syncs files to `/var/www/noeinsol/` and sets ownership.
+3. Ensures nginx has the required mount in Compose:
    - `/var/www/noeinsol:/var/www/noeinsol:ro`
-3. Ensures nginx has the managed landing HTTPS default block for:
+4. Ensures nginx has the managed landing HTTPS default block for:
    - `noeinsolutions.com`
    - `www.noeinsolutions.com` (redirected to apex inside same block)
    - `default_server` on `443` to prevent wrong-certificate fallback to unrelated hosts
-4. Ensures the nginx container can read `/var/www/noeinsol/index.html`.
+5. Ensures the nginx container can read `/var/www/noeinsol/index.html`.
    - If not, it force-recreates nginx to pick up mounts.
-5. Runs `nginx -t` inside the container before reload.
-6. Reloads nginx.
-7. Runs smoke checks from your machine:
+6. Runs `nginx -t` inside the container before reload.
+7. Reloads nginx.
+8. Runs smoke checks from your machine:
    - `curl -I https://noeinsolutions.com`
    - downloads homepage and asserts it contains `Noein Solutions`
    - asserts it is not serving the Capsar app HTML
