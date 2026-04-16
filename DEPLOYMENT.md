@@ -10,7 +10,7 @@ Production deployment guide for `noeinsolutions.com`.
 # Run local checks only (no upload)
 bash deploy.sh --check
 
-# Safe regular deploy (sync + repair + validate + smoke test)
+# Safe regular deploy (sync + validate + smoke test)
 bash deploy.sh
 
 # First-time setup (same checks, with extra setup logging)
@@ -22,43 +22,52 @@ bash deploy.sh --dry-run
 
 ---
 
-## Architecture (Current State)
+## Architecture
 
-The landing page is still served by the **same Docker nginx** used by Capsar.io.
+The landing page shares the same Docker nginx as Capsar.io, but its config is **fully isolated** in a standalone file and override, so Capsar deploys cannot affect it.
 
 | Domain | Purpose | Served by |
 |--------|---------|-----------|
 | `noeinsolutions.com` | Company landing page | Docker nginx -> static files from `/var/www/noeinsol` |
-| `www.noeinsolutions.com` | Redirect to apex | Docker nginx |
+| `www.noeinsolutions.com` | Redirect to apex | Docker nginx (via `noeinsol.conf`) |
 | `app.noeinsolutions.com` | Capsar.io SaaS app | Docker nginx -> proxy to backend container |
 | `77.42.70.26.nip.io` | Internal/fallback access | Docker nginx -> proxy to backend container |
 
 Remote config paths:
-- Docker Compose: `/opt/bep-generator/docker-compose.yml`
-- Docker nginx server blocks: `/opt/bep-generator/nginx/conf.d/default.conf`
+- Landing page nginx config: `/opt/bep-generator/nginx/conf.d/noeinsol.conf` (standalone, untracked by Capsar git)
+- Volume mount override: `/opt/bep-generator/docker-compose.override.yml` (untracked by Capsar git)
+- Capsar nginx config: `/opt/bep-generator/nginx/conf.d/default.conf` (tracked by Capsar git)
+- Capsar Docker Compose: `/opt/bep-generator/docker-compose.yml` (tracked by Capsar git)
+
+### Why this is resilient
+
+1. `noeinsol.conf` is an untracked file in Capsar's `nginx/conf.d/` — `git pull` only resets tracked files
+2. `docker-compose.override.yml` is untracked — same reason
+3. Capsar's deploy runs `docker compose up -d --force-recreate nginx` which automatically merges the override
+4. Nginx loads all `*.conf` from `conf.d/` — no injection into `default.conf` needed
 
 ---
 
-## What `deploy.sh` Now Enforces
+## What `deploy.sh` Enforces
 
-Every regular deploy (`bash deploy.sh`) now does all of the following before it reports success:
+Every regular deploy (`bash deploy.sh`) does all of the following before reporting success:
 
 1. Runs local preflight checks before any upload:
    - required site files exist
    - every local HTML link/src/action/srcset points to an existing local file
    - each HTML file has `<title>` and canonical link
 2. Syncs files to `/var/www/noeinsol/` and sets ownership.
-3. Ensures nginx has the required mount in Compose:
-   - `/var/www/noeinsol:/var/www/noeinsol:ro`
-4. Ensures nginx has the managed landing HTTPS default block for:
+3. Deploys `docker-compose.override.yml` with the `/var/www/noeinsol` volume mount (skips if already present).
+4. Deploys `noeinsol.conf` to `conf.d/` as a standalone server block for:
    - `noeinsolutions.com`
    - `www.noeinsolutions.com` (redirected to apex inside same block)
-   - `default_server` on `443` to prevent wrong-certificate fallback to unrelated hosts
-5. Ensures the nginx container can read `/var/www/noeinsol/index.html`.
+   - `default_server` on `443` to prevent wrong-certificate fallback
+5. Cleans up any legacy injected blocks from `default.conf` (one-time migration, no-op after first run).
+6. Ensures the nginx container can read `/var/www/noeinsol/index.html`.
    - If not, it force-recreates nginx to pick up mounts.
-6. Runs `nginx -t` inside the container before reload.
-7. Reloads nginx.
-8. Runs smoke checks from your machine:
+7. Runs `nginx -t` inside the container before reload.
+8. Reloads nginx.
+9. Runs smoke checks from your machine:
    - `curl -I https://noeinsolutions.com`
    - downloads homepage and asserts it contains `Noein Solutions`
    - asserts it is not serving the Capsar app HTML
@@ -69,12 +78,12 @@ If any step fails, deploy exits non-zero and prints an error.
 
 ## Source-of-Truth Templates
 
-`deploy.sh` repairs drift using templates in this repo:
+`deploy.sh` uses these templates from this repo:
 
-- `deploy/templates/noeinsol-https-block.conf`
-- `deploy/templates/noeinsol-compose-mount.txt`
+- `deploy/templates/noeinsol.conf` — standalone nginx server block
+- `deploy/templates/noeinsol-compose-override.yml` — Docker Compose override with volume mount
 
-`landing-block.conf` mirrors the same managed nginx block to keep a human-readable reference.
+`landing-block.conf` mirrors the nginx config as a human-readable reference.
 
 ---
 
@@ -95,7 +104,7 @@ Run:
 bash deploy.sh --setup
 ```
 
-This now performs setup plus the same repair/validation/smoke-check pipeline as regular deploy.
+This performs setup plus the same validation/smoke-check pipeline as regular deploy.
 
 ---
 
@@ -107,7 +116,7 @@ If a deploy fails after partial server changes:
    ```bash
    ssh root@77.42.70.26 "cd /opt/bep-generator && docker compose ps nginx"
    ```
-2. Re-run deploy; script is idempotent and re-applies managed mount/block:
+2. Re-run deploy; script is idempotent:
    ```bash
    bash deploy.sh
    ```
@@ -136,26 +145,12 @@ ssh root@77.42.70.26 "cd /opt/bep-generator && docker compose exec nginx sh -lc 
 # Check SSL certificate status on host
 ssh root@77.42.70.26 "certbot certificates"
 
+# Verify noeinsol.conf is in place
+ssh root@77.42.70.26 "ls -la /opt/bep-generator/nginx/conf.d/noeinsol.conf"
+
+# Verify override is in place
+ssh root@77.42.70.26 "cat /opt/bep-generator/docker-compose.override.yml"
+
 # External check
 curl -I https://noeinsolutions.com
 ```
-
----
-
-## Known Risk (Until Phase 2)
-
-This hardening prevents common drift outages, but the landing page still shares the same front-door nginx runtime as Capsar. A major change in the Capsar infrastructure can still impact the landing page.
-
----
-
-## Phase 2 (Isolation Plan)
-
-To fully decouple landing-page uptime from Capsar deploys (while keeping the same domain and server):
-
-1. Run a dedicated landing service on the same Hetzner host (separate compose project or container).
-2. Keep a single stable reverse-proxy entrypoint on `80/443` routing:
-   - `noeinsolutions.com` -> landing service
-   - `app.noeinsolutions.com` -> Capsar stack
-3. Keep TLS cert handling centralized at that stable entrypoint.
-
-This phase needs one-time server work outside this repo.

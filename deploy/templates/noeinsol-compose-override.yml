@@ -1,0 +1,5 @@
+services:
+  nginx:
+    volumes:
+      - ./nginx/conf.d/noeinsol.conf:/etc/nginx/conf.d/noeinsol.conf:ro
+      - /var/www/noeinsol:/var/www/noeinsol:ro
