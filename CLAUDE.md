@@ -5,15 +5,18 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 ## File Structure
 
 ```
-├── *.html              # 7 English pages (index, about, services, case-studies, capsar, contact, privacy)
-├── it/*.html           # 7 Italian mirrors (same filenames)
+├── *.html              # 8 English pages (index, about, services, case-studies, capsar, bep-checklist, contact, privacy)
+├── it/*.html           # 8 Italian mirrors (same filenames)
 ├── css/
 │   ├── styles.css      # Global styles + CSS custom properties (2,500 lines)
 │   ├── about.css       # Page-specific overrides
 │   ├── services.css
 │   ├── capsar.css
-│   └── case-studies.css
-├── js/main.js          # Single IIFE bundle (all interactivity, analytics, animations)
+│   ├── case-studies.css
+│   └── bep-checklist.css
+├── js/
+│   ├── main.js         # Single IIFE bundle (all interactivity, analytics, animations)
+│   └── bep-checklist.js # Interactive BEP readiness diagnostic
 ├── assets/             # Images, lead magnet file, credential certs
 ├── deploy.sh           # Production deployment script
 └── deploy/templates/   # Nginx + Docker Compose templates
@@ -34,6 +37,14 @@ Every content change to an EN page must be mirrored in its `/it/` counterpart. W
 2. Apply the equivalent change in `it/<same-file>.html`
 3. Follow terminology in `LOCALIZATION_IT_GLOSSARY.md`
 4. If adding a new page: add hreflang links to both versions, update `sitemap.xml`
+5. Run `node it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN
+
+Conventions for IT copy:
+- Keep English-native terms in IT: `BEP`, `EIR`, `CDE`, `OIR`, `AIR`, `ISO 19650`, `TIDP`, `MIDP`, `digital delivery` (in titles), `onboarding`, `governance`, `Information Manager`, `BIM Manager`, `AEC`.
+- Keep anchor IDs in English (`#information-management`, `#bep-eir`, `#programme-delivery`) — CSS/JS reference them; only translate visible link text.
+- JS-referenced IDs (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`, `heroCanvas`) must stay identical to EN — do NOT translate them.
+- Translate testimonial quotes into Italian (same message, localized for IT buyers), not kept in the original EN.
+- Credentials rendered descriptively with EN designation in parens where useful (e.g. `"Ingegnere civile abilitato"`; for UK-specific `"RICS Certified BIM Professional"` keep English).
 
 ## Deployment
 
@@ -51,10 +62,13 @@ The script validates: all HTML files exist, every link/src/href resolves to a re
 ## Testing
 
 ```bash
-node ui-ux.test.js
+node ui-ux.test.js            # structural regressions
+node it-translation.test.js   # IT mirror completeness
+bash deploy.sh --check        # link/href/canonical/title preflight
 ```
 
-Checks: unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support.
+- **`ui-ux.test.js`** — unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support.
+- **`it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
 
 ## Analytics
 
