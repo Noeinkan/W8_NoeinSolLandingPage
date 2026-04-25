@@ -166,6 +166,9 @@
   var contactForm = document.querySelector('.contact-form form');
   if (contactForm) {
     var errorSummary = document.getElementById('formErrorSummary');
+    var fieldLabels = isItalian
+      ? { name: 'Nome', email: 'Email', service: 'Servizio', message: 'Messaggio' }
+      : { name: 'Name', email: 'Email', service: 'Service', message: 'Message' };
     contactForm.addEventListener('submit', function (e) {
       var valid = true;
       var errorMessages = [];
@@ -177,7 +180,7 @@
         if (!field.value.trim()) {
           field.style.borderColor = '#c0392b';
           field.setAttribute('aria-invalid', 'true');
-          errorMessages.push((field.name || (isItalian ? 'Campo' : 'Field')) + (isItalian ? ' e obbligatorio.' : ' is required.'));
+          errorMessages.push((fieldLabels[field.name] || field.name || (isItalian ? 'Campo' : 'Field')) + (isItalian ? ' è obbligatorio.' : ' is required.'));
           valid = false;
         }
         if (field.type === 'email' && field.value.trim()) {

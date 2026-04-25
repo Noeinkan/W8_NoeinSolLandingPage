@@ -35,11 +35,12 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 Every content change to an EN page must be mirrored in its `/it/` counterpart. When editing:
 1. Make the change in the English file
 2. Apply the equivalent change in `it/<same-file>.html`
-3. Follow terminology in `LOCALIZATION_IT_GLOSSARY.md`
+3. Follow terminology in `LOCALIZATION_IT_GLOSSARY.md` and the voice/style brief in `LOCALIZATION_IT_STYLE.md`
 4. If adding a new page: add hreflang links to both versions, update `sitemap.xml`
-5. Run `node it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN
+5. Run `node it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what `LOCALIZATION_IT_STYLE.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
+- **Voice: `io` (first-person singular) + `tu` (informal second-person).** No `Lei`/`Vi`/`voi` as reader address. No `noi` as speaker (Andrea is solo). Specific exceptions (hero on index, career timeline on about, testimonials, footer brand) are documented in `LOCALIZATION_IT_STYLE.md`.
 - Keep English-native terms in IT: `BEP`, `EIR`, `CDE`, `OIR`, `AIR`, `ISO 19650`, `TIDP`, `MIDP`, `digital delivery` (in titles), `onboarding`, `governance`, `Information Manager`, `BIM Manager`, `AEC`.
 - Keep anchor IDs in English (`#information-management`, `#bep-eir`, `#programme-delivery`) — CSS/JS reference them; only translate visible link text.
 - JS-referenced IDs (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`, `heroCanvas`) must stay identical to EN — do NOT translate them.
@@ -79,6 +80,7 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 ## Documentation
 
 - `DEPLOYMENT.md` — full deployment guide and server architecture
-- `LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference
+- `LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference (the **what**)
+- `LOCALIZATION_IT_STYLE.md` — IT voice and style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
 - `LOCALIZATION_QA_CHECKLIST.md` — multilingual QA checklist
 - `UI_UX_ANALYSIS.md` — design system documentation
