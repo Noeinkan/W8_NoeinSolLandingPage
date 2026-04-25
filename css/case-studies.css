@@ -8,6 +8,8 @@
   gap: 1.5rem;
 }
 
+.case-studies-grid > .section-sub { grid-column: 1 / -1; }
+
 .case-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
