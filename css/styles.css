@@ -446,6 +446,12 @@ textarea:focus-visible {
   max-width: fit-content;
 }
 
+.hero-availability--page {
+  margin: 0.25rem 0 1.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-out) 0.45s forwards;
+}
+
 .hero-availability-dot {
   width: 7px;
   height: 7px;

@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(python -m http.server 8765 --bind 127.0.0.1)",
+      "Bash(curl -s http://127.0.0.1:8765/index.html)",
+      "Bash(curl -s http://127.0.0.1:8765/css/styles.css)",
+      "Bash(curl -s http://127.0.0.1:8765/services.html)",
+      "Bash(curl -s http://127.0.0.1:8765/it/index.html)",
+      "Bash(kill %1)",
+      "Bash(jobs -p)",
+      "Bash(xargs -r kill)"
     ]
   }
 }
