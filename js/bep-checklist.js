@@ -13,13 +13,13 @@
   var I = isItalian ? {
     sectionsLegend: 'Spunta solo le voci per cui hai evidenze oggettive',
     progress: 'completati',
-    bandWaiting: 'Inizia a spuntare per vedere la tua fascia',
-    bandHigh: 'Alta prontezza — pronto alla submission',
-    bandMed: 'Media — chiudi i gap prima della submission',
-    bandLow: 'Bassa — rischio significativo di delivery',
-    interpHigh: 'La tua risposta BEP è solida. Assicurati che ogni dichiarazione sia supportata da evidenze rintracciabili e rivedi le aree sotto — anche un singolo punto scoperto può compromettere il ranking tecnico.',
-    interpMed: 'Hai una base buona ma gap rimangono. Prioritizza le aree deboli qui sotto prima di sottomettere: queste sono tipicamente quelle su cui i reviewer chiedono chiarimenti.',
-    interpLow: 'Il BEP non è ancora pronto per la submission. Copri le lacune fondamentali prima di impegnarti — sottomettere ora significa rischio contrattuale e credibilità.',
+    bandWaiting: 'Inizia a rispondere per vedere la tua fascia',
+    bandHigh: 'Alta prontezza: pronto alla submission',
+    bandMed: 'Media: chiudi i gap prima della submission',
+    bandLow: 'Bassa: rischio significativo di delivery',
+    interpHigh: 'La tua risposta BEP è solida. Assicurati che ogni dichiarazione sia supportata da evidenze rintracciabili e rivedi le aree sotto: anche un singolo punto scoperto può compromettere il punteggio tecnico.',
+    interpMed: 'Hai una base buona, ma restano dei gap. Lavora sulle aree deboli qui sotto prima di sottomettere: di solito sono proprio quelle su cui i reviewer chiedono chiarimenti.',
+    interpLow: 'Il BEP non è ancora pronto per la submission. Copri le lacune fondamentali prima di impegnarti: sottomettere così significa rischio contrattuale e di credibilità.',
     noScoreYet: 'Compila almeno una voce per generare il report.',
     contextLabel: 'Stadio BEP',
     contextPre: 'Pre-appointment',
@@ -31,11 +31,11 @@
     metaDate: 'Data',
     metaStage: 'Stadio',
     sectionBreakdownTitle: 'Dettaglio per sezione',
-    diagnosisTitle: 'Le tue aree più deboli e come colmarle',
+    diagnosisTitle: 'Le tue aree più deboli, e come migliorarle',
     diagBadgeWeak: 'Area debole',
     diagFix: 'Come agire: ',
     allStrong: 'Nessuna area debole rilevata 👏',
-    allStrongBody: 'Tutte le sezioni sono ≥50% complete. Assicurati che le evidenze siano rintracciabili in bid/clarification workshop — i reviewer chiederanno di vedere il "come" dietro i tick.',
+    allStrongBody: 'Tutte le sezioni sono al 50% o più. Assicurati che le evidenze siano rintracciabili in un bid/clarification workshop: i reviewer vorranno vedere il «come» dietro ogni risposta.',
     unresolvedLead: 'Voci ancora da evidenziare:',
     resetConfirm: 'Azzerare tutte le risposte?'
   } : {
@@ -81,7 +81,7 @@
         'Finalità informative e milestone di consegna sono chiaramente affrontate.',
         'Requisiti di naming, metadati e formato di scambio sono riflessi.'
       ],
-      fix: 'Costruisci una matrice di tracciabilità EIR→BEP. Ogni riga EIR deve puntare a una sezione, un deliverable o una motivazione di non applicabilità — niente vuoti.',
+      fix: 'Costruisci una matrice di tracciabilità EIR→BEP. Ogni riga dell’EIR deve puntare a una sezione, un deliverable o una motivazione di non applicabilità: niente buchi.',
       cta: { label: 'BEP & EIR Production', href: 'services.html' }
     },
     {
@@ -92,7 +92,7 @@
         'Struttura del delivery team e ruoli di information management sono definiti.',
         'La strategia di federazione è documentata e operativa.'
       ],
-      fix: 'Passa dalla narrativa all\u2019operatività: chi federa, con quale cadenza, su quale piattaforma e con quali regole di coordinamento. I reviewer cercano specificità.',
+      fix: 'Passa dalla narrativa al concreto: chi federa, con quale cadenza, su quale piattaforma e con quali regole di coordinamento. I reviewer cercano specificità.',
       cta: { label: 'Information Management Strategy', href: 'services.html' }
     },
     {
@@ -111,11 +111,11 @@
       items: [
         'Stati di workflow CDE definiti (WIP, Shared, Published, Archived).',
         'Permessi, gate di approvazione e regole di stato/revisione sono chiari.',
-        'Pianificazione piattaforma/sistema e assunzioni di tooling confermate.',
+        'Piattaforma e sistema definiti, ipotesi di tooling confermate.',
         'Frequenza di scambio informativo e turnaround di review definiti.'
       ],
       fix: 'Documenta il CDE come un flusso concreto, non come un diagramma. Includi tempi di turnaround, responsabili di ogni gate, e cosa succede se un gate fallisce.',
-      cta: { label: 'Capsar.io — CDE di nuova generazione', href: 'capsar.html' }
+      cta: { label: 'Capsar.io: il CDE di nuova generazione', href: 'capsar.html' }
     },
     {
       id: 's5', num: '5', title: 'Qualità, accettazione e audit trail',
@@ -125,7 +125,7 @@
         'Processo di autorizzazione/accettazione esplicito (chi approva cosa e quando).',
         'Audit trail dimostrabile (versioning, approvazioni, record, log).'
       ],
-      fix: 'Se un reviewer dovesse auditare i tuoi approvals domani, potresti mostrarli? Rendi versioning e log visibili, e lega ogni tipo di deliverable a criteri testabili.',
+      fix: 'Se domani un reviewer volesse verificare i tuoi approvals, potresti mostrarli? Rendi visibili versioning e log, e lega ogni tipo di deliverable a criteri testabili.',
       cta: { label: 'Parliamone in una call di 30 min', href: 'contact.html' }
     },
     {
@@ -151,7 +151,7 @@
       cta: { label: 'Consulenza strategica', href: 'services.html' }
     },
     {
-      id: 's8', num: '!', title: 'ISO-critical — controlli ad alta confidenza',
+      id: 's8', num: '!', title: 'ISO-critical: controlli ad alta confidenza',
       special: true,
       items: [
         'Requisiti pre-appointment vs delivery BEP non sono mescolati o mancanti.',
@@ -166,7 +166,7 @@
       id: 's9', num: '\u2713', title: 'Go / No-Go finale',
       special: true,
       items: [
-        'Sappiamo evidenziare ogni claim critico in questo BEP.',
+        'Sappiamo supportare con evidenze ogni claim critico in questo BEP.',
         'Possiamo eseguire questo piano con persone, sistemi e tempi attuali.',
         'Siamo a nostro agio a sottomettere senza chiarimenti sostanziali.'
       ],
