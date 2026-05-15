@@ -595,6 +595,16 @@ textarea:focus-visible {
   animation: fadeUp 0.8s var(--ease-out) 0.35s forwards;
 }
 
+/* Compact variant — for pages where the hero needs to yield space to a primary
+   element below the fold (e.g. inline Calendly embed on contact pages). */
+.page-hero--compact { padding: 3.5rem 2rem 1.5rem; }
+.page-hero--compact h1 {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  margin-bottom: 0.5rem;
+}
+.page-hero--compact .page-hero-sub { font-size: 1rem; margin-bottom: 0; }
+.page-hero--compact .contact-options-nav { margin-top: 1rem; }
+
 /* ═══════════════════════════════════════════════════════════
    Stats bar
    ═══════════════════════════════════════════════════════════ */
