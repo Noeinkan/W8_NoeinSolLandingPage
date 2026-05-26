@@ -8,7 +8,7 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 ├── *.html              # 8 English pages (index, about, services, case-studies, capsar, bep-checklist, contact, privacy)
 ├── it/*.html           # 8 Italian mirrors (same filenames)
 ├── css/
-│   ├── styles.css      # Global styles + CSS custom properties (2,500 lines)
+│   ├── styles.css      # Global styles + CSS custom properties (~2,550 lines)
 │   ├── about.css       # Page-specific overrides
 │   ├── services.css
 │   ├── capsar.css
@@ -29,6 +29,7 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 - **HTML template:** Every page has: skip link, `<nav>` with language switcher, `<main id="main-content">`, consistent hero pattern (`.page-hero`), footer.
 - **SEO:** Each page has canonical URL, hreflang alternates (en/it/x-default), OpenGraph tags, JSON-LD on homepage.
 - **Accessibility:** ARIA labels, `aria-expanded`/`aria-selected` states, `prefers-reduced-motion` respected throughout.
+- **Booking:** Calendly inline widget embedded on `index`, `contact`, `case-studies`, `bep-checklist`, `privacy` (EN + IT mirrors). Loaded via `assets.calendly.com` script — keep the embed markup identical across EN/IT.
 
 ## Bilingual Workflow
 
@@ -80,7 +81,10 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 ## Documentation
 
 - `DEPLOYMENT.md` — full deployment guide and server architecture
+- `PRODUCT_LANDING_PAGE.md` — product definition for the site, its user journeys, and repo scope
+- `CHANGELOG.md` — notable site and documentation changes, backfilled from git history
 - `LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference (the **what**)
 - `LOCALIZATION_IT_STYLE.md` — IT voice and style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
 - `LOCALIZATION_QA_CHECKLIST.md` — multilingual QA checklist
 - `UI_UX_ANALYSIS.md` — design system documentation
+- `PRICING.md` — internal pricing rationale and recruiter/CV alignment notes (not for publication)
