@@ -16,6 +16,7 @@
   .hero-glow         { width: 400px; height: 400px; top: 5%; right: -10%; }
   .hero-photo-wrapper::before,
   .hero-photo-wrapper::after { display: none; }
+  .offer-grid        { grid-template-columns: 1fr; }
   .services-grid     { grid-template-columns: 1fr; }
   .value-props       { grid-template-columns: 1fr; }
   .stats-inner       { grid-template-columns: repeat(2, 1fr); }
@@ -37,6 +38,9 @@
   .about-preview-credentials { justify-content: center; }
   .about-preview-actions    { justify-content: center; }
   .about-preview-bio        { border-left: none; padding-left: 0; border-top: 1px solid rgba(201,165,90,0.2); padding-top: 1.25rem; }
+  .process-steps     { flex-direction: column; align-items: center; gap: 2.5rem; }
+  .process-step      { padding: 0; max-width: 420px; }
+  .process-divider   { display: none; }
   .contact-page      { gap: 2.5rem; }
   .contact-page--booking { gap: 2.5rem; }
   .calendly-embed-wrapper { min-height: 740px; }
@@ -98,6 +102,9 @@
   .capsar-banner { padding: 3rem 1.25rem; }
   .lead-magnet { padding: 3rem 1.25rem; }
   .lead-magnet-card { padding: 1.5rem; }
+  .offer-card { padding: 1.5rem; }
+  .process-strip { margin-top: 3rem; padding-top: 2.5rem; }
+  .process-title { margin-bottom: 2.5rem; }
   .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
   .contact-form  { padding: 1.5rem; }
   .logo-bar      { padding: 2rem 1.25rem; }
@@ -124,8 +131,10 @@
   .stat-number  { font-size: 1.75rem; }
   .hero-sub,
   .page-hero-sub { font-size: 0.96rem; }
+  .offer-actions,
   .btn { width: 100%; justify-content: center; }
   .hero-actions { width: 100%; }
+  .offer-support-note { font-size: 0.84rem; }
   .contact-form { padding: 1.25rem; }
   .testimonials-linkedin { gap: 0.6rem; }
   .trust-band-value { font-size: 1.32rem; }
@@ -191,6 +200,14 @@
   .value-icon svg { width: 26px; height: 26px; }
   .value-card h3  { font-size: 1.5rem; }
   .value-card p   { font-size: 1.04rem; line-height: 1.72; }
+
+  .offer-card { padding: 2.5rem; }
+  .offer-card-title { font-size: 1.55rem; }
+  .offer-card-intro,
+  .offer-card-list li { font-size: 0.98rem; }
+  .offer-card-price { font-size: 1.95rem; }
+  .process-title { font-size: 2.4rem; }
+  .process-step p { font-size: 0.98rem; max-width: 260px; }
 
   .service-card  { padding: 2.75rem; }
   .service-icon  { width: 52px; height: 52px; }
@@ -298,6 +315,15 @@
   .value-card  { padding: 3rem; }
   .value-card h3 { font-size: 1.65rem; }
   .value-card p  { font-size: 1.12rem; line-height: 1.75; }
+
+  .offer-grid { gap: 2rem; }
+  .offer-card { padding: 2.75rem; }
+  .offer-card-title { font-size: 1.68rem; }
+  .offer-card-intro,
+  .offer-card-list li { font-size: 1.05rem; line-height: 1.75; }
+  .offer-card-price { font-size: 2.05rem; }
+  .process-title { font-size: 2.7rem; }
+  .process-step p { font-size: 1.02rem; max-width: 280px; }
 
   .services-grid { gap: 2rem; }
   .service-card  { padding: 3rem; }
