@@ -1,0 +1,198 @@
+/* Contact page layout */
+
+.contact-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-info h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s;
+}
+
+.contact-detail:hover { color: var(--accent); }
+
+.contact-detail svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  flex-shrink: 0;
+}
+
+.contact-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 2.5rem;
+}
+
+.form-error-summary {
+  background: rgba(192, 57, 43, 0.12);
+  border: 1px solid rgba(192, 57, 43, 0.4);
+  color: #ffd8d4;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+/* Contact page tabs */
+.contact-options-nav {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-out) 0.5s forwards;
+}
+
+.contact-option-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.contact-option-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.contact-option-link.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.contact-option-link.active:hover {
+  background: var(--white);
+  border-color: var(--white);
+}
+
+.contact-tab { display: none; }
+.contact-tab--active { display: block; }
+
+.contact-page--booking { grid-template-columns: 1fr 1.5fr; }
+
+.calendly-embed-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 780px;
+}
+
+.calendly-embed-wrapper .calendly-inline-widget { border-radius: 16px; }
+
+.contact-info-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 2rem 0 1.5rem;
+}
+
+.contact-info-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+}
+
+.contact-alt-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1100px) {
+  .contact-page {
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
+  }
+
+  .contact-page--booking { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 968px) {
+  .contact-page {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .contact-page--booking {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .calendly-embed-wrapper { min-height: 740px; }
+}
+
+@media (max-width: 640px) {
+  .contact-form { padding: 1.5rem; }
+  .contact-options-nav { flex-direction: column; }
+  .contact-option-link { justify-content: center; }
+  .calendly-embed-wrapper { min-height: 700px; }
+}
+
+@media (max-width: 480px) {
+  .contact-form { padding: 1.25rem; }
+}
+
+@media (min-width: 1440px) {
+  .contact-page { max-width: 1400px; }
+  .contact-info h2 { font-size: 1.8rem; }
+  .contact-info p { font-size: 1.1rem; }
+  .contact-form { padding: 3rem; }
+}
+
+@media (min-width: 1800px) {
+  .contact-page { max-width: 1600px; }
+  .contact-info p { font-size: 1.16rem; }
+}
+
+@media (min-width: 2200px) {
+  .contact-info p { font-size: 1.18rem; }
+}
+
+@media (min-width: 2560px) {
+  .contact-info p {
+    font-size: 1.22rem;
+    line-height: 1.8;
+  }
+}

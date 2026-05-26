@@ -56,9 +56,20 @@ deploy_files() {
     else
         log "rsync not found, using tar+scp fallback..."
         local tmp_tar="/tmp/noeinsol_deploy.tar.gz"
-        tar czf "$tmp_tar" "${EXCLUDES_TAR[@]}" -C . .
-        scp -q "$tmp_tar" "$SERVER:/tmp/noeinsol_deploy.tar.gz"
-        ssh "$SERVER" "rm -rf ${REMOTE_DIR}/* && tar xzf /tmp/noeinsol_deploy.tar.gz -C ${REMOTE_DIR} && rm /tmp/noeinsol_deploy.tar.gz"
+        local remote_tar="/tmp/noeinsol_deploy.tar.gz"
+
+        log "Creating deployment archive..."
+        tar czf "$tmp_tar" "${EXCLUDES_TAR[@]}" -C . . \
+            || err "Failed to create deployment archive."
+
+        log "Uploading deployment archive to ${SERVER}..."
+        scp -q "$tmp_tar" "$SERVER:${remote_tar}" \
+            || err "Failed to upload deployment archive to ${SERVER}."
+
+        log "Extracting deployment archive on remote host..."
+        ssh "$SERVER" "mkdir -p ${REMOTE_DIR} && rm -rf ${REMOTE_DIR}/* && tar xzf ${remote_tar} -C ${REMOTE_DIR} && rm -f ${remote_tar}" \
+            || err "Failed to extract deployment archive on ${SERVER}."
+
         rm -f "$tmp_tar"
     fi
 }
