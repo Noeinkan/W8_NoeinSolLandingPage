@@ -38,10 +38,10 @@
 
   var labels = {
     activityType: {
-      'prototype': isItalian ? 'Rapid prototype / proof of concept' : 'Rapid prototype / proof of concept',
-      'automation': isItalian ? 'Workflow automation' : 'Workflow automation',
-      'document-intelligence': isItalian ? 'Document intelligence' : 'Document intelligence',
-      'integration': isItalian ? 'Workflow integration / internal tool' : 'Workflow integration / internal tool'
+      'prototype': isItalian ? 'Prototipo rapido / proof of concept' : 'Rapid prototype / proof of concept',
+      'automation': isItalian ? 'Automazione workflow' : 'Workflow automation',
+      'document-intelligence': isItalian ? 'Analisi documentale con AI' : 'Document intelligence',
+      'integration': isItalian ? 'Integrazione workflow / tool interno' : 'Workflow integration / internal tool'
     },
     timeframe: {
       'standard': isItalian ? 'Sprint standard' : 'Standard sprint timeline',
@@ -55,11 +55,16 @@
       'custom-ai-stack': isItalian ? 'Custom AI / automation stack' : 'Custom AI / automation stack'
     },
     model: {
-      sprint: isItalian ? 'Fee fissa di sprint' : 'Scoped sprint fee',
-      rollout: isItalian ? 'Fee di sprint + rollout' : 'Sprint fee + rollout phase'
+      sprint: isItalian ? 'Sprint focalizzato' : 'Focused sprint',
+      rollout: isItalian ? 'Sprint + rollout' : 'Sprint + rollout path'
     },
     fallbackStack: isItalian ? 'Stack da definire' : 'Stack to be agreed'
   };
+
+  function lowerFirst(text) {
+    if (!text) return '';
+    return text.charAt(0).toLowerCase() + text.slice(1);
+  }
 
   function roundToHundreds(value) {
     return Math.round(value / 100) * 100;
@@ -111,25 +116,59 @@
     return labels.model.sprint;
   }
 
-  function getSummary(state, stackNames, durationText) {
-    var parts = [];
-    parts.push(labels.activityType[state.activityType]);
-    parts.push(labels.timeframe[state.timeframe]);
-    parts.push((isItalian ? 'complessit\u00e0 ' : 'complexity ') + state.complexity + '/5');
-    parts.push((isItalian ? 'integrazioni ' : 'integrations ') + state.integrations);
-    if (state.handover) {
-      parts.push(isItalian ? 'handover incluso' : 'handover included');
-    }
-    if (state.compliance) {
-      parts.push(isItalian ? 'vincoli di compliance' : 'compliance constraints');
-    }
-    if (stackNames.length) {
-      parts.push((isItalian ? 'stack: ' : 'stack: ') + stackNames.join(', '));
+  function getComplexityDescriptor(level) {
+    if (isItalian) {
+      if (level <= 2) return 'un perimetro snello';
+      if (level === 3) return 'una complessit\u00e0 intermedia';
+      return 'una delivery pi\u00f9 articolata';
     }
 
-    return isItalian
-      ? parts.join(' \u00b7 ') + '. Durata attesa: ' + durationText + '.'
-      : parts.join(' \u00b7 ') + '. Expected duration: ' + durationText + '.';
+    if (level <= 2) return 'a tight scope';
+    if (level === 3) return 'moderate delivery complexity';
+    return 'a heavier delivery shape';
+  }
+
+  function getIntegrationDescriptor(count) {
+    if (isItalian) {
+      if (count === 0) return 'nessuna integrazione';
+      if (count === 1) return 'un punto di contatto con un altro sistema';
+      if (count === 2) return 'pi\u00f9 passaggi tra sistemi';
+      return 'una catena di handoff tra pi\u00f9 sistemi';
+    }
+
+    if (count === 0) return 'no system integration';
+    if (count === 1) return 'one system touchpoint';
+    if (count === 2) return 'multiple system touchpoints';
+    return 'a multi-system handoff';
+  }
+
+  function getSummary(state, durationText) {
+    var activity = lowerFirst(labels.activityType[state.activityType]);
+    var complexity = getComplexityDescriptor(state.complexity);
+    var integrations = getIntegrationDescriptor(state.integrations);
+    var summary = '';
+
+    if (isItalian) {
+      summary = 'Buon fit per ' + activity + ', con ' + complexity + ' e ' + integrations + '.';
+      summary += ' Di solito sta in ' + durationText;
+      if (state.handover) {
+        summary += ' con handover incluso';
+      }
+      if (state.compliance) {
+        summary += state.handover ? ' e un passaggio extra su riservatezza e compliance' : ' con un passaggio extra su riservatezza e compliance';
+      }
+      return summary + '.';
+    }
+
+    summary = 'Best fit for ' + activity + ' with ' + complexity + ' and ' + integrations + '.';
+    summary += ' Most teams land in ' + durationText;
+    if (state.handover) {
+      summary += ' with handover included';
+    }
+    if (state.compliance) {
+      summary += state.handover ? ' and an extra compliance pass' : ' with an extra compliance pass';
+    }
+    return summary + '.';
   }
 
   function buildPrefillMessage(state, priceText, durationText, stackNames) {
@@ -214,7 +253,7 @@
 
     var priceText = formatRange(low, high);
     var durationText = formatDuration(effortWeeks);
-    var summaryText = getSummary(state, stackNames, durationText);
+    var summaryText = getSummary(state, durationText);
     var modelText = getModelLabel(state, effortWeeks);
     var contactParams = new URLSearchParams();
 
