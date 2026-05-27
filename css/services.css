@@ -213,23 +213,24 @@ main > section {
 }
 
 .ai-estimator-form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
 }
 
 .ai-estimator-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  align-items: flex-start;
   gap: 1.2rem 1.5rem;
-}
+  padding: 0.9rem 1rem;
 
-.ai-estimator .form-group {
+  border-radius: 14px;
   margin-bottom: 0;
 }
 
 .ai-estimator .form-note {
   margin-top: 0.6rem;
+  min-height: 100%;
   text-align: left;
 }
 
@@ -299,6 +300,7 @@ main > section {
   border: 1px solid rgba(201, 165, 90, 0.16);
   border-radius: 14px;
   background: rgba(10, 10, 12, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
 }
 
 .ai-estimator-label {
@@ -364,13 +366,13 @@ main > section {
 }
 
 .svc-cards-grid {
-  max-width: 1160px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.5rem;
-  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+  align-items: stretch;
 }
 
 /* ─── Base card ─── */
@@ -378,10 +380,12 @@ main > section {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 2rem;
+  padding: 2.15rem;
   position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
   transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
@@ -436,9 +440,9 @@ main > section {
 
 /* ─── Tag + title ─── */
 .svc-card-tag {
-  font-size: 0.7rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.5rem;
@@ -447,10 +451,10 @@ main > section {
 
 .svc-card-title {
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: clamp(1.35rem, 2vw, 1.72rem);
   font-weight: 400;
   color: var(--white);
-  line-height: 1.25;
+  line-height: 1.18;
   margin-bottom: 1.75rem;
 }
 
@@ -467,11 +471,11 @@ main > section {
 }
 
 .svc-card-list li {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.5;
+  line-height: 1.58;
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -495,7 +499,7 @@ main > section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   color: var(--text-tertiary);
   background: var(--accent-glow);
   border: 1px solid rgba(201, 165, 90, 0.12);
@@ -510,12 +514,13 @@ main > section {
 .svc-card-price-section {
   border-top: 1px solid var(--border-subtle);
   padding-top: 1.25rem;
+  margin-top: auto;
 }
 
 /* ─── Price ─── */
 .svc-card-price {
   font-family: var(--font-display);
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   color: var(--accent);
   line-height: 1;
   margin-bottom: 0.35rem;
@@ -528,7 +533,7 @@ main > section {
 }
 
 .svc-card-price-note {
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   color: var(--text-tertiary);
   line-height: 1.55;
   margin-bottom: 1.5rem;
@@ -537,17 +542,46 @@ main > section {
 /* ─── Actions ─── */
 .svc-card-actions {
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.85rem;
+}
+
+.svc-card-actions .btn {
+  width: 100%;
+  justify-content: center;
 }
 
 .svc-card-detail-link {
-  font-size: 0.83rem;
+  font-size: 0.88rem;
   color: var(--text-tertiary);
   text-decoration: none;
   transition: color 0.2s;
-  white-space: nowrap;
+  text-align: center;
+}
+
+.ai-estimator .form-group label {
+  font-size: 0.88rem;
+}
+
+.ai-estimator .form-note {
+  font-size: 0.86rem;
+}
+
+.ai-estimator-header p {
+  font-size: 0.96rem;
+}
+
+.ai-estimator-option {
+  font-size: 0.92rem;
+}
+
+.ai-estimator-label {
+  font-size: 0.76rem;
+}
+
+.ai-estimator-note {
+  font-size: 0.95rem;
 }
 
 .svc-card-detail-link:hover { color: var(--accent); }
@@ -770,6 +804,22 @@ main > section {
    Responsive
    ═══════════════════════════════════════════════════════════ */
 
+@media (min-width: 1540px) {
+  .svc-cards-grid {
+    max-width: 1480px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1240px) {
+  .svc-cards-grid {
+    max-width: 980px;
+  }
+  .svc-card-title { font-size: 1.58rem; }
+  .svc-card-list li { font-size: 0.98rem; }
+  .svc-card-price-note { font-size: 0.88rem; }
+}
+
 @media (max-width: 968px) {
   .service-jump-nav {
     position: static;
@@ -787,7 +837,12 @@ main > section {
   .service-outcome { padding: 1.4rem 1.5rem; }
   .service-pricing { gap: 1.25rem; }
   .svc-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 820px; }
+  .svc-card { padding: 2rem; }
+  .svc-card-title { font-size: 1.5rem; }
+  .svc-card-list li { font-size: 0.96rem; }
+  .svc-card-timeline { font-size: 0.86rem; }
   .ai-estimator { padding: 1.5rem; }
+  .ai-estimator-options { grid-template-columns: 1fr; }
   .ai-estimator-grid,
   .ai-estimator-result { grid-template-columns: 1fr; }
   .ai-estimator-actions { flex-direction: column; }
@@ -813,7 +868,12 @@ main > section {
   }
   .service-jump-link { white-space: nowrap; }
   .svc-cards-wrap { padding: 3rem 0 4rem; }
-  .svc-cards-grid { grid-template-columns: 1fr; max-width: 560px; }
+  .svc-cards-grid { grid-template-columns: 1fr; max-width: 620px; }
+  .svc-card-title { font-size: 1.56rem; }
+  .svc-card-tag { font-size: 0.8rem; }
+  .svc-card-list li { font-size: 1rem; }
+  .svc-card-price-note { font-size: 0.9rem; }
+  .svc-card-timeline { font-size: 0.9rem; }
   .service-section { padding: 3rem 0; }
   .service-section:first-child { padding-top: 0; }
   .how-it-works-wrap { padding: 4rem 0; }
@@ -825,7 +885,12 @@ main > section {
   .service-pricing { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .svc-card { padding: 1.75rem; }
   .svc-card-actions { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-  .svc-card-title { font-size: 1.3rem; }
+  .svc-card-actions .btn { width: 100%; }
+  .svc-card-title { font-size: 1.45rem; }
+  .svc-card-tag { font-size: 0.78rem; }
+  .svc-card-list li { font-size: 0.98rem; }
+  .svc-card-price-note { font-size: 0.9rem; }
+  .svc-card-timeline { font-size: 0.88rem; }
   .service-block ul li { font-size: 0.9rem; }
   .ai-estimator { padding: 1.25rem; }
   .ai-estimator-option {
@@ -833,6 +898,8 @@ main > section {
     border-radius: 12px;
   }
   .ai-estimator-price { font-size: 2rem; }
+  .ai-estimator-note,
+  .ai-estimator .form-note { font-size: 0.9rem; }
   .faq-question { font-size: 0.92rem; }
   .faq-answer p { font-size: 0.88rem; }
 }

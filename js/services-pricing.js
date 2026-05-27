@@ -38,9 +38,9 @@
 
   var labels = {
     activityType: {
-      'prototype': isItalian ? 'Prototipo rapido / proof of concept' : 'Rapid prototype / proof of concept',
+      'prototype': isItalian ? 'Prototipo rapido / validazione concetto' : 'Rapid prototype / concept validation',
       'automation': isItalian ? 'Automazione workflow' : 'Workflow automation',
-      'document-intelligence': isItalian ? 'Analisi documentale con AI' : 'Document intelligence',
+      'document-intelligence': isItalian ? 'Tender / analisi documentale con AI' : 'Tender / document intelligence',
       'integration': isItalian ? 'Integrazione workflow / tool interno' : 'Workflow integration / internal tool'
     },
     timeframe: {
@@ -149,7 +149,7 @@
     var summary = '';
 
     if (isItalian) {
-      summary = 'Buon fit per ' + activity + ', con ' + complexity + ' e ' + integrations + '.';
+      summary = 'Buon fit per uno sprint di trasformazione su ' + activity + ', con ' + complexity + ' e ' + integrations + '.';
       summary += ' Di solito sta in ' + durationText;
       if (state.handover) {
         summary += ' con handover incluso';
@@ -160,7 +160,7 @@
       return summary + '.';
     }
 
-    summary = 'Best fit for ' + activity + ' with ' + complexity + ' and ' + integrations + '.';
+    summary = 'Best fit for an AEC transformation sprint around ' + activity + ', with ' + complexity + ' and ' + integrations + '.';
     summary += ' Most teams land in ' + durationText;
     if (state.handover) {
       summary += ' with handover included';
