@@ -24,6 +24,9 @@ log()  { echo -e "${GREEN}[deploy]${NC} $1"; }
 warn() { echo -e "${YELLOW}[warn]${NC}  $1"; }
 err()  { echo -e "${RED}[error]${NC} $1"; exit 1; }
 
+LOCAL_PY_CMD=""
+LOCAL_PY_ARGS=()
+
 EXCLUDES_RSYNC=(
     --exclude '.git'
     --exclude '.claude'
@@ -49,6 +52,30 @@ EXCLUDES_TAR=(
     --exclude='landing-block.conf'
     --exclude='*.md'
 )
+
+resolve_local_python() {
+    if [ -n "$LOCAL_PY_CMD" ]; then
+        return 0
+    fi
+
+    if command -v python3 >/dev/null 2>&1 && python3 -c "import sys" >/dev/null 2>&1; then
+        LOCAL_PY_CMD="python3"
+        LOCAL_PY_ARGS=()
+    elif command -v py >/dev/null 2>&1 && py -3 -c "import sys" >/dev/null 2>&1; then
+        LOCAL_PY_CMD="py"
+        LOCAL_PY_ARGS=(-3)
+    elif command -v python >/dev/null 2>&1 && python -c "import sys" >/dev/null 2>&1; then
+        LOCAL_PY_CMD="python"
+        LOCAL_PY_ARGS=()
+    else
+        err "Python is required for preflight checks (python3, py, or python not found)."
+    fi
+}
+
+run_local_python() {
+    resolve_local_python
+    "$LOCAL_PY_CMD" "${LOCAL_PY_ARGS[@]}" "$@"
+}
 
 deploy_files() {
     if command -v rsync &> /dev/null; then
@@ -82,20 +109,7 @@ require_local_templates() {
 run_local_preflight_checks() {
     log "Running local preflight checks..."
 
-    local py_cmd=""
-    local py_args=()
-    if command -v python3 >/dev/null 2>&1 && python3 -c "import sys" >/dev/null 2>&1; then
-        py_cmd="python3"
-    elif command -v py >/dev/null 2>&1 && py -3 -c "import sys" >/dev/null 2>&1; then
-        py_cmd="py"
-        py_args=(-3)
-    elif command -v python >/dev/null 2>&1 && python -c "import sys" >/dev/null 2>&1; then
-        py_cmd="python"
-    else
-        err "Python is required for preflight checks (python3, py, or python not found)."
-    fi
-
-    "$py_cmd" "${py_args[@]}" - <<'PY' || exit 1
+    run_local_python - <<'PY' || exit 1
 from html.parser import HTMLParser
 from pathlib import Path
 import re
@@ -203,6 +217,36 @@ if warnings:
 PY
 }
 
+get_local_homepage_title() {
+    run_local_python - <<'PY'
+from pathlib import Path
+import re
+import sys
+
+content = Path('index.html').read_text(encoding='utf-8')
+match = re.search(r'<title>(.*?)</title>', content, re.S)
+if not match:
+    sys.exit(1)
+
+print(match.group(1).strip())
+PY
+}
+
+get_local_homepage_canonical() {
+    run_local_python - <<'PY'
+from pathlib import Path
+import re
+import sys
+
+content = Path('index.html').read_text(encoding='utf-8')
+match = re.search(r'<link rel="canonical" href="([^"]+)">', content, re.S)
+if not match:
+    sys.exit(1)
+
+print(match.group(1).strip())
+PY
+}
+
 ssh_run() {
     ssh "$SERVER" "$1"
 }
@@ -277,6 +321,80 @@ else:
 PY"
 }
 
+normalize_remote_compose_config() {
+    ssh_run "python3 - <<'PY'
+from pathlib import Path
+import re
+
+compose_path = Path('${REMOTE_COMPOSE_PATH}')
+if not compose_path.exists():
+    raise SystemExit(0)
+
+text = compose_path.read_text()
+updated = re.sub(r'^(?:\ufeff)?version:\s*[^\n]*\n', '', text, count=1)
+
+if updated != text:
+    compose_path.write_text(updated)
+    print('Removed obsolete version key from docker-compose.yml')
+else:
+    print('docker-compose.yml already omits obsolete version key')
+PY"
+}
+
+normalize_remote_nginx_http2_syntax() {
+    ssh_run "python3 - <<'PY'
+from pathlib import Path
+
+conf_dir = Path('${REMOTE_NGINX_CONF_DIR}')
+if not conf_dir.exists():
+    raise SystemExit(0)
+
+changed_files = []
+
+for conf_path in sorted(conf_dir.glob('*.conf')):
+    text = conf_path.read_text()
+    lines = text.splitlines()
+    updated_lines = []
+    changed = False
+
+    for index, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith('listen ') and 'http2' in stripped and stripped.endswith(';'):
+            tokens = stripped[:-1].split()
+            if 'http2' in tokens:
+                indent = line[:len(line) - len(line.lstrip())]
+                tokens.remove('http2')
+                updated_lines.append(indent + ' '.join(tokens) + ';')
+
+                next_non_empty = ''
+                for candidate in lines[index + 1:]:
+                    if candidate.strip():
+                        next_non_empty = candidate.strip()
+                        break
+
+                if next_non_empty != 'http2 on;':
+                    updated_lines.append(indent + 'http2 on;')
+
+                changed = True
+                continue
+
+        updated_lines.append(line)
+
+    updated = '\n'.join(updated_lines)
+    if text.endswith('\n'):
+        updated += '\n'
+
+    if updated != text:
+        conf_path.write_text(updated)
+        changed_files.append(conf_path.name)
+
+if changed_files:
+    print('Normalized nginx http2 syntax in: ' + ', '.join(changed_files))
+else:
+    print('Nginx conf.d already uses standalone http2 directives')
+PY"
+}
+
 verify_remote_setup() {
     log "Checking docker-compose.override.yml for ${REMOTE_DIR} mount..."
     has_remote_override || err "Missing override with ${REMOTE_DIR} mount at ${REMOTE_OVERRIDE_PATH}"
@@ -333,13 +451,17 @@ smoke_test_live_site() {
     curl -fsSI "https://${DOMAIN}" >/dev/null \
         || err "HTTPS HEAD check failed for ${DOMAIN}."
 
-    local homepage
+    local homepage expected_title expected_canonical
     homepage="$(curl -fsSL "https://${DOMAIN}")" \
         || err "Failed to fetch https://${DOMAIN} homepage."
+    expected_title="$(get_local_homepage_title)" \
+        || err "Failed to read homepage title from local index.html."
+    expected_canonical="$(get_local_homepage_canonical)" \
+        || err "Failed to read homepage canonical URL from local index.html."
 
-    [[ "$homepage" == *"<title>Noein Solutions — Digital Delivery Consulting</title>"* ]] \
+    printf '%s' "$homepage" | grep -F "<title>${expected_title}</title>" >/dev/null \
         || err "Homepage smoke check failed: expected homepage title marker."
-    [[ "$homepage" == *'<link rel="canonical" href="https://noeinsolutions.com/">'* ]] \
+    printf '%s' "$homepage" | grep -F "<link rel=\"canonical\" href=\"${expected_canonical}\">" >/dev/null \
         || err "Homepage smoke check failed: expected homepage canonical URL."
     [[ "$homepage" != *'<link rel="canonical" href="https://noeinsolutions.com/capsar.html">'* ]] \
         || err "Homepage smoke check failed: Capsar page is being served for the homepage."
@@ -350,6 +472,8 @@ smoke_test_live_site() {
 enforce_remote_runtime_state() {
     ensure_remote_compose_override
     ensure_remote_noeinsol_conf
+    normalize_remote_compose_config
+    normalize_remote_nginx_http2_syntax
     ensure_container_can_see_landing_files
     validate_nginx_container_config
 }
@@ -390,9 +514,7 @@ setup_server() {
     ssh_run "cd ${APP_DIR} && docker compose ps nginx >/dev/null" || err "Docker nginx not running — start the app first"
 
     log "Deploying standalone nginx config and compose override..."
-    ensure_remote_compose_override
-    ensure_remote_noeinsol_conf
-    ensure_container_can_see_landing_files
+    enforce_remote_runtime_state
 
     verify_remote_setup
 
