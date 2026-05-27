@@ -16,6 +16,7 @@
   .hero-glow         { width: 400px; height: 400px; top: 5%; right: -10%; }
   .hero-photo-wrapper::before,
   .hero-photo-wrapper::after { display: none; }
+  .offer-grid        { grid-template-columns: 1fr; }
   .services-grid     { grid-template-columns: 1fr; }
   .value-props       { grid-template-columns: 1fr; }
   .stats-inner       { grid-template-columns: repeat(2, 1fr); }
@@ -37,6 +38,9 @@
   .about-preview-credentials { justify-content: center; }
   .about-preview-actions    { justify-content: center; }
   .about-preview-bio        { border-left: none; padding-left: 0; border-top: 1px solid rgba(201,165,90,0.2); padding-top: 1.25rem; }
+  .process-steps     { flex-direction: column; align-items: center; gap: 2.5rem; }
+  .process-step      { padding: 0; max-width: 420px; }
+  .process-divider   { display: none; }
   .contact-page      { gap: 2.5rem; }
   .contact-page--booking { gap: 2.5rem; }
   .calendly-embed-wrapper { min-height: 740px; }
@@ -95,6 +99,9 @@
   .testimonial-quote blockquote { font-size: 1.15rem; }
   .testimonials-linkedin { padding: 0.9rem 1rem; }
   .testimonials-linkedin a { margin-left: 0; }
+  .offer-card { padding: 1.5rem; }
+  .process-strip { margin-top: 3rem; padding-top: 2.5rem; }
+  .process-title { margin-bottom: 2.5rem; }
   .capsar-banner { padding: 3rem 1.25rem; }
   .lead-magnet { padding: 3rem 1.25rem; }
   .lead-magnet-card { padding: 1.5rem; }
@@ -124,8 +131,10 @@
   .stat-number  { font-size: 1.75rem; }
   .hero-sub,
   .page-hero-sub { font-size: 0.96rem; }
+  .offer-actions,
   .btn { width: 100%; justify-content: center; }
   .hero-actions { width: 100%; }
+  .offer-support-note { font-size: 0.84rem; }
   .contact-form { padding: 1.25rem; }
   .testimonials-linkedin { gap: 0.6rem; }
   .trust-band-value { font-size: 1.32rem; }
