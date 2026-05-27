@@ -1488,11 +1488,15 @@ a.footer-contact-item:hover { color: var(--accent); }
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
   overflow: hidden;
-  min-height: 780px;
+  min-height: 1360px;
 }
 
 .calendly-embed-wrapper .calendly-embed,
-.calendly-embed-wrapper .calendly-inline-widget { border-radius: 16px; }
+.calendly-embed-wrapper .calendly-inline-widget {
+  min-width: 320px;
+  height: 1360px;
+  border-radius: 16px;
+}
 
 .contact-info-divider {
   height: 1px;

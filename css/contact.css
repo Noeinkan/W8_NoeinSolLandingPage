@@ -114,11 +114,15 @@
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
   overflow: hidden;
-  min-height: 780px;
+  min-height: 1360px;
 }
 
 .calendly-embed-wrapper .calendly-embed,
-.calendly-embed-wrapper .calendly-inline-widget { border-radius: 16px; }
+.calendly-embed-wrapper .calendly-inline-widget {
+  min-width: 320px;
+  height: 1360px;
+  border-radius: 16px;
+}
 
 .contact-info-divider {
   height: 1px;
@@ -162,18 +166,25 @@
     gap: 2.5rem;
   }
 
-  .calendly-embed-wrapper { min-height: 740px; }
+  .calendly-embed-wrapper { min-height: 1480px; }
+  .calendly-embed-wrapper .calendly-embed,
+  .calendly-embed-wrapper .calendly-inline-widget { height: 1480px; }
 }
 
 @media (max-width: 640px) {
   .contact-form { padding: 1.5rem; }
   .contact-options-nav { flex-direction: column; }
   .contact-option-link { justify-content: center; }
-  .calendly-embed-wrapper { min-height: 700px; }
+  .calendly-embed-wrapper { min-height: 1600px; }
+  .calendly-embed-wrapper .calendly-embed,
+  .calendly-embed-wrapper .calendly-inline-widget { height: 1600px; }
 }
 
 @media (max-width: 480px) {
   .contact-form { padding: 1.25rem; }
+  .calendly-embed-wrapper { min-height: 1720px; }
+  .calendly-embed-wrapper .calendly-embed,
+  .calendly-embed-wrapper .calendly-inline-widget { height: 1720px; }
 }
 
 @media (min-width: 1440px) {
