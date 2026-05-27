@@ -29,7 +29,8 @@
   gap: 1rem;
   padding: 1.15rem 0;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
@@ -74,8 +75,8 @@
 
 .faq-body p {
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.65;
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height);
 }
 
 .faq-body p strong { color: var(--text-primary); }

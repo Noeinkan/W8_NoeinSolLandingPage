@@ -207,7 +207,7 @@
           <div class="svc-card-price">Calculated<span> live</span></div>
           <div class="svc-card-price-note">Indicative range based on workflow scope, systems touched, urgency, and rollout depth</div>
           <div class="svc-card-actions">
-            <a href="#ai-prototyping-automation" class="btn btn-primary">Estimate your sprint</a>
+            <a href="#ai-sprint-estimator" class="btn btn-primary">Estimate your sprint</a>
             <a href="#ai-prototyping-automation" class="svc-card-detail-link">See full details ↓</a>
           </div>
         </div>
@@ -407,10 +407,10 @@
           <div class="price">1&ndash;4 weeks</div>
           <div class="price-note">Most engagements land here before any follow-on rollout.</div>
         </div>
-        <a href="#ai-activity-type" class="btn btn-primary">Use the estimator</a>
+        <a href="#ai-sprint-estimator" class="btn btn-primary">Use the estimator</a>
       </div>
 
-      <div class="ai-estimator" data-pricing-estimator>
+      <div id="ai-sprint-estimator" class="ai-estimator" data-pricing-estimator>
         <div class="ai-estimator-header">
           <div class="service-section-tag">AI sprint estimator</div>
           <h3>Model an AEC transformation sprint before the first call</h3>
@@ -419,7 +419,7 @@
 
         <form class="ai-estimator-form" aria-label="AI sprint estimator">
           <div class="ai-estimator-grid">
-            <div class="form-group">
+            <div class="form-group ai-estimator-control">
               <label for="ai-activity-type">Activity type</label>
               <select id="ai-activity-type" name="activityType" class="estimator-input">
                 <option value="prototype">Rapid prototype / concept validation</option>
@@ -427,27 +427,45 @@
                 <option value="document-intelligence">Tender / document intelligence</option>
                 <option value="integration">Workflow integration / internal tool</option>
               </select>
+              <div class="form-note">Choose the workflow you want to improve first.</div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group ai-estimator-control">
               <label for="ai-timeframe">Delivery timeframe</label>
               <select id="ai-timeframe" name="timeframe" class="estimator-input">
                 <option value="standard">Standard sprint timeline</option>
                 <option value="fast">Accelerated delivery</option>
                 <option value="urgent">Urgent / compressed window</option>
               </select>
+              <div class="form-note">Sets the delivery pace and applies the final commercial factor.</div>
             </div>
 
-            <div class="form-group">
-              <label for="ai-complexity">Complexity</label>
+            <div class="form-group ai-range-group">
+              <div class="ai-range-head">
+                <label for="ai-complexity">Complexity</label>
+                <output class="ai-range-value" for="ai-complexity" data-estimator-complexity-label>Level 3 · Cross-team workflow</output>
+              </div>
               <input type="range" id="ai-complexity" name="complexity" class="estimator-input" min="1" max="5" step="1" value="3">
-              <div class="form-note">1 = narrow workflow, 5 = more stakeholders, controls, and delivery dependencies.</div>
+              <div class="ai-range-scale" aria-hidden="true">
+                <span>Simple</span>
+                <span>Cross-team</span>
+                <span>Governed rollout</span>
+              </div>
+              <div class="form-note">Measures stakeholders, approvals, and delivery controls around the workflow.</div>
             </div>
 
-            <div class="form-group">
-              <label for="ai-integrations">Integrations / systems touched</label>
+            <div class="form-group ai-range-group">
+              <div class="ai-range-head">
+                <label for="ai-integrations">Integrations / systems touched</label>
+                <output class="ai-range-value" for="ai-integrations" data-estimator-integrations-label>Level 1 · One connected system</output>
+              </div>
               <input type="range" id="ai-integrations" name="integrations" class="estimator-input" min="0" max="4" step="1" value="1">
-              <div class="form-note">0 = standalone pilot, 4 = CDE, reporting, or multiple workflow handoffs.</div>
+              <div class="ai-range-scale" aria-hidden="true">
+                <span>Standalone</span>
+                <span>Connected</span>
+                <span>CDE / reporting chain</span>
+              </div>
+              <div class="form-note">Count the systems or handoffs that must connect, not every tool in the estate.</div>
             </div>
           </div>
 
@@ -470,20 +488,44 @@
           </fieldset>
 
           <div class="ai-estimator-result" aria-live="polite">
-            <div>
+            <div class="ai-estimator-primary">
               <div class="ai-estimator-label">Most likely range</div>
-              <div class="ai-estimator-price" data-estimator-price>&pound;4,500 &ndash; &pound;6,500</div>
-              <div class="ai-estimator-note" data-estimator-summary>Good fit for a focused prototype with a standard timeline and light integration.</div>
+              <div class="ai-estimator-price" data-estimator-price>&pound;5,900 &ndash; &pound;9,200</div>
+              <div class="ai-estimator-note" data-estimator-summary>Best fit for an AEC transformation sprint around rapid prototype / concept validation, with moderate delivery complexity and one system touchpoint. Most teams land in 2 weeks with handover included.</div>
             </div>
             <div class="ai-estimator-meta">
               <div>
                 <span class="ai-estimator-label">Likely delivery window</span>
-                <strong data-estimator-duration>1&ndash;2 weeks</strong>
+                <strong data-estimator-duration>2 weeks</strong>
               </div>
               <div>
                 <span class="ai-estimator-label">Recommended engagement</span>
                 <strong data-estimator-model>Focused sprint</strong>
               </div>
+            </div>
+            <div class="ai-estimator-breakdown">
+              <div class="ai-estimator-breakdown-header">
+                <div>
+                  <div class="ai-estimator-label">Indicative fee build-up</div>
+                  <p class="ai-estimator-breakdown-intro">Live view of the main commercial drivers behind the current range.</p>
+                </div>
+                <div class="ai-estimator-breakdown-factor">
+                  <span class="ai-estimator-label">Delivery window factor</span>
+                  <strong data-estimator-multiplier>x1.00</strong>
+                </div>
+              </div>
+              <div class="ai-estimator-breakdown-list" data-estimator-breakdown></div>
+              <div class="ai-estimator-breakdown-footer">
+                <div>
+                  <span class="ai-estimator-label">Subtotal before delivery window</span>
+                  <strong data-estimator-subtotal>&pound;5,925 &ndash; &pound;9,175</strong>
+                </div>
+                <div>
+                  <span class="ai-estimator-label">Current indicative total</span>
+                  <strong data-estimator-total>&pound;5,900 &ndash; &pound;9,200</strong>
+                </div>
+              </div>
+              <p class="form-note">Delivery timeframe applies the final factor after scope components are summed.</p>
             </div>
             <div class="ai-estimator-actions">
               <a href="contact.html" class="btn btn-primary" data-estimator-cta>Turn this into a brief</a>

@@ -12,6 +12,12 @@
   var durationEl = estimatorRoot.querySelector('[data-estimator-duration]');
   var modelEl = estimatorRoot.querySelector('[data-estimator-model]');
   var ctaEl = estimatorRoot.querySelector('[data-estimator-cta]');
+  var complexityLabelEl = estimatorRoot.querySelector('[data-estimator-complexity-label]');
+  var integrationsLabelEl = estimatorRoot.querySelector('[data-estimator-integrations-label]');
+  var breakdownEl = estimatorRoot.querySelector('[data-estimator-breakdown]');
+  var multiplierEl = estimatorRoot.querySelector('[data-estimator-multiplier]');
+  var subtotalEl = estimatorRoot.querySelector('[data-estimator-subtotal]');
+  var totalEl = estimatorRoot.querySelector('[data-estimator-total]');
   var currencyFormatter = new Intl.NumberFormat(isItalian ? 'it-IT' : 'en-GB');
 
   if (!form || !priceEl || !summaryEl || !durationEl || !modelEl || !ctaEl) return;
@@ -61,6 +67,15 @@
     fallbackStack: isItalian ? 'Stack da definire' : 'Stack to be agreed'
   };
 
+  var breakdownLabels = {
+    base: isItalian ? 'Base sprint' : 'Base sprint',
+    complexity: isItalian ? 'Complessita delivery' : 'Delivery complexity',
+    integrations: isItalian ? 'Sistemi / handoff' : 'Systems / handoffs',
+    stack: isItalian ? 'Adeguamento stack' : 'Build stack adjustment',
+    handover: isItalian ? 'Onboarding e handover' : 'Team onboarding and handover',
+    compliance: isItalian ? 'Riservatezza / compliance' : 'Confidentiality / compliance'
+  };
+
   function lowerFirst(text) {
     if (!text) return '';
     return text.charAt(0).toLowerCase() + text.slice(1);
@@ -80,6 +95,21 @@
 
   function formatRange(low, high) {
     return formatMoney(low) + ' \u2013 ' + formatMoney(high);
+  }
+
+  function formatSignedMoney(value) {
+    var absolute = formatMoney(Math.abs(value));
+    if (value < 0) return '\u2212' + absolute;
+    if (value > 0) return '+' + absolute;
+    return absolute;
+  }
+
+  function formatSignedRange(low, high) {
+    return formatSignedMoney(low) + ' \u2013 ' + formatSignedMoney(high);
+  }
+
+  function formatMultiplier(value) {
+    return 'x' + value.toFixed(2);
   }
 
   function formatDuration(weeks) {
@@ -142,6 +172,72 @@
     return 'a multi-system handoff';
   }
 
+  function getComplexityLabel(level) {
+    if (isItalian) {
+      if (level <= 1) return 'Livello 1 \u00b7 Task mirato';
+      if (level === 2) return 'Livello 2 \u00b7 Workflow di team';
+      if (level === 3) return 'Livello 3 \u00b7 Workflow cross-team';
+      if (level === 4) return 'Livello 4 \u00b7 Delivery multi-stakeholder';
+      return 'Livello 5 \u00b7 Rollout governato';
+    }
+
+    if (level <= 1) return 'Level 1 \u00b7 Tightly scoped task';
+    if (level === 2) return 'Level 2 \u00b7 One-team workflow';
+    if (level === 3) return 'Level 3 \u00b7 Cross-team workflow';
+    if (level === 4) return 'Level 4 \u00b7 Multi-stakeholder delivery';
+    return 'Level 5 \u00b7 Governed rollout';
+  }
+
+  function getIntegrationLabel(count) {
+    if (isItalian) {
+      if (count <= 0) return 'Livello 0 \u00b7 Pilot standalone';
+      if (count === 1) return 'Livello 1 \u00b7 Un sistema collegato';
+      if (count === 2) return 'Livello 2 \u00b7 Due handoff tra sistemi';
+      if (count === 3) return 'Livello 3 \u00b7 Catena CDE o reporting';
+      return 'Livello 4 \u00b7 Thread multi-sistema';
+    }
+
+    if (count <= 0) return 'Level 0 \u00b7 Standalone pilot';
+    if (count === 1) return 'Level 1 \u00b7 One connected system';
+    if (count === 2) return 'Level 2 \u00b7 Two system handoffs';
+    if (count === 3) return 'Level 3 \u00b7 CDE or reporting chain';
+    return 'Level 4 \u00b7 Multi-system thread';
+  }
+
+  function setBreakdownItems(items) {
+    if (!breakdownEl) return;
+
+    while (breakdownEl.firstChild) {
+      breakdownEl.removeChild(breakdownEl.firstChild);
+    }
+
+    items.forEach(function (item) {
+      var row = document.createElement('div');
+      var copy = document.createElement('div');
+      var title = document.createElement('strong');
+      var amount = document.createElement('div');
+
+      row.className = 'ai-breakdown-item' + (item.isNegative ? ' ai-breakdown-item--negative' : '');
+      copy.className = 'ai-breakdown-copy';
+      amount.className = 'ai-breakdown-amount';
+
+      title.textContent = item.label;
+      amount.textContent = item.amount;
+
+      copy.appendChild(title);
+
+      if (item.note) {
+        var note = document.createElement('span');
+        note.textContent = item.note;
+        copy.appendChild(note);
+      }
+
+      row.appendChild(copy);
+      row.appendChild(amount);
+      breakdownEl.appendChild(row);
+    });
+  }
+
   function getSummary(state, durationText) {
     var activity = lowerFirst(labels.activityType[state.activityType]);
     var complexity = getComplexityDescriptor(state.complexity);
@@ -179,8 +275,8 @@
         '',
         'Tipo di attivit\u00e0: ' + labels.activityType[state.activityType],
         'Timeframe: ' + labels.timeframe[state.timeframe],
-        'Complessit\u00e0: ' + state.complexity + '/5',
-        'Integrazioni: ' + state.integrations,
+        'Complessit\u00e0: ' + state.complexity + '/5 (' + getComplexityLabel(state.complexity) + ')',
+        'Integrazioni: ' + state.integrations + ' (' + getIntegrationLabel(state.integrations) + ')',
         'Stack: ' + stackText,
         'Handover al team: ' + (state.handover ? 'S\u00ec' : 'No'),
         'Vincoli di riservatezza / compliance: ' + (state.compliance ? 'S\u00ec' : 'No'),
@@ -196,8 +292,8 @@
       '',
       'Activity type: ' + labels.activityType[state.activityType],
       'Timeframe: ' + labels.timeframe[state.timeframe],
-      'Complexity: ' + state.complexity + '/5',
-      'Integrations: ' + state.integrations,
+      'Complexity: ' + state.complexity + '/5 (' + getComplexityLabel(state.complexity) + ')',
+      'Integrations: ' + state.integrations + ' (' + getIntegrationLabel(state.integrations) + ')',
       'Stack: ' + stackText,
       'Team handover: ' + (state.handover ? 'Yes' : 'No'),
       'Confidentiality / compliance constraints: ' + (state.compliance ? 'Yes' : 'No'),
@@ -212,41 +308,53 @@
     var state = getState();
     var base = activityConfig[state.activityType] || activityConfig.prototype;
     var timeframe = timeframeConfig[state.timeframe] || timeframeConfig.standard;
-    var low = base.low;
-    var high = base.high;
+    var baseLow = base.low;
+    var baseHigh = base.high;
+    var complexityLow = (state.complexity - 1) * 450;
+    var complexityHigh = (state.complexity - 1) * 700;
+    var integrationsLow = state.integrations * 325;
+    var integrationsHigh = state.integrations * 575;
+    var handoverLow = state.handover ? 450 : 0;
+    var handoverHigh = state.handover ? 700 : 0;
+    var complianceLow = state.compliance ? 700 : 0;
+    var complianceHigh = state.compliance ? 1150 : 0;
+    var stackLow = 0;
+    var stackHigh = 0;
     var effortWeeks = base.weeks;
     var stackNames = [];
+    var breakdownItems = [];
+    var subtotalLow;
+    var subtotalHigh;
+    var low;
+    var high;
+    var subtotalText;
 
-    low += (state.complexity - 1) * 450;
-    high += (state.complexity - 1) * 700;
-    low += state.integrations * 325;
-    high += state.integrations * 575;
     effortWeeks += (state.complexity - 1) * 0.32;
     effortWeeks += state.integrations * 0.24;
 
     if (state.handover) {
-      low += 450;
-      high += 700;
       effortWeeks += 0.2;
     }
 
     if (state.compliance) {
-      low += 700;
-      high += 1150;
       effortWeeks += 0.35;
     }
 
     state.stack.forEach(function (stackKey) {
       var adjustment = stackAdjustments[stackKey];
       if (!adjustment) return;
-      low += adjustment.low;
-      high += adjustment.high;
+      stackLow += adjustment.low;
+      stackHigh += adjustment.high;
       effortWeeks += adjustment.weeks;
       stackNames.push(labels.stack[stackKey]);
     });
 
-    low = roundToHundreds(low * timeframe.multiplier);
-    high = roundToHundreds(high * timeframe.multiplier);
+    subtotalLow = baseLow + complexityLow + integrationsLow + handoverLow + complianceLow + stackLow;
+    subtotalHigh = baseHigh + complexityHigh + integrationsHigh + handoverHigh + complianceHigh + stackHigh;
+
+    low = roundToHundreds(subtotalLow * timeframe.multiplier);
+    high = roundToHundreds(subtotalHigh * timeframe.multiplier);
+
     if (high <= low) high = low + 600;
 
     effortWeeks = clamp(effortWeeks * timeframe.durationFactor, 1, 4.4);
@@ -257,10 +365,65 @@
     var modelText = getModelLabel(state, effortWeeks);
     var contactParams = new URLSearchParams();
 
+    breakdownItems.push({
+      label: breakdownLabels.base,
+      note: labels.activityType[state.activityType],
+      amount: formatRange(baseLow, baseHigh)
+    });
+
+    if (complexityLow || complexityHigh) {
+      breakdownItems.push({
+        label: breakdownLabels.complexity,
+        note: getComplexityLabel(state.complexity),
+        amount: formatSignedRange(complexityLow, complexityHigh)
+      });
+    }
+
+    if (integrationsLow || integrationsHigh) {
+      breakdownItems.push({
+        label: breakdownLabels.integrations,
+        note: getIntegrationLabel(state.integrations),
+        amount: formatSignedRange(integrationsLow, integrationsHigh)
+      });
+    }
+
+    if (stackLow || stackHigh) {
+      breakdownItems.push({
+        label: breakdownLabels.stack,
+        note: stackNames.length ? stackNames.join(', ') : labels.fallbackStack,
+        amount: formatSignedRange(stackLow, stackHigh),
+        isNegative: stackLow < 0 || stackHigh < 0
+      });
+    }
+
+    if (handoverLow || handoverHigh) {
+      breakdownItems.push({
+        label: breakdownLabels.handover,
+        note: isItalian ? 'Trasferimento operativo al team incluso' : 'Operational handover into the team',
+        amount: formatSignedRange(handoverLow, handoverHigh)
+      });
+    }
+
+    if (complianceLow || complianceHigh) {
+      breakdownItems.push({
+        label: breakdownLabels.compliance,
+        note: isItalian ? 'Passaggio aggiuntivo per dati riservati o regolati' : 'Extra pass for confidential or regulated delivery data',
+        amount: formatSignedRange(complianceLow, complianceHigh)
+      });
+    }
+
+    subtotalText = formatRange(subtotalLow, subtotalHigh);
+
     priceEl.textContent = priceText;
     summaryEl.textContent = summaryText;
     durationEl.textContent = durationText;
     modelEl.textContent = modelText;
+    if (complexityLabelEl) complexityLabelEl.textContent = getComplexityLabel(state.complexity);
+    if (integrationsLabelEl) integrationsLabelEl.textContent = getIntegrationLabel(state.integrations);
+    if (multiplierEl) multiplierEl.textContent = formatMultiplier(timeframe.multiplier);
+    if (subtotalEl) subtotalEl.textContent = subtotalText;
+    if (totalEl) totalEl.textContent = priceText;
+    setBreakdownItems(breakdownItems);
 
     contactParams.set('service', 'Rapid AI Prototyping & Automation');
     contactParams.set('prefill', buildPrefillMessage(state, priceText, durationText, stackNames));

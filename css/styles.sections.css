@@ -97,11 +97,11 @@ section {
 }
 
 .section-sub {
-  font-size: 1.05rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 62ch;
   margin-bottom: 3.5rem;
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
 }
 
 main > section:nth-child(even) {
@@ -226,9 +226,9 @@ main > section:nth-child(even) > * {
 
 .value-card p,
 .service-card p {
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: var(--copy-line-height);
 }
 
 .service-card p { margin-bottom: 1.25rem; }
@@ -354,9 +354,9 @@ main > section:nth-child(even) > * {
 }
 
 .offer-card-intro {
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   margin-bottom: 1.25rem;
 }
 
@@ -367,11 +367,11 @@ main > section:nth-child(even) > * {
 }
 
 .offer-card-list li {
-  font-size: 0.875rem;
+  font-size: var(--copy-size-small);
   color: var(--text-secondary);
   padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.5;
+  line-height: var(--copy-line-height-tight);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -457,9 +457,9 @@ main > section:nth-child(even) > * {
 }
 
 .offer-support-note {
-  font-size: 0.9rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
   text-align: center;
   margin-top: 1rem;
 }
@@ -703,8 +703,8 @@ main > section:nth-child(even) > * {
   align-items: flex-start;
   gap: 0.6rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 0.95rem;
+  line-height: var(--copy-line-height-tight);
+  font-size: var(--copy-size-compact);
 }
 
 .lead-magnet-points li::before {
@@ -782,7 +782,7 @@ main > section:nth-child(even) > * {
   gap: 0.6rem;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: var(--copy-size-compact);
   transition: color 0.3s;
 }
 
@@ -814,9 +814,9 @@ main > section:nth-child(even) > * {
 }
 
 .contact-info p {
-  font-size: 0.95rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   margin-bottom: 2rem;
 }
 
@@ -826,7 +826,8 @@ main > section:nth-child(even) > * {
   gap: 0.75rem;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
   margin-bottom: 1rem;
   transition: color 0.3s;
 }
@@ -870,7 +871,7 @@ main > section:nth-child(even) > * {
   border-radius: 8px;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 0.92rem;
+  font-size: 1rem;
   transition: border-color 0.3s;
   outline: none;
 }
@@ -934,7 +935,7 @@ main > section:nth-child(even) > * {
   padding: 1rem 1.25rem;
   margin-bottom: 1.5rem;
   color: var(--accent);
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
 }
 
 .form-success svg { flex-shrink: 0; stroke: var(--accent); }
@@ -963,9 +964,9 @@ footer {
 }
 
 .footer-brand p {
-  font-size: 0.88rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
   max-width: 280px;
 }
 
@@ -988,7 +989,7 @@ footer {
 .footer-links a {
   color: var(--text-tertiary);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: var(--copy-size-small);
   transition: color 0.3s;
 }
 
@@ -998,7 +999,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.88rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
   margin-bottom: 0.65rem;
   text-decoration: none;
@@ -1202,9 +1203,9 @@ a.footer-contact-item:hover { color: var(--accent); }
 }
 
 .testimonial-card blockquote {
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   margin-bottom: 1.5rem;
   font-style: normal;
 }
@@ -1276,7 +1277,7 @@ a.footer-contact-item:hover { color: var(--accent); }
 }
 
 .testimonials-linkedin-text {
-  font-size: 0.85rem;
+  font-size: var(--copy-size-small);
   color: var(--text-secondary);
 }
 
@@ -1285,7 +1286,7 @@ a.footer-contact-item:hover { color: var(--accent); }
 }
 
 .testimonials-linkedin a {
-  font-size: 0.82rem;
+  font-size: var(--copy-size-small);
   color: var(--accent);
   text-decoration: none;
   white-space: nowrap;
@@ -1384,9 +1385,9 @@ a.footer-contact-item:hover { color: var(--accent); }
 }
 
 .about-preview-text {
-  font-size: 1rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.8;
+  line-height: var(--copy-line-height);
   margin-bottom: 0.85rem;
 }
 
@@ -1490,6 +1491,7 @@ a.footer-contact-item:hover { color: var(--accent); }
   min-height: 780px;
 }
 
+.calendly-embed-wrapper .calendly-embed,
 .calendly-embed-wrapper .calendly-inline-widget { border-radius: 16px; }
 
 .contact-info-divider {

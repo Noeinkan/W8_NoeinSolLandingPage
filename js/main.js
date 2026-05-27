@@ -248,6 +248,9 @@
         link.setAttribute('aria-selected', 'true');
         link.setAttribute('tabindex', '0');
       });
+      if (tabId === 'booking' && typeof window.initContactCalendlyEmbed === 'function') {
+        window.initContactCalendlyEmbed();
+      }
     }
 
     function prefillContactFromQuery() {
@@ -450,7 +453,7 @@
   });
 
   // Track Calendly widget load (contact page)
-  var calendlyWidget = document.querySelector('.calendly-inline-widget');
+  var calendlyWidget = document.querySelector('.calendly-embed[data-calendly-url], .calendly-inline-widget');
   if (calendlyWidget) {
     window.addEventListener('message', function (e) {
       if (e.data && e.data.event && e.data.event.indexOf('calendly') === 0) {

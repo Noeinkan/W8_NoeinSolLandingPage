@@ -21,17 +21,23 @@
   --white: #ffffff;
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-body: 'DM Sans', -apple-system, sans-serif;
+  --copy-size: 1rem;
+  --copy-size-compact: 0.97rem;
+  --copy-size-small: 0.92rem;
+  --copy-line-height: 1.72;
+  --copy-line-height-tight: 1.6;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+html { font-size: 100%; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
 body {
+  font-size: 1rem;
   font-family: var(--font-body);
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
   overflow-x: hidden;
 }
 

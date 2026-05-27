@@ -58,9 +58,9 @@
 }
 
 .pain-card p {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
 }
 
 /* Step flow */
@@ -111,9 +111,9 @@
 }
 
 .step-item p {
-  font-size: 0.8rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
-  line-height: 1.5;
+  line-height: var(--copy-line-height-tight);
 }
 
 /* Module grid */
@@ -199,11 +199,11 @@
 
 .comparison-table tbody td {
   padding: 1.25rem 1.5rem;
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-subtle);
-  line-height: 1.5;
+  line-height: var(--copy-line-height-tight);
 }
 
 .comparison-table tbody td:last-child { color: var(--text-primary); }
@@ -449,7 +449,7 @@
   .comparison-table thead th,
   .comparison-table tbody td {
     padding: 1rem 1.1rem;
-    font-size: 0.86rem;
+    font-size: var(--copy-size-small);
   }
   .privacy-callout { padding: 1.2rem 1.3rem; }
 }

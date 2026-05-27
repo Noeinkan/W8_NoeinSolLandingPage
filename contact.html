@@ -121,8 +121,23 @@
       </div>
 
       <div class="calendly-embed-wrapper">
-        <div class="calendly-inline-widget" data-url="https://calendly.com/andrea-aita91/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=e8e6e3&primary_color=c9a55a" style="min-width:320px;height:780px;"></div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <div class="calendly-embed" data-calendly-url="https://calendly.com/andrea-aita91/30min?hide_gdpr_banner=1&background_color=0a0a0c&text_color=e8e6e3&primary_color=c9a55a" data-calendly-resize="true" style="min-width:320px;height:780px;"></div>
+        <script>
+          function initContactCalendlyEmbed() {
+            var calendlyEmbed = document.querySelector('.calendly-embed[data-calendly-url]');
+            if (!calendlyEmbed || calendlyEmbed.getAttribute('data-calendly-initialized') === 'true') return;
+            if (calendlyEmbed.offsetParent === null) return;
+            if (typeof Calendly === 'undefined' || !Calendly.initInlineWidget) return;
+
+            Calendly.initInlineWidget({
+              url: calendlyEmbed.getAttribute('data-calendly-url'),
+              parentElement: calendlyEmbed,
+              resize: calendlyEmbed.getAttribute('data-calendly-resize') === 'true'
+            });
+            calendlyEmbed.setAttribute('data-calendly-initialized', 'true');
+          }
+        </script>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async onload="initContactCalendlyEmbed()"></script>
       </div>
     </div>
   </div>

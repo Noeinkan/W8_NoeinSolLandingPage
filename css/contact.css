@@ -18,9 +18,9 @@
 }
 
 .contact-info p {
-  font-size: 0.95rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   margin-bottom: 2rem;
 }
 
@@ -30,7 +30,8 @@
   gap: 0.75rem;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
   margin-bottom: 1rem;
   transition: color 0.3s;
 }
@@ -60,7 +61,7 @@
   border-radius: 8px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
-  font-size: 0.84rem;
+  font-size: var(--copy-size-small);
   line-height: 1.45;
 }
 
@@ -116,6 +117,7 @@
   min-height: 780px;
 }
 
+.calendly-embed-wrapper .calendly-embed,
 .calendly-embed-wrapper .calendly-inline-widget { border-radius: 16px; }
 
 .contact-info-divider {

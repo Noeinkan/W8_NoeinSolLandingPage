@@ -92,9 +92,9 @@ main > section {
 }
 
 .service-block p {
-  font-size: 0.95rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: var(--copy-line-height);
 }
 
 .service-list-intro {
@@ -108,11 +108,11 @@ main > section {
 .service-block ul { list-style: none; }
 
 .service-block ul li {
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
   padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.55;
+  line-height: var(--copy-line-height-tight);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -169,7 +169,7 @@ main > section {
 }
 
 .service-pricing .price-note {
-  font-size: 0.83rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
   line-height: 1.5;
 }
@@ -186,6 +186,7 @@ main > section {
 .ai-estimator {
   margin-top: 2rem;
   padding: 2rem;
+  scroll-margin-top: 7.5rem;
   border: 1px solid rgba(201, 165, 90, 0.18);
   border-radius: 16px;
   background:
@@ -207,9 +208,9 @@ main > section {
 }
 
 .ai-estimator-header p {
-  font-size: 0.92rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
 }
 
 .ai-estimator-form {
@@ -219,19 +220,39 @@ main > section {
 }
 
 .ai-estimator-grid {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.2rem 1.5rem;
-  padding: 0.9rem 1rem;
-
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 0;
   border-radius: 14px;
   margin-bottom: 0;
 }
 
+.ai-estimator-grid .form-group {
+  min-width: 0;
+  padding: 1.05rem 1.1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(10, 10, 12, 0.45);
+}
+
+.ai-estimator-control,
+.ai-range-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
 .ai-estimator .form-note {
   margin-top: 0.6rem;
-  min-height: 100%;
+  min-height: 0;
   text-align: left;
+}
+
+.ai-estimator-grid .form-group select,
+.ai-estimator-grid .form-group input[type="range"] {
+  width: 100%;
 }
 
 .ai-estimator .form-group input[type="range"] {
@@ -246,6 +267,54 @@ main > section {
 
 .ai-estimator .form-group input[type="range"]:focus {
   border: none;
+}
+
+.ai-range-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.ai-range-head label {
+  margin-bottom: 0;
+}
+
+.ai-range-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 18rem;
+  padding: 0.34rem 0.72rem;
+  border: 1px solid rgba(201, 165, 90, 0.24);
+  border-radius: 999px;
+  background: rgba(201, 165, 90, 0.08);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.ai-range-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+}
+
+.ai-range-scale span {
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-range-scale span:nth-child(2) {
+  text-align: center;
+}
+
+.ai-range-scale span:last-child {
+  text-align: right;
 }
 
 .ai-estimator-fieldset {
@@ -266,34 +335,37 @@ main > section {
 }
 
 .ai-estimator-options {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
 .ai-estimator-option {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
   gap: 0.6rem;
-  padding: 0.8rem 1rem;
+  padding: 0.9rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 14px;
   background: var(--bg-primary);
   color: var(--text-secondary);
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
   cursor: pointer;
 }
 
 .ai-estimator-option input {
   width: auto;
   margin: 0;
+  margin-top: 0.15rem;
   accent-color: var(--accent);
 }
 
 .ai-estimator-result {
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.7fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, 0.85fr);
   gap: 1.5rem 2rem;
   align-items: start;
   padding: 1.5rem;
@@ -301,6 +373,10 @@ main > section {
   border-radius: 14px;
   background: rgba(10, 10, 12, 0.8);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.ai-estimator-primary {
+  min-width: 0;
 }
 
 .ai-estimator-label {
@@ -322,9 +398,9 @@ main > section {
 }
 
 .ai-estimator-note {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: var(--copy-line-height);
   max-width: 48ch;
 }
 
@@ -339,6 +415,101 @@ main > section {
   font-size: 1.15rem;
   font-weight: 400;
   color: var(--text-primary);
+}
+
+.ai-estimator-breakdown {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.3rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ai-estimator-breakdown-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.ai-estimator-breakdown-intro {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 58ch;
+}
+
+.ai-estimator-breakdown-factor strong,
+.ai-estimator-breakdown-footer strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.ai-estimator-breakdown-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ai-breakdown-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ai-breakdown-item--negative {
+  border-color: rgba(201, 165, 90, 0.24);
+}
+
+.ai-breakdown-copy {
+  display: grid;
+  gap: 0.24rem;
+  min-width: 0;
+}
+
+.ai-breakdown-copy strong {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.ai-breakdown-copy span {
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+.ai-breakdown-amount {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.ai-estimator-breakdown-footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.ai-estimator-breakdown-footer > div {
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ai-estimator-breakdown-footer > div:last-child {
+  border-color: rgba(201, 165, 90, 0.24);
+  background: linear-gradient(180deg, rgba(201, 165, 90, 0.08), rgba(255, 255, 255, 0.02));
 }
 
 .ai-estimator-actions {
@@ -471,11 +642,11 @@ main > section {
 }
 
 .svc-card-list li {
-  font-size: 0.95rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
   padding: 0.5rem 0 0.5rem 1.5rem;
   position: relative;
-  line-height: 1.58;
+  line-height: var(--copy-line-height-tight);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -533,7 +704,7 @@ main > section {
 }
 
 .svc-card-price-note {
-  font-size: 0.84rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
   line-height: 1.55;
   margin-bottom: 1.5rem;
@@ -553,7 +724,7 @@ main > section {
 }
 
 .svc-card-detail-link {
-  font-size: 0.88rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
   text-decoration: none;
   transition: color 0.2s;
@@ -664,9 +835,9 @@ main > section {
 }
 
 .hiw-step p {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   max-width: 240px;
   margin: 0 auto;
 }
@@ -695,22 +866,33 @@ main > section {
 .faq-list {
   display: flex;
   flex-direction: column;
+  gap: 0.9rem;
 }
 
 .faq-item {
-  border-bottom: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: rgba(10, 10, 12, 0.48);
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-.faq-item:first-child {
-  border-top: 1px solid var(--border-subtle);
+.faq-item:hover {
+  border-color: rgba(201, 165, 90, 0.18);
+}
+
+.faq-item[open] {
+  border-color: rgba(201, 165, 90, 0.26);
+  background: linear-gradient(180deg, rgba(201, 165, 90, 0.05), rgba(10, 10, 12, 0.7));
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
 }
 
 .faq-question {
   list-style: none;
-  font-size: 0.97rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-primary);
-  padding: 1.4rem 2.5rem 1.4rem 0;
+  padding: 1.3rem 4rem 1.3rem 1.35rem;
   cursor: pointer;
   position: relative;
   transition: color 0.2s;
@@ -723,10 +905,17 @@ main > section {
 .faq-question::after {
   content: '+';
   position: absolute;
-  right: 0.25rem;
+  right: 1.15rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.4rem;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid rgba(201, 165, 90, 0.28);
+  border-radius: 999px;
+  background: rgba(201, 165, 90, 0.08);
+  font-size: 1.15rem;
   font-weight: 300;
   color: var(--accent);
   transition: transform 0.25s;
@@ -740,13 +929,13 @@ main > section {
 }
 
 .faq-answer {
-  padding: 0 0 1.5rem;
+  padding: 0 1.35rem 1.35rem;
 }
 
 .faq-answer p {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: var(--copy-line-height);
 }
 
 .faq-answer p + p { margin-top: 0.75rem; }
@@ -793,9 +982,9 @@ main > section {
 }
 
 .services-cta-inner p {
-  font-size: 0.95rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: var(--copy-line-height);
   margin-bottom: 2rem;
 }
 
@@ -841,8 +1030,8 @@ main > section {
   .svc-card-title { font-size: 1.5rem; }
   .svc-card-list li { font-size: 0.96rem; }
   .svc-card-timeline { font-size: 0.86rem; }
+  .ai-estimator-form { grid-template-columns: 1fr; }
   .ai-estimator { padding: 1.5rem; }
-  .ai-estimator-options { grid-template-columns: 1fr; }
   .ai-estimator-grid,
   .ai-estimator-result { grid-template-columns: 1fr; }
   .ai-estimator-actions { flex-direction: column; }
@@ -878,6 +1067,12 @@ main > section {
   .service-section:first-child { padding-top: 0; }
   .how-it-works-wrap { padding: 4rem 0; }
   .services-cta-band { padding: 4rem 0; }
+  .ai-estimator-grid,
+  .ai-estimator-options,
+  .ai-estimator-breakdown-footer { grid-template-columns: 1fr; }
+  .ai-range-head,
+  .ai-estimator-breakdown-header { flex-direction: column; align-items: flex-start; }
+  .ai-range-value { max-width: none; text-align: left; }
 }
 
 @media (max-width: 640px) {
@@ -889,19 +1084,32 @@ main > section {
   .svc-card-title { font-size: 1.45rem; }
   .svc-card-tag { font-size: 0.78rem; }
   .svc-card-list li { font-size: 0.98rem; }
-  .svc-card-price-note { font-size: 0.9rem; }
+  .svc-card-price-note { font-size: var(--copy-size-small); }
   .svc-card-timeline { font-size: 0.88rem; }
-  .service-block ul li { font-size: 0.9rem; }
+  .service-block ul li { font-size: var(--copy-size-compact); }
   .ai-estimator { padding: 1.25rem; }
   .ai-estimator-option {
     width: 100%;
     border-radius: 12px;
   }
+  .ai-range-scale { font-size: 0.68rem; gap: 0.5rem; }
   .ai-estimator-price { font-size: 2rem; }
   .ai-estimator-note,
-  .ai-estimator .form-note { font-size: 0.9rem; }
-  .faq-question { font-size: 0.92rem; }
-  .faq-answer p { font-size: 0.88rem; }
+  .ai-estimator .form-note { font-size: var(--copy-size-small); }
+  .ai-breakdown-item,
+  .ai-estimator-breakdown-footer { grid-template-columns: 1fr; }
+  .ai-breakdown-amount { white-space: normal; }
+  .faq-question {
+    font-size: var(--copy-size-compact);
+    padding: 1.1rem 3.45rem 1.1rem 1.1rem;
+  }
+  .faq-question::after {
+    right: 0.95rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .faq-answer { padding: 0 1.1rem 1.2rem; }
+  .faq-answer p { font-size: var(--copy-size); }
 }
 
 @media (max-width: 360px) {

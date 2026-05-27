@@ -153,9 +153,9 @@
 .hero h1 em { font-style: italic; color: var(--accent); }
 
 .hero-sub {
-  font-size: 1.1rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   max-width: 620px;
   margin-bottom: 2.5rem;
   opacity: 0;
@@ -343,9 +343,9 @@
 .page-hero h1 em { font-style: italic; color: var(--accent); }
 
 .page-hero-sub {
-  font-size: 1.1rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: var(--copy-line-height);
   max-width: 640px;
   opacity: 0;
   animation: fadeUp 0.8s var(--ease-out) 0.35s forwards;
@@ -358,5 +358,5 @@
   font-size: clamp(1.9rem, 3vw, 2.6rem);
   margin-bottom: 0.5rem;
 }
-.page-hero--compact .page-hero-sub { font-size: 1rem; margin-bottom: 0; }
+.page-hero--compact .page-hero-sub { font-size: var(--copy-size-compact); margin-bottom: 0; }
 .page-hero--compact .contact-options-nav { margin-top: 1rem; }

@@ -106,9 +106,9 @@
 }
 
 .case-card-content p {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: var(--copy-line-height);
 }
 
 .case-points {
@@ -120,9 +120,9 @@
 .case-points li {
   position: relative;
   padding: 0.25rem 0 0.25rem 1rem;
-  font-size: 0.88rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.55;
+  line-height: var(--copy-line-height-tight);
 }
 
 .case-points li::before {
@@ -165,9 +165,9 @@
 .case-card-quote p {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 0.88rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
 }
 
 .case-card-quote cite {
@@ -202,7 +202,7 @@
   }
   .case-card-content h4 { margin-top: 1.15rem; }
   .case-card-content p,
-  .case-points li { font-size: 0.86rem; }
+  .case-points li { font-size: var(--copy-size-compact); }
   .case-metrics { grid-template-columns: 1fr; }
 }
 

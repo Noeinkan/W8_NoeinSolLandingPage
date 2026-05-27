@@ -96,7 +96,7 @@
   border-radius: 8px;
   color: var(--text-primary);
   font-family: inherit;
-  font-size: 0.92rem;
+  font-size: 1rem;
   transition: border-color 0.2s var(--ease-out);
 }
 .bep-project input:focus {
@@ -319,8 +319,8 @@
 }
 
 .bep-check-text {
-  font-size: 0.93rem;
-  line-height: 1.5;
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
   color: var(--text-secondary);
   transition: color 0.2s var(--ease-out);
 }
@@ -594,9 +594,9 @@
   letter-spacing: 0.05em;
 }
 .bep-diag-body {
-  font-size: 0.9rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: var(--copy-line-height-tight);
   margin-bottom: 0.8rem;
 }
 .bep-diag-unchecked {
@@ -610,9 +610,9 @@
 .bep-diag-unchecked li {
   position: relative;
   padding-left: 1.1rem;
-  font-size: 0.86rem;
+  font-size: var(--copy-size-small);
   color: var(--text-tertiary);
-  line-height: 1.5;
+  line-height: var(--copy-line-height-tight);
 }
 .bep-diag-unchecked li::before {
   content: '';
@@ -642,9 +642,9 @@
   margin-top: 1rem;
 }
 .bep-report-cta-sub {
-  font-size: 0.92rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.55;
+  line-height: var(--copy-line-height-tight);
   max-width: 560px;
   margin: 0 auto;
 }

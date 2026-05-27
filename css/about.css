@@ -56,9 +56,9 @@
 .timeline-date { color: var(--text-tertiary); font-weight: 400; }
 
 .timeline-item p {
-  font-size: 0.92rem;
+  font-size: var(--copy-size);
   color: var(--text-secondary);
-  line-height: 1.65;
+  line-height: var(--copy-line-height);
   max-width: 600px;
 }
 
@@ -72,9 +72,9 @@
 .timeline-points li {
   position: relative;
   padding: 0.25rem 0 0.25rem 1rem;
-  font-size: 0.9rem;
+  font-size: var(--copy-size-compact);
   color: var(--text-secondary);
-  line-height: 1.55;
+  line-height: var(--copy-line-height-tight);
 }
 
 .timeline-points li::before {
@@ -456,7 +456,7 @@
   .credentials-grid--compact { grid-template-columns: 1fr; }
   .timeline-item h3 { font-size: 1.12rem; }
   .timeline-item p,
-  .timeline-points li { font-size: 0.88rem; }
+  .timeline-points li { font-size: var(--copy-size-compact); }
   .cert-lightbox { padding: 1rem; }
   .cert-lightbox-img-wrap { max-height: 72vh; }
   .cert-lightbox-img-wrap img { max-height: 72vh; }

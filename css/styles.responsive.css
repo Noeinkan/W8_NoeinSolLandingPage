@@ -82,6 +82,12 @@
 }
 
 @media (max-width: 640px) {
+  :root {
+    --copy-size: 1.02rem;
+    --copy-size-compact: 1rem;
+    --copy-size-small: 0.95rem;
+  }
+
   nav { padding: 0.85rem 1.25rem; }
 
   .hero          { padding: 5rem 1.25rem 3rem; min-height: auto; }
@@ -126,15 +132,24 @@
 }
 
 @media (max-width: 480px) {
+  :root {
+    --copy-size: 1.04rem;
+    --copy-size-compact: 1.01rem;
+    --copy-size-small: 0.97rem;
+  }
+
   .hero h1      { font-size: 1.9rem; }
   .page-hero h1 { font-size: 1.75rem; }
   .stat-number  { font-size: 1.75rem; }
   .hero-sub,
-  .page-hero-sub { font-size: 0.96rem; }
+  .page-hero-sub {
+    font-size: var(--copy-size-compact);
+    line-height: var(--copy-line-height);
+  }
   .offer-actions,
   .btn { width: 100%; justify-content: center; }
   .hero-actions { width: 100%; }
-  .offer-support-note { font-size: 0.84rem; }
+  .offer-support-note { font-size: var(--copy-size-small); }
   .contact-form { padding: 1.25rem; }
   .testimonials-linkedin { gap: 0.6rem; }
   .trust-band-value { font-size: 1.32rem; }

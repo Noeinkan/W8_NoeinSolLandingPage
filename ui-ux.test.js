@@ -71,6 +71,10 @@ function testServicesPage() {
     assert(html.includes('href="' + href + '" class="service-jump-link"'), 'jump nav link missing for ' + href);
   });
   assert(html.includes('data-pricing-estimator'), 'services pricing estimator missing');
+  assert(html.includes('id="ai-sprint-estimator" class="ai-estimator"'), 'services estimator anchor missing');
+  assert(html.includes('data-estimator-breakdown'), 'services pricing breakdown missing');
+  assert(html.includes('data-estimator-complexity-label'), 'services complexity label missing');
+  assert(html.includes('data-estimator-integrations-label'), 'services integrations label missing');
 }
 
 function testCapsarPage() {
