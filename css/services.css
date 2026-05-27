@@ -174,6 +174,186 @@ main > section {
   line-height: 1.5;
 }
 
+.service-pricing--dynamic {
+  align-items: flex-start;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   AI Estimator
+   ═══════════════════════════════════════════════════════════ */
+
+.ai-estimator {
+  margin-top: 2rem;
+  padding: 2rem;
+  border: 1px solid rgba(201, 165, 90, 0.18);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(201, 165, 90, 0.09), transparent 42%),
+    linear-gradient(180deg, rgba(201, 165, 90, 0.04), rgba(12, 12, 14, 0.92));
+}
+
+.ai-estimator-header {
+  max-width: 760px;
+  margin-bottom: 1.75rem;
+}
+
+.ai-estimator-header h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 0.8rem;
+}
+
+.ai-estimator-header p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.ai-estimator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ai-estimator-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem 1.5rem;
+}
+
+.ai-estimator .form-group {
+  margin-bottom: 0;
+}
+
+.ai-estimator .form-note {
+  margin-top: 0.6rem;
+  text-align: left;
+}
+
+.ai-estimator .form-group input[type="range"] {
+  padding: 0;
+  height: 1.3rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  accent-color: var(--accent);
+}
+
+.ai-estimator .form-group input[type="range"]:focus {
+  border: none;
+}
+
+.ai-estimator-fieldset {
+  margin: 0;
+  padding: 1.1rem 1.15rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(10, 10, 12, 0.55);
+}
+
+.ai-estimator-fieldset legend {
+  padding: 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ai-estimator-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ai-estimator-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.ai-estimator-option input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.ai-estimator-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.7fr);
+  gap: 1.5rem 2rem;
+  align-items: start;
+  padding: 1.5rem;
+  border: 1px solid rgba(201, 165, 90, 0.16);
+  border-radius: 14px;
+  background: rgba(10, 10, 12, 0.8);
+}
+
+.ai-estimator-label {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ai-estimator-price {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+
+.ai-estimator-note {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 48ch;
+}
+
+.ai-estimator-meta {
+  display: grid;
+  gap: 1rem;
+}
+
+.ai-estimator-meta strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.ai-estimator-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ai-estimator-actions .form-note {
+  margin-top: 0;
+  max-width: 48ch;
+}
+
 
 /* ═══════════════════════════════════════════════════════════
    Service Cards Grid
@@ -188,7 +368,7 @@ main > section {
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.5rem;
   align-items: start;
 }
@@ -606,7 +786,11 @@ main > section {
   .service-block { margin-bottom: 2.25rem; }
   .service-outcome { padding: 1.4rem 1.5rem; }
   .service-pricing { gap: 1.25rem; }
-  .svc-cards-grid { grid-template-columns: 1fr; max-width: 520px; }
+  .svc-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 820px; }
+  .ai-estimator { padding: 1.5rem; }
+  .ai-estimator-grid,
+  .ai-estimator-result { grid-template-columns: 1fr; }
+  .ai-estimator-actions { flex-direction: column; }
   .how-it-works-steps { flex-direction: column; align-items: center; gap: 2.5rem; }
   .hiw-divider {
     width: 1px;
@@ -629,6 +813,7 @@ main > section {
   }
   .service-jump-link { white-space: nowrap; }
   .svc-cards-wrap { padding: 3rem 0 4rem; }
+  .svc-cards-grid { grid-template-columns: 1fr; max-width: 560px; }
   .service-section { padding: 3rem 0; }
   .service-section:first-child { padding-top: 0; }
   .how-it-works-wrap { padding: 4rem 0; }
@@ -642,6 +827,12 @@ main > section {
   .svc-card-actions { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .svc-card-title { font-size: 1.3rem; }
   .service-block ul li { font-size: 0.9rem; }
+  .ai-estimator { padding: 1.25rem; }
+  .ai-estimator-option {
+    width: 100%;
+    border-radius: 12px;
+  }
+  .ai-estimator-price { font-size: 2rem; }
   .faq-question { font-size: 0.92rem; }
   .faq-answer p { font-size: 0.88rem; }
 }
@@ -672,4 +863,5 @@ main > section {
   .service-pricing .price { font-size: 1.85rem; }
   .svc-card-title         { font-size: 1.6rem; }
   .svc-card-price         { font-size: 1.9rem; }
+  .ai-estimator-price     { font-size: 3.15rem; }
 }

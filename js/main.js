@@ -166,6 +166,7 @@
   var contactForm = document.querySelector('.contact-form form');
   if (contactForm) {
     var errorSummary = document.getElementById('formErrorSummary');
+    var searchParams = typeof URLSearchParams === 'function' ? new URLSearchParams(window.location.search) : null;
     var fieldLabels = isItalian
       ? { name: 'Nome', email: 'Email', service: 'Servizio', message: 'Messaggio' }
       : { name: 'Name', email: 'Email', service: 'Service', message: 'Message' };
@@ -229,6 +230,8 @@
   var tabLinks = document.querySelectorAll('.contact-option-link[data-tab]');
   var tabTriggers = document.querySelectorAll('[data-tab]');
   if (tabTriggers.length) {
+    var hasPrefilledContact = false;
+
     function switchTab(tabId) {
       document.querySelectorAll('.contact-tab').forEach(function (tab) {
         tab.classList.remove('contact-tab--active');
@@ -245,6 +248,33 @@
         link.setAttribute('aria-selected', 'true');
         link.setAttribute('tabindex', '0');
       });
+    }
+
+    function prefillContactFromQuery() {
+      if (!contactForm || !searchParams) return;
+
+      var prefillService = searchParams.get('service');
+      var prefillMessage = searchParams.get('prefill');
+      var serviceField = contactForm.querySelector('[name="service"]');
+      var messageField = contactForm.querySelector('[name="message"]');
+
+      if (!prefillService && !prefillMessage) return;
+
+      if (serviceField && prefillService) {
+        var hasMatchingOption = Array.prototype.some.call(serviceField.options, function (option) {
+          return option.value === prefillService;
+        });
+        if (hasMatchingOption) {
+          serviceField.value = prefillService;
+        }
+      }
+
+      if (messageField && prefillMessage && !messageField.value.trim()) {
+        messageField.value = prefillMessage;
+      }
+
+      hasPrefilledContact = true;
+      switchTab('message-panel');
     }
 
     tabTriggers.forEach(function (link) {
@@ -271,8 +301,10 @@
       });
     });
 
+    prefillContactFromQuery();
+
     // Handle hash on page load
-    if (window.location.hash) {
+    if (!hasPrefilledContact && window.location.hash) {
       var hashId = window.location.hash.substring(1);
       if (hashId === 'message') hashId = 'message-panel';
       if (document.getElementById(hashId) && document.querySelector('[data-tab="' + hashId + '"]')) {

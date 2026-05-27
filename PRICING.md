@@ -20,6 +20,7 @@ Andrea is moving from a £80k permanent role to private contracting for the firs
 | Pre-appointment BEP | from £2,500 fixed | Card 2 |
 | Post-appointment BEP | from £3,500 fixed | Card 2 |
 | EIR advisory / gap analysis | from £1,500 fixed | Card 2 |
+| Rapid AI Prototyping & Automation | Dynamic scoped sprint fee (public calculator) | Card 4 |
 | Programme Digital Delivery (embedded/retained) | £650/day, scoped to programme | Card 3 |
 
 All landed in commit [536efba](https://github.com/Noeinkan/W8_NoeinSolLandingPage/commit/536efba) on 2026-04-13 and have not moved since.
@@ -32,6 +33,33 @@ All landed in commit [536efba](https://github.com/Noeinkan/W8_NoeinSolLandingPag
 **£1,500 EIR advisory** ≈ 2.3 days at £650 (low-friction wedge into BEP work).
 
 The numbers are internally coherent: day rate × estimated effort, with Capsar.io as margin.
+
+## AI sprint pricing logic
+
+The new AI service deliberately does **not** publish a single fixed number. Unlike the BEP product, price moves materially with:
+
+- activity type (prototype vs automation vs document intelligence vs integrated internal tool)
+- urgency / compressed delivery window
+- complexity and number of integrations touched
+- delivery stack (Claude Code, Cursor, GitHub Copilot, custom AI / automation stack)
+- handover / team enablement scope
+- confidentiality and compliance constraints
+
+For that reason the public page uses an indicative calculator instead of a day-rate or one-line fixed fee. Internally, the calculator is anchored to these pre-uplift sprint bands:
+
+| Activity type | Base public band | Typical base duration |
+|---|---|---|
+| Rapid prototype / proof of concept | £4,500–£6,500 | 1–2 weeks |
+| Workflow automation | £5,800–£8,200 | ~2 weeks |
+| Document intelligence | £6,800–£9,300 | ~2–3 weeks |
+| Workflow integration / internal tool | £8,200–£11,000 | ~3 weeks |
+
+These are **commercial anchors, not quote commitments**. The calculator adds or subtracts around them so the site can communicate two things at once:
+
+1. this is a fast, premium, scoped sprint offer rather than generic dev capacity
+2. price is responsive to real delivery conditions, not pulled from a brochure
+
+If the market starts accepting this service instantly, widen the published top band before touching the strategic £650/day anchor used elsewhere on the site.
 
 ## The take-home floor (why £650 isn't arbitrary)
 

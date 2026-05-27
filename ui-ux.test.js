@@ -50,6 +50,7 @@ function testContactPage() {
   assert(html.includes('id="formErrorSummary"'), 'form error summary missing');
   assert(html.includes('role="tabpanel" aria-labelledby="tab-booking"'), 'booking panel semantics missing');
   assert(html.includes('role="tabpanel" aria-labelledby="tab-message"'), 'message panel semantics missing');
+  assert(html.includes('<option value="Rapid AI Prototyping & Automation">Rapid AI Prototyping &amp; Automation</option>'), 'AI service option missing from contact form');
 }
 
 function testCaseStudiesPage() {
@@ -66,9 +67,10 @@ function testCaseStudiesPage() {
 function testServicesPage() {
   const html = read('services.html');
   assert(html.includes('class="service-jump-nav"'), 'service jump nav missing');
-  ['#information-management', '#bep-eir', '#programme-delivery'].forEach((href) => {
+  ['#information-management', '#bep-eir', '#ai-prototyping-automation', '#programme-delivery'].forEach((href) => {
     assert(html.includes('href="' + href + '" class="service-jump-link"'), 'jump nav link missing for ' + href);
   });
+  assert(html.includes('data-pricing-estimator'), 'services pricing estimator missing');
 }
 
 function testCapsarPage() {
@@ -107,6 +109,7 @@ function testMainJs() {
   assert(js.includes("switchTab('message-panel');"), 'contact success state does not reuse tab switcher');
   assert(js.includes("!sessionStorage.getItem('exit_shown') && !reducedMotion && window.innerWidth > 1024"), 'exit intent gating is missing');
   assert(js.includes("var tabLinks = document.querySelectorAll('.contact-option-link[data-tab]');"), 'contact tab keyboard target selector missing');
+  assert(js.includes("searchParams.get('prefill')"), 'contact prefill query handling missing');
 }
 
 function run() {
