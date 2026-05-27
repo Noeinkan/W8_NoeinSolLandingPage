@@ -27,6 +27,14 @@ err()  { echo -e "${RED}[error]${NC} $1"; exit 1; }
 LOCAL_PY_CMD=""
 LOCAL_PY_ARGS=()
 
+is_windows_shell() {
+    case "$(uname -s 2>/dev/null || printf '')" in
+        MINGW*|MSYS*|CYGWIN*) return 0 ;;
+    esac
+
+    return 1
+}
+
 EXCLUDES_RSYNC=(
     --exclude '.git'
     --exclude '.claude'
@@ -55,6 +63,23 @@ EXCLUDES_TAR=(
 
 resolve_local_python() {
     if [ -n "$LOCAL_PY_CMD" ]; then
+        return 0
+    fi
+
+    if is_windows_shell; then
+        if command -v py >/dev/null 2>&1 && py -3 -c "import sys" >/dev/null 2>&1; then
+            LOCAL_PY_CMD="py"
+            LOCAL_PY_ARGS=(-3)
+        elif command -v python >/dev/null 2>&1 && python -c "import sys" >/dev/null 2>&1; then
+            LOCAL_PY_CMD="python"
+            LOCAL_PY_ARGS=()
+        elif command -v python3 >/dev/null 2>&1 && python3 -c "import sys" >/dev/null 2>&1; then
+            LOCAL_PY_CMD="python3"
+            LOCAL_PY_ARGS=()
+        else
+            err "Python is required for preflight checks (py, python, or python3 not found)."
+        fi
+
         return 0
     fi
 
@@ -112,7 +137,6 @@ run_local_preflight_checks() {
     run_local_python - <<'PY' || exit 1
 from html.parser import HTMLParser
 from pathlib import Path
-import re
 import sys
 
 ROOT = Path(".").resolve()
@@ -145,6 +169,7 @@ for rel in REQUIRED_FILES:
         errors.append(f"Missing required file: {rel}")
 
 html_files = sorted(ROOT.glob("*.html")) + sorted((ROOT / "it").glob("*.html"))
+print(f"[preflight] checking {len(html_files)} HTML files...")
 
 class LinkCollector(HTMLParser):
     def __init__(self):
@@ -178,8 +203,28 @@ def resolve_reference(page_path: Path, ref: str) -> Path:
         return ROOT / ref_no_query.lstrip("/")
     return (page_path.parent / ref_no_query).resolve()
 
-for page in html_files:
-    content = page.read_text(encoding="utf-8")
+def read_html(page: Path):
+    try:
+        return page.read_text(encoding="utf-8")
+    except KeyboardInterrupt:
+        print(
+            f"[preflight] interrupted while reading {page.relative_to(ROOT)}",
+            file=sys.stderr,
+        )
+        raise
+    except OSError as exc:
+        errors.append(f"{page.relative_to(ROOT)}: failed to read file ({exc})")
+    except UnicodeDecodeError as exc:
+        errors.append(f"{page.relative_to(ROOT)}: failed to decode utf-8 ({exc})")
+
+    return None
+
+for index, page in enumerate(html_files, start=1):
+    print(f"[preflight] [{index}/{len(html_files)}] {page.relative_to(ROOT)}")
+    content = read_html(page)
+    if content is None:
+        continue
+
     parser = LinkCollector()
     parser.feed(content)
 
