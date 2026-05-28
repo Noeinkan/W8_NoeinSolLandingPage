@@ -1,6 +1,10 @@
 /* ═══════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .offer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 968px) {
   nav {
     padding: 0.8rem 1.15rem;
@@ -16,7 +20,7 @@
   .hero-glow         { width: 400px; height: 400px; top: 5%; right: -10%; }
   .hero-photo-wrapper::before,
   .hero-photo-wrapper::after { display: none; }
-  .offer-grid        { grid-template-columns: 1fr; }
+  .offer-grid        { grid-template-columns: repeat(2, 1fr); }
   .services-grid     { grid-template-columns: 1fr; }
   .value-props       { grid-template-columns: 1fr; }
   .stats-inner       { grid-template-columns: repeat(2, 1fr); }
@@ -106,6 +110,7 @@
   .testimonials-linkedin { padding: 0.9rem 1rem; }
   .testimonials-linkedin a { margin-left: 0; }
   .offer-card { padding: 1.5rem; }
+  .offer-grid { grid-template-columns: 1fr; }
   .process-strip { margin-top: 3rem; padding-top: 2.5rem; }
   .process-title { margin-bottom: 2.5rem; }
   .capsar-banner { padding: 3rem 1.25rem; }

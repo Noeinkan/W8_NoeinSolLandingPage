@@ -281,8 +281,8 @@ main > section:nth-child(even) > * {
 
 .offer-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
   align-items: start;
 }
 
@@ -290,7 +290,7 @@ main > section:nth-child(even) > * {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 2rem;
+  padding: 1.75rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -357,7 +357,8 @@ main > section:nth-child(even) > * {
   font-size: var(--copy-size-compact);
   color: var(--text-secondary);
   line-height: var(--copy-line-height);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
 }
 
 .offer-card-list {
@@ -389,7 +390,8 @@ main > section:nth-child(even) > * {
 }
 
 .offer-card-meta {
-  margin-bottom: 1.25rem;
+  margin-top: auto;
+  margin-bottom: 1rem;
 }
 
 .offer-card-timeline {
@@ -405,7 +407,7 @@ main > section:nth-child(even) > * {
 
 .offer-card-price-section {
   border-top: 1px solid var(--border-subtle);
-  padding-top: 1.25rem;
+  padding-top: 1rem;
 }
 
 .offer-card-price {
