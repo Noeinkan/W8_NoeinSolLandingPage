@@ -211,6 +211,7 @@ main > section {
   font-size: var(--copy-size);
   color: var(--text-secondary);
   line-height: var(--copy-line-height);
+  max-width: 56ch;
 }
 
 .ai-estimator-form {
@@ -238,7 +239,7 @@ main > section {
 }
 
 .ai-estimator-control,
-.ai-range-group {
+.ai-step-group {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -250,76 +251,191 @@ main > section {
   text-align: left;
 }
 
-.ai-estimator-grid .form-group select,
-.ai-estimator-grid .form-group input[type="range"] {
+.ai-estimator-grid .form-group select {
   width: 100%;
 }
 
-.ai-estimator .form-group input[type="range"] {
+.ai-step-group {
+  margin: 0;
+}
+
+.ai-step-group legend {
   padding: 0;
-  height: 1.3rem;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  accent-color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
-.ai-estimator .form-group input[type="range"]:focus {
-  border: none;
+.ai-step-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
 }
 
-.ai-range-head {
+.ai-step-option {
+  position: relative;
+  min-width: 0;
+}
+
+.ai-step-option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.ai-step-option-content {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
+  gap: 0.18rem;
+  min-height: 4rem;
+  padding: 0.65rem 0.55rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-primary);
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-step-option input:checked + .ai-step-option-content {
+  border-color: rgba(201, 165, 90, 0.45);
+  background: linear-gradient(180deg, rgba(201, 165, 90, 0.14), rgba(255, 255, 255, 0.02));
+  box-shadow: inset 0 0 0 1px rgba(201, 165, 90, 0.12);
+}
+
+.ai-step-option input:focus-visible + .ai-step-option-content {
+  outline: 2px solid rgba(201, 165, 90, 0.45);
+  outline-offset: 2px;
+}
+
+.ai-step-level {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  line-height: 1;
+  color: var(--white);
+}
+
+.ai-step-caption {
+  font-size: 0.67rem;
+  line-height: 1.25;
+  color: var(--text-tertiary);
+}
+
+.ai-step-option input:checked + .ai-step-option-content .ai-step-caption {
+  color: var(--text-primary);
+}
+
+.ai-step-context {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.85rem;
+  gap: 0.75rem 1rem;
+  flex-wrap: wrap;
 }
 
-.ai-range-head label {
-  margin-bottom: 0;
-}
-
-.ai-range-value {
+.ai-step-output {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  max-width: 18rem;
-  padding: 0.34rem 0.72rem;
+  padding: 0.3rem 0.68rem;
   border: 1px solid rgba(201, 165, 90, 0.24);
   border-radius: 999px;
   background: rgba(201, 165, 90, 0.08);
   color: var(--text-primary);
   font-size: 0.78rem;
-  line-height: 1.4;
-  text-align: right;
+  line-height: 1.35;
 }
 
-.ai-range-scale {
+.ai-estimator-panel {
+  grid-column: 1 / -1;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(10, 10, 12, 0.5);
+  overflow: hidden;
+}
+
+.ai-estimator-panel[open] {
+  border-color: rgba(201, 165, 90, 0.22);
+}
+
+.ai-estimator-panel-summary {
+  list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
+  gap: 0.85rem 1rem;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 0.95rem 3.6rem 0.95rem 1.15rem;
+  cursor: pointer;
 }
 
-.ai-range-scale span {
-  flex: 1;
+.ai-estimator-panel-summary::-webkit-details-marker {
+  display: none;
+}
+
+.ai-estimator-panel-summary::after {
+  content: '+';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border: 1px solid rgba(201, 165, 90, 0.28);
+  border-radius: 999px;
+  background: rgba(201, 165, 90, 0.08);
+  color: var(--accent);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.ai-estimator-panel[open] .ai-estimator-panel-summary::after {
+  content: '−';
+}
+
+.ai-estimator-panel-copy {
+  display: grid;
+  gap: 0.18rem;
   min-width: 0;
 }
 
-.ai-range-scale span:nth-child(2) {
-  text-align: center;
+.ai-estimator-panel-copy strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-primary);
 }
 
-.ai-range-scale span:last-child {
-  text-align: right;
+.ai-estimator-summary-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.7rem;
+  border: 1px solid rgba(201, 165, 90, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.ai-estimator-panel-body {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.15rem 1.15rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ai-estimator-advanced-body {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .ai-estimator-fieldset {
   margin: 0;
-  padding: 1.1rem 1.15rem 1.2rem;
+  padding: 1rem 1.05rem 1.05rem;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: rgba(10, 10, 12, 0.55);
@@ -418,11 +534,8 @@ main > section {
 }
 
 .ai-estimator-breakdown {
-  grid-column: 1 / -1;
   display: grid;
-  gap: 1rem;
-  padding-top: 1.3rem;
-  border-top: 1px solid var(--border-subtle);
+  gap: 0.95rem;
 }
 
 .ai-estimator-breakdown-header {
@@ -434,7 +547,7 @@ main > section {
 }
 
 .ai-estimator-breakdown-intro {
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   color: var(--text-secondary);
   line-height: 1.65;
   max-width: 58ch;
@@ -1032,6 +1145,7 @@ main > section {
   .svc-card-timeline { font-size: 0.86rem; }
   .ai-estimator-form { grid-template-columns: 1fr; }
   .ai-estimator { padding: 1.5rem; }
+  .ai-estimator-advanced-body { grid-template-columns: 1fr; }
   .ai-estimator-grid,
   .ai-estimator-result { grid-template-columns: 1fr; }
   .ai-estimator-actions { flex-direction: column; }
@@ -1067,12 +1181,13 @@ main > section {
   .service-section:first-child { padding-top: 0; }
   .how-it-works-wrap { padding: 4rem 0; }
   .services-cta-band { padding: 4rem 0; }
-  .ai-estimator-grid,
   .ai-estimator-options,
   .ai-estimator-breakdown-footer { grid-template-columns: 1fr; }
-  .ai-range-head,
+  .ai-step-context,
+  .ai-estimator-panel-summary,
   .ai-estimator-breakdown-header { flex-direction: column; align-items: flex-start; }
-  .ai-range-value { max-width: none; text-align: left; }
+  .ai-estimator-summary-pill,
+  .ai-step-output { white-space: normal; }
 }
 
 @media (max-width: 640px) {
@@ -1088,11 +1203,23 @@ main > section {
   .svc-card-timeline { font-size: 0.88rem; }
   .service-block ul li { font-size: var(--copy-size-compact); }
   .ai-estimator { padding: 1.25rem; }
+  .ai-step-option-content {
+    min-height: 0;
+    padding: 0.55rem 0.42rem;
+  }
+  .ai-step-level { font-size: 0.94rem; }
+  .ai-step-caption { font-size: 0.6rem; }
+  .ai-estimator-panel-summary {
+    padding-left: 1rem;
+    padding-right: 3.2rem;
+  }
+  .ai-estimator-panel-summary::after {
+    right: 0.85rem;
+  }
   .ai-estimator-option {
     width: 100%;
     border-radius: 12px;
   }
-  .ai-range-scale { font-size: 0.68rem; gap: 0.5rem; }
   .ai-estimator-price { font-size: 2rem; }
   .ai-estimator-note,
   .ai-estimator .form-note { font-size: var(--copy-size-small); }

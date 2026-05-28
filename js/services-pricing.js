@@ -14,7 +14,9 @@
   var ctaEl = estimatorRoot.querySelector('[data-estimator-cta]');
   var complexityLabelEl = estimatorRoot.querySelector('[data-estimator-complexity-label]');
   var integrationsLabelEl = estimatorRoot.querySelector('[data-estimator-integrations-label]');
+  var assumptionsSummaryEl = estimatorRoot.querySelector('[data-estimator-assumptions-summary]');
   var breakdownEl = estimatorRoot.querySelector('[data-estimator-breakdown]');
+  var breakdownSummaryEl = estimatorRoot.querySelector('[data-estimator-breakdown-summary]');
   var multiplierEl = estimatorRoot.querySelector('[data-estimator-multiplier]');
   var subtotalEl = estimatorRoot.querySelector('[data-estimator-subtotal]');
   var totalEl = estimatorRoot.querySelector('[data-estimator-total]');
@@ -110,6 +112,14 @@
 
   function formatMultiplier(value) {
     return 'x' + value.toFixed(2);
+  }
+
+  function getToolCountLabel(count) {
+    if (isItalian) {
+      return count + ' ' + (count === 1 ? 'strumento' : 'strumenti');
+    }
+
+    return count + ' ' + (count === 1 ? 'tool' : 'tools');
   }
 
   function formatDuration(weeks) {
@@ -238,31 +248,47 @@
     });
   }
 
+  function getAssumptionsSummary(state) {
+    return [
+      getToolCountLabel(state.stack.length),
+      state.handover ? (isItalian ? 'handover si' : 'handover on') : (isItalian ? 'handover no' : 'handover off'),
+      state.compliance ? (isItalian ? 'dati riservati' : 'regulated data') : (isItalian ? 'dati standard' : 'standard data')
+    ].join(' \u00b7 ');
+  }
+
+  function getBreakdownSummary(itemCount, multiplierText) {
+    if (isItalian) {
+      return itemCount + ' driver \u00b7 fattore ' + multiplierText;
+    }
+
+    return itemCount + ' ' + (itemCount === 1 ? 'driver' : 'drivers') + ' \u00b7 factor ' + multiplierText;
+  }
+
   function getSummary(state, durationText) {
-    var activity = lowerFirst(labels.activityType[state.activityType]);
+    var activity = labels.activityType[state.activityType];
     var complexity = getComplexityDescriptor(state.complexity);
     var integrations = getIntegrationDescriptor(state.integrations);
     var summary = '';
 
     if (isItalian) {
-      summary = 'Buon fit per uno sprint di trasformazione su ' + activity + ', con ' + complexity + ' e ' + integrations + '.';
-      summary += ' Di solito sta in ' + durationText;
+      summary = 'Sprint su ' + lowerFirst(activity) + ' con ' + complexity + ' e ' + integrations + '.';
+      summary += ' Finestra tipica: ' + durationText;
       if (state.handover) {
-        summary += ' con handover incluso';
+        summary += ', handover incluso';
       }
       if (state.compliance) {
-        summary += state.handover ? ' e un passaggio extra su riservatezza e compliance' : ' con un passaggio extra su riservatezza e compliance';
+        summary += ', dati regolati';
       }
       return summary + '.';
     }
 
-    summary = 'Best fit for an AEC transformation sprint around ' + activity + ', with ' + complexity + ' and ' + integrations + '.';
-    summary += ' Most teams land in ' + durationText;
+    summary = activity + ' sprint with ' + complexity + ' and ' + integrations + '.';
+    summary += ' Typical window: ' + durationText;
     if (state.handover) {
-      summary += ' with handover included';
+      summary += ', handover included';
     }
     if (state.compliance) {
-      summary += state.handover ? ' and an extra compliance pass' : ' with an extra compliance pass';
+      summary += ', regulated data';
     }
     return summary + '.';
   }
@@ -364,6 +390,7 @@
     var summaryText = getSummary(state, durationText);
     var modelText = getModelLabel(state, effortWeeks);
     var contactParams = new URLSearchParams();
+    var multiplierText = formatMultiplier(timeframe.multiplier);
 
     breakdownItems.push({
       label: breakdownLabels.base,
@@ -420,7 +447,9 @@
     modelEl.textContent = modelText;
     if (complexityLabelEl) complexityLabelEl.textContent = getComplexityLabel(state.complexity);
     if (integrationsLabelEl) integrationsLabelEl.textContent = getIntegrationLabel(state.integrations);
-    if (multiplierEl) multiplierEl.textContent = formatMultiplier(timeframe.multiplier);
+    if (assumptionsSummaryEl) assumptionsSummaryEl.textContent = getAssumptionsSummary(state);
+    if (breakdownSummaryEl) breakdownSummaryEl.textContent = getBreakdownSummary(breakdownItems.length, multiplierText);
+    if (multiplierEl) multiplierEl.textContent = multiplierText;
     if (subtotalEl) subtotalEl.textContent = subtotalText;
     if (totalEl) totalEl.textContent = priceText;
     setBreakdownItems(breakdownItems);

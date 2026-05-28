@@ -75,6 +75,9 @@ function testServicesPage() {
   assert(html.includes('data-estimator-breakdown'), 'services pricing breakdown missing');
   assert(html.includes('data-estimator-complexity-label'), 'services complexity label missing');
   assert(html.includes('data-estimator-integrations-label'), 'services integrations label missing');
+  assert(html.includes('ai-estimator-advanced'), 'services advanced assumptions panel missing');
+  assert(html.includes('data-estimator-assumptions-summary'), 'services assumptions summary missing');
+  assert(html.includes('ai-estimator-breakdown-panel'), 'services breakdown panel missing');
 }
 
 function testCapsarPage() {

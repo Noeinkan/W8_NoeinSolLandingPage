@@ -414,7 +414,7 @@
         <div class="ai-estimator-header">
           <div class="service-section-tag">AI sprint estimator</div>
           <h3>Model an AEC transformation sprint before the first call</h3>
-          <p>This is an indicative commercial range, not a binding quote. Use it to see how workflow type, urgency, integration depth, and rollout requirements change the fee.</p>
+          <p>Indicative range based on workflow, pace, integration depth, and rollout assumptions.</p>
         </div>
 
         <form class="ai-estimator-form" aria-label="AI sprint estimator">
@@ -427,7 +427,7 @@
                 <option value="document-intelligence">Tender / document intelligence</option>
                 <option value="integration">Workflow integration / internal tool</option>
               </select>
-              <div class="form-note">Choose the workflow you want to improve first.</div>
+              <div class="form-note">Start with the workflow you want to change first.</div>
             </div>
 
             <div class="form-group ai-estimator-control">
@@ -437,61 +437,74 @@
                 <option value="fast">Accelerated delivery</option>
                 <option value="urgent">Urgent / compressed window</option>
               </select>
-              <div class="form-note">Sets the delivery pace and applies the final commercial factor.</div>
+              <div class="form-note">Timeline applies the final commercial factor.</div>
             </div>
 
-            <div class="form-group ai-range-group">
-              <div class="ai-range-head">
-                <label for="ai-complexity">Complexity</label>
-                <output class="ai-range-value" for="ai-complexity" data-estimator-complexity-label>Level 3 · Cross-team workflow</output>
+            <fieldset class="form-group ai-step-group">
+              <legend>Complexity</legend>
+              <div class="ai-step-options">
+                <label class="ai-step-option"><input type="radio" id="ai-complexity-1" name="complexity" value="1" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">1</span><span class="ai-step-caption">Tight</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-complexity-2" name="complexity" value="2" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">2</span><span class="ai-step-caption">Team</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-complexity-3" name="complexity" value="3" class="estimator-input" checked><span class="ai-step-option-content"><span class="ai-step-level">3</span><span class="ai-step-caption">Cross</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-complexity-4" name="complexity" value="4" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">4</span><span class="ai-step-caption">Multi</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-complexity-5" name="complexity" value="5" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">5</span><span class="ai-step-caption">Governed</span></span></label>
               </div>
-              <input type="range" id="ai-complexity" name="complexity" class="estimator-input" min="1" max="5" step="1" value="3">
-              <div class="ai-range-scale" aria-hidden="true">
-                <span>Simple</span>
-                <span>Cross-team</span>
-                <span>Governed rollout</span>
+              <div class="ai-step-context">
+                <output class="ai-step-output" data-estimator-complexity-label>Level 3 · Cross-team workflow</output>
+                <div class="form-note">Stakeholders, approvals, and controls around the workflow.</div>
               </div>
-              <div class="form-note">Measures stakeholders, approvals, and delivery controls around the workflow.</div>
-            </div>
+            </fieldset>
 
-            <div class="form-group ai-range-group">
-              <div class="ai-range-head">
-                <label for="ai-integrations">Integrations / systems touched</label>
-                <output class="ai-range-value" for="ai-integrations" data-estimator-integrations-label>Level 1 · One connected system</output>
+            <fieldset class="form-group ai-step-group">
+              <legend>Integrations / systems touched</legend>
+              <div class="ai-step-options">
+                <label class="ai-step-option"><input type="radio" id="ai-integrations-0" name="integrations" value="0" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">0</span><span class="ai-step-caption">Solo</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-integrations-1" name="integrations" value="1" class="estimator-input" checked><span class="ai-step-option-content"><span class="ai-step-level">1</span><span class="ai-step-caption">1 system</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-integrations-2" name="integrations" value="2" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">2</span><span class="ai-step-caption">2 hops</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-integrations-3" name="integrations" value="3" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">3</span><span class="ai-step-caption">CDE</span></span></label>
+                <label class="ai-step-option"><input type="radio" id="ai-integrations-4" name="integrations" value="4" class="estimator-input"><span class="ai-step-option-content"><span class="ai-step-level">4</span><span class="ai-step-caption">Multi</span></span></label>
               </div>
-              <input type="range" id="ai-integrations" name="integrations" class="estimator-input" min="0" max="4" step="1" value="1">
-              <div class="ai-range-scale" aria-hidden="true">
-                <span>Standalone</span>
-                <span>Connected</span>
-                <span>CDE / reporting chain</span>
+              <div class="ai-step-context">
+                <output class="ai-step-output" data-estimator-integrations-label>Level 1 · One connected system</output>
+                <div class="form-note">Count handoffs that must connect, not every tool in the estate.</div>
               </div>
-              <div class="form-note">Count the systems or handoffs that must connect, not every tool in the estate.</div>
-            </div>
+            </fieldset>
           </div>
 
-          <fieldset class="ai-estimator-fieldset">
-            <legend>Technology stack</legend>
-            <div class="ai-estimator-options">
-              <label class="ai-estimator-option"><input type="checkbox" name="stack" value="claude-code" class="estimator-input" checked> Claude Code</label>
-              <label class="ai-estimator-option"><input type="checkbox" name="stack" value="cursor" class="estimator-input" checked> Cursor</label>
-              <label class="ai-estimator-option"><input type="checkbox" name="stack" value="github-copilot" class="estimator-input"> GitHub Copilot</label>
-              <label class="ai-estimator-option"><input type="checkbox" name="stack" value="custom-ai-stack" class="estimator-input"> Custom AI / automation stack</label>
-            </div>
-          </fieldset>
+          <details class="ai-estimator-panel ai-estimator-advanced">
+            <summary class="ai-estimator-panel-summary">
+              <div class="ai-estimator-panel-copy">
+                <span class="ai-estimator-label">Refine assumptions</span>
+                <strong>Stack, handover, and project constraints</strong>
+              </div>
+              <span class="ai-estimator-summary-pill" data-estimator-assumptions-summary>2 tools · handover on · standard data</span>
+            </summary>
+            <div class="ai-estimator-panel-body ai-estimator-advanced-body">
+              <fieldset class="ai-estimator-fieldset">
+                <legend>Technology stack</legend>
+                <div class="ai-estimator-options">
+                  <label class="ai-estimator-option"><input type="checkbox" name="stack" value="claude-code" class="estimator-input" checked> Claude Code</label>
+                  <label class="ai-estimator-option"><input type="checkbox" name="stack" value="cursor" class="estimator-input" checked> Cursor</label>
+                  <label class="ai-estimator-option"><input type="checkbox" name="stack" value="github-copilot" class="estimator-input"> GitHub Copilot</label>
+                  <label class="ai-estimator-option"><input type="checkbox" name="stack" value="custom-ai-stack" class="estimator-input"> Custom AI / automation stack</label>
+                </div>
+              </fieldset>
 
-          <fieldset class="ai-estimator-fieldset">
-            <legend>Delivery constraints</legend>
-            <div class="ai-estimator-options">
-              <label class="ai-estimator-option"><input type="checkbox" name="handover" value="yes" class="estimator-input" checked> Team onboarding and working handover</label>
-              <label class="ai-estimator-option"><input type="checkbox" name="compliance" value="yes" class="estimator-input"> Confidential or regulated project data</label>
+              <fieldset class="ai-estimator-fieldset">
+                <legend>Delivery constraints</legend>
+                <div class="ai-estimator-options">
+                  <label class="ai-estimator-option"><input type="checkbox" name="handover" value="yes" class="estimator-input" checked> Team onboarding and working handover</label>
+                  <label class="ai-estimator-option"><input type="checkbox" name="compliance" value="yes" class="estimator-input"> Confidential or regulated project data</label>
+                </div>
+              </fieldset>
             </div>
-          </fieldset>
+          </details>
 
           <div class="ai-estimator-result" aria-live="polite">
             <div class="ai-estimator-primary">
               <div class="ai-estimator-label">Most likely range</div>
               <div class="ai-estimator-price" data-estimator-price>&pound;5,900 &ndash; &pound;9,200</div>
-              <div class="ai-estimator-note" data-estimator-summary>Best fit for an AEC transformation sprint around rapid prototype / concept validation, with moderate delivery complexity and one system touchpoint. Most teams land in 2 weeks with handover included.</div>
+              <div class="ai-estimator-note" data-estimator-summary>Rapid prototype / concept validation sprint with moderate delivery complexity and one system touchpoint. Typical window: 2 weeks, handover included.</div>
             </div>
             <div class="ai-estimator-meta">
               <div>
@@ -503,33 +516,43 @@
                 <strong data-estimator-model>Focused sprint</strong>
               </div>
             </div>
-            <div class="ai-estimator-breakdown">
-              <div class="ai-estimator-breakdown-header">
-                <div>
-                  <div class="ai-estimator-label">Indicative fee build-up</div>
-                  <p class="ai-estimator-breakdown-intro">Live view of the main commercial drivers behind the current range.</p>
+            <details class="ai-estimator-panel ai-estimator-breakdown-panel">
+              <summary class="ai-estimator-panel-summary">
+                <div class="ai-estimator-panel-copy">
+                  <span class="ai-estimator-label">Fee breakdown</span>
+                  <strong>See the drivers behind the range</strong>
                 </div>
-                <div class="ai-estimator-breakdown-factor">
-                  <span class="ai-estimator-label">Delivery window factor</span>
-                  <strong data-estimator-multiplier>x1.00</strong>
+                <span class="ai-estimator-summary-pill" data-estimator-breakdown-summary>5 drivers · factor x1.00</span>
+              </summary>
+              <div class="ai-estimator-panel-body">
+                <div class="ai-estimator-breakdown">
+                  <div class="ai-estimator-breakdown-header">
+                    <div>
+                      <div class="ai-estimator-label">Current calculation</div>
+                      <p class="ai-estimator-breakdown-intro">Scope components are added first. Delivery window adjusts the total last.</p>
+                    </div>
+                    <div class="ai-estimator-breakdown-factor">
+                      <span class="ai-estimator-label">Delivery window factor</span>
+                      <strong data-estimator-multiplier>x1.00</strong>
+                    </div>
+                  </div>
+                  <div class="ai-estimator-breakdown-list" data-estimator-breakdown></div>
+                  <div class="ai-estimator-breakdown-footer">
+                    <div>
+                      <span class="ai-estimator-label">Subtotal before delivery window</span>
+                      <strong data-estimator-subtotal>&pound;5,925 &ndash; &pound;9,175</strong>
+                    </div>
+                    <div>
+                      <span class="ai-estimator-label">Current indicative total</span>
+                      <strong data-estimator-total>&pound;5,900 &ndash; &pound;9,200</strong>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="ai-estimator-breakdown-list" data-estimator-breakdown></div>
-              <div class="ai-estimator-breakdown-footer">
-                <div>
-                  <span class="ai-estimator-label">Subtotal before delivery window</span>
-                  <strong data-estimator-subtotal>&pound;5,925 &ndash; &pound;9,175</strong>
-                </div>
-                <div>
-                  <span class="ai-estimator-label">Current indicative total</span>
-                  <strong data-estimator-total>&pound;5,900 &ndash; &pound;9,200</strong>
-                </div>
-              </div>
-              <p class="form-note">Delivery timeframe applies the final factor after scope components are summed.</p>
-            </div>
+            </details>
             <div class="ai-estimator-actions">
               <a href="contact.html" class="btn btn-primary" data-estimator-cta>Turn this into a brief</a>
-              <p class="form-note">Use this as a faster starting point. Final scope and fee are confirmed after a short scoping call.</p>
+              <p class="form-note">Indicative only. Final scope and fee follow a short scoping call.</p>
             </div>
           </div>
         </form>
