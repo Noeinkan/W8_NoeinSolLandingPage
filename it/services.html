@@ -418,26 +418,26 @@
 
         <form class="ai-estimator-form" aria-label="Configuratore sprint AI">
           <div class="ai-estimator-grid">
-            <div class="form-group ai-estimator-control">
-              <label for="ai-activity-type">Tipo di attivit&agrave;</label>
-              <select id="ai-activity-type" name="activityType" class="estimator-input">
-                <option value="prototype">Prototipo rapido / validazione concetto</option>
-                <option value="automation">Automazione workflow</option>
-                <option value="document-intelligence">Tender / analisi documentale con AI</option>
-                <option value="integration">Integrazione workflow / tool interno</option>
-              </select>
+            <fieldset class="form-group ai-estimator-control ai-choice-group">
+              <legend>Tipo di attivit&agrave;</legend>
+              <div class="ai-choice-options ai-choice-options--activity">
+                <label class="ai-choice-option"><input type="radio" id="ai-activity-type" name="activityType" value="prototype" class="estimator-input" checked><span>Prototipo</span></label>
+                <label class="ai-choice-option"><input type="radio" name="activityType" value="automation" class="estimator-input"><span>Automazione</span></label>
+                <label class="ai-choice-option"><input type="radio" name="activityType" value="document-intelligence" class="estimator-input"><span>Docs AI</span></label>
+                <label class="ai-choice-option"><input type="radio" name="activityType" value="integration" class="estimator-input"><span>Tool interno</span></label>
+              </div>
               <div class="form-note">Parti dal workflow che vuoi cambiare per primo.</div>
-            </div>
+            </fieldset>
 
-            <div class="form-group ai-estimator-control">
-              <label for="ai-timeframe">Timeframe di delivery</label>
-              <select id="ai-timeframe" name="timeframe" class="estimator-input">
-                <option value="standard">Sprint standard</option>
-                <option value="fast">Delivery accelerata</option>
-                <option value="urgent">Finestra urgente / compressa</option>
-              </select>
+            <fieldset class="form-group ai-estimator-control ai-choice-group">
+              <legend>Timeframe di delivery</legend>
+              <div class="ai-choice-options ai-choice-options--timeframe">
+                <label class="ai-choice-option"><input type="radio" id="ai-timeframe" name="timeframe" value="standard" class="estimator-input" checked><span>Standard</span></label>
+                <label class="ai-choice-option"><input type="radio" name="timeframe" value="fast" class="estimator-input"><span>Veloce</span></label>
+                <label class="ai-choice-option"><input type="radio" name="timeframe" value="urgent" class="estimator-input"><span>Urgente</span></label>
+              </div>
               <div class="form-note">Il timeframe applica il fattore commerciale finale.</div>
-            </div>
+            </fieldset>
 
             <fieldset class="form-group ai-step-group">
               <legend>Complessit&agrave;</legend>
