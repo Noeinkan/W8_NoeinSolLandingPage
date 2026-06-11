@@ -1,3 +1,14 @@
 # Local planning notes — not for the repo or deploy
 PRE_LEAVE_LONG_TERM_PLAN.md
 *.local.md
+
+# Internal-only documents — never for the deployed site or public repo
+PRICING.md
+
+# Python virtual environment
+.venv/
+
+# Test dependencies (smoke test installs jsdom into scripts/tests/smoke/node_modules on first run)
+scripts/tests/smoke/node_modules/
+scripts/tests/smoke/package-lock.json
+scripts/tests/smoke/package.json

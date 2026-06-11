@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const root = __dirname;
+const root = path.resolve(__dirname, '..', '..');
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
@@ -65,12 +65,38 @@ function testBepChecklistPage() {
   assert(!html.includes('calendly.com'), 'bep-checklist still references Calendly');
 }
 
+function testEirChecklistPage() {
+  const html = read('eir-checklist.html');
+  assertUniqueIds('eir-checklist.html');
+  assert(html.includes('id="eirForm"'), 'eir checklist form missing');
+  assert(html.includes('id="eirSections"'), 'eir sections host missing');
+  assert(html.includes('id="eirReportGaps"'), 'eir report gaps host missing');
+  assert(html.includes('id="eirReportBreakdown"'), 'eir report breakdown host missing');
+  assert(!html.includes('calendly.com'), 'eir-checklist still references Calendly');
+  assert(!html.includes('formsubmit.co'), 'eir-checklist should not use FormSubmit (value-first, no gate)');
+  // EN-only this pass; the IT lang-switcher must point to # until the IT mirror exists
+  const langMatch = html.match(/href="([^"]*)"\s+class="lang-switch"/);
+  assert(langMatch && langMatch[1] === '#', 'eir-checklist lang-switcher must point to # until IT mirror exists');
+  // Self-canonical + hreflang en + x-default, no hreflang=it
+  assert(html.includes('rel="canonical" href="https://noeinsolutions.com/eir-checklist.html"'), 'eir-checklist missing self-canonical');
+  assert(html.includes('hreflang="en" href="https://noeinsolutions.com/eir-checklist.html"'), 'eir-checklist missing hreflang=en');
+  assert(html.includes('hreflang="x-default"'), 'eir-checklist missing x-default');
+  assert(!/hreflang="it"\s+href="[^"]*eir-checklist/.test(html), 'eir-checklist should not advertise hreflang=it until IT mirror exists');
+  // Two script tags (main + eir)
+  assert(html.includes('src="js/main.js"'), 'eir-checklist missing main.js script');
+  assert(html.includes('src="js/eir-checklist.js"'), 'eir-checklist missing eir-checklist.js script');
+  // Sitemap must include the page
+  const sitemap = read('sitemap.xml');
+  assert(sitemap.includes('https://noeinsolutions.com/eir-checklist.html'), 'sitemap.xml missing eir-checklist.html');
+}
+
 function testAnalyticsGating() {
   [
     'index.html',
     'about.html',
     'capsar.html',
     'bep-checklist.html',
+    'eir-checklist.html',
     'privacy.html'
   ].forEach((relativePath) => {
     const html = read(relativePath);
@@ -89,6 +115,7 @@ function run() {
   testCapsarPage();
   testIndexPage();
   testBepChecklistPage();
+  testEirChecklistPage();
   testAnalyticsGating();
   testMainJs();
   console.log('UI/UX regression checks passed.');

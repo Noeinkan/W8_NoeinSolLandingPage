@@ -31,10 +31,10 @@ jobs:
           python-version: '3.x'
 
       - name: Run UI and UX regression checks
-        run: node ui-ux.test.js
+        run: node scripts/tests/ui-ux.test.js
 
       - name: Run Italian localization parity checks
-        run: node it-translation.test.js
+        run: node scripts/tests/it-translation.test.js
 
       - name: Run deploy preflight checks
         run: bash deploy.sh --check

@@ -8,6 +8,34 @@ This file was added on 2026-05-26. Entries before that date were backfilled from
 
 ### Added
 
+- New interactive tool: **EIR Health Check** at `eir-checklist.html`. 12 questions across 4 sections on a 0–3 clarity scale, live /100 score, top-3 gap cards, full breakdown, and a print-friendly PDF export. Runs entirely client-side (no email, no gating) to match the privacy posture of the BEP Readiness Checklist. Cross-linked from `bep-checklist.html`, the Capsar comparison table, the homepage value cards, and the privacy page. Staged assets `js/eir-checklist.js` and `css/eir-checklist.css` were already in the repo; this ships the HTML wrapper that wires them together.
+
+### Changed
+
+- Consolidated two duplicate EIR value cards on `index.html` (the prior "EIR clarity check" and "EIR health check" cards both pointed to the same page with different copy) into a single EIR Health Check card.
+- EIR Health Check added to the top nav and footer Pages list on all 5 EN pages (Home, About, Capsar, BEP, Privacy).
+- Privacy page now refers to the tool consistently as **EIR Health Check** (it previously mixed "EIR Clarity Check" and "EIR Health Check" across two mentions).
+- Added `.eir-cross-link-wrap` style to `css/bep-checklist.css` (the wrapper container was used inline on both BEP and EIR pages with no rules — now it's a real class and the inline styles are gone).
+- `deploy.sh` preflight `REQUIRED_FILES` now includes `eir-checklist.html` so a future breakage of the new page fails the preflight.
+
+### Deferred
+
+- Italian mirror `it/eir-checklist.html` — the lang-switcher on `eir-checklist.html` correctly points to `#` until the mirror exists (asserted by `scripts/tests/ui-ux.test.js`). The IT nav across the 5 IT pages, the IT value card, and the IT privacy page row for the EIR tool are intentionally not touched in this pass; they ship together with the IT mirror.
+
+- Reorganised project root: long-form documentation moved to `docs/` (`DEPLOYMENT.md`, `PRODUCT_LANDING_PAGE.md`, `UI_UX_ANALYSIS.md`, `LOCALIZATION_IT_GLOSSARY.md`, `LOCALIZATION_IT_STYLE.md`, `LOCALIZATION_QA_CHECKLIST.md`); test runners moved to `scripts/tests/`; one-off Python build helpers (`convert_certs.py`, `optimize_headshot.py`) moved to `scripts/`. Cross-references and the CI workflow updated to match. `deploy.sh` excludes extended with `docs`, `scripts/tests`, `*.docx`, `*.py`, and `.venv` so none of the moved files reach the production server.
+- `CLAUDE.md` updated to reflect the new layout and the practitioner-mode product state.
+
+### Removed
+
+- Deleted dead Cloudflare Pages config files (`_redirects`, `_headers`) that were never used by the Hetzner/Docker nginx runtime.
+- Deleted duplicate `ISO19650_BEP_Readiness_Checklist_v2 (1).docx` from the project root (it was a working source, not a deployable asset).
+
+### Added
+
+- `PRICING.md` and `.venv/` now appear in `.gitignore` so the pricing rationale stays local and the Python virtualenv does not pollute the workspace.
+
+### Added
+
 - `PRODUCT_LANDING_PAGE.md` to document the product scope, user journeys, constraints, and operating rules for this repository.
 
 ### Changed

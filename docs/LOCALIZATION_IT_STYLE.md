@@ -4,7 +4,7 @@ This is the canonical reference for **how** Italian copy should read on this sit
 
 The voice locked here was established after a full IT rewrite (April 2026) following an audit that found the original IT copy read as AI-generated and dated to native readers. Read the audit context in `plans/quizzical-strolling-pond.md` if useful.
 
-Run `node it-translation.test.js` after any IT change. The test catches structural drift, EN-leakage, missing accents, and find/replace scars — but not voice. This document is what catches voice.
+Run `node scripts/tests/it-translation.test.js` after any IT change. The test catches structural drift, EN-leakage, missing accents, and find/replace scars — but not voice. This document is what catches voice.
 
 ---
 
@@ -132,7 +132,7 @@ Self-review before committing any IT change:
 - [ ] No `Andrea` in third-person where `io` would work
 - [ ] No `Scopri di più` repeated identically across multiple cards
 - [ ] No formulaic AI-closings reused twice on the same page
-- [ ] `node it-translation.test.js` passes
+- [ ] `node scripts/tests/it-translation.test.js` passes
 - [ ] Read the page aloud — does it sound like a native Italian peer talking, or a translation? If translation, flag the spot.
 
 ---

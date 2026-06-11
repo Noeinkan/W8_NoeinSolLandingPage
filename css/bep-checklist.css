@@ -791,3 +791,11 @@
   }
   .bep-report-footer a { color: #7a5d1e !important; }
 }
+
+/* ─── Cross-link container (used on bep-checklist + eir-checklist to surface
+       the sibling tool between the hero and the main tool) ─── */
+.eir-cross-link-wrap {
+  max-width: 1180px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+}

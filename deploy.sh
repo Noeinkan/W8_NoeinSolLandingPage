@@ -41,11 +41,16 @@ EXCLUDES_RSYNC=(
     --exclude '.cursor'
     --exclude '.env'
     --exclude '.env.*'
+    --exclude '.venv'
     --exclude 'deploy'
     --exclude 'deploy.sh'
     --exclude 'nginx.conf'
     --exclude 'landing-block.conf'
+    --exclude 'docs'
+    --exclude 'scripts/tests'
     --exclude '*.md'
+    --exclude '*.docx'
+    --exclude '*.py'
 )
 
 EXCLUDES_TAR=(
@@ -54,11 +59,16 @@ EXCLUDES_TAR=(
     --exclude='.cursor'
     --exclude='.env'
     --exclude='.env.*'
+    --exclude='.venv'
     --exclude='deploy'
     --exclude='deploy.sh'
     --exclude='nginx.conf'
     --exclude='landing-block.conf'
+    --exclude='docs'
+    --exclude='scripts/tests'
     --exclude='*.md'
+    --exclude='*.docx'
+    --exclude='*.py'
 )
 
 resolve_local_python() {
@@ -145,6 +155,7 @@ REQUIRED_FILES = [
     "about.html",
     "capsar.html",
     "bep-checklist.html",
+    "eir-checklist.html",
     "privacy.html",
     "it/index.html",
     "it/about.html",

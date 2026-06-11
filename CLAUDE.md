@@ -5,21 +5,54 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 ## File Structure
 
 ```
-├── *.html              # 8 English pages (index, about, services, case-studies, capsar, bep-checklist, contact, privacy)
-├── it/*.html           # 8 Italian mirrors (same filenames)
-├── css/
+├── *.html              # 6 English pages (index, about, capsar, bep-checklist, eir-checklist, privacy)
+├── it/*.html           # 5 Italian mirrors (eir-checklist mirror not yet shipped)
+├── css/                # Styles split into per-concern partials
 │   ├── styles.css      # Global styles + CSS custom properties (~2,550 lines)
-│   ├── about.css       # Page-specific overrides
+│   ├── styles.base.css
+│   ├── styles.utilities.css
+│   ├── styles.animations.css
+│   ├── styles.ui.css
+│   ├── styles.hero.css
+│   ├── styles.navigation.css
+│   ├── styles.sections.css
+│   ├── styles.faq.css
+│   ├── styles.responsive.css
+│   ├── home.css        # Page-specific overrides
+│   ├── about.css
 │   ├── services.css
 │   ├── capsar.css
 │   ├── case-studies.css
-│   └── bep-checklist.css
+│   ├── contact.css
+│   ├── bep-checklist.css
+│   └── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
 ├── js/
-│   ├── main.js         # Single IIFE bundle (all interactivity, analytics, animations)
-│   └── bep-checklist.js # Interactive BEP readiness diagnostic
+│   ├── main.js              # Single IIFE bundle (all interactivity, analytics, animations)
+│   ├── bep-checklist.js     # Interactive BEP readiness diagnostic
+│   └── eir-checklist.js     # Interactive EIR clarity health check (0–3 scale, /100 score)
 ├── assets/             # Images, lead magnet file, credential certs
 ├── deploy.sh           # Production deployment script
-└── deploy/templates/   # Nginx + Docker Compose templates
+├── deploy/templates/   # Nginx + Docker Compose templates
+├── docs/               # Project documentation
+│   ├── DEPLOYMENT.md
+│   ├── PRODUCT_LANDING_PAGE.md
+│   ├── UI_UX_ANALYSIS.md
+│   ├── LOCALIZATION_IT_GLOSSARY.md
+│   ├── LOCALIZATION_IT_STYLE.md
+│   └── LOCALIZATION_QA_CHECKLIST.md
+├── scripts/            # Build helpers, test runners
+│   ├── smoke-check.js
+│   ├── convert_certs.py
+│   ├── optimize_headshot.py
+│   └── tests/
+│       ├── ui-ux.test.js
+│       ├── it-translation.test.js
+│       └── smoke/
+│           └── eir-smoke.test.js  # EIR Health Check: jsdom-based runtime test (self-installs jsdom)
+├── CHANGELOG.md
+├── CLAUDE.md
+├── PRICING.md          # gitignored — internal only
+└── PRE_LEAVE_LONG_TERM_PLAN.md  # gitignored — local planning
 ```
 
 ## Key Conventions
@@ -36,12 +69,12 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 Every content change to an EN page must be mirrored in its `/it/` counterpart. When editing:
 1. Make the change in the English file
 2. Apply the equivalent change in `it/<same-file>.html`
-3. Follow terminology in `LOCALIZATION_IT_GLOSSARY.md` and the voice/style brief in `LOCALIZATION_IT_STYLE.md`
+3. Follow terminology in `docs/LOCALIZATION_IT_GLOSSARY.md` and the voice/style brief in `docs/LOCALIZATION_IT_STYLE.md`
 4. If adding a new page: add hreflang links to both versions, update `sitemap.xml`
-5. Run `node it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what `LOCALIZATION_IT_STYLE.md` is for — self-check against its pre-commit checklist.
+5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what `docs/LOCALIZATION_IT_STYLE.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
-- **Voice: `io` (first-person singular) + `tu` (informal second-person).** No `Lei`/`Vi`/`voi` as reader address. No `noi` as speaker (Andrea is solo). Specific exceptions (hero on index, career timeline on about, testimonials, footer brand) are documented in `LOCALIZATION_IT_STYLE.md`.
+- **Voice: `io` (first-person singular) + `tu` (informal second-person).** No `Lei`/`Vi`/`voi` as reader address. No `noi` as speaker (Andrea is solo). Specific exceptions (hero on index, career timeline on about, testimonials, footer brand) are documented in `docs/LOCALIZATION_IT_STYLE.md`.
 - Keep English-native terms in IT: `BEP`, `EIR`, `CDE`, `OIR`, `AIR`, `ISO 19650`, `TIDP`, `MIDP`, `digital delivery` (in titles), `onboarding`, `governance`, `Information Manager`, `BIM Manager`, `AEC`.
 - Keep anchor IDs in English (`#information-management`, `#bep-eir`, `#programme-delivery`) — CSS/JS reference them; only translate visible link text.
 - JS-referenced IDs (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`, `heroCanvas`) must stay identical to EN — do NOT translate them.
@@ -64,13 +97,15 @@ The script validates: all HTML files exist, every link/src/href resolves to a re
 ## Testing
 
 ```bash
-node ui-ux.test.js            # structural regressions
-node it-translation.test.js   # IT mirror completeness
+node scripts/tests/ui-ux.test.js            # structural regressions
+node scripts/tests/it-translation.test.js   # IT mirror completeness
+node scripts/tests/smoke/eir-smoke.test.js  # EIR Health Check runtime (jsdom; auto-installs on first run)
 bash deploy.sh --check        # link/href/canonical/title preflight
 ```
 
-- **`ui-ux.test.js`** — unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support.
-- **`it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
+- **`scripts/tests/ui-ux.test.js`** — unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support.
+- **`scripts/tests/it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
+- **`scripts/tests/smoke/eir-smoke.test.js`** — jsdom-based runtime test for the EIR Health Check. Loads `eir-checklist.html` + `js/eir-checklist.js` into a headless DOM, simulates user ratings, and asserts: DOM render, scoring engine (0–3 scale → /100), band classes, persistence round-trip, report generation, gap-card selection, export-view HTML output, empty-state guard, and href/src resolution. Self-installs `jsdom` into `scripts/tests/smoke/node_modules/` on first run; the directory is gitignored.
 
 ## Analytics
 
@@ -80,11 +115,11 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 
 ## Documentation
 
-- `DEPLOYMENT.md` — full deployment guide and server architecture
-- `PRODUCT_LANDING_PAGE.md` — product definition for the site, its user journeys, and repo scope
+- `docs/DEPLOYMENT.md` — full deployment guide and server architecture
+- `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its user journeys, and repo scope
 - `CHANGELOG.md` — notable site and documentation changes, backfilled from git history
-- `LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference (the **what**)
-- `LOCALIZATION_IT_STYLE.md` — IT voice and style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
-- `LOCALIZATION_QA_CHECKLIST.md` — multilingual QA checklist
-- `UI_UX_ANALYSIS.md` — design system documentation
-- `PRICING.md` — internal pricing rationale and recruiter/CV alignment notes (not for publication)
+- `docs/LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference (the **what**)
+- `docs/LOCALIZATION_IT_STYLE.md` — IT voice and style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
+- `docs/LOCALIZATION_QA_CHECKLIST.md` — multilingual QA checklist
+- `docs/UI_UX_ANALYSIS.md` — design system documentation
+- `PRICING.md` (gitignored) — internal pricing rationale and recruiter/CV alignment notes (not for publication)

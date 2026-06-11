@@ -2,7 +2,7 @@
 import os
 from PIL import Image
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 src = os.path.join(BASE, "assets", "headshot.jpg")
 out = os.path.join(BASE, "assets", "headshot.jpg")
 

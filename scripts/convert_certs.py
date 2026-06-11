@@ -7,7 +7,7 @@ import fitz  # PyMuPDF
 from PIL import Image, ImageDraw, ImageFont
 import math
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(BASE_DIR, "assets", "certs")
 os.makedirs(OUT_DIR, exist_ok=True)
 

@@ -21,6 +21,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://noeinsolutions.com/eir-checklist.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://noeinsolutions.com/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

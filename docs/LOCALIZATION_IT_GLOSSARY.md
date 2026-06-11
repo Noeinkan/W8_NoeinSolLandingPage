@@ -2,7 +2,7 @@
 
 This glossary is the **what** of EN→IT — which terms map to which words. For the **how** (voice, sentence rhythm, anti-patterns, register), see `LOCALIZATION_IT_STYLE.md`.
 
-Both files apply to every IT change. The test `node it-translation.test.js` enforces a subset of these (accent words, EN-leakage blacklist, structural parity), but most of what's here is style discipline that has to be self-checked.
+Both files apply to every IT change. The test `node scripts/tests/it-translation.test.js` enforces a subset of these (accent words, EN-leakage blacklist, structural parity), but most of what's here is style discipline that has to be self-checked.
 
 ## Terms (EN → IT)
 

@@ -2,12 +2,7 @@
 
 Production deployment guide for `noeinsolutions.com`.
 
-This repo now supports two deployment paths for the landing site:
-
-1. **Target primary path:** Cloudflare Pages for `noeinsolutions.com` and `www.noeinsolutions.com`
-2. **Fallback path:** the existing Hetzner + Docker nginx deployment via `deploy.sh`
-
-`app.noeinsolutions.com` is the production Capsar app and stays on the Hetzner VPS throughout the landing-site migration.
+The current production runtime is Hetzner + Docker nginx, deployed via `deploy.sh`. `app.noeinsolutions.com` is the production Capsar app and stays on the Hetzner VPS.
 
 ---
 
@@ -34,64 +29,26 @@ node scripts/smoke-check.js
 
 ## Target Architecture
 
-After cutover, the intended steady state is:
+Current steady state:
 
 | Domain | Purpose | Served by |
 |--------|---------|-----------|
-| `noeinsolutions.com` | Company landing page | Cloudflare Pages -> static files from this repo |
-| `www.noeinsolutions.com` | Redirect to apex | Cloudflare custom domain / Redirect Rule |
+| `noeinsolutions.com` | Company landing page | Hetzner VPS -> Docker nginx -> static files from `/var/www/noeinsol` |
+| `www.noeinsolutions.com` | Redirect to apex | Hetzner VPS -> Docker nginx (in-server-block) |
 | `app.noeinsolutions.com` | Capsar.io SaaS app | Hetzner VPS -> Docker nginx -> backend containers |
 | `jobs.noeinsolutions.com` | Jobs / product-specific surface | Hetzner VPS |
 | `77.42.70.26.nip.io` | Internal/fallback access | Hetzner VPS |
 
-Cloudflare Pages becomes the primary origin only for the marketing site. The Capsar app stays on its current origin and must remain reachable before, during, and after the landing cutover.
+The Capsar app stays on its own origin and must remain reachable before, during, and after any landing deploy.
 
 ---
 
 ## Repo-Hosted Static Config
 
-The repo now contains provider-ready static-host config for the landing site:
+The repo contains the deploy and CI plumbing for the Hetzner + Docker nginx fallback below:
 
-- `_headers` — Cloudflare Pages response headers for security, cache policy, and noindex on preview domains
-- `_redirects` — path redirects for extensionless EN/IT routes
 - `.github/workflows/static-site-checks.yml` — CI gates on pull requests and `main`, plus manual live smoke checks
 - `scripts/smoke-check.js` — live smoke checks for both the landing site and `app.noeinsolutions.com`
-
-Important constraint: Cloudflare Pages `_redirects` does **not** support domain-level redirects. `www.noeinsolutions.com` -> apex must be configured in Cloudflare custom domain settings or Redirect Rules, not in the repo.
-
----
-
-## Cloudflare Pages Setup
-
-Use these settings when creating the Pages project:
-
-1. Connect the repository directly in Cloudflare Pages.
-2. Framework preset: `None`.
-3. Build command: none.
-4. Build output directory: `.`
-5. Custom domains: attach only `noeinsolutions.com` and `www.noeinsolutions.com`.
-6. Keep `app.noeinsolutions.com`, `jobs.noeinsolutions.com`, and any other product subdomains pointing at the Hetzner VPS.
-7. If the DNS zone moves to Cloudflare, keep `app.noeinsolutions.com` DNS-only for the first cutover so landing migration does not change Capsar proxy behavior at the same time.
-
-Before cutover:
-
-1. Validate the Pages preview deployment for `/`, `/about.html`, `/contact.html`, `/it/index.html`, and `/it/contact.html`.
-2. Run the repo checks in GitHub Actions.
-3. Run `node scripts/smoke-check.js` against production to capture a clean baseline for both the landing site and the app.
-4. Lower DNS TTL for the apex and `www` records.
-
-During cutover:
-
-1. Point `noeinsolutions.com` and `www.noeinsolutions.com` at the Pages project.
-2. Configure `www` -> apex in Cloudflare.
-3. Confirm `app.noeinsolutions.com` still resolves to the Hetzner origin and still serves the Capsar app.
-4. Re-run `node scripts/smoke-check.js`.
-
-After cutover:
-
-1. Keep the Hetzner landing deploy path intact as a bounded rollback path.
-2. Rehearse rollback once by restoring the previous Pages deployment first.
-3. Use DNS rollback to Hetzner only if the Pages rollback does not resolve the issue.
 
 ---
 
@@ -147,7 +104,7 @@ Every regular deploy (`bash deploy.sh`) does all of the following before reporti
 
 If any step fails, deploy exits non-zero and prints an error.
 
-Treat this as the fallback landing deploy path after Cloudflare Pages is live. It should remain available until the new primary path has been exercised and rollback has been rehearsed.
+Treat this as the production landing deploy path. It should remain available and rehearsed for rollback until a new primary path is in place.
 
 ---
 
@@ -155,8 +112,8 @@ Treat this as the fallback landing deploy path after Cloudflare Pages is live. I
 
 The GitHub Actions workflow at `.github/workflows/static-site-checks.yml` runs:
 
-1. `node ui-ux.test.js`
-2. `node it-translation.test.js`
+1. `node scripts/tests/ui-ux.test.js`
+2. `node scripts/tests/it-translation.test.js`
 3. `bash deploy.sh --check`
 
 On manual dispatch, the same workflow also runs `node scripts/smoke-check.js` against the live landing and app domains.
@@ -214,11 +171,10 @@ If a deploy fails after partial server changes:
    ssh root@77.42.70.26 "cd /opt/bep-generator && docker compose up -d --force-recreate nginx"
    ```
 
-If Cloudflare Pages is the primary landing origin and the landing site has to be rolled back:
+If the landing site has to be rolled back:
 
-1. Roll back the Pages deployment first.
-2. Confirm `app.noeinsolutions.com` is still healthy before touching DNS.
-3. Only then restore apex and `www` DNS to Hetzner if the provider-side rollback is insufficient.
+1. Confirm `app.noeinsolutions.com` is still healthy before touching anything landing-side.
+2. Re-run `bash deploy.sh` from the previous known-good commit — the script is idempotent and the rsync step overwrites in place.
 
 ---
 

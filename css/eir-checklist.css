@@ -1,0 +1,520 @@
+/* ═══════════════════════════════════════════════════════════
+   EIR Health Check — interactive tool
+   Reuses .bep-* classes from bep-checklist.css for layout,
+   score sidebar, results panel, and print scaffolding.
+   Adds .eir-q (question fieldset) and .eir-q-scale (0-3 radios)
+   plus .eir-gap-card (top-3 highlight cards).
+   No blur / lock / gate patterns. Everything is fully visible.
+   ═══════════════════════════════════════════════════════════ */
+
+.page-hero-note {
+  margin-top: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.01em;
+}
+
+/* ─── Layout — reuses .bep-tool / .bep-layout ─── */
+.eir-tool {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 960px) {
+  .bep-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.eir-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+/* ─── Project card (renamed eir-project reuses .bep-card styling) ─── */
+.eir-project { padding-bottom: 1.2rem; }
+
+.eir-project .form-group { margin-bottom: 0; }
+.eir-project input[type="text"],
+.eir-project input[type="date"] {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s var(--ease-out);
+}
+.eir-project input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.eir-project label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.eir-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .eir-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ─── Section accordion — reuses .bep-section markup ─── */
+.eir-section { /* all visual rules inherited from .bep-section */ }
+
+/* ─── Question (the new 0-3 scale fieldset) ─── */
+.eir-q {
+  border: 0;
+  padding: 0.85rem 0 0.6rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.eir-q-legend {
+  display: block;
+  font-size: var(--copy-size);
+  line-height: var(--copy-line-height-tight);
+  color: var(--text-secondary);
+  padding: 0 0 0.7rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* The 0-3 scale row */
+.eir-q-scale {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.eir-q-scale label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.4rem 0.55rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  text-align: center;
+  line-height: 1.2;
+}
+.eir-q-scale label:hover {
+  border-color: var(--accent-dim);
+  background: var(--bg-card-hover);
+}
+.eir-q-scale input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px; height: 1px;
+}
+.eir-q-scale-num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-tertiary);
+  line-height: 1;
+  transition: color 0.2s var(--ease-out);
+}
+.eir-q-scale-text {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+  letter-spacing: 0.02em;
+  transition: color 0.2s var(--ease-out);
+}
+.eir-q-scale label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+.eir-q-scale label:has(input:checked) .eir-q-scale-num {
+  color: var(--accent);
+}
+.eir-q-scale label:has(input:checked) .eir-q-scale-text {
+  color: var(--text-primary);
+}
+.eir-q-scale label:has(input:focus-visible) {
+  box-shadow: 0 0 0 2px var(--accent-glow-strong);
+  outline: 0;
+}
+
+/* Stacked vertical on very small screens */
+@media (max-width: 520px) {
+  .eir-q-scale {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Honor reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .eir-q-scale label,
+  .eir-q-scale-num,
+  .eir-q-scale-text {
+    transition: none;
+  }
+}
+
+/* ─── Top-3 gap cards (the highlight, not blurred/locked) ─── */
+.eir-gap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+@media (max-width: 860px) {
+  .eir-gap-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+}
+
+.eir-gap-card {
+  background: linear-gradient(180deg, rgba(201, 165, 90, 0.08) 0%, var(--bg-elevated) 100%);
+  border: 1px solid rgba(201, 165, 90, 0.35);
+  border-radius: 12px;
+  padding: 1.1rem 1.1rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  position: relative;
+}
+
+.eir-gap-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+}
+.eir-gap-rank-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.eir-gap-section {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.eir-gap-q {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.eir-gap-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+.eir-gap-rating-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 99px;
+  background: var(--bg-primary);
+  border: 1px solid rgba(216, 110, 92, 0.35);
+  color: #e89c8c;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.eir-gap-fix {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(201, 165, 90, 0.18);
+}
+.eir-gap-fix strong {
+  color: var(--accent);
+  font-weight: 500;
+  display: block;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.25rem;
+}
+
+/* ─── Full breakdown list (all 12 questions visible) ─── */
+.eir-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.eir-breakdown-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 0.95rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.eir-breakdown-q {
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.eir-breakdown-q-section {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  margin-bottom: 0.2rem;
+}
+.eir-breakdown-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.eir-breakdown-rating-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.4rem;
+  padding: 0 0.4rem;
+  border-radius: 99px;
+  background: var(--bg-primary);
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+.eir-breakdown-rating-pill.is-high { color: #a6d69c; border-color: rgba(134, 194, 123, 0.3); }
+.eir-breakdown-rating-pill.is-med  { color: #e8c27d; border-color: rgba(224, 176, 82, 0.3); }
+.eir-breakdown-rating-pill.is-low  { color: #e89c8c; border-color: rgba(216, 110, 92, 0.3); }
+.eir-breakdown-rating-pill.is-none { color: var(--text-tertiary); border-color: var(--border); }
+
+/* ─── Score sidebar — reuses .bep-score-*; we add a /100 max label ─── */
+.eir-score-max-suffix {
+  font-size: 0.95rem;
+  color: var(--text-tertiary);
+  margin-left: 0.3rem;
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* ─── Result hero with primary mailto CTA ─── */
+.eir-cta-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.6rem;
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+}
+.eir-cta-block .hero-actions {
+  justify-content: center;
+  margin-top: 1rem;
+}
+.eir-cta-sub {
+  font-size: var(--copy-size-compact);
+  color: var(--text-secondary);
+  line-height: var(--copy-line-height-tight);
+  max-width: 600px;
+  margin: 0 auto 0.5rem;
+}
+.eir-cta-divider {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin: 1.5rem auto 0.5rem;
+  text-align: center;
+}
+.eir-crosslinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+.eir-crosslinks a {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  transition: all 0.2s var(--ease-out);
+}
+.eir-crosslinks a:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ─── Print: hide cross-link secondary, expand for clean export ─── */
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 14mm;
+  }
+
+  html, body {
+    background: #fff !important;
+    color: #111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body::before { display: none !important; }
+
+  .no-print,
+  .skip-link,
+  nav,
+  footer,
+  .page-hero,
+  .eir-form,
+  .bep-sidebar,
+  .bep-actions,
+  .eir-cta-block,
+  .bep-report-actions { display: none !important; }
+
+  main { padding: 0 !important; }
+  .eir-tool { padding: 0; max-width: 100%; }
+  .bep-layout { display: block; }
+
+  .bep-results {
+    margin: 0;
+    padding: 0;
+    display: block !important;
+  }
+  .bep-results[hidden] { display: block !important; }
+
+  .bep-results-inner {
+    background: #fff !important;
+    border: none !important;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .section-label {
+    color: #7a5d1e !important;
+    font-size: 10pt;
+    letter-spacing: 0.12em;
+  }
+  .section-title,
+  .bep-report-h3,
+  .eir-gap-q,
+  .bep-diag-title {
+    color: #111 !important;
+  }
+  .section-title { font-size: 22pt; margin: 4pt 0 8pt; }
+  .bep-report-h3 { font-size: 14pt; margin-top: 14pt; }
+
+  .bep-report-meta,
+  .bep-report-score-interp,
+  .bep-diag-body,
+  .bep-report-section-row-title,
+  .bep-report-section-row-count,
+  .eir-gap-fix,
+  .bep-report-footer {
+    color: #333 !important;
+  }
+
+  .bep-report-grid {
+    grid-template-columns: 200px 1fr;
+    gap: 16pt;
+    margin-bottom: 14pt;
+    page-break-inside: avoid;
+  }
+
+  .bep-report-score {
+    background: #faf6eb !important;
+    border: 1px solid #d9c790 !important;
+    padding: 14pt;
+  }
+  .bep-report-score-num { color: #111 !important; font-size: 28pt; }
+
+  .band-high { background: #e8f3e4 !important; color: #2d6a22 !important; border-color: #9bc992 !important; }
+  .band-med  { background: #fbf1d8 !important; color: #7a5d1e !important; border-color: #d9c790 !important; }
+  .band-low  { background: #fbe5e0 !important; color: #8a3322 !important; border-color: #d89a8c !important; }
+
+  .bep-report-section-row {
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid;
+  }
+  .bep-report-section-row.is-weak { border-color: #d89a8c !important; }
+  .bep-report-section-row.is-strong { border-color: #9bc992 !important; }
+  .bep-report-section-row-bar { background: #eee !important; }
+  .bep-report-section-row-bar span { background: #7a5d1e !important; }
+  .bep-report-section-row.is-weak .bep-report-section-row-bar span { background: #c2553e !important; }
+  .bep-report-section-row.is-strong .bep-report-section-row-bar span { background: #4a8a3d !important; }
+
+  .eir-gap-card {
+    background: #fff !important;
+    border: 1px solid #d9c790 !important;
+    page-break-inside: avoid;
+  }
+  .eir-gap-rank { color: #7a5d1e !important; }
+  .eir-gap-rank-num { background: #7a5d1e !important; color: #fff !important; }
+  .eir-gap-fix { color: #333 !important; }
+
+  .eir-breakdown-row {
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid;
+  }
+  .eir-breakdown-rating-pill.is-high { color: #2d6a22 !important; border-color: #9bc992 !important; }
+  .eir-breakdown-rating-pill.is-med  { color: #7a5d1e !important; border-color: #d9c790 !important; }
+  .eir-breakdown-rating-pill.is-low  { color: #8a3322 !important; border-color: #d89a8c !important; }
+  .eir-breakdown-rating-pill.is-none { color: #666 !important; border-color: #ddd !important; }
+
+  .bep-report-footer {
+    border-top: 1px solid #ddd !important;
+    color: #666 !important;
+    font-size: 9pt;
+  }
+  .bep-report-footer a { color: #7a5d1e !important; }
+}
