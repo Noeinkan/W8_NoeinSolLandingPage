@@ -92,7 +92,7 @@
         'Requisiti di naming, metadati e formato di scambio sono riflessi.'
       ],
       fix: 'Costruisci una matrice di tracciabilità EIR→BEP. Ogni riga dell’EIR deve puntare a una sezione, un deliverable o una motivazione di non applicabilità: niente buchi.',
-      cta: { label: 'BEP & EIR Production', href: 'services.html' }
+      cta: { label: 'Scopri Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's2', num: '2', title: 'Strategia di consegna delle informazioni',
@@ -103,7 +103,7 @@
         'La strategia di federazione è documentata e operativa.'
       ],
       fix: 'Passa dalla narrativa al concreto: chi federa, con quale cadenza, su quale piattaforma e con quali regole di coordinamento. I reviewer cercano specificità.',
-      cta: { label: 'Information Management Strategy', href: 'services.html' }
+      cta: { label: 'Scopri Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's3', num: '3', title: 'Controlli di responsabilità e pianificazione',
@@ -114,7 +114,7 @@
         'TIDP presenti/definiti per i task team rilevanti.'
       ],
       fix: 'Un BEP senza MIDP credibile è un BEP a rischio. Costruisci il MIDP partendo dalle milestone contrattuali e risali ai TIDP per ogni task team.',
-      cta: { label: 'Programme Digital Delivery', href: 'services.html' }
+      cta: { label: 'Scopri Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's4', num: '4', title: 'CDE, workflow e setup tecnico',
@@ -136,7 +136,7 @@
         'Audit trail dimostrabile (versioning, approvazioni, record, log).'
       ],
       fix: 'Se domani un reviewer volesse verificare i tuoi approvals, potresti mostrarli? Rendi visibili versioning e log, e lega ogni tipo di deliverable a criteri testabili.',
-      cta: { label: 'Parliamone in una call di 30 min', href: 'contact.html' }
+      cta: { label: 'Richiedi accesso Capsar', href: 'capsar.html' }
     },
     {
       id: 's6', num: '6', title: 'Capability, mobilitazione e rischio',
@@ -147,7 +147,7 @@
         'Assunzioni critiche e dipendenze sono visibili e controllate.'
       ],
       fix: 'Dichiarazioni di capability generiche non bastano. Lega i nomi ai ruoli, i ruoli alle attività, e le attività a training o readiness check dimostrabili.',
-      cta: { label: 'Training & Mentoring', href: 'services.html' }
+      cta: { label: 'Scopri Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's7', num: '7', title: 'Sicurezza, contratto e allineamento handover',
@@ -158,7 +158,7 @@
         'I deliverable si allineano a scope, programma e milestone commerciali.'
       ],
       fix: 'Incrocia il BEP con il contratto e con i deliverable di handover: ogni impegno nel BEP deve avere un corrispettivo contrattuale e di handover.',
-      cta: { label: 'Consulenza strategica', href: 'services.html' }
+      cta: { label: 'Apri la checklist BEP', href: 'bep-checklist.html' }
     },
     {
       id: 's8', num: '!', title: 'ISO-critical: controlli ad alta confidenza',
@@ -170,7 +170,7 @@
         'Il team sa dimostrare l\u2019approccio di compliance in un bid/clarification workshop.'
       ],
       fix: 'Questi sono i check che separano un BEP "passa" da un BEP "vince". Se uno solo è debole, è un rischio critico.',
-      cta: { label: 'Revisione BEP pre-submission', href: 'contact.html' }
+      cta: { label: 'Apri la checklist BEP', href: 'bep-checklist.html' }
     },
     {
       id: 's9', num: '\u2713', title: 'Go / No-Go finale',
@@ -181,7 +181,7 @@
         'Siamo a nostro agio a sottomettere senza chiarimenti sostanziali.'
       ],
       fix: 'Se anche una di queste tre risposte è "no", non sottomettere senza una review. Il costo di una submission debole supera di gran lunga il costo di 1–2 giorni extra.',
-      cta: { label: 'Prenota una call di 30 min', href: 'contact.html' }
+      cta: { label: 'Richiedi accesso Capsar', href: 'capsar.html' }
     }
   ] : [
     {
@@ -193,7 +193,7 @@
         'Naming, metadata, and exchange format requirements are reflected.'
       ],
       fix: 'Build an EIR\u2192BEP traceability matrix. Every EIR row must point to a section, a deliverable, or a reasoned "not applicable" — no gaps.',
-      cta: { label: 'BEP & EIR Production', href: 'services.html' }
+      cta: { label: 'Explore Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's2', num: '2', title: 'Information delivery strategy',
@@ -204,7 +204,7 @@
         'Federation strategy is documented and actionable.'
       ],
       fix: 'Shift from narrative to operational: who federates, at what cadence, on what platform, and under what coordination rules. Reviewers look for specifics.',
-      cta: { label: 'Information Management Strategy', href: 'services.html' }
+      cta: { label: 'Explore Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's3', num: '3', title: 'Responsibility and planning controls',
@@ -215,7 +215,7 @@
         'TIDPs are present/defined for relevant task teams.'
       ],
       fix: 'A BEP without a credible MIDP is a BEP at risk. Build the MIDP from contractual milestones down, then roll TIDPs up from each task team.',
-      cta: { label: 'Programme Digital Delivery', href: 'services.html' }
+      cta: { label: 'Explore Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's4', num: '4', title: 'CDE, workflows, and technical setup',
@@ -237,7 +237,7 @@
         'Audit trail is demonstrable (versioning, approvals, records, logs).'
       ],
       fix: 'If a reviewer had to audit your approvals tomorrow, could you show them? Make versioning and logs visible, and tie every deliverable type to testable criteria.',
-      cta: { label: 'Let\u2019s talk on a 30-min call', href: 'contact.html' }
+      cta: { label: 'Request Capsar access', href: 'capsar.html' }
     },
     {
       id: 's6', num: '6', title: 'Capability, mobilisation, and risk',
@@ -248,7 +248,7 @@
         'Critical assumptions and dependencies are visible and controlled.'
       ],
       fix: 'Generic capability statements don\u2019t cut it. Tie names to roles, roles to activities, and activities to demonstrable training or readiness checks.',
-      cta: { label: 'Training & Mentoring', href: 'services.html' }
+      cta: { label: 'Explore Capsar.io', href: 'capsar.html' }
     },
     {
       id: 's7', num: '7', title: 'Security, contract, and handover alignment',
@@ -259,7 +259,7 @@
         'Deliverables align with scope, programme, and commercial milestones.'
       ],
       fix: 'Cross-check the BEP against the contract and the handover deliverables: every commitment in the BEP must have a contractual and handover counterpart.',
-      cta: { label: 'Strategic consulting', href: 'services.html' }
+      cta: { label: 'Open BEP checklist', href: 'bep-checklist.html' }
     },
     {
       id: 's8', num: '!', title: 'ISO-critical — high-confidence checks',
@@ -271,7 +271,7 @@
         'Team can evidence compliance approach in a bid/clarification workshop.'
       ],
       fix: 'These are the checks that separate a BEP that "passes" from one that wins. If even one is weak, it\u2019s a critical risk.',
-      cta: { label: 'Pre-submission BEP review', href: 'contact.html' }
+      cta: { label: 'Open BEP checklist', href: 'bep-checklist.html' }
     },
     {
       id: 's9', num: '\u2713', title: 'Final Go / No-Go',
@@ -282,7 +282,7 @@
         'We are comfortable submitting without material clarifications.'
       ],
       fix: 'If even one of these three is "no", do not submit without a review. The cost of a weak submission massively outweighs the cost of 1\u20132 extra days.',
-      cta: { label: 'Book a 30-min call', href: 'contact.html' }
+      cta: { label: 'Request Capsar access', href: 'capsar.html' }
     }
   ];
 

@@ -16,12 +16,9 @@ const ROOT = __dirname;
 const PAGES = [
   'index.html',
   'about.html',
-  'services.html',
-  'case-studies.html',
   'capsar.html',
-  'contact.html',
-  'privacy.html',
   'bep-checklist.html',
+  'privacy.html',
 ];
 
 const failures = [];
@@ -70,7 +67,7 @@ PAGES.forEach((p) => {
 });
 
 // ---- 4. JS-referenced IDs preserved ----
-const JS_IDS = ['exitOverlayClose', 'exitOverlayDismiss', 'stickyCtaClose', 'leadMagnetSuccess', 'heroCanvas'];
+const JS_IDS = ['leadMagnetSuccess', 'heroCanvas'];
 const itIndex = read(path.join(ROOT, 'it/index.html'));
 if (itIndex) {
   JS_IDS.forEach((id) => {

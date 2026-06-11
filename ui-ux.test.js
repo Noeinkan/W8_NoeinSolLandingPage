@@ -40,46 +40,6 @@ function assertUniqueIds(relativePath) {
   assert(duplicates.length === 0, relativePath + ' has duplicate ids: ' + duplicates.join(', '));
 }
 
-function testContactPage() {
-  const html = read('contact.html');
-  assertUniqueIds('contact.html');
-  assert(html.includes('role="tablist" aria-label="Contact options"'), 'contact tablist missing');
-  assert(html.includes('id="message-panel" class="contact-tab"'), 'message panel id missing');
-  assert(html.includes('id="messageField" name="message"'), 'message field id missing');
-  assert(!html.includes('id="message"'), 'legacy duplicate message id still present');
-  assert(html.includes('id="formErrorSummary"'), 'form error summary missing');
-  assert(html.includes('role="tabpanel" aria-labelledby="tab-booking"'), 'booking panel semantics missing');
-  assert(html.includes('role="tabpanel" aria-labelledby="tab-message"'), 'message panel semantics missing');
-  assert(html.includes('<option value="Rapid AI Prototyping & Automation">Rapid AI Prototyping &amp; Automation</option>'), 'AI service option missing from contact form');
-}
-
-function testCaseStudiesPage() {
-  const html = read('case-studies.html');
-  assertUniqueIds('case-studies.html');
-  const controls = [...html.matchAll(/aria-controls="(case-study-\d+)"/g)].map((match) => match[1]);
-  assert(controls.length === 4, 'expected four case study accordion controls');
-  controls.forEach((id) => {
-    assert(html.includes('id="' + id + '"'), 'missing accordion body for ' + id);
-  });
-  assert((html.match(/aria-expanded="false"/g) || []).length >= 4, 'accordion aria-expanded defaults missing');
-}
-
-function testServicesPage() {
-  const html = read('services.html');
-  assert(html.includes('class="service-jump-nav"'), 'service jump nav missing');
-  ['#information-management', '#bep-eir', '#ai-prototyping-automation', '#programme-delivery'].forEach((href) => {
-    assert(html.includes('href="' + href + '" class="service-jump-link"'), 'jump nav link missing for ' + href);
-  });
-  assert(html.includes('data-pricing-estimator'), 'services pricing estimator missing');
-  assert(html.includes('id="ai-sprint-estimator" class="ai-estimator"'), 'services estimator anchor missing');
-  assert(html.includes('data-estimator-breakdown'), 'services pricing breakdown missing');
-  assert(html.includes('data-estimator-complexity-label'), 'services complexity label missing');
-  assert(html.includes('data-estimator-integrations-label'), 'services integrations label missing');
-  assert(html.includes('ai-estimator-advanced'), 'services advanced assumptions panel missing');
-  assert(html.includes('data-estimator-assumptions-summary'), 'services assumptions summary missing');
-  assert(html.includes('ai-estimator-breakdown-panel'), 'services breakdown panel missing');
-}
-
 function testCapsarPage() {
   const html = read('capsar.html');
   assert(html.includes('href="#platform-preview" class="btn btn-outline"'), 'Capsar preview jump CTA missing');
@@ -89,18 +49,28 @@ function testCapsarPage() {
 
 function testIndexPage() {
   const html = read('index.html');
+  assertUniqueIds('index.html');
   assert(html.includes('class="trust-band fade-in"'), 'trust band missing');
-  assert(html.includes('mailto:andrea.aita@noeinsolutions.com'), 'index direct email CTA missing');
+  assert(html.includes('href="capsar.html"'), 'index Capsar CTA missing');
+  assert(html.includes('href="bep-checklist.html"'), 'index checklist CTA missing');
+  assert(!html.includes('calendly.com'), 'index still references Calendly');
+  assert(!html.includes('services.html'), 'index still links to services');
+}
+
+function testBepChecklistPage() {
+  const html = read('bep-checklist.html');
+  assertUniqueIds('bep-checklist.html');
+  assert(html.includes('id="bepForm"'), 'bep checklist form missing');
+  assert(html.includes('id="bepSections"'), 'bep sections host missing');
+  assert(!html.includes('calendly.com'), 'bep-checklist still references Calendly');
 }
 
 function testAnalyticsGating() {
   [
     'index.html',
     'about.html',
-    'services.html',
-    'case-studies.html',
     'capsar.html',
-    'contact.html',
+    'bep-checklist.html',
     'privacy.html'
   ].forEach((relativePath) => {
     const html = read(relativePath);
@@ -113,18 +83,12 @@ function testAnalyticsGating() {
 function testMainJs() {
   const js = read(path.join('js', 'main.js'));
   assert(js.includes("var scrollBehavior = reducedMotion ? 'auto' : 'smooth';"), 'reduced-motion scroll behavior missing');
-  assert(js.includes("switchTab('message-panel');"), 'contact success state does not reuse tab switcher');
-  assert(js.includes("!sessionStorage.getItem('exit_shown') && !reducedMotion && window.innerWidth > 1024"), 'exit intent gating is missing');
-  assert(js.includes("var tabLinks = document.querySelectorAll('.contact-option-link[data-tab]');"), 'contact tab keyboard target selector missing');
-  assert(js.includes("searchParams.get('prefill')"), 'contact prefill query handling missing');
 }
 
 function run() {
-  testContactPage();
-  testCaseStudiesPage();
-  testServicesPage();
   testCapsarPage();
   testIndexPage();
+  testBepChecklistPage();
   testAnalyticsGating();
   testMainJs();
   console.log('UI/UX regression checks passed.');
