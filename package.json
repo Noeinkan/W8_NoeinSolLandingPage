@@ -1,0 +1,25 @@
+{
+  "name": "noeinsolutions-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Noein Solutions — static landing page (noeinsolutions.com). Marketing site for Andrea Aita's digital delivery consulting practice and the Capsar.io SaaS product.",
+  "scripts": {
+    "start": "node dev-server.js",
+    "serve": "node dev-server.js",
+    "serve:port": "node dev-server.js",
+    "test": "node scripts/tests/ui-ux.test.js",
+    "test:it": "node scripts/tests/it-translation.test.js",
+    "test:eir": "node scripts/tests/smoke/eir-smoke.test.js",
+    "test:all": "node scripts/tests/ui-ux.test.js && node scripts/tests/it-translation.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "noein-solutions",
+    "aec",
+    "bim",
+    "iso-19650",
+    "capsar"
+  ]
+}
