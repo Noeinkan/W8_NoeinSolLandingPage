@@ -53,6 +53,7 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 ├── docs/               # Project documentation
 │   ├── DEPLOYMENT.md
 │   ├── PRODUCT_LANDING_PAGE.md
+│   ├── ROADMAP.md
 │   ├── REDESIGN_PLAN.md
 │   ├── BUILDS_SCREENSHOTS.md
 │   ├── LOCALIZATION_IT.md
@@ -150,7 +151,8 @@ This file is the source of truth for how the repo works. `README.md` covers only
 
 - `docs/DEPLOYMENT.md` — full deployment guide and server architecture
 - `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its audiences, and repo scope
-- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions
+- `docs/ROADMAP.md` — technical-consolidation roadmap: ordered milestones with tick-off checkboxes and a "done when" command each. The **what and in which order**; tick items as they land
+- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions. The **how** of the design; `ROADMAP.md` carries the schedule
 - `docs/LOCALIZATION_IT.md` — EN-IT terminology (the **what**) and the IT voice/style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
 - `docs/BUILDS_SCREENSHOTS.md` — capture guide for the Builds page dashboard screenshots (filename map, framing, empty-slot swap)
 - `docs/PRE_LEAVE_LONG_TERM_PLAN.md` (gitignored) — practitioner/commercial mode plan and rollback procedure

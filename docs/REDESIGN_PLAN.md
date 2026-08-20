@@ -8,7 +8,7 @@
 | **1 — Rebuild the token layer** | ✅ Done. Paper/ink/orange tokens and the fluid `--step-*` scale live in `css/styles.base.css`; Archivo + IBM Plex Mono are wired into both trees. |
 | **2 — Rebuild the homepage** | ✅ Done. `index.html` is the only page carrying `.band--dark`. |
 | **3 — Mirror to the Eleventy tree** | ⚠️ Partial. Head-level changes are mirrored, but the `{{ prefix }}` nav defect below is **still open**. |
-| **4 — Remaining pages** | ⛔ Not started. `about`, `capsar`, `bep-checklist`, `eir-checklist`, `builds`, `privacy` and all IT mirrors still need their pass. |
+| **4 — Remaining pages** | ⛔ Not started. `about`, `capsar`, `bep-checklist`, `eir-checklist`, `builds`, `privacy` and all IT mirrors still need their pass. **Scheduled in [ROADMAP.md](ROADMAP.md) as M1–M4** — tick progress there, not here. |
 
 **Open defect (Phase 3):** the wordmark is hard-coded `href="index.html"` without `{{ prefix }}` in
 [src/_includes/partials/nav.njk:2](../src/_includes/partials/nav.njk#L2) and in
@@ -54,7 +54,7 @@ Delete before restyling; this removes ~34% of the CSS and roughly halves the red
    - `css/case-studies.css` (213), `css/contact.css` (210)
 2. Inside the live bundle, remove rules that are provably dead:
    - `.nav-cta` block + its `!important`s ([styles.navigation.css:53-65](css/styles.navigation.css#L53-L65)) — no page renders the class
-   - `.hero-glow` / `.hero-glow-left` ([styles.hero.css:60-94](css/styles.hero.css#L60-L94)) — self-disabled by `.hero-canvas ~ .hero-glow { display: none }`
+   - ~~`.hero-glow` / `.hero-glow-left`~~ — ✅ rules deleted with the canvas. The ten empty `<div class="hero-glow">` left behind in the markup were removed on 2026-08-20, once `UNSTYLED_CLASSES` in `ui-ux.test.js` made it clear they had outlived their CSS by a whole redesign.
    - `.value-card::after` radial wash ([styles.sections.css:173-183](css/styles.sections.css#L173-L183)) — `opacity: 0` with nothing ever setting it to 1
    - `--bg-card-hover` token — zero consumers
 3. Update `CLAUDE.md`: it lists all four deleted files as active stylesheets ([CLAUDE.md:21-26](CLAUDE.md#L21-L26)) and claims `styles.css` is "~2,550 lines" when it is an 11-line `@import` manifest.

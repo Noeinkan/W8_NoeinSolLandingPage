@@ -260,14 +260,19 @@ function testNoInlineStyles() {
 // rule went with the redesign and the eight call sites survived only because
 // each carried an inline padding. Shrink this list; never grow it.
 const UNSTYLED_CLASSES = [
-  // Base class that exists only to hang a --modifier off.
+  // Not an orphan: the JS attaches to it. main.js names it inside a compound
+  // selector ('.value-props, .credentials-grid, ...'), which the inJs check
+  // below — it looks for the bare name in quotes — cannot see.
   'credentials-grid',
   // Structural wrappers with no styling of their own.
   'about-preview-content', 'bep-report-sections', 'lead-magnet-content',
-  'lead-magnet-form', 'privacy-content', 'product-band-copy',
-  // Known dead: no rule, no effect. Candidates for deletion from the markup.
-  'hero-glow', 'hero-glow-left', 'mockup-screen--bep',
-  'privacy-meta', 'privacy-table', 'privacy-table-wrap',
+  'lead-magnet-form', 'product-band-copy',
+  // Not orphans either, but this check cannot tell: they are styled by the CSS
+  // blob in the inlineStyle front-matter field of privacy.njk (EN and IT, an
+  // identical duplicate), which base.njk pours into a <style> in the head. This
+  // scan only reads css/. They come off this list when that blob becomes
+  // css/privacy.css — not before, and not by deleting them from the markup.
+  'privacy-content', 'privacy-meta', 'privacy-table', 'privacy-table-wrap',
 ];
 
 function testEveryClassHasARule() {
