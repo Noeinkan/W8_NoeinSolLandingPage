@@ -51,19 +51,80 @@ full EN/IT parity — and a guardrail behind each closed item so it cannot quiet
 
 ---
 
+## Already landed
+
+Baseline, so this file records what the repo has *achieved* and not only what it owes. Each line
+is verifiable in `CHANGELOG.md` or by a command; none of it is scheduled work.
+
+**Build and structure**
+- [x] Eleventy migration — `src/` is the single source of truth, the vestigial root `*.html`
+      copies are gone, `_site/` is what deploys
+- [x] Generated sitemap — `src/sitemap.njk` iterates the pages Eleventy built, so a page cannot
+      be live and unlisted
+- [x] `npm run check` — build plus all three suites in one command
+- [x] Shared chrome single-sourced: `base.njk`, `partials/`, `_data/nav.js`
+- [x] `macros/blocks.njk` — `sectionHead` replaced 51 hand-written copies, `stat` replaced 12
+- [x] Page numbers derived from `src/_data/builds.js`, never typed
+
+**Design system**
+- [x] Redesign Phase 0 — ground cleared: particle canvas, blobs, noise overlay, gold accent gone
+- [x] Redesign Phase 1 — paper/ink/orange tokens and the fluid `--step-*` scale
+- [x] Redesign Phase 2 — homepage rebuilt, the one page carrying `.band--dark`
+- [x] 2,874 lines of dead CSS removed
+- [x] Every inline `style=` attribute removed from `src/`
+- [x] `--white` deleted and the seven rules painting white text on paper fixed
+
+**Guardrails** — each written against a failure the repo had already shipped
+- [x] Seven source-hygiene checks in `ui-ux.test.js` (inline styles, unstyled classes, undeclared
+      tokens, front-matter assets, nav hrefs, hex budget, sitemap coverage)
+- [x] `testBookingRoutes` — booking routes cannot vanish silently again
+- [x] `it-translation.test.js` — EN leakage, find/replace scars, accents, structural parity
+- [x] `eir-smoke.test.js` — EIR Health Check runtime under jsdom
+
+**Content and commercial**
+- [x] Business mode restored — 16 pages, services and contact back in both languages
+- [x] Booking on every selling page, gated per page, degrading to a plain link when blocked
+- [x] Positioning moved to the intersection
+- [x] IT localisation — 7 mirrors plus terminology and voice brief
+- [x] Documentation rationalised, 11 files to 7, `CLAUDE.md` as source of truth
+
+---
+
 ## M0 — Hygiene and weight
 
 **1 session, ~1 h.** The cheapest win in the list, and zero risk.
 
-- [ ] Delete `assets/Intro + AI Wizard.mp4` (49 MB; zero references in `src/`, `css/`, `js/` —
-      verified). `.eleventy.js` passthrough-copies the whole `assets` folder, so it enters `_site/`
-      on every build and `rsync` on every deploy.
-- [ ] Resolve the orphan `assets/builds/w9-connecting-the-grid.png` — either add the W9 build to
-      `src/_data/builds.js` with its `shot`, or delete the file. Do not leave it half-present.
+- [x] Delete `assets/Intro + AI Wizard.mp4` (50 MB; zero references in `src/`, `css/`, `js/`).
+      `.eleventy.js` passthrough-copies the whole `assets` folder, so it entered `_site/` on every
+      build and `rsync` on every deploy. Still in git history if it is ever wanted back.
+- [x] Delete `nginx.conf` — three overlapping nginx configs existed. `deploy/templates/noeinsol.conf`
+      is the one `deploy.sh` installs and `landing-block.conf` is the human-readable mirror
+      `DEPLOYMENT.md` points at; the root copy was last touched in April, predates the current
+      pipeline, and was referenced only by the stale Cursor index.
+- [x] `.cursor/rules/project.mdc` and `project-index.mdc` reduced to pointer stubs. Both carried
+      `alwaysApply: true` while describing HTML pages at the repo root, a single ~2,400-line
+      stylesheet and "no build step" — so every Cursor session started from a description of a
+      repo that stopped existing at the Eleventy migration.
 - [ ] Verify `assets/og-image.jpg` really is 1200×630 as the head declares; re-crop if not.
 - [ ] Fix the stale header comment in `.eleventy.js` — it says "12 static pages", there are 16.
 
-**Done when:** `npm run check` green, and `bash deploy.sh --dry-run` no longer lists the video.
+`assets/builds/w9-connecting-the-grid.png` looks orphaned and **is not**. `BUILDS_SCREENSHOTS.md`
+records it as held back on purpose: the W9 card was pulled from the page on request, and the
+capture stays so restoring it is a data-table edit rather than a re-capture. Leave it alone.
+
+Cross-document links broke when this roadmap moved from `docs/` to the repo root, and nothing
+caught it — the preflight validates hrefs in built HTML, not links between markdown files:
+
+- [x] Point `CLAUDE.md` at `ROADMAP.md` instead of `docs/ROADMAP.md` — two places, the file tree
+      and the Documentation list.
+- [x] Fix the two dead links in `docs/REDESIGN_PLAN.md`: both resolved relative to `docs/` and
+      needed `../`. The link to `CLAUDE.md` had been broken since before the move.
+- [ ] Add the guardrail: a check that every markdown link to a `.md` file resolves, relative to
+      the linking file. A dozen lines, and it makes this class of failure impossible. It must skip
+      links inside backticks, or the examples in this very section fail it.
+
+**Done when:** `npm run check` green, `bash deploy.sh --dry-run` no longer lists the video, and
+the new markdown-link check passes across `*.md` and `docs/*.md`.
 
 ---
 
@@ -203,6 +264,10 @@ green.
   manual page-by-page verification, so it is not planned as a timed milestone.
 - **Conversion events.** `track()` exists at `js/main.js:388` and is barely used, so which page
   produces a booking is not measurable. That is conversion work, not consolidation — next cycle.
+- **No undo on deploy.** `deploy.sh` overwrites the server with `rsync` and there is no automatic
+  rollback: recovering means checking out an older commit and redeploying, which needs git to be
+  available and the right tag to exist. A tarball snapshot taken server-side before the sync would
+  make rollback a one-liner. Not scheduled because it touches production, not the repo.
 
 ---
 

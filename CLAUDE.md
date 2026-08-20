@@ -4,7 +4,7 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 **Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 16 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
 
-`css/`, `js/` and `assets/` are passthrough-copied from the project root (`.eleventy.js:7-11`), so those are still edited in place.
+`css/`, `js/`, `assets/` and `robots.txt` are passthrough-copied from the project root (`.eleventy.js:7-10`), so those are still edited in place. `_site/css/` is a *copy*: a CSS edit is invisible to the browser until the build runs again.
 
 **Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 16 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
 
@@ -53,7 +53,6 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 ├── docs/               # Project documentation
 │   ├── DEPLOYMENT.md
 │   ├── PRODUCT_LANDING_PAGE.md
-│   ├── ROADMAP.md
 │   ├── REDESIGN_PLAN.md
 │   ├── BUILDS_SCREENSHOTS.md
 │   ├── LOCALIZATION_IT.md
@@ -68,6 +67,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 │       ├── it-translation.test.js
 │       └── smoke/
 │           └── eir-smoke.test.js  # EIR Health Check: jsdom-based runtime test (self-installs jsdom)
+├── dev-server.js       # Zero-dependency static server for _site/ on :8000 (`npm start`)
+├── ROADMAP.md          # Technical-consolidation milestones — lives at the root, not in docs/
 ├── CHANGELOG.md
 ├── README.md           # How to run it locally; points here for everything else
 ├── AGENTS.md           # Pointer stub → CLAUDE.md (do not duplicate content into it)
@@ -94,7 +95,7 @@ Every content change to an EN page must be mirrored in its `/it/` counterpart. W
 1. Make the change in `src/en/<page>.njk`
 2. Apply the equivalent change in `src/it/<page>.njk`
 3. Follow the terminology and voice/style brief in `docs/LOCALIZATION_IT.md`
-4. If adding a new page: add hreflang links to both versions. The sitemap needs nothing — `src/sitemap.njk` generates it from the pages Eleventy built, reusing the same computed `selfUrl` as the canonical tag, so a page cannot be live and unlisted (which is how `services.html` and `contact.html` first shipped). Give the slug a priority in `src/_data/sitemap.js` only if the default is wrong.
+4. If adding a new page: set `"hasMirror": true` in the front matter of **both** versions — `src/_data/eleventyComputed.js` derives the hreflang set and the language-toggle target from it, so an EN page whose mirror does not exist yet keeps `"hasMirror": false` and its toggle points at `#` rather than at a 404 (that is the state of `builds` and `eir-checklist`). The sitemap needs nothing — `src/sitemap.njk` generates it from the pages Eleventy built, reusing the same computed `selfUrl` as the canonical tag, so a page cannot be live and unlisted (which is how `services.html` and `contact.html` first shipped). Give the slug a priority in `src/_data/sitemap.js` only if the default is wrong.
 5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what the style half of `docs/LOCALIZATION_IT.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
@@ -149,10 +150,10 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 
 This file is the source of truth for how the repo works. `README.md` covers only how to run it locally; `AGENTS.md` is a pointer stub. Do not duplicate this file's content into either — a previous full copy in `AGENTS.md` drifted an entire visual redesign out of date without anything catching it.
 
+- `ROADMAP.md` (repo root, next to `CHANGELOG.md`) — technical-consolidation roadmap: milestones M0–M5 with tick-off checkboxes and a "done when" command each. The **what and in which order**; tick items as they land, and check it before starting a design or CSS session — it is where the outstanding debt is measured
 - `docs/DEPLOYMENT.md` — full deployment guide and server architecture
 - `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its audiences, and repo scope
-- `docs/ROADMAP.md` — technical-consolidation roadmap: ordered milestones with tick-off checkboxes and a "done when" command each. The **what and in which order**; tick items as they land
-- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions. The **how** of the design; `ROADMAP.md` carries the schedule
+- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions. The **how** of the design; `ROADMAP.md` carries the schedule (M2 is the page-by-page pass this plan describes)
 - `docs/LOCALIZATION_IT.md` — EN-IT terminology (the **what**) and the IT voice/style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
 - `docs/BUILDS_SCREENSHOTS.md` — capture guide for the Builds page dashboard screenshots (filename map, framing, empty-slot swap)
 - `docs/PRE_LEAVE_LONG_TERM_PLAN.md` (gitignored) — practitioner/commercial mode plan and rollback procedure
