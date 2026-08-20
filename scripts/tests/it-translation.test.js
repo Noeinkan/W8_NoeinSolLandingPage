@@ -20,6 +20,8 @@ if (!fs.existsSync(ROOT)) {
 }
 const PAGES = [
   'index.html',
+  'services.html',
+  'contact.html',
   'about.html',
   'capsar.html',
   'bep-checklist.html',

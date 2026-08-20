@@ -16,7 +16,8 @@
   "navClass": "no-print",
   "footerClass": "no-print",
   "footerGithub": true,
-  "hasMirror": true
+  "hasMirror": true,
+  "calendly": true
 }
 ---
 <main id="main-content">
@@ -134,10 +135,10 @@
         </div>
 
         <div class="bep-report-cta no-print">
-          <h3 class="bep-report-h3">Want to draft faster?</h3>
-          <p class="bep-report-cta-sub">Capsar.io reads your EIR and guides your BEP response. Use this report alongside the platform to close gaps before submission.</p>
+          <h3 class="bep-report-h3">Want the gaps closed, not just listed?</h3>
+          <p class="bep-report-cta-sub">Capsar.io reads your EIR and guides your BEP response. If the gaps above are structural rather than clerical, a 30-minute call is usually faster than another revision.</p>
           <div class="hero-actions">
-            <a href="mailto:andrea.aita@noeinsolutions.com?subject=Capsar%20access%20request" class="btn btn-primary">Request Capsar access</a>
+            <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
             <a href="capsar.html" class="btn btn-outline">Learn about Capsar.io</a>
           </div>
         </div>

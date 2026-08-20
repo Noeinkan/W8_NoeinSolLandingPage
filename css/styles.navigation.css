@@ -54,6 +54,9 @@ nav.nav-scrolled {
   letter-spacing: 0.02em;
   color: var(--ink-secondary);
   text-decoration: none;
+  /* Multi-word labels ("Work with me", "EIR Health Check") otherwise break
+     inside their own item on narrow desktops, doubling the bar height. */
+  white-space: nowrap;
   transition: color var(--dur) var(--ease-out);
 }
 

@@ -17,7 +17,8 @@
   "navClass": "no-print",
   "footerClass": "no-print",
   "footerGithub": true,
-  "hasMirror": false
+  "hasMirror": false,
+  "calendly": true
 }
 ---
 <main id="main-content">
@@ -124,10 +125,10 @@
 
         <div class="bep-report-cta no-print eir-cta-block">
           <h3 class="bep-report-h3">Need help closing the gaps?</h3>
-          <p class="eir-cta-sub">Send the report to my inbox and I&rsquo;ll come back with a short, no-pressure read of what would tighten it most.</p>
+          <p class="eir-cta-sub">Book a 30-minute call and I&rsquo;ll give you a short, no-pressure read of what would tighten it most &mdash; or send the report over by email if a call is premature.</p>
           <div class="hero-actions">
-            <a href="mailto:andrea.aita@noeinsolutions.com?subject=EIR%20Health%20Check%20follow-up" class="btn btn-primary">Email me the report</a>
-            <a href="capsar.html" class="btn btn-outline">Learn about Capsar.io</a>
+            <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+            <a href="mailto:{{ site.email }}?subject=EIR%20Health%20Check%20follow-up" class="btn btn-outline">Email me the report</a>
           </div>
           <div class="eir-cta-divider">or jump to</div>
           <div class="eir-crosslinks">

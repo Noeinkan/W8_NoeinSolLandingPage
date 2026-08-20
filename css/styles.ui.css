@@ -111,3 +111,35 @@ textarea:focus-visible {
   outline-offset: 1px;
   border-color: var(--ink);
 }
+
+/* ─── Form fields ─────────────────────────────────────────────
+   Text inputs had focus states but no resting style, so every
+   form on the site — including the homepage lead magnet — fell
+   back to the browser default control. Scoped to the types we
+   actually render, so checkboxes keep their native appearance. */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--copy-size-small);
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  padding: var(--space-3);
+  transition: border-color var(--dur) var(--ease-out);
+}
+
+input::placeholder,
+textarea::placeholder { color: var(--ink-tertiary); }
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+select:hover,
+textarea:hover { border-color: var(--ink-tertiary); }
+
+textarea { min-height: 8rem; resize: vertical; }

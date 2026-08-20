@@ -6,7 +6,7 @@
   "scripts": {
     "build": "eleventy",
     "build:serve": "eleventy --serve",
-    "start": "node dev-server.js",
+    "start": "eleventy && node dev-server.js",
     "serve": "node dev-server.js",
     "serve:port": "node dev-server.js",
     "test": "node scripts/tests/ui-ux.test.js",

@@ -1,0 +1,49 @@
+{#
+  Recurring page blocks.
+
+  The chrome (head, nav, footer) has been single-sourced since the Eleventy
+  migration; the blocks *inside* <main> had not. A section heading was written
+  out by hand 51 times across the twelve pages, so changing its structure meant
+  51 edits and any one of them could be missed — which is how three of them
+  ended up carrying `style="justify-content:center"` instead of the
+  `.section-label--center` modifier that already existed in the stylesheet.
+
+  Import at the top of a page:  {% from "macros/blocks.njk" import sectionHead %}
+
+  Continuation lines are emitted at four spaces of indent, which is where the
+  call sites sit. Deeper call sites produce shallower HTML — whitespace between
+  block elements, and nothing else.
+#}
+
+{#
+  Section heading: eyebrow label, h2, optional standfirst.
+
+  `title` and `sub` are both optional — Builds renders a bare label per domain,
+  and several sections carry a heading with no standfirst.
+
+  `align` is '' (inherit from the container), 'center' or 'left'. Reach for it
+  only when the surrounding block sets a text-align the heading has to escape;
+  the default is correct nearly everywhere.
+#}
+{%- macro sectionHead(label, title, sub, align='') -%}
+<div class="section-label{{ ' section-label--center' if align == 'center' }}">{{ label }}</div>
+{%- if title %}
+    <h2 class="section-title{{ ' section-title--' + align if align }}">{{ title }}</h2>
+{%- endif %}
+{%- if sub %}
+    <p class="section-sub{{ ' section-sub--' + align if align }}">{{ sub }}</p>
+{%- endif %}
+{%- endmacro -%}
+
+{#
+  Counter cell for a .stats row. `count` is the number main.js animates up to;
+  `suffix` renders the trailing '+' where one is wanted. The visible text and the
+  data-count attribute came from the same literal typed twice — here they cannot
+  disagree.
+#}
+{%- macro stat(count, label, suffix='') -%}
+<div class="stat">
+      <div class="stat-number" data-count="{{ count }}"{{ ' data-suffix="' + suffix + '"' if suffix }}>{{ count }}{{ suffix }}</div>
+      <div class="stat-label">{{ label }}</div>
+    </div>
+{%- endmacro -%}

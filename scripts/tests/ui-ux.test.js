@@ -58,8 +58,7 @@ function testIndexPage() {
   assert(html.includes('class="trust-band fade-in"'), 'trust band missing');
   assert(html.includes('href="capsar.html"'), 'index Capsar CTA missing');
   assert(html.includes('href="bep-checklist.html"'), 'index checklist CTA missing');
-  assert(!html.includes('calendly.com'), 'index still references Calendly');
-  assert(!html.includes('services.html'), 'index still links to services');
+  assert(html.includes('href="services.html"'), 'index must link to the services page');
 }
 
 function testBepChecklistPage() {
@@ -67,7 +66,6 @@ function testBepChecklistPage() {
   assertUniqueIds('bep-checklist.html');
   assert(html.includes('id="bepForm"'), 'bep checklist form missing');
   assert(html.includes('id="bepSections"'), 'bep sections host missing');
-  assert(!html.includes('calendly.com'), 'bep-checklist still references Calendly');
 }
 
 function testEirChecklistPage() {
@@ -77,7 +75,6 @@ function testEirChecklistPage() {
   assert(html.includes('id="eirSections"'), 'eir sections host missing');
   assert(html.includes('id="eirReportGaps"'), 'eir report gaps host missing');
   assert(html.includes('id="eirReportBreakdown"'), 'eir report breakdown host missing');
-  assert(!html.includes('calendly.com'), 'eir-checklist still references Calendly');
   assert(!html.includes('formsubmit.co'), 'eir-checklist should not use FormSubmit (value-first, no gate)');
   // EN-only this pass; the IT lang-switcher must point to # until the IT mirror exists
   const langMatch = html.match(/href="([^"]*)"\s+class="lang-switch"/);
@@ -98,6 +95,8 @@ function testEirChecklistPage() {
 function testAnalyticsGating() {
   [
     'index.html',
+    'services.html',
+    'contact.html',
     'about.html',
     'capsar.html',
     'bep-checklist.html',
@@ -112,34 +111,64 @@ function testAnalyticsGating() {
   });
 }
 
-// Nav and footer are copy-pasted per page, so a new page is only reachable once
-// every other page has been updated by hand. This catches the one that got missed.
-function testEnNavParity() {
-  const pages = [
-    'index.html',
-    'about.html',
-    'capsar.html',
-    'bep-checklist.html',
-    'eir-checklist.html',
-    'builds.html',
-    'privacy.html'
-  ];
-  const entries = [
-    '<li><a href="index.html">Home</a></li>',
-    '<li><a href="about.html">About</a></li>',
-    '<li><a href="capsar.html">Capsar.io</a></li>',
-    '<li><a href="bep-checklist.html">BEP Checklist</a></li>',
-    '<li><a href="eir-checklist.html">EIR Health Check</a></li>',
-    '<li><a href="builds.html">Builds</a></li>'
-  ];
+// Nav and footer both render from src/_data/nav.js, so the expectation is read
+// from that same module — a menu entry added there must reach every page of
+// that language, in both the header and the footer list.
+function testNavParity() {
+  const nav = require('../../src/_data/nav.js');
+  const pages = {
+    en: ['index.html', 'services.html', 'contact.html', 'about.html', 'capsar.html',
+         'bep-checklist.html', 'eir-checklist.html', 'builds.html', 'privacy.html'],
+    it: ['it/index.html', 'it/services.html', 'it/contact.html', 'it/about.html',
+         'it/capsar.html', 'it/bep-checklist.html', 'it/privacy.html'],
+  };
 
-  pages.forEach((relativePath) => {
-    const html = read(relativePath);
-    entries.forEach((entry) => {
-      const count = html.split(entry).length - 1;
-      assert(count === 2, relativePath + ' should carry ' + entry + ' twice (nav + footer), found ' + count);
+  Object.keys(pages).forEach((lang) => {
+    const entries = nav[lang].map((item) => '<li><a href="' + item.href + '">' + item.label + '</a></li>');
+    pages[lang].forEach((relativePath) => {
+      const html = read(relativePath);
+      entries.forEach((entry) => {
+        const count = html.split(entry).length - 1;
+        assert(count === 2, relativePath + ' should carry ' + entry + ' twice (nav + footer), found ' + count);
+      });
     });
   });
+}
+
+// Practitioner mode stripped every booking route and nothing caught it for two
+// months. A page that offers a CTA must load the widget that powers it, and a
+// page that offers none must not pull a third-party script for nothing.
+function testBookingRoutes() {
+  const withBooking = [
+    'index.html', 'services.html', 'contact.html', 'about.html', 'capsar.html',
+    'bep-checklist.html', 'eir-checklist.html', 'builds.html',
+    'it/index.html', 'it/services.html', 'it/contact.html', 'it/about.html',
+    'it/capsar.html', 'it/bep-checklist.html',
+  ];
+  const withoutBooking = ['privacy.html', 'it/privacy.html'];
+
+  withBooking.forEach((relativePath) => {
+    const html = read(relativePath);
+    assert(html.includes('calendly.com/andrea-aita91/30min'), relativePath + ' has no booking link');
+    assert(html.includes('assets.calendly.com/assets/external/widget.js'),
+      relativePath + ' offers a booking CTA but never loads the Calendly widget — set "calendly": true in its front matter');
+    // The CTA must stay a real href so it still works when the script is blocked.
+    assert(/<a href="https:\/\/calendly\.com\/[^"]+"/.test(html),
+      relativePath + ' booking CTA must be an <a href>, so it degrades to a plain navigation');
+  });
+
+  withoutBooking.forEach((relativePath) => {
+    const html = read(relativePath);
+    assert(!html.includes('assets.calendly.com'),
+      relativePath + ' loads the Calendly script but offers no booking widget');
+  });
+
+  // Email must be reachable everywhere, independent of any third-party script.
+  ['index.html', 'services.html', 'contact.html', 'it/index.html', 'it/services.html', 'it/contact.html']
+    .forEach((relativePath) => {
+      const html = read(relativePath);
+      assert(html.includes('mailto:andrea.aita@noeinsolutions.com'), relativePath + ' has no direct email route');
+    });
 }
 
 function testBuildsPage() {
@@ -195,7 +224,8 @@ function run() {
   testBepChecklistPage();
   testEirChecklistPage();
   testBuildsPage();
-  testEnNavParity();
+  testNavParity();
+  testBookingRoutes();
   testAnalyticsGating();
   testMainJs();
   console.log('UI/UX regression checks passed.');

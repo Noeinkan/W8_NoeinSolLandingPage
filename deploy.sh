@@ -124,6 +124,8 @@ import sys
 ROOT = Path("_site").resolve()
 REQUIRED_FILES = [
     "index.html",
+    "services.html",
+    "contact.html",
     "about.html",
     "capsar.html",
     "bep-checklist.html",
@@ -131,6 +133,8 @@ REQUIRED_FILES = [
     "builds.html",
     "privacy.html",
     "it/index.html",
+    "it/services.html",
+    "it/contact.html",
     "it/about.html",
     "it/capsar.html",
     "it/bep-checklist.html",

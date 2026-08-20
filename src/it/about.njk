@@ -10,10 +10,11 @@
   "css": [
     "about.css"
   ],
-  "jsonLd": "  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"Person\",\n    \"@id\": \"https://noeinsolutions.com/#andrea-aita\",\n    \"name\": \"Andrea Aita\",\n    \"jobTitle\": \"Digital Delivery Consultant\",\n    \"description\": \"Practitioner di gestione informativa con oltre 10 anni di esperienza tra Foster + Partners, Turner & Townsend, Heathrow Airport e HA Associates.\",\n    \"url\": \"https://noeinsolutions.com/about.html\",\n    \"image\": \"https://noeinsolutions.com/assets/headshot.jpg?v=2\",\n    \"knowsAbout\": [\"ISO 19650\", \"Information Management\", \"Digital Delivery\", \"Common Data Environments\", \"BEP\", \"EIR\"],\n    \"sameAs\": [\"https://www.linkedin.com/in/andrea-aita-0b0794123/\", \"https://github.com/Noeinkan\"]\n  }",
+  "jsonLd": "  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"Person\",\n    \"@id\": \"https://noeinsolutions.com/#andrea-aita\",\n    \"name\": \"Andrea Aita\",\n    \"jobTitle\": \"Consulente di gestione informativa e sviluppatore software\",\n    \"description\": \"Practitioner di gestione informativa con oltre 10 anni di esperienza tra Foster + Partners, Turner & Townsend, Heathrow Airport e HA Associates.\",\n    \"url\": \"https://noeinsolutions.com/about.html\",\n    \"image\": \"https://noeinsolutions.com/assets/headshot.jpg?v=2\",\n    \"knowsAbout\": [\"ISO 19650\", \"Information Management\", \"Digital Delivery\", \"Common Data Environments\", \"BEP\", \"EIR\"],\n    \"sameAs\": [\"https://www.linkedin.com/in/andrea-aita-0b0794123/\", \"https://github.com/Noeinkan\"]\n  }",
   "footerGithub": true,
   "certLightbox": true,
-  "hasMirror": true
+  "hasMirror": true,
+  "calendly": true
 }
 ---
 <main id="main-content">
@@ -29,8 +30,8 @@
           Oltre 10 anni a risolvere problemi di gestione informativa su programmi reali: da studi di progettazione a team client-side e filiere complesse. Niente teoria, niente demo: esperienza diretta dentro i team di programma.
         </p>
         <div class="hero-actions">
-          <a href="capsar.html" class="btn btn-primary">Scopri Capsar.io</a>
-          <a href="bep-checklist.html" class="btn btn-outline">Apri la checklist BEP</a>
+          <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Prenota una call di 30 min</a>
+          <a href="services.html" class="btn btn-outline">Come lavoro</a>
         </div>
       </div>
       <div class="hero-photo-wrapper">
@@ -196,8 +197,9 @@
     <p class="approach-text">
       &Egrave; un approccio testato sul campo: ho redatto i requisiti informativi ISO 19650 per il portafoglio real estate di Google e ho esteso gli standard di delivery a tutta Heathrow Airport.
     </p>
-    <div style="margin-top:3rem;">
-      <a href="bep-checklist.html" class="btn btn-primary">Apri la checklist BEP</a>
+    <div class="hero-actions approach-actions">
+      <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Prenota una call di 30 min</a>
+      <a href="bep-checklist.html" class="btn btn-outline">Apri la checklist BEP</a>
     </div>
   </section>
 

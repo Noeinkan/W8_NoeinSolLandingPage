@@ -11,7 +11,8 @@
     "capsar.css"
   ],
   "footerGithub": true,
-  "hasMirror": true
+  "hasMirror": true,
+  "calendly": true
 }
 ---
 <main id="main-content">
@@ -340,7 +341,10 @@
       <div class="section-label" style="justify-content:center;">Early Access</div>
       <h2 class="section-title" style="text-align:center;">Early access is open</h2>
       <p style="font-size:1.05rem; color:var(--text-secondary); line-height:1.7; margin-bottom:2rem;">Free during beta. Limited spots. If you write BEPs, manage EIRs, or run digital delivery for AEC projects &mdash; Capsar.io was built for you.</p>
-      <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Try Capsar.io</a>
+      <div class="hero-actions hero-actions--center">
+        <a href="https://app.noeinsolutions.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Try Capsar.io</a>
+        <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-outline">Book a walkthrough</a>
+      </div>
       <div class="capsar-badge" style="justify-content:center; margin-top:1.25rem;">Free during beta &mdash; limited spots</div>
     </div>
   </div>

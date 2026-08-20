@@ -5,15 +5,16 @@
   "title": "About Andrea Aita — Noein Solutions",
   "description": "Andrea Aita — Information management practitioner with 10+ years across Foster + Partners, Turner & Townsend, Heathrow Airport, and HA Associates.",
   "ogTitle": "About Andrea Aita — Noein Solutions",
-  "ogDescription": "Practitioner building ISO 19650 tools and resources. 10+ years across design studios, client-side delivery teams, and complex supply chains.",
+  "ogDescription": "Ten years of ISO 19650 information management across design studios, client-side delivery teams and complex supply chains — and the software to deliver it.",
   "ogImageAlt": "Noein Solutions — Information Management and Digital Delivery Consulting",
   "css": [
     "about.css"
   ],
-  "jsonLd": "  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"Person\",\n    \"@id\": \"https://noeinsolutions.com/#andrea-aita\",\n    \"name\": \"Andrea Aita\",\n    \"jobTitle\": \"Information management practitioner\",\n    \"description\": \"Information management practitioner with 10+ years across Foster + Partners, Turner & Townsend, Heathrow Airport, and HA Associates.\",\n    \"url\": \"https://noeinsolutions.com/about.html\",\n    \"image\": \"https://noeinsolutions.com/assets/headshot.jpg?v=2\",\n    \"knowsAbout\": [\"ISO 19650\", \"Information Management\", \"Digital Delivery\", \"Common Data Environments\", \"BEP\", \"EIR\"],\n    \"sameAs\": [\"https://www.linkedin.com/in/andrea-aita-0b0794123/\", \"https://github.com/Noeinkan\"]\n  }",
+  "jsonLd": "  {\n    \"@context\": \"https://schema.org\",\n    \"@type\": \"Person\",\n    \"@id\": \"https://noeinsolutions.com/#andrea-aita\",\n    \"name\": \"Andrea Aita\",\n    \"jobTitle\": \"Information management consultant and software engineer\",\n    \"description\": \"Information management practitioner with 10+ years across Foster + Partners, Turner & Townsend, Heathrow Airport, and HA Associates.\",\n    \"url\": \"https://noeinsolutions.com/about.html\",\n    \"image\": \"https://noeinsolutions.com/assets/headshot.jpg?v=2\",\n    \"knowsAbout\": [\"ISO 19650\", \"Information Management\", \"Digital Delivery\", \"Common Data Environments\", \"BEP\", \"EIR\"],\n    \"sameAs\": [\"https://www.linkedin.com/in/andrea-aita-0b0794123/\", \"https://github.com/Noeinkan\"]\n  }",
   "footerGithub": true,
   "certLightbox": true,
-  "hasMirror": true
+  "hasMirror": true,
+  "calendly": true
 }
 ---
 <main id="main-content">
@@ -29,8 +30,8 @@
           10+ years solving information management problems on real programmes &mdash; from design studios to client-side delivery teams and complex supply chains. Not a theorist, not a tool vendor &mdash; someone who&rsquo;s sat in the programme team and made it work.
         </p>
         <div class="hero-actions">
-          <a href="capsar.html" class="btn btn-primary">Explore Capsar.io</a>
-          <a href="bep-checklist.html" class="btn btn-outline">Open the BEP checklist</a>
+          <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+          <a href="services.html" class="btn btn-outline">See how I work</a>
         </div>
       </div>
       <div class="hero-photo-wrapper">
@@ -196,8 +197,9 @@
     <p class="approach-text">
       That approach has been tested in practice: authoring ISO 19650 information requirements for Google&rsquo;s real estate portfolio and scaling delivery standards across Heathrow Airport.
     </p>
-    <div style="margin-top:3rem;">
-      <a href="bep-checklist.html" class="btn btn-primary">Open the BEP checklist</a>
+    <div class="hero-actions approach-actions">
+      <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+      <a href="bep-checklist.html" class="btn btn-outline">Open the BEP checklist</a>
     </div>
   </section>
 

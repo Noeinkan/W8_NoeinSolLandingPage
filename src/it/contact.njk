@@ -1,0 +1,152 @@
+---json
+{
+  "lang": "it",
+  "slug": "contact",
+  "title": "Contatti — prenota una call o scrivimi | Andrea Aita",
+  "description": "Prenota una call di 30 minuti o scrivimi per parlare di gestione informativa, governance del CDE, redazione BEP ed EIR, sprint di automazione AI o digital delivery di programma.",
+  "ogTitle": "Contatti — prenota una call o scrivimi | Andrea Aita",
+  "ogDescription": "Prenota una call di 30 minuti o scrivimi. Gestione informativa, BEP ed EIR, sprint di automazione AI, delivery di programma.",
+  "ogImageAlt": "Andrea Aita — contatti",
+  "css": [
+    "contact.css"
+  ],
+  "calendly": true,
+  "hasMirror": true
+}
+---
+<main id="main-content">
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-label">Contatti</div>
+      <h1>Porta il problema. <em>Non un capitolato.</em></h1>
+      <p class="page-hero-sub">Mezz&rsquo;ora di solito basta per capire se posso aiutarti e cosa servirebbe. Se non sono la persona giusta te lo dico durante la call.</p>
+    </div>
+  </div>
+
+  <section class="fade-in" aria-label="Prenota una call o scrivimi">
+
+    <div class="contact-grid">
+
+      <div class="contact-col">
+        <h2>Prenota una call di 30 min</h2>
+        <p>Scegli direttamente uno slot. Niente moduli e nessuna call preliminare prima della call.</p>
+
+        <div class="calendly-embed-wrapper">
+          <div class="calendly-embed"
+               data-calendly-url="{{ site.calendly }}?hide_gdpr_banner=1&amp;background_color=FAF9F6&amp;text_color=14161A&amp;primary_color=F04E23"
+               data-calendly-resize="true">
+            <p class="calendly-fallback">
+              Il calendario non si è caricato &mdash; richiede uno script di terze parti che il tuo browser o la tua rete potrebbero bloccare.
+              <a href="{{ site.calendly }}" target="_blank" rel="noopener noreferrer">Apri direttamente la pagina di prenotazione</a>,
+              oppure scrivi a <a href="mailto:{{ site.email }}">{{ site.email }}</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-direct">
+          <div class="contact-direct-item">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          </div>
+          <div class="contact-direct-item">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+          <div class="contact-direct-item">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Londra, UK &mdash; UK ed Europa
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-col">
+        <h2>Scrivimi</h2>
+        <p>Se una call è prematura, scrivi. Tipo di progetto, fase e cosa fa davvero male bastano per iniziare.</p>
+
+        <div class="contact-success" id="contactSuccess" role="status">
+          <h3>Messaggio inviato.</h3>
+          <p>Grazie, è arrivato. Rispondo a tutto entro un giorno lavorativo, di solito prima.</p>
+        </div>
+
+        <form action="https://formsubmit.co/{{ site.email }}" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Nuova richiesta da noeinsolutions.com">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="{{ site.base }}/it/contact.html?sent=1">
+          <input type="text" name="_honey" class="contact-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="contact-field">
+            <label for="name">Il tuo nome</label>
+            <input type="text" id="name" name="name" required aria-required="true" autocomplete="name">
+          </div>
+          <div class="contact-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+          </div>
+          <div class="contact-field">
+            <label for="company">Azienda <span class="contact-optional">(facoltativo)</span></label>
+            <input type="text" id="company" name="company" autocomplete="organization">
+          </div>
+          <div class="contact-field">
+            <label for="service">Di cosa si tratta?</label>
+            <select id="service" name="service" required aria-required="true">
+              <option value="" disabled selected>Scegli un&rsquo;area</option>
+              <option value="Sprint di AI e automazione">Sprint di AI e automazione</option>
+              <option value="Information management e strategia">Information management e strategia</option>
+              <option value="Redazione BEP ed EIR">Redazione BEP ed EIR</option>
+              <option value="Digital delivery di programma">Digital delivery di programma</option>
+              <option value="Accesso a Capsar.io">Accesso a Capsar.io</option>
+              <option value="Altro">Altro</option>
+            </select>
+          </div>
+          <div class="contact-field">
+            <label for="messageField">Il problema</label>
+            <textarea id="messageField" name="message" required aria-required="true" placeholder="Tipo di progetto, fase, tempi e cosa sta andando storto."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary contact-submit">Invia</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      // Success panel after formsubmit.co bounces back to ?sent=1.
+      if (window.location.search.indexOf('sent=1') !== -1) {
+        var panel = document.getElementById('contactSuccess');
+        if (panel) {
+          panel.classList.add('is-visible');
+          panel.scrollIntoView({ block: 'center' });
+        }
+      }
+
+      // Calendly inline widget. Retried on load and on an interval because the
+      // widget script is async — on a slow connection it can arrive after this
+      // runs, and a single attempt would leave an empty box behind.
+      var tries = 0;
+      function initCalendly() {
+        var el = document.querySelector('.calendly-embed[data-calendly-url]');
+        if (!el || el.getAttribute('data-calendly-initialized') === 'true') return true;
+        if (typeof Calendly === 'undefined' || !Calendly.initInlineWidget) return false;
+        el.innerHTML = '';
+        Calendly.initInlineWidget({
+          url: el.getAttribute('data-calendly-url'),
+          parentElement: el,
+          resize: el.getAttribute('data-calendly-resize') === 'true'
+        });
+        el.setAttribute('data-calendly-initialized', 'true');
+        return true;
+      }
+
+      if (!initCalendly()) {
+        var timer = setInterval(function () {
+          // ~10s di tentativi, poi lascia visibile il testo di fallback.
+          if (initCalendly() || ++tries > 40) clearInterval(timer);
+        }, 250);
+      }
+    })();
+  </script>
+
+</main>

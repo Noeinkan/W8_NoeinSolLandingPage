@@ -11,6 +11,7 @@
     "builds.css"
   ],
   "footerGithub": true,
+  "calendly": true,
   "hasMirror": false
 }
 ---
@@ -136,10 +137,10 @@
     <div class="capsar-banner-inner">
       <div class="section-label">All of it</div>
       <h2>{{ builds.TotalWord }} repositories, nothing hidden behind a case study</h2>
-      <p>If you want to know how someone works, read their commits rather than their claims. Everything above is public, including the parts that are still rough.</p>
+      <p>If you want to know how someone works, read their commits rather than their claims. Everything above is public, including the parts that are still rough. If you have a workflow that should be one of these, let&rsquo;s talk about it.</p>
       <div class="hero-actions hero-actions--center">
-        <a href="https://github.com/Noeinkan" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Browse all repositories</a>
-        <a href="about.html" class="btn btn-outline">Read the background</a>
+        <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+        <a href="{{ site.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Browse all repositories</a>
       </div>
       <div class="capsar-badge">github.com/Noeinkan</div>
     </div>

@@ -2,11 +2,11 @@
 
 Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice. Built with Eleventy; no client-side framework.
 
-**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 12 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
+**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 16 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
 
 `css/`, `js/` and `assets/` are passthrough-copied from the project root (`.eleventy.js:7-11`), so those are still edited in place.
 
-**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 12 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
+**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 16 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
 
 **Page numbers are derived, never typed.** `src/_data/builds.js` is the sole definition of the Builds lineup: cards, jump index, `data-count` stats, prose counts on both the Builds page and the homepage teaser, and the assertions in `ui-ux.test.js` all read from it. Adding or pulling a build is one edit there. Counts are deliberately kept out of JSON front matter, which cannot be templated and would go stale silently.
 
@@ -17,8 +17,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 │   ├── _data/          # builds.js (Builds lineup + derived counts), nav.js, site.js,
 │   │                   # strings.js, eleventyComputed.js (canonical/hreflang/prefix)
 │   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
-│   ├── en/*.njk        # 7 English pages
-│   └── it/*.njk        # 5 Italian mirrors (eir-checklist and builds have no IT mirror yet)
+│   ├── en/*.njk        # 9 English pages
+│   └── it/*.njk        # 7 Italian mirrors (eir-checklist and builds have no IT mirror yet)
 ├── _site/              # Build output — gitignored, and what deploy.sh ships. Never edit.
 ├── css/                # Styles split into per-concern partials
 │   ├── styles.css      # 8-line @import manifest for the global bundle
@@ -34,7 +34,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 │   ├── capsar.css
 │   ├── bep-checklist.css
 │   ├── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
-│   └── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots, empty-state panel
+│   ├── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots, empty-state panel
+│   └── contact.css        # Contact page: two-column booking/brief grid + Calendly slot
 ├── js/
 │   ├── main.js              # Single IIFE bundle (all interactivity, analytics, animations)
 │   ├── bep-checklist.js     # Interactive BEP readiness diagnostic
@@ -74,8 +75,10 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 - **HTML template:** Every page has: skip link, `<nav>` with language switcher, `<main id="main-content">`, consistent hero pattern (`.page-hero`), footer.
 - **SEO:** Each page has canonical URL, hreflang alternates (en/it/x-default), OpenGraph tags, JSON-LD on homepage.
 - **Accessibility:** ARIA labels, `aria-expanded`/`aria-selected` states, `prefers-reduced-motion` respected throughout.
-- **Forms:** lead-magnet / contact forms post to FormSubmit.co (`https://formsubmit.co/andrea.aita@noeinsolutions.com`) with a honeypot `_honey` field. Present on `index`, `bep-checklist`, `eir-checklist` and the IT mirrors of the first two. Required fields carry `aria-required="true"`. There is no Calendly embed on the site — practitioner mode dropped it.
-- **Conversion target:** every page routes to the Capsar app at `app.noeinsolutions.com`, or to GitHub from `builds.html`. External links use `target="_blank" rel="noopener"`; below-fold images use `loading="lazy"`.
+- **Forms:** lead-magnet / contact forms post to FormSubmit.co (`https://formsubmit.co/andrea.aita@noeinsolutions.com`) with a honeypot `_honey` field. Present on `index`, `contact`, `bep-checklist`, `eir-checklist` and IT mirrors. Required fields carry `aria-required="true"`. Field styling (input/select/textarea) is global, in `styles.ui.css`.
+- **Booking:** `site.calendly` in `src/_data/site.js` is the one booking URL. Two mechanisms: a **popup** CTA (`Calendly.initPopupWidget`) on every selling page, and the **inline** widget on `contact` only. Both need `"calendly": true` in that page's front matter, which is what loads the widget script — `base.njk` reaches all 16 pages, so loading it globally would put a third-party script on `privacy.html` for nothing. Keep the popup CTA a real `<a href>`: when the script is blocked the `onclick` throws, the default is never prevented, and the link just navigates to Calendly. `testBookingRoutes` in `ui-ux.test.js` enforces all of this. Calendly's `background_color`/`text_color`/`primary_color` params are sent but ignored on the free plan.
+- **Conversion target:** business mode. Every page routes to a booking CTA (`contact.html` / the Calendly popup), with the Capsar app at `app.noeinsolutions.com` and GitHub as secondary destinations. External links use `target="_blank" rel="noopener"`; below-fold images use `loading="lazy"`.
+- **No published rates.** Pricing is scoped on enquiry; the archived `js/services-pricing.js` estimator stays retired. `services.njk` uses `.offer-card-price-section` for scope/timeline, not money.
 
 ## Bilingual Workflow
 

@@ -422,6 +422,15 @@
   max-width: 720px;
 }
 
+/* Replaces an inline style="margin-top:3rem" so the spacing comes from a
+   token like everything else. Not animated — .hero-actions carries an
+   entrance animation that only makes sense in a hero. */
+.approach-actions {
+  margin-top: var(--space-8);
+  opacity: 1;
+  animation: none;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 968px) {
   .timeline {

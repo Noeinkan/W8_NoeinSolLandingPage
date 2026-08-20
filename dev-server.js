@@ -4,10 +4,13 @@
  * dev-server.js
  *
  * Zero-dependency static file server for the Noein Solutions landing page.
- * - Serves the current directory on http://localhost:8000
+ * - Serves the Eleventy build output (_site/) on http://localhost:8000
  * - Auto-resolves directory paths to their index.html
  * - Disables caching so edits in HTML/CSS/JS are visible on reload
  * - Optionally opens the browser on first start
+ *
+ * The site is authored in src/ and built into _site/, so run the build first
+ * (`npm start` does it for you; `npx @11ty/eleventy --watch` rebuilds on edit).
  *
  * Usage:
  *   node dev-server.js           # http://localhost:8000
@@ -22,7 +25,7 @@ const url = require('url');
 
 const PORT = parseInt(process.argv[2] || process.env.PORT || '8000', 10);
 const AUTO_OPEN = !process.argv.includes('--no-open');
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '_site');
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -144,6 +147,12 @@ const server = http.createServer((req, res) => {
     serveFile(req, res, filePath);
   });
 });
+
+if (!fs.existsSync(path.join(ROOT, 'index.html'))) {
+  console.error(`${COLORS.red}No build found at _site/index.html.${COLORS.reset}`);
+  console.error('  The site is authored in src/ — build it first:  npx @11ty/eleventy');
+  process.exit(1);
+}
 
 server.listen(PORT, () => {
   const banner = `

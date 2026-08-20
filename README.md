@@ -2,9 +2,9 @@
 
 Static, multi-page marketing site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice for the AEC industry, and the home of the **Capsar.io** SaaS product.
 
-**Stack:** Plain HTML5 + vanilla CSS (custom properties) + vanilla ES5 IIFEs for interactivity. Google Fonts (`Archivo`, `DM Sans`, `IBM Plex Mono`). Hosted on Hetzner behind Docker nginx.
+**Stack:** Eleventy (Nunjucks) + vanilla CSS (custom properties) + vanilla ES5 IIFEs for interactivity. Google Fonts (`Archivo`, `DM Sans`, `IBM Plex Mono`). Hosted on Hetzner behind Docker nginx.
 
-The deployed site is the hand-written `*.html` / `it/*.html` at the project root — no build step required to work on it. An Eleventy tree under `src/**/*.njk` builds the same pages into `_site/` and is being migrated toward; see the mid-migration note in [`CLAUDE.md`](./CLAUDE.md).
+Pages are authored **only** in `src/**/*.njk`; Eleventy builds them into `_site/`, and `_site/` is what the dev server and `deploy.sh` serve. There are no hand-written HTML files at the project root — see [`CLAUDE.md`](./CLAUDE.md).
 
 > **Looking for the deep dive?** [`CLAUDE.md`](./CLAUDE.md) is the canonical project brief — file tree, conventions, bilingual workflow, deploy, tests, analytics. This README covers only how to run the thing.
 
@@ -13,8 +13,8 @@ The deployed site is the hand-written `*.html` / `it/*.html` at the project root
 ## Quick start
 
 ```bash
-npm install    # once, for Eleventy (the root HTML site needs no dependencies)
-npm start
+npm install    # once, for Eleventy
+npm start      # builds src/ → _site/, then serves it
 ```
 
 Then open <http://localhost:8000/>. The server auto-opens the page on first run.
@@ -30,21 +30,21 @@ The site is bilingual (English at `/`, Italian under `/it/`):
 ### Options
 
 ```bash
-npm start                      # http://localhost:8000 (auto-opens browser)
-node dev-server.js 3000        # custom port
+npm start                      # build + serve on http://localhost:8000 (auto-opens browser)
+npm run build                  # Eleventy build of src/ → _site/ only
+node dev-server.js 3000        # serve an existing build on a custom port
 node dev-server.js --no-open   # don't open the browser
-npm run build                  # Eleventy build of src/ → _site/
-npm run build:serve            # Eleventy dev server against src/
+npm run build:serve            # Eleventy's own dev server, rebuilds on save
 ```
 
-The dev server serves the project root with Node built-ins only, disables HTTP caching so every reload picks up your latest edits, resolves `/foo` → `/foo.html` or `/foo/index.html`, and logs every request.
+`dev-server.js` serves `_site/` with Node built-ins only, disables HTTP caching so every reload picks up your latest edits, resolves `/foo` → `/foo.html` or `/foo/index.html`, and logs every request. It does **not** rebuild — after editing anything in `src/`, re-run `npm run build` (or use `npm run build:serve`). If `_site/` is missing it exits and tells you to build.
 
 ### Prefer auto-reload?
 
-Swap in a third-party watcher — no project changes required:
+Use Eleventy's own server, which rebuilds and reloads on every save:
 
 ```bash
-npx --yes live-server --port=8000
+npm run build:serve
 ```
 
 ---

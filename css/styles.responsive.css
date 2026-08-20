@@ -40,7 +40,9 @@
 }
 
 /* ─── Nav: hamburger ──────────────────────────────────────── */
-@media (max-width: 968px) {
+/* Raised from 968px when the menu grew to eight entries: below ~1180px
+   the bar no longer fits on one line and the labels start colliding. */
+@media (max-width: 1180px) {
   .nav-toggle { display: block; }
 
   .nav-links {
