@@ -4,10 +4,22 @@
   var pageLang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
   var isItalian = pageLang.indexOf('it') === 0;
 
+  // Opt in to scroll-reveal only once the script is running, so a
+  // JS failure leaves the content visible rather than blank.
+  if (!reducedMotion) document.documentElement.classList.add('js-anim');
+
   // ─── Fade-in observer (with staggered children) ───
+  // Reveal when intersecting OR when the element is already above the
+  // viewport. The observer's first delivery is asynchronous, so a visitor
+  // who scrolls immediately (or reloads at a restored scroll position, or
+  // lands on a #hash) can pass a section before it ever activates — it then
+  // never sees a threshold crossing and the section stays blank for good.
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
+      if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
@@ -344,83 +356,6 @@
     window.addEventListener('scroll', updateActiveJumpLink, { passive: true });
   }
 
-  var heroCanvas = document.getElementById('heroCanvas');
-  if (heroCanvas && window.innerWidth > 768 && !reducedMotion) {
-    var ctx = heroCanvas.getContext('2d');
-    var dots = [];
-    var GRID = 25;
-    var RADIUS = 300;
-    var K = 0.045;
-    var DAMPING = 0.5;
-    var mouseX = -9999;
-    var mouseY = -9999;
-
-    function initDots() {
-      dots = [];
-      var w = heroCanvas.width = heroCanvas.offsetWidth;
-      var h = heroCanvas.height = heroCanvas.offsetHeight;
-      for (var x = GRID; x < w; x += GRID) {
-        for (var y = GRID; y < h; y += GRID) {
-          dots.push({ ox: x, oy: y, x: x, y: y, vx: 0, vy: 0 });
-        }
-      }
-    }
-
-    initDots();
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(initDots, 200);
-    });
-
-    var heroSection = document.querySelector('.hero');
-    if (heroSection) {
-      heroSection.addEventListener('mousemove', function (e) {
-        var rect = heroCanvas.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
-      });
-      heroSection.addEventListener('mouseleave', function () {
-        mouseX = -9999;
-        mouseY = -9999;
-      });
-    }
-
-    function animateDots() {
-      if (reducedMotion) return;
-      ctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-      for (var i = 0; i < dots.length; i++) {
-        var d = dots[i];
-        var dx = mouseX - d.ox;
-        var dy = mouseY - d.oy;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < RADIUS && dist > 0) {
-          var force = (RADIUS - dist) / RADIUS;
-          d.vx -= (dx / dist) * force * 2;
-          d.vy -= (dy / dist) * force * 2;
-        }
-
-        var sx = d.ox - d.x;
-        var sy = d.oy - d.y;
-        d.vx += sx * K;
-        d.vy += sy * K;
-        d.vx *= DAMPING;
-        d.vy *= DAMPING;
-        d.x += d.vx;
-        d.y += d.vy;
-
-        var displacement = Math.sqrt(sx * sx + sy * sy);
-        var alpha = 0.10 + Math.min(displacement / 40, 0.12);
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(201,165,90,' + alpha.toFixed(2) + ')';
-        ctx.fill();
-      }
-      requestAnimationFrame(animateDots);
-    }
-    requestAnimationFrame(animateDots);
-  }
 
   // ─── FAQ accordion ───
   document.querySelectorAll('.faq-header').forEach(function (header) {

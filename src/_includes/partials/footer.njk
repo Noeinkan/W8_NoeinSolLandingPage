@@ -1,0 +1,40 @@
+  <footer{{ ' class="' + footerClass + '"' if footerClass }}>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+        <p>{{ t.footerTagline }}</p>
+      </div>
+      <div>
+        <div class="footer-heading">{{ t.footerPages }}</div>
+        <ul class="footer-links">
+          {%- for item in nav[lang] %}
+          <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">{{ t.footerContact }}</div>
+        <a href="mailto:{{ site.email }}" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          {{ site.email }}
+        </a>
+        <a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        {%- if footerGithub %}
+        <a href="{{ site.github }}" target="_blank" rel="noopener noreferrer" class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 4.44-2.05 4.44-5.15a4.5 4.5 0 0 0-1.24-3.09 4.1 4.1 0 0 0-.08-3.11s-1.35-.4-4.43 1.68a10.4 10.4 0 0 0-5.5 0C5.17 3.68 3.82 4.08 3.82 4.08a4.1 4.1 0 0 0-.08 3.11A4.5 4.5 0 0 0 2.5 10.3c0 3.08 1.3 4.78 4.44 5.15a3.37 3.37 0 0 0-.94 2.58V22"/></svg>
+          GitHub
+        </a>
+        {%- endif %}
+        <div class="footer-contact-item">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ t.location }}
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ site.year }} Andrea Aita. {{ t.rights }} &nbsp;&middot;&nbsp; <a href="{{ t.privacyHref }}">{{ t.privacyLabel }}</a></p>
+    </div>
+  </footer>

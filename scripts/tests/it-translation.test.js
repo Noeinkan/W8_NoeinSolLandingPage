@@ -12,7 +12,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '..', '..');
+const ROOT = path.resolve(__dirname, '..', '..', '_site');
+// Tests run against the Eleventy output, not the templates. Build first.
+if (!fs.existsSync(ROOT)) {
+  console.error("No _site/ found. Run \"npx @11ty/eleventy\" (or npm run build) first.");
+  process.exit(1);
+}
 const PAGES = [
   'index.html',
   'about.html',
@@ -67,7 +72,9 @@ PAGES.forEach((p) => {
 });
 
 // ---- 4. JS-referenced IDs preserved ----
-const JS_IDS = ['leadMagnetSuccess', 'heroCanvas'];
+// heroCanvas was removed with the Technical Light redesign — the hero
+// particle canvas and its main.js driver no longer exist.
+const JS_IDS = ['leadMagnetSuccess'];
 const itIndex = read(path.join(ROOT, 'it/index.html'));
 if (itIndex) {
   JS_IDS.forEach((id) => {

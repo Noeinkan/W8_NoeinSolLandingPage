@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <meta property="og:title" content="{{ ogTitle }}">
+  <meta property="og:description" content="{{ ogDescription }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ selfUrl }}">
+  <meta property="og:image" content="{{ site.ogImage }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ ogImageAlt }}">
+  <link rel="canonical" href="{{ selfUrl }}">
+  <link rel="alternate" hreflang="en" href="{{ enUrl }}">
+  {%- if hasMirror %}
+  <link rel="alternate" hreflang="it" href="{{ itUrl }}">
+  {%- endif %}
+  <link rel="alternate" hreflang="x-default" href="{{ enUrl }}">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314161A'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='700' fill='%23F04E23' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ prefix }}css/styles.css">
+  {%- for file in (css or []) %}
+  <link rel="stylesheet" href="{{ prefix }}css/{{ file }}">
+  {%- endfor %}
+  {%- if inlineStyle %}
+  <style>
+{{ inlineStyle }}
+  </style>
+  {%- endif %}
+  {%- if jsonLd %}
+  <script type="application/ld+json">
+{{ jsonLd }}
+  </script>
+  {%- endif %}
+  <script>
+    (function () {
+      var clarityId = '{{ site.clarityId }}';
+      var ga4Id = '{{ site.ga4Id }}';
+      if (clarityId && clarityId.indexOf('YOUR_') !== 0) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,'clarity','script',clarityId);
+      }
+      if (ga4Id && ga4Id.indexOf('YOUR_') !== 0) {
+        var gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4Id;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      }
+    })();
+  </script>
+  {%- if calendly %}
+  {# Opt-in per page via `"calendly": true` in front matter. Loading this
+     globally puts a third-party script on every page — privacy.html included —
+     for pages that embed no booking widget at all. #}
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  {%- endif %}
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">{{ t.skip }}</a>
+
+{% include "partials/nav.njk" %}
+  {{ content | trim }}
+
+{% include "partials/footer.njk" %}
+{%- if certLightbox %}
+{% include "partials/cert-lightbox.njk" %}
+{%- endif %}
+  <script src="{{ prefix }}js/main.js"></script>
+  {%- for file in (js or []) %}
+  <script src="{{ prefix }}js/{{ file }}"></script>
+  {%- endfor %}
+  {%- if certLightbox %}
+{% include "partials/cert-lightbox-js.njk" %}
+  {%- endif %}
+</body>
+</html>

@@ -1,14 +1,27 @@
 # Noein Solutions Landing Page
 
-Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice. No build step, no framework, no npm.
+Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice. Built with Eleventy; no client-side framework.
+
+**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 12 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
+
+`css/`, `js/` and `assets/` are passthrough-copied from the project root (`.eleventy.js:7-11`), so those are still edited in place.
+
+**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 12 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
+
+**Page numbers are derived, never typed.** `src/_data/builds.js` is the sole definition of the Builds lineup: cards, jump index, `data-count` stats, prose counts on both the Builds page and the homepage teaser, and the assertions in `ui-ux.test.js` all read from it. Adding or pulling a build is one edit there. Counts are deliberately kept out of JSON front matter, which cannot be templated and would go stale silently.
 
 ## File Structure
 
 ```
-├── *.html              # 6 English pages (index, about, capsar, bep-checklist, eir-checklist, privacy)
-├── it/*.html           # 5 Italian mirrors (eir-checklist mirror not yet shipped)
+├── src/                # Page sources — the only place to author markup
+│   ├── _data/          # builds.js (Builds lineup + derived counts), nav.js, site.js,
+│   │                   # strings.js, eleventyComputed.js (canonical/hreflang/prefix)
+│   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
+│   ├── en/*.njk        # 7 English pages
+│   └── it/*.njk        # 5 Italian mirrors (eir-checklist and builds have no IT mirror yet)
+├── _site/              # Build output — gitignored, and what deploy.sh ships. Never edit.
 ├── css/                # Styles split into per-concern partials
-│   ├── styles.css      # Global styles + CSS custom properties (~2,550 lines)
+│   ├── styles.css      # 8-line @import manifest for the global bundle
 │   ├── styles.base.css
 │   ├── styles.utilities.css
 │   ├── styles.animations.css
@@ -16,68 +29,68 @@ Static HTML/CSS/JS landing page for [noeinsolutions.com](https://noeinsolutions.
 │   ├── styles.hero.css
 │   ├── styles.navigation.css
 │   ├── styles.sections.css
-│   ├── styles.faq.css
 │   ├── styles.responsive.css
-│   ├── home.css        # Page-specific overrides
 │   ├── about.css
-│   ├── services.css
 │   ├── capsar.css
-│   ├── case-studies.css
-│   ├── contact.css
 │   ├── bep-checklist.css
-│   └── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
+│   ├── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
+│   └── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots, empty-state panel
 ├── js/
 │   ├── main.js              # Single IIFE bundle (all interactivity, analytics, animations)
 │   ├── bep-checklist.js     # Interactive BEP readiness diagnostic
 │   └── eir-checklist.js     # Interactive EIR clarity health check (0–3 scale, /100 score)
-├── assets/             # Images, lead magnet file, credential certs
+├── assets/             # Images, lead magnet file, credential certs, builds/ screenshots
 ├── deploy.sh           # Production deployment script
 ├── deploy/templates/   # Nginx + Docker Compose templates
 ├── docs/               # Project documentation
 │   ├── DEPLOYMENT.md
 │   ├── PRODUCT_LANDING_PAGE.md
-│   ├── UI_UX_ANALYSIS.md
-│   ├── LOCALIZATION_IT_GLOSSARY.md
-│   ├── LOCALIZATION_IT_STYLE.md
-│   └── LOCALIZATION_QA_CHECKLIST.md
+│   ├── REDESIGN_PLAN.md
+│   ├── BUILDS_SCREENSHOTS.md
+│   ├── LOCALIZATION_IT.md
+│   └── PRE_LEAVE_LONG_TERM_PLAN.md  # gitignored — local planning
 ├── scripts/            # Build helpers, test runners
 │   ├── smoke-check.js
 │   ├── convert_certs.py
 │   ├── optimize_headshot.py
+│   ├── optimize_screenshots.py
 │   └── tests/
 │       ├── ui-ux.test.js
 │       ├── it-translation.test.js
 │       └── smoke/
 │           └── eir-smoke.test.js  # EIR Health Check: jsdom-based runtime test (self-installs jsdom)
 ├── CHANGELOG.md
-├── CLAUDE.md
-├── PRICING.md          # gitignored — internal only
-└── PRE_LEAVE_LONG_TERM_PLAN.md  # gitignored — local planning
+├── README.md           # How to run it locally; points here for everything else
+├── AGENTS.md           # Pointer stub → CLAUDE.md (do not duplicate content into it)
+└── CLAUDE.md
 ```
 
 ## Key Conventions
 
-- **CSS:** Vanilla CSS with custom properties. Dark theme, gold accent (`#c9a55a`). Fonts: `Instrument Serif` (headings), `DM Sans` (body) via Google Fonts.
+- **CSS:** Vanilla CSS on a tokenised design system ("Technical Light"). Warm paper ground (`--paper: #FAF9F6`), near-black ink (`--ink: #14161A`), drawing-sheet hairlines, signal-orange accent (`--accent: #F04E23`; use `--accent-text: #C0390F` for orange TEXT on paper — the fill colour is only 3.7:1 and fails AA). Full-bleed dark surfaces opt in via `.band--dark`. Tokens for colour, fluid type scale (`--step--2` … `--step-5`), space, radius, shadow and duration live in `css/styles.base.css`; pre-redesign token names are kept as aliases at the end of that block. Fonts: `Archivo` (display), `DM Sans` (body), `IBM Plex Mono` (labels, stats, metadata) via Google Fonts.
+- **Type sizing lives only in the fluid `--step-*` scale.** `styles.responsive.css` is layout-only and must not set `font-size` — the previous version re-declared sizes across four min-width tiers, giving `.hero h1` three competing systems.
+- **Scroll reveal is progressive.** `.fade-in` is visible by default; `js/main.js` adds `.js-anim` to `<html>` before observing, so a JS failure leaves content visible rather than blank. The observer also reveals elements already scrolled past (`boundingClientRect.top < 0`) — otherwise a visitor who scrolls before its first async delivery leaves a section permanently hidden.
 - **JS:** Single IIFE in `js/main.js`. Vanilla ES5. Intersection Observer for scroll animations. Keyboard-accessible tabs/accordions.
 - **HTML template:** Every page has: skip link, `<nav>` with language switcher, `<main id="main-content">`, consistent hero pattern (`.page-hero`), footer.
 - **SEO:** Each page has canonical URL, hreflang alternates (en/it/x-default), OpenGraph tags, JSON-LD on homepage.
 - **Accessibility:** ARIA labels, `aria-expanded`/`aria-selected` states, `prefers-reduced-motion` respected throughout.
-- **Booking:** Calendly inline widget embedded on `index`, `contact`, `case-studies`, `bep-checklist`, `privacy` (EN + IT mirrors). Loaded via `assets.calendly.com` script — keep the embed markup identical across EN/IT.
+- **Forms:** lead-magnet / contact forms post to FormSubmit.co (`https://formsubmit.co/andrea.aita@noeinsolutions.com`) with a honeypot `_honey` field. Present on `index`, `bep-checklist`, `eir-checklist` and the IT mirrors of the first two. Required fields carry `aria-required="true"`. There is no Calendly embed on the site — practitioner mode dropped it.
+- **Conversion target:** every page routes to the Capsar app at `app.noeinsolutions.com`, or to GitHub from `builds.html`. External links use `target="_blank" rel="noopener"`; below-fold images use `loading="lazy"`.
 
 ## Bilingual Workflow
 
 Every content change to an EN page must be mirrored in its `/it/` counterpart. When editing:
-1. Make the change in the English file
-2. Apply the equivalent change in `it/<same-file>.html`
-3. Follow terminology in `docs/LOCALIZATION_IT_GLOSSARY.md` and the voice/style brief in `docs/LOCALIZATION_IT_STYLE.md`
+1. Make the change in `src/en/<page>.njk`
+2. Apply the equivalent change in `src/it/<page>.njk`
+3. Follow the terminology and voice/style brief in `docs/LOCALIZATION_IT.md`
 4. If adding a new page: add hreflang links to both versions, update `sitemap.xml`
-5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what `docs/LOCALIZATION_IT_STYLE.md` is for — self-check against its pre-commit checklist.
+5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what the style half of `docs/LOCALIZATION_IT.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
-- **Voice: `io` (first-person singular) + `tu` (informal second-person).** No `Lei`/`Vi`/`voi` as reader address. No `noi` as speaker (Andrea is solo). Specific exceptions (hero on index, career timeline on about, testimonials, footer brand) are documented in `docs/LOCALIZATION_IT_STYLE.md`.
+- **Voice: `io` (first-person singular) + `tu` (informal second-person).** No `Lei`/`Vi`/`voi` as reader address. No `noi` as speaker (Andrea is solo). Specific exceptions (hero on index, career timeline on about, testimonials, footer brand) are documented in `docs/LOCALIZATION_IT.md`.
 - Keep English-native terms in IT: `BEP`, `EIR`, `CDE`, `OIR`, `AIR`, `ISO 19650`, `TIDP`, `MIDP`, `digital delivery` (in titles), `onboarding`, `governance`, `Information Manager`, `BIM Manager`, `AEC`.
-- Keep anchor IDs in English (`#information-management`, `#bep-eir`, `#programme-delivery`) — CSS/JS reference them; only translate visible link text.
-- JS-referenced IDs (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`, `heroCanvas`) must stay identical to EN — do NOT translate them.
+- Keep anchor IDs in English (`#delivery`, `#markets`, `#tools`, `#games`, `#platform-preview`, `#main-content`) — CSS/JS reference them; only translate visible link text.
+- JS-referenced IDs (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`) must stay identical to EN — do NOT translate them.
 - Translate testimonial quotes into Italian (same message, localized for IT buyers), not kept in the original EN.
 - Credentials rendered descriptively with EN designation in parens where useful (e.g. `"Ingegnere civile abilitato"`; for UK-specific `"RICS Certified BIM Professional"` keep English).
 
@@ -115,11 +128,12 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 
 ## Documentation
 
+This file is the source of truth for how the repo works. `README.md` covers only how to run it locally; `AGENTS.md` is a pointer stub. Do not duplicate this file's content into either — a previous full copy in `AGENTS.md` drifted an entire visual redesign out of date without anything catching it.
+
 - `docs/DEPLOYMENT.md` — full deployment guide and server architecture
-- `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its user journeys, and repo scope
+- `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its audiences, and repo scope
+- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions
+- `docs/LOCALIZATION_IT.md` — EN-IT terminology (the **what**) and the IT voice/style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
+- `docs/BUILDS_SCREENSHOTS.md` — capture guide for the Builds page dashboard screenshots (filename map, framing, empty-slot swap)
+- `docs/PRE_LEAVE_LONG_TERM_PLAN.md` (gitignored) — practitioner/commercial mode plan and rollback procedure
 - `CHANGELOG.md` — notable site and documentation changes, backfilled from git history
-- `docs/LOCALIZATION_IT_GLOSSARY.md` — EN-IT terminology reference (the **what**)
-- `docs/LOCALIZATION_IT_STYLE.md` — IT voice and style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
-- `docs/LOCALIZATION_QA_CHECKLIST.md` — multilingual QA checklist
-- `docs/UI_UX_ANALYSIS.md` — design system documentation
-- `PRICING.md` (gitignored) — internal pricing rationale and recruiter/CV alignment notes (not for publication)

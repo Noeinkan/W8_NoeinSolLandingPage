@@ -1,11 +1,9 @@
 /* Noein Solutions — Global Stylesheet Manifest */
-/* Keep FAQ imported before responsive so its large-screen overrides can win. */
 @import url("./styles.base.css");
 @import url("./styles.navigation.css");
 @import url("./styles.ui.css");
 @import url("./styles.hero.css");
 @import url("./styles.sections.css");
 @import url("./styles.animations.css");
-@import url("./styles.faq.css");
 @import url("./styles.responsive.css");
 @import url("./styles.utilities.css");

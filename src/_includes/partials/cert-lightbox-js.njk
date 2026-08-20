@@ -1,0 +1,42 @@
+  <script>
+    (function () {
+      const lightbox  = document.getElementById('cert-lightbox');
+      const img       = document.getElementById('cert-lightbox-img');
+      const title     = document.getElementById('cert-lightbox-title');
+      const closeBtn  = lightbox.querySelector('.cert-lightbox-close');
+      const backdrop  = lightbox.querySelector('.cert-lightbox-backdrop');
+
+      function open(src, label) {
+        img.src = src;
+        img.alt = label;
+        title.textContent = label;
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function close() {
+        lightbox.hidden = true;
+        img.src = '';
+        document.body.style.overflow = '';
+      }
+
+      // Wire up image cards in credentials grid
+      document.querySelectorAll('.cert-img-card').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          open(btn.dataset.cert, btn.dataset.certTitle);
+        });
+      });
+
+      closeBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+
+      // Keyboard: Escape to close
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !lightbox.hidden) close();
+      });
+
+      // Block right-click on the image
+      img.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    })();
+  </script>

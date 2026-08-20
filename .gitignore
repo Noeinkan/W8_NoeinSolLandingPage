@@ -12,3 +12,7 @@ PRICING.md
 scripts/tests/smoke/node_modules/
 scripts/tests/smoke/package-lock.json
 scripts/tests/smoke/package.json
+
+# Eleventy build output and dependencies
+_site/
+node_modules/

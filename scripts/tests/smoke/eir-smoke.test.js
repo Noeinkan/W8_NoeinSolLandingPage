@@ -33,7 +33,12 @@ try {
   process.exit(2);
 }
 
-const ROOT = path.resolve(HERE, '..', '..', '..');
+const ROOT = path.resolve(HERE, '..', '..', '..', '_site');
+// Tests run against the Eleventy output, not the templates. Build first.
+if (!fs.existsSync(ROOT)) {
+  console.error("No _site/ found. Run \"npx @11ty/eleventy\" (or npm run build) first.");
+  process.exit(1);
+}
 const html = fs.readFileSync(path.join(ROOT, 'eir-checklist.html'), 'utf8');
 const js = fs.readFileSync(path.join(ROOT, 'js', 'eir-checklist.js'), 'utf8');
 

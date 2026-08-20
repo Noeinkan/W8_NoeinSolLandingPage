@@ -1,7 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const root = path.resolve(__dirname, '..', '..');
+const root = path.resolve(__dirname, '..', '..', '_site');
+// Tests run against the Eleventy output, not the templates. Build first.
+if (!fs.existsSync(root)) {
+  console.error("No _site/ found. Run \"npx @11ty/eleventy\" (or npm run build) first.");
+  process.exit(1);
+}
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
@@ -97,6 +102,7 @@ function testAnalyticsGating() {
     'capsar.html',
     'bep-checklist.html',
     'eir-checklist.html',
+    'builds.html',
     'privacy.html'
   ].forEach((relativePath) => {
     const html = read(relativePath);
@@ -105,6 +111,78 @@ function testAnalyticsGating() {
     assert(!html.includes('googletagmanager.com/gtag/js?id=YOUR_GA4_MEASUREMENT_ID'), relativePath + ' still has placeholder GA script tag');
   });
 }
+
+// Nav and footer are copy-pasted per page, so a new page is only reachable once
+// every other page has been updated by hand. This catches the one that got missed.
+function testEnNavParity() {
+  const pages = [
+    'index.html',
+    'about.html',
+    'capsar.html',
+    'bep-checklist.html',
+    'eir-checklist.html',
+    'builds.html',
+    'privacy.html'
+  ];
+  const entries = [
+    '<li><a href="index.html">Home</a></li>',
+    '<li><a href="about.html">About</a></li>',
+    '<li><a href="capsar.html">Capsar.io</a></li>',
+    '<li><a href="bep-checklist.html">BEP Checklist</a></li>',
+    '<li><a href="eir-checklist.html">EIR Health Check</a></li>',
+    '<li><a href="builds.html">Builds</a></li>'
+  ];
+
+  pages.forEach((relativePath) => {
+    const html = read(relativePath);
+    entries.forEach((entry) => {
+      const count = html.split(entry).length - 1;
+      assert(count === 2, relativePath + ' should carry ' + entry + ' twice (nav + footer), found ' + count);
+    });
+  });
+}
+
+function testBuildsPage() {
+  // Expectations come from the same module the page is generated from, so the
+  // lineup and the test can never disagree about how many builds there are.
+  const builds = require('../../src/_data/builds.js');
+  const html = read('builds.html');
+  assertUniqueIds('builds.html');
+  assert(html.includes('rel="canonical" href="https://noeinsolutions.com/builds.html"'), 'builds.html missing self-canonical');
+  assert(html.includes('href="css/builds.css"'), 'builds.html missing builds.css');
+
+  // Every repo link must open safely in a new tab.
+  const externalLinks = html.match(/<a href="https:\/\/github\.com\/[^"]+"[^>]*>/g) || [];
+  assert(externalLinks.length >= builds.total, 'builds.html should link every build in src/_data/builds.js (' + builds.total + '), found ' + externalLinks.length);
+  externalLinks.forEach((tag) => {
+    assert(tag.includes('rel="noopener noreferrer"'), 'builds.html GitHub link missing rel="noopener noreferrer": ' + tag);
+  });
+
+  // Builds are grouped by domain and every group gets identical treatment:
+  // one <section>, one .build-grid, and cards -- never a demoted list.
+  builds.categories.map((c) => c.id).forEach((id) => {
+    assert(html.includes('id="' + id + '"'), 'builds.html missing category section #' + id);
+    assert(html.includes('href="#' + id + '"'), 'builds.html missing index link to #' + id);
+  });
+  assert(!html.includes('build-list'), 'builds.html still uses the retired two-tier build-list markup');
+  const cards = (html.match(/<article class="build-card">/g) || []).length;
+  assert(cards === builds.total, 'builds.html renders ' + cards + ' cards but src/_data/builds.js defines ' + builds.total);
+  // The stats are derived too; catch a template that stops reading the data.
+  assert(html.includes('data-count="' + builds.total + '"'), 'builds.html stat should show ' + builds.total + ' repositories');
+  assert(html.includes('data-count="' + builds.withUi + '"'), 'builds.html stat should show ' + builds.withUi + ' with a working interface');
+
+  // A screenshot slot either points at a file that exists or stays in the
+  // deliberate empty state. A broken <img> would also fail deploy preflight.
+  const shots = html.match(/src="(assets\/builds\/[^"]+)"/g) || [];
+  shots.forEach((m) => {
+    const rel = m.slice(5, -1);
+    assert(fs.existsSync(path.join(root, rel)), 'builds.html references a missing screenshot: ' + rel);
+  });
+
+  const sitemap = read('sitemap.xml');
+  assert(sitemap.includes('https://noeinsolutions.com/builds.html'), 'sitemap.xml missing builds.html');
+}
+
 
 function testMainJs() {
   const js = read(path.join('js', 'main.js'));
@@ -116,6 +194,8 @@ function run() {
   testIndexPage();
   testBepChecklistPage();
   testEirChecklistPage();
+  testBuildsPage();
+  testEnNavParity();
   testAnalyticsGating();
   testMainJs();
   console.log('UI/UX regression checks passed.');

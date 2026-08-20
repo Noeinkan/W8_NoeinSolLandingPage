@@ -1,0 +1,5 @@
+{
+  "layout": "base.njk",
+  "lang": "it",
+  "permalink": "/it/{{ slug }}.html"
+}

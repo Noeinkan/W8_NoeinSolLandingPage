@@ -1,12 +1,55 @@
-# Italian Style Brief
+# Italian Localization — Terminology and Style
 
-This is the canonical reference for **how** Italian copy should read on this site. It complements `LOCALIZATION_IT_GLOSSARY.md`, which covers **what** terms to use.
+The single reference for IT copy on this site: **what** terms to use (glossary) and **how** the copy should read (voice and style).
 
-The voice locked here was established after a full IT rewrite (April 2026) following an audit that found the original IT copy read as AI-generated and dated to native readers. Read the audit context in `plans/quizzical-strolling-pond.md` if useful.
+The voice locked here was established after a full IT rewrite (April 2026), following an audit that found the original IT copy read as AI-generated and dated to native readers.
 
-Run `node scripts/tests/it-translation.test.js` after any IT change. The test catches structural drift, EN-leakage, missing accents, and find/replace scars — but not voice. This document is what catches voice.
+Run `node scripts/tests/it-translation.test.js` after any IT change. The test catches structural drift, EN-leakage, missing accents, and find/replace scars — but **not voice**. The style half of this document is what catches voice, and it has to be self-checked against the [pre-commit checklist](#pre-commit-checklist).
 
 ---
+
+# Part 1 — Glossary
+
+## Terms (EN → IT)
+
+- Digital delivery → `digital delivery` (preferred in titles); `consegna digitale` only in explanatory copy.
+- Information management → `gestione informativa`.
+- Information requirements → `requisiti informativi`.
+- Common Data Environment (CDE) → `Ambiente di Condivisione Dati (ACDat)` on first mention where useful; `CDE` afterwards. In short prose, `CDE` from the start is fine.
+- Governance → `governance` (or `governo operativo`, context-specific).
+- Building Execution Plan (BEP) → `BEP` (`Piano di Gestione Informativa` only if required by client context).
+- Exchange Information Requirements (EIR) → `EIR` (`Capitolato Informativo` on first mention where needed).
+- Organisational Information Requirements (OIR) → `OIR`.
+- Asset Information Requirements (AIR) → `AIR`.
+- Programme delivery → `delivery di programma` (as a section title or noun phrase). In running prose, `gestione del delivery di programma` works for explanation.
+- Supply chain → `filiera`.
+- Compliance → `conformità` (with accent — the test catches `conformita` without).
+- Onboarding → `onboarding` (or `avvio operativo filiera` in formal copy).
+- Gap analysis → `analisi gap`.
+- Responsiveness matrix → `Matrice di Rispondenza`.
+- Practitioner → `practitioner` (loanword; standard in IT AEC/tech context). `Sul campo` works as a paraphrase in headlines.
+
+## English-stay terms
+
+These never translate, regardless of context: `BEP`, `EIR`, `CDE`, `OIR`, `AIR`, `ISO 19650`, `TIDP`, `MIDP`, `AEC`, `Information Manager`, `BIM Manager`, `digital delivery` (in titles), `governance`, `onboarding`.
+
+Treat them as Italian loanwords, with the article agreeing with the gender of the IT equivalent: `il BEP` (masculine, like "il piano"), `l'EIR` (masculine), `la governance` (feminine), `la filiera`.
+
+**Don't stack three glossary terms in a row.** `governance CDE, naming convention, data governance` is a noun-stack, not a sentence — group differently or add verbs.
+
+**First-mention rule** for less-known acronyms on a page where they appear once: `Common Data Environment (CDE)` or `CDE (Common Data Environment)`, then bare `CDE` afterwards. BEP / EIR / ISO 19650 need no gloss — the audience knows them.
+
+## Credentials
+
+Credentials render descriptively in IT with the original EN designation in parens where useful:
+
+- `Ingegnere civile abilitato (Italia, sezione A)`
+- `RICS Certified BIM Professional` — keep English; UK-specific.
+- `Autodesk 40 Under 40` — keep English; brand award.
+
+---
+
+# Part 2 — Style
 
 ## Voice (locked)
 
@@ -27,11 +70,9 @@ These are the only places voice diverges from `io + tu`:
 - **Hero on `index.html`** uses third-person `Andrea Aita costruisce…` as a brand billboard. Mirrors EN. This is one block, not a pattern.
 - **About-preview on `index.html`** describes Andrea biographically in implicit third-person ("Leader di digital delivery con oltre 10 anni…"). Mirrors EN's biographical intro.
 - **Career timeline on `about.html`** uses third-person `Ha guidato…`, `Ha coordinato…` for past roles. Mirrors EN. The "Come lavoro" section on the same page switches back to `io`.
-- **Testimonial blockquotes** are in the speaker's voice (the quoted client), not Andrea's. Translate fully to IT — never keep EN quotes — but let the speaker address their own audience naturally.
+- **Testimonial blockquotes** are in the speaker's voice (the quoted client), not Andrea's. Translate fully to IT — never keep EN quotes — but let the speaker address their own audience naturally (which can include `voi` if they are addressing their own team).
 - **Footer brand tagline** is brand voice (third-person about Noein), not Andrea's voice.
 - **Privacy policy** stays formal (`Raccogliamo`, `Trattiamo`) because legal copy needs that register.
-
----
 
 ## Hard rules — never appears in IT copy
 
@@ -40,10 +81,8 @@ These are the only places voice diverges from `io + tu`:
 3. **No 1990s corporate idioms**: `soluzioni all'avanguardia`, `eccellenza`, `know-how`, `fornire soluzioni`, `mettere a disposizione`, `garantire la massima qualità`, `Vi forniamo`, `Ci mettiamo a vostra completa disposizione`.
 4. **No formulaic corporate closings**: `non esitare a contattare`, `a tua disposizione`, `per qualsiasi informazione`.
 5. **No `tipicamente`** as a hedge. Use `di solito`, `in media`, `durata tipica`, or omit.
-6. **No em-dash (`—`) as a paragraph connector.** Italian uses period, colon, or parenthesis. Two em-dashes in one sentence is a clear EN tell. Em-dash IS allowed as a typographic separator in titles (`Page Title — Site Name`), in `<cite>` tags before an attribution, or in metric labels where it works typographically — but not as a sentence-internal pause.
+6. **No em-dash (`—`) as a paragraph connector.** Italian uses period, colon, or parenthesis. Two em-dashes in one sentence is a clear EN tell. Em-dash IS allowed as a typographic separator in titles (`Page Title — Site Name`), in `<cite>` tags before an attribution, or in metric labels — but not as a sentence-internal pause.
 7. **No `Scopri di più` repeated as default CTA on every card.** Vary: `Approfondisci`, `Vedi come funziona`, `Vedi i dettagli`, or a specific action (`Vedi il case study`, `Prenota una call`).
-
----
 
 ## Anti-patterns flagged from the audit
 
@@ -64,19 +103,16 @@ These are calques and AI-tells from the pre-rewrite IT. Do not let them creep ba
 | `Raccontami su cosa stai lavorando` | Calque of "Tell me about what you're working on" | `Raccontami il progetto` / `Mi racconti il progetto` |
 | `Tecnologia a supporto` | Dated corporate H3 | `Accelerato dalla tecnologia` / `La tecnologia giusta al posto giusto` |
 | `Imposta bene la gestione informativa` | Bookish imperative | `Una gestione informativa che tiene` / `Gestisci l'informazione come si deve` |
-| `dimostrazioni di capability generiche non bastano` | Note: `capability` stays English (glossary), but avoid the rest of the noun-stack pattern | Concrete: `Lega i nomi ai ruoli, i ruoli alle attività…` |
+| `dimostrazioni di capability generiche non bastano` | `capability` stays English, but avoid the rest of the noun-stack pattern | Concrete: `Lega i nomi ai ruoli, i ruoli alle attività…` |
 
----
-
-## Style guide
-
-### Sentence rhythm
+## Sentence rhythm
 
 - **Italian is shorter than English per idea by ~15%.** Where the EN has one long sentence with clauses joined by `—`, the IT is usually two or three shorter sentences.
 - **Vary sentence length.** Three short sentences in a row read as snappy. Three long ones read as bureaucratic. Mix.
 - **Active verbs over abstract nouns.** "Progetto il framework" beats "Disegno di un framework" beats "Il framework viene progettato". Prefer the first.
+- **Tone:** direct and operational. Sound like a senior peer talking, not a vendor.
 
-### Lists
+## Lists
 
 - **Three-item parallel noun lists are an EN tell.** When the EN has `frameworks, documents, and systems` styled as a tight tricolon, the IT can:
   - break into a colon + sub-list,
@@ -84,25 +120,17 @@ These are calques and AI-tells from the pre-rewrite IT. Do not let them creep ba
   - introduce a verb to break the parallel rhythm.
 - **Noun-stacks of 4+ without a verb** (`governance CDE, naming convention, data governance, strutture di reporting, requisiti informativi per la filiera e processi di capability assessment`) are the worst offender. Group, chunk with verbs, or split into two sentences.
 
-### Punctuation
+## Punctuation
 
 - **Period and colon over em-dash.** When in doubt, replace `—` with `:` (continuation/explanation) or `.` (full stop).
 - **Italian quotation marks**: `«»` is most natural for formal quoted material. Curly `"…"` is acceptable but reads more English. Inline quotes within prose (e.g., `cosa significhi «buono»`) prefer `«»`.
 - **Numbers and ranges**: en-dash `–` for ranges (`5–7 giorni`, `2024–2025`), not hyphen.
 
-### CTAs and reader address
+## CTAs and reader address
 
-- CTAs are short and direct. `Prenota una call`, `Contattami`, `Vedi i servizi`. The article + verb pattern (`Prenota una call gratuita di 30 min`) is fine — drops `gratuita` only where saying "free" no longer adds commercial value.
+- CTAs are short and direct. `Prenota una call`, `Contattami`, `Vedi i servizi`. The article + verb pattern (`Prenota una call gratuita di 30 min`) is fine — drop `gratuita` where saying "free" no longer adds commercial value.
 - Question-form CTAs work well in IT: `Pronto a partire?`, `Ti serve un BEP in una settimana?`, `Non sai da dove cominciare?`.
 - Reader-direct openings: `Ti dico subito`, `Ti rispondo entro 24 ore`, `Mi racconti il progetto`. These set the `tu` register from the first word.
-
-### Glossary terms inside prose
-
-- EN glossary terms (`BEP`, `EIR`, `CDE`, `ISO 19650`, `TIDP`, `MIDP`, `digital delivery` in titles, `governance`, `onboarding`, `Information Manager`, `BIM Manager`, `AEC`) are loanwords — treat as Italian. Articles agree with grammatical gender of the IT equivalent: `il BEP` (masculine, like "il piano"), `l'EIR` (masculine), `la governance` (feminine), `la filiera`.
-- **Don't stack glossary terms three in a row.** `governance CDE, naming convention, data governance` is a noun-stack, not a sentence. Group differently or add verbs.
-- **First-mention rule** for less-known acronyms (e.g., on a page where they appear once): `Common Data Environment (CDE)` or `CDE (Common Data Environment)`, then bare `CDE` on subsequent uses. For BEP/EIR/ISO 19650 — no first-mention gloss needed; the audience knows them.
-
----
 
 ## Calibration: bad → good
 
@@ -116,7 +144,7 @@ These are calques and AI-tells from the pre-rewrite IT. Do not let them creep ba
 | "no AI for confidential projects" (heading) | "Nessuna AI adatta a progetti riservati" | (the IT was already fine — keep) |
 | "Powered by Capsar.io" | "Con il supporto di Capsar.io" | (acceptable as-is — `Powered by` is also fine as a loanword) |
 | "Ready to get your digital delivery right?" | "Pronto a strutturare al meglio la tua digital delivery?" | "Pronto a far funzionare davvero la tua digital delivery?" |
-| "I'll get back to you within 24 hours" | "Ti risponderò entro 24 ore" | (active future is fine — also "Ti rispondo entro 24 ore" works for present-future) |
+| "I'll get back to you within 24 hours" | "Ti risponderò entro 24 ore" | (active future is fine — "Ti rispondo entro 24 ore" also works) |
 
 ---
 
@@ -132,14 +160,14 @@ Self-review before committing any IT change:
 - [ ] No `Andrea` in third-person where `io` would work
 - [ ] No `Scopri di più` repeated identically across multiple cards
 - [ ] No formulaic AI-closings reused twice on the same page
+- [ ] Terminology matches Part 1, and English-stay terms are untranslated
 - [ ] `node scripts/tests/it-translation.test.js` passes
 - [ ] Read the page aloud — does it sound like a native Italian peer talking, or a translation? If translation, flag the spot.
-
----
 
 ## Where this doesn't apply
 
 - **Privacy policy** (`it/privacy.html`) — formal legal register is appropriate. Don't force `tu`.
 - **JSON-LD schema descriptions** — these stay in English (machine-readable; the EN site is the canonical source).
-- **Form `name` HTML attributes** (`name`, `email`, `company`) — these are technical identifiers, not copy.
-- **Anchor IDs** (`#information-management`, `#bep-eir`, `#programme-delivery`, `#faq`, `#main-content`) — must stay English; CSS/JS reference them.
+- **Form `name` HTML attributes** (`name`, `email`, `company`) — technical identifiers, not copy.
+- **Anchor IDs** (`#delivery`, `#markets`, `#tools`, `#games`, `#platform-preview`, `#main-content`) — must stay English; CSS/JS reference them. Only visible link text is translated.
+- **JS-referenced element IDs** (`exitOverlayClose`, `exitOverlayDismiss`, `stickyCtaClose`, `leadMagnetSuccess`, and the `bep*` / `eir*` checklist IDs) — must stay byte-identical to EN.

@@ -1,0 +1,12 @@
+  <nav{{ ' class="' + navClass + '"' if navClass }}>
+    <a href="index.html" class="nav-logo">Noein<span>.</span></a>
+    <button class="nav-toggle" aria-label="{{ t.navToggle }}" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      {%- for item in nav[lang] %}
+      <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+      {%- endfor %}
+      <li><a href="{{ langHref }}" class="lang-switch" aria-label="{{ t.langSwitch if (lang == 'it' or hasMirror) else t.langSwitchPending }}"><span class="lang-option{{ ' is-active' if lang == 'en' }}">🇬🇧 EN</span><span class="lang-option{{ ' is-active' if lang == 'it' }}">🇮🇹 IT</span></a></li>
+    </ul>
+  </nav>

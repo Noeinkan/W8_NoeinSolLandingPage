@@ -14,7 +14,7 @@
 
   // ─── i18n strings ───
   // Single EN branch now; IT branch is stubbed for the later
-  // mirror pass and follows the LOCALIZATION_IT_STYLE.md brief.
+  // mirror pass and follows the LOCALIZATION_IT.md brief.
   var I = isItalian ? {
     scaleNone: 'Mancante',
     scaleVague: 'Vago',

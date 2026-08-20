@@ -35,42 +35,6 @@ is_windows_shell() {
     return 1
 }
 
-EXCLUDES_RSYNC=(
-    --exclude '.git'
-    --exclude '.claude'
-    --exclude '.cursor'
-    --exclude '.env'
-    --exclude '.env.*'
-    --exclude '.venv'
-    --exclude 'deploy'
-    --exclude 'deploy.sh'
-    --exclude 'nginx.conf'
-    --exclude 'landing-block.conf'
-    --exclude 'docs'
-    --exclude 'scripts/tests'
-    --exclude '*.md'
-    --exclude '*.docx'
-    --exclude '*.py'
-)
-
-EXCLUDES_TAR=(
-    --exclude='.git'
-    --exclude='.claude'
-    --exclude='.cursor'
-    --exclude='.env'
-    --exclude='.env.*'
-    --exclude='.venv'
-    --exclude='deploy'
-    --exclude='deploy.sh'
-    --exclude='nginx.conf'
-    --exclude='landing-block.conf'
-    --exclude='docs'
-    --exclude='scripts/tests'
-    --exclude='*.md'
-    --exclude='*.docx'
-    --exclude='*.py'
-)
-
 resolve_local_python() {
     if [ -n "$LOCAL_PY_CMD" ]; then
         return 0
@@ -114,14 +78,14 @@ run_local_python() {
 
 deploy_files() {
     if command -v rsync &> /dev/null; then
-        rsync -avz --delete "${EXCLUDES_RSYNC[@]}" ./ "$SERVER:${REMOTE_DIR}/"
+        rsync -avz --delete ./_site/ "$SERVER:${REMOTE_DIR}/"
     else
         log "rsync not found, using tar+scp fallback..."
         local tmp_tar="/tmp/noeinsol_deploy.tar.gz"
         local remote_tar="/tmp/noeinsol_deploy.tar.gz"
 
         log "Creating deployment archive..."
-        tar czf "$tmp_tar" "${EXCLUDES_TAR[@]}" -C . . \
+        tar czf "$tmp_tar" -C _site . \
             || err "Failed to create deployment archive."
 
         log "Uploading deployment archive to ${SERVER}..."
@@ -141,7 +105,15 @@ require_local_templates() {
     [ -f "$LOCAL_OVERRIDE_TEMPLATE" ] || err "Missing template: ${LOCAL_OVERRIDE_TEMPLATE}"
 }
 
+build_site() {
+    log "Building site with Eleventy..."
+    npx @11ty/eleventy >/dev/null \
+        || err "Eleventy build failed. Run: npx @11ty/eleventy"
+    [ -f "_site/index.html" ] || err "Build produced no _site/index.html."
+}
+
 run_local_preflight_checks() {
+    build_site
     log "Running local preflight checks..."
 
     run_local_python - <<'PY' || exit 1
@@ -149,13 +121,14 @@ from html.parser import HTMLParser
 from pathlib import Path
 import sys
 
-ROOT = Path(".").resolve()
+ROOT = Path("_site").resolve()
 REQUIRED_FILES = [
     "index.html",
     "about.html",
     "capsar.html",
     "bep-checklist.html",
     "eir-checklist.html",
+    "builds.html",
     "privacy.html",
     "it/index.html",
     "it/about.html",
@@ -593,9 +566,9 @@ case "${1:-}" in
     --dry-run)
         log "Dry run — files that would be deployed:"
         if command -v rsync &> /dev/null; then
-            rsync -avzn --delete "${EXCLUDES_RSYNC[@]}" ./ "$SERVER:${REMOTE_DIR}/"
+            rsync -avzn --delete ./_site/ "$SERVER:${REMOTE_DIR}/"
         else
-            tar tzf <(tar czf - "${EXCLUDES_TAR[@]}" -C . .) 2>/dev/null | sed 's|^\./||'
+            tar tzf <(tar czf - -C _site .) 2>/dev/null | sed 's|^\./||'
         fi
         ;;
     "")

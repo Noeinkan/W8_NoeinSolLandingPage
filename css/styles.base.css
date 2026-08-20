@@ -1,54 +1,194 @@
 /* ═══════════════════════════════════════════════════════════
-   Noein Solutions — Global Stylesheet
+   Noein Solutions — Foundation
+   Direction: "Technical Light" — warm paper ground, ink text,
+   drawing-sheet hairlines, signal-orange accent.
    ═══════════════════════════════════════════════════════════ */
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg-primary: #0a0a0c;
-  --bg-elevated: #111114;
-  --bg-card: #16161a;
-  --bg-card-hover: #1c1c21;
-  --border: #2a2a30;
-  --border-subtle: #1e1e24;
-  --text-primary: #e8e6e3;
-  --text-secondary: #9a9898;
-  --text-tertiary: #888686;
-  --accent: #c9a55a;
-  --accent-dim: #a8873f;
-  --accent-glow: rgba(201, 165, 90, 0.12);
-  --accent-glow-strong: rgba(201, 165, 90, 0.25);
-  --white: #ffffff;
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'DM Sans', -apple-system, sans-serif;
-  --copy-size: 1rem;
-  --copy-size-compact: 0.97rem;
-  --copy-size-small: 0.92rem;
-  --copy-line-height: 1.72;
-  --copy-line-height-tight: 1.6;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* ─── Ground ─────────────────────────────────────────────── */
+  --paper:         #FAF9F6;   /* page */
+  --paper-sunk:    #F2F0EA;   /* alternating band */
+  --paper-raised:  #FFFFFF;   /* cards */
+
+  /* ─── Ink ────────────────────────────────────────────────── */
+  --ink:           #14161A;
+  --ink-secondary: #4A5058;
+  --ink-tertiary:  #767C85;
+
+  /* ─── Rules (drawing-sheet hairlines) ────────────────────── */
+  --rule:          #DFDBD2;
+  --rule-strong:   #C3BDB1;
+
+  /* ─── Accent: signal orange ──────────────────────────────── */
+  --accent:        #F04E23;   /* fills + graphics + large type only */
+  --accent-text:   #C0390F;   /* orange TEXT on paper — 5.4:1, AA pass */
+  --accent-rgb:    240, 78, 35;
+  --accent-wash:   rgba(var(--accent-rgb), 0.08);
+  --accent-wash-strong: rgba(var(--accent-rgb), 0.16);
+
+  /* ─── Dark band (inverted surface for product moments) ───── */
+  --band:          #14161A;
+  --band-raised:   #1D2026;
+  --band-text:     #F5F3EE;
+  --band-text-dim: #9AA0A9;
+  --band-rule:     #2C3038;
+
+  /* ─── Type families ──────────────────────────────────────── */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ─── Fluid type scale (one system — no per-breakpoint overrides) ─── */
+  --step--2: 0.6875rem;                                  /* 11px — mono micro-labels */
+  --step--1: 0.8125rem;                                  /* 13px — mono labels, captions */
+  --step-0:  1rem;                                       /* body */
+  --step-1:  1.125rem;                                   /* lead paragraph */
+  --step-2:  clamp(1.25rem, 1.13rem + 0.6vw,  1.6rem);   /* h3 */
+  --step-3:  clamp(1.6rem,  1.32rem + 1.4vw,  2.25rem);  /* small h2 */
+  --step-4:  clamp(2.1rem,  1.6rem + 2.5vw,   3.4rem);   /* h2 / page-hero h1 */
+  --step-5:  clamp(2.6rem,  1.75rem + 4.2vw,  5rem);     /* hero h1 */
+
+  /* ─── Copy ───────────────────────────────────────────────── */
+  --copy-size:              var(--step-0);
+  --copy-size-compact:      0.9375rem;
+  --copy-size-small:        var(--step--1);
+  --copy-line-height:       1.65;
+  --copy-line-height-tight: 1.5;
+  --measure: 68ch;
+
+  /* ─── Space (4px base) ───────────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-8:  3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+  --space-16: 8rem;
+  --section-y: clamp(3.25rem, 5.5vw, 5.5rem);
+  --gutter:    clamp(1.25rem, 4vw, 2.5rem);
+  --maxw:      1200px;
+
+  /* ─── Radius — small by design; most surfaces are square ─── */
+  --r-sm:   2px;
+  --r-md:   4px;
+  --r-lg:   8px;
+  --r-pill: 999px;
+
+  /* ─── Elevation — light grounds use rules, not shadows ───── */
+  --shadow-card:   0 1px 2px rgba(20, 22, 26, 0.04);
+  --shadow-raised: 0 12px 32px rgba(20, 22, 26, 0.10);
+  --shadow-band:   0 24px 60px rgba(0, 0, 0, 0.45);
+
+  /* ─── Motion ─────────────────────────────────────────────── */
+  --dur-fast: 0.15s;
+  --dur:      0.25s;
+  --dur-slow: 0.4s;
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* ─── Legacy aliases ─────────────────────────────────────────
+     The pre-redesign token names are kept mapped onto the new
+     palette so every partial that still references them renders
+     correctly. Retire these as each component is reworked. */
+  --bg-primary:       var(--paper);
+  --bg-elevated:      var(--paper-sunk);
+  --bg-card:          var(--paper-raised);
+  --bg-card-hover:    var(--paper-sunk);
+  --bg-secondary:     var(--paper-sunk);   /* never defined pre-redesign; about.css:152 relied on it */
+  --border:           var(--rule-strong);
+  --border-subtle:    var(--rule);
+  --text-primary:     var(--ink);
+  --text-secondary:   var(--ink-secondary);
+  --text-tertiary:    var(--ink-tertiary);
+  --accent-dim:       var(--accent-text);
+  --accent-glow:      var(--accent-wash);
+  --accent-glow-strong: var(--accent-wash-strong);
+  --white:            #ffffff;
 }
 
-html { font-size: 100%; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 body {
-  font-size: 1rem;
   font-family: var(--font-body);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: var(--copy-line-height-tight);
+  font-size: var(--copy-size);
+  line-height: var(--copy-line-height);
+  background: var(--paper);
+  color: var(--ink);
   overflow-x: hidden;
 }
 
-/* ─── Noise overlay ─── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+a { color: inherit; }
+
+/* ─── Headings default to the display grotesk ─────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  text-wrap: balance;
 }
 
-a { color: inherit; }
+h1 { letter-spacing: -0.035em; }
+
+p { text-wrap: pretty; }
+
+/* ─── Mono utility: the "technical practitioner" signal ───── */
+.mono,
+.section-label,
+.hero-label,
+.logo-bar-label,
+.footer-heading,
+.credential-tag,
+.trust-band-detail,
+.stat-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ─── Full-bleed band system ──────────────────────────────────
+   Replaces the fragile `main > section:nth-child(even)` striping,
+   which was driven by a mix of <section> and <div> children and
+   silently inverted on any reorder. */
+.band {
+  background: var(--paper);
+  padding-block: var(--section-y);
+}
+
+.band--sunk {
+  background: var(--paper-sunk);
+  border-block: 1px solid var(--rule);
+}
+
+.band--dark {
+  background: var(--band);
+  color: var(--band-text);
+  border-block: 1px solid var(--band-rule);
+}
+
+.band--dark h1,
+.band--dark h2,
+.band--dark h3 { color: var(--band-text); }
+
+.band--dark p { color: var(--band-text-dim); }
+
+.band--tight { padding-block: var(--space-8); }
+
+.band-inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}

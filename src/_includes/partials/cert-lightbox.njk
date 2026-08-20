@@ -1,0 +1,15 @@
+  <!-- Certificate lightbox -->
+  <div id="cert-lightbox" class="cert-lightbox" role="dialog" aria-modal="true" aria-label="{{ t.certViewer }}" hidden>
+    <div class="cert-lightbox-backdrop"></div>
+    <div class="cert-lightbox-panel">
+      <button class="cert-lightbox-close" aria-label="{{ t.certClose }}">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="cert-lightbox-img-wrap">
+        <!-- transparent overlay prevents right-click/drag save on the image -->
+        <div class="cert-lightbox-guard" aria-hidden="true"></div>
+        <img id="cert-lightbox-img" src="" alt="" draggable="false" />
+      </div>
+      <p id="cert-lightbox-title" class="cert-lightbox-title"></p>
+    </div>
+  </div>

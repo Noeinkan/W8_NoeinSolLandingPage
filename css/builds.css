@@ -1,0 +1,218 @@
+/* ═══════════════════════════════════════════════════════════
+   Builds — agentic development portfolio
+   Extends the .value-card visual language from styles.sections.css.
+   Media slots reserve their aspect ratio before screenshots land,
+   so dropping an <img> in later causes no layout shift.
+   ═══════════════════════════════════════════════════════════ */
+
+.build-hero-actions { margin-top: 2rem; }
+
+/* ─── Category index ─── */
+.build-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 4rem;
+}
+
+.build-index-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+
+.build-index-link:hover,
+.build-index-link:focus-visible {
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+/* Monospaced so the counts line up down the row */
+.build-index-count {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--accent-text);
+}
+
+/* ─── Category section ─── */
+/* Each category is a peer of every other: same heading weight, same grid,
+   same card treatment. Nothing is demoted to a list. */
+.build-group + .build-group { margin-top: 1rem; }
+/* ─── Card grid ─── */
+.build-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.build-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+/* Gold top-edge sweep, matching .value-card::before */
+.build-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 2;
+}
+
+.build-card:hover { border-color: var(--border); }
+.build-card:hover::before { opacity: 1; }
+
+/* ─── Media slot ─── */
+.build-card-media {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  position: relative;
+}
+
+.build-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Deliberate no-screenshot state: blueprint grid + typographic stack mark.
+   Every card ships in this state until assets/builds/ is populated. */
+.build-card-media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.05) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+}
+
+.build-card-media--empty::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(var(--accent-rgb), 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--accent-rgb), 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
+}
+
+.build-card-glyph {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--accent-text);
+  opacity: 0.42;
+  letter-spacing: 0.08em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.28);
+}
+
+/* ─── Card body ─── */
+.build-card-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.build-card-kicker {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-text);
+  margin-bottom: 0.75rem;
+}
+
+.build-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+
+.build-card-problem {
+  font-size: var(--copy-size-compact);
+  color: var(--text-secondary);
+  line-height: var(--copy-line-height);
+  margin-bottom: 1.5rem;
+}
+
+.build-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Push the link to the bottom so cards of unequal copy length align */
+.build-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--accent-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.build-card-link span {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.build-card-link:hover span { transform: translateX(4px); }
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive — breakpoints match css/styles.responsive.css
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 968px) {
+  .build-grid { grid-template-columns: 1fr; }
+  .build-index { gap: 0.5rem; margin-bottom: 3rem; }
+  .build-index-link { padding: 0.5rem 0.9rem; font-size: 0.8rem; }
+}
+
+@media (max-width: 640px) {
+  .build-card-body { padding: 1.5rem; }
+  .build-card-glyph { font-size: 1.4rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .build-card,
+  .build-index-link,
+  .build-card::before,
+  .build-card-link span {
+    transition: none;
+  }
+
+  .build-card-link:hover span { transform: none; }
+}

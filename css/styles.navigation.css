@@ -1,136 +1,123 @@
 /* ═══════════════════════════════════════════════════════════
    Navigation
+   Flush sticky bar on paper with a single hairline, replacing
+   the floating blurred pill. Sticky (not fixed) so it occupies
+   layout space and the hero needs no offset compensation.
    ═══════════════════════════════════════════════════════════ */
 nav {
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: sticky;
+  top: 0;
   z-index: 100;
-  padding: 0.85rem 1.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1100px;
-  width: calc(100% - 24px);
-  background: rgba(10, 10, 12, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(201, 165, 90, 0.12);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  transition: all 0.4s var(--ease-out);
+  gap: var(--space-6);
+  width: 100%;
+  padding: var(--space-4) var(--gutter);
+  background: rgba(250, 249, 246, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  transition: border-color var(--dur) var(--ease-out),
+              background-color var(--dur) var(--ease-out);
 }
 
+nav.nav-scrolled {
+  background: rgba(250, 249, 246, 0.97);
+  border-bottom-color: var(--rule-strong);
+}
+
+/* ─── Wordmark ────────────────────────────────────────────── */
 .nav-logo {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
   text-decoration: none;
-  letter-spacing: -0.01em;
 }
 
 .nav-logo span { color: var(--accent); }
 
+/* ─── Links ───────────────────────────────────────────────── */
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: var(--space-6);
   align-items: center;
   list-style: none;
 }
 
 .nav-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 400;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
   letter-spacing: 0.02em;
-  transition: color 0.3s;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease-out);
 }
 
-.nav-links a:hover { color: var(--text-primary); }
+.nav-links a:hover { color: var(--ink); }
 
-.nav-cta {
-  background: var(--accent) !important;
-  color: var(--bg-primary) !important;
-  padding: 0.5rem 1.25rem;
-  border-radius: 6px;
-  font-weight: 500 !important;
-  transition: all 0.3s var(--ease-out) !important;
+.nav-links a.nav-active {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
-.nav-cta:hover {
-  background: var(--white) !important;
-  transform: translateY(-1px);
-}
-
-nav.nav-scrolled {
-  background: rgba(10, 10, 12, 0.97);
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-}
-
-.nav-links a.nav-active:not(.nav-cta) { color: var(--accent); }
-
+/* ─── Language switch ─────────────────────────────────────── */
 .lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
+  gap: 0.25rem;
   padding: 0.16rem;
-  border-radius: 999px;
-  border: 1px solid rgba(201, 165, 90, 0.2);
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: border-color 0.25s ease, background 0.25s ease;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--rule-strong);
+  background: var(--paper-raised);
+  transition: border-color var(--dur) ease;
 }
 
-.lang-switch:hover {
-  border-color: rgba(201, 165, 90, 0.45);
-  background: rgba(201, 165, 90, 0.06);
-}
+.lang-switch:hover { border-color: var(--ink-tertiary); }
 
 .lang-switch .lang-option {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
-  color: var(--text-secondary);
-  border-radius: 999px;
-  padding: 0.28rem 0.46rem;
-  transition: color 0.25s ease, background 0.25s ease;
-}
-
-.lang-switch .lang-option + .lang-option {
-  margin-left: 0.08rem;
+  color: var(--ink-tertiary);
+  border-radius: var(--r-pill);
+  padding: 0.3rem 0.5rem;
+  transition: color var(--dur) ease, background-color var(--dur) ease;
 }
 
 .lang-switch .lang-option.is-active {
-  background: rgba(201, 165, 90, 0.18);
-  color: var(--text-primary);
+  background: var(--ink);
+  color: var(--paper);
 }
 
-/* ─── Mobile hamburger ─── */
+/* ─── Mobile hamburger ────────────────────────────────────── */
 .nav-toggle {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: var(--space-2);
 }
 
 .nav-toggle span {
   display: block;
   width: 22px;
   height: 1.5px;
-  background: var(--text-primary);
+  background: var(--ink);
   margin: 5px 0;
-  transition: all 0.3s;
+  transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease-out);
   transform-origin: center;
 }
 

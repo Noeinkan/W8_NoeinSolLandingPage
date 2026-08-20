@@ -1,32 +1,45 @@
 /* ═══════════════════════════════════════════════════════════
    Animations
+
+   Progressive enhancement: scroll-reveal elements are VISIBLE by
+   default. js/main.js adds `.js-anim` to <html> before registering
+   the IntersectionObserver, and only then do they start hidden.
+   If the script fails, is blocked, or the observer misses an
+   element, the section still renders instead of staying blank.
    ═══════════════════════════════════════════════════════════ */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.7s var(--ease-out);
+.fade-in,
+.slide-in-left,
+.stagger-child {
+  opacity: 1;
+  transform: none;
 }
 
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+.js-anim .fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
 
-.stagger-child {
+.js-anim .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+.js-anim .stagger-child {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 0.1s);
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 0.06s);
 }
 
-.fade-in.visible .stagger-child { opacity: 1; transform: translateY(0); }
+.js-anim .fade-in.visible .stagger-child { opacity: 1; transform: translateY(0); }
 
-.slide-in-left {
+.js-anim .slide-in-left {
   opacity: 0;
   transform: translateX(-20px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
 }
 
-.slide-in-left.visible { opacity: 1; transform: translateX(0); }
+.js-anim .slide-in-left.visible { opacity: 1; transform: translateX(0); }
