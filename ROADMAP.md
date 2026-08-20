@@ -7,8 +7,8 @@ redesign. Every action below is a checkbox: tick it when it is done and the mile
 - **Scope:** technical consolidation only. Conversion, SEO and content work are out of this cycle.
 - **Unit of work:** one milestone = one session of 2–3 hours, self-contained. Nothing here leaves
   the repo half-refactored between sessions.
-- **Companion docs:** `REDESIGN_PLAN.md` is the *how* of the design (direction, tokens, decisions).
-  This file is the *what, in which order, and is it done yet*.
+- **Companion docs:** none — the design direction now lives in this file, under *Design direction*
+  below, and the token and convention reference is the Key Conventions section of `CLAUDE.md`.
 
 Last updated: 2026-08-20.
 
@@ -88,6 +88,27 @@ is verifiable in `CHANGELOG.md` or by a command; none of it is scheduled work.
 - [x] IT localisation — 7 mirrors plus terminology and voice brief
 - [x] Documentation rationalised, 11 files to 7, `CLAUDE.md` as source of truth
 
+### Site mode — the commercial relaunch is done
+
+The site ran in **practitioner mode** between 2026-06-11 and the relaunch: `services`, `case-studies`
+and `contact` stripped in both languages, Calendly and the brief form removed, `_redirects` sending
+the dead slugs to `index` / `about`. That phase is closed — `main` is commercial again, services and
+contact are live EN + IT, booking is back on every selling page, `_redirects` is deleted, and the
+sitemap is generated from the build rather than hand-listed. Nothing on the practitioner branch is
+scheduled to return.
+
+What the strip left behind, and why it stays: the pre-strip commercial state is frozen at `94612c0`
+on `pre-leave/commercial-snapshot` and tag `production-commercial-2026-06-11`; the practitioner state
+in production is `9850c16`, tag `production-practitioner-2026-06-11`. Those are the only two points a
+`deploy.sh` rollback can aim at — see the watch-list item below, since the script has no undo of its
+own. `revamp-site` and `pre-leave/strip-to-practitioner` are superseded copies of the same two
+commits.
+
+One item outlives the relaunch: **no "Ltd" anywhere in `src/`** until the company is actually
+incorporated. It is absent today and `grep -rn "\bLtd\b" src/` is the check. When incorporation
+happens, the company name and number belong in the footer and in both privacy pages — content work,
+not consolidation, so it is on the watch list rather than in a milestone.
+
 ---
 
 ## M0 — Hygiene and weight
@@ -107,6 +128,14 @@ is verifiable in `CHANGELOG.md` or by a command; none of it is scheduled work.
       repo that stopped existing at the Eleventy migration.
 - [ ] Verify `assets/og-image.jpg` really is 1200×630 as the head declares; re-crop if not.
 - [ ] Fix the stale header comment in `.eleventy.js` — it says "12 static pages", there are 16.
+- [x] Delete `docs/PRE_LEAVE_LONG_TERM_PLAN.md` — the practitioner/commercial plan it carried is
+      finished (see *Site mode* above), and it described a repo that no longer exists: `_redirects`,
+      root-level `ui-ux.test.js` / `it-translation.test.js`, `.cursor/plans/`. Its two facts that
+      still matter — the rollback tags and the Ltd rule — moved into this file. It was gitignored, so
+      it is **not** recoverable from git history.
+- [ ] Prune the superseded branches once the archive refs are confirmed on `origin`:
+      `revamp-site` and `pre-leave/strip-to-practitioner` are duplicates of commits that two tags
+      already pin. Keep `pre-leave/commercial-snapshot` and both `production-*` tags.
 
 `assets/builds/w9-connecting-the-grid.png` looks orphaned and **is not**. `BUILDS_SCREENSHOTS.md`
 records it as held back on purpose: the W9 card was pulled from the page on request, and the
@@ -118,7 +147,21 @@ caught it — the preflight validates hrefs in built HTML, not links between mar
 - [x] Point `CLAUDE.md` at `ROADMAP.md` instead of `docs/ROADMAP.md` — two places, the file tree
       and the Documentation list.
 - [x] Fix the two dead links in `docs/REDESIGN_PLAN.md`: both resolved relative to `docs/` and
-      needed `../`. The link to `CLAUDE.md` had been broken since before the move.
+      needed `../`. The link to `CLAUDE.md` had been broken since before the move. (That file has
+      since been deleted — see below — but the fix is what proved the class of failure was real.)
+- [x] Delete `docs/REDESIGN_PLAN.md`. Phases 0–2 were done, and everything it still had to say was
+      either already true in the code (the token block it specified *is* `css/styles.base.css`), or
+      duplicated by this file (its Phase 4 order vs. M2), or describing a repo that no longer exists
+      — root `index.html`, a hand-written `it/index.html`, a "dual tree", `assets/builds/` holding
+      only `.gitkeep`, line references into files rewritten since. Its direction moved to
+      *Design direction* below; the three deferred decisions are resolved and recorded there.
+- [x] Close the "open Phase 3 defect" it carried — **it was not a defect.** The plan flagged the
+      wordmark at [src/_includes/partials/nav.njk:2](src/_includes/partials/nav.njk#L2) as broken
+      for lacking `{{ prefix }}`, because on IT pages it resolves to `/it/index.html`. That is the
+      Italian homepage, and it is the correct target: every one of the six nav links beside it is
+      relative in exactly the same way and stays inside `/it/`. Adding `{{ prefix }}` would send an
+      Italian reader to the *English* homepage from a click on the logo — which is what
+      `.lang-switch` is for, and it is the only link in that nav that correctly uses `../`.
 - [ ] Add the guardrail: a check that every markdown link to a `.md` file resolves, relative to
       the linking file. A dozen lines, and it makes this class of failure impossible. It must skip
       links inside backticks, or the examples in this very section fail it.
@@ -151,13 +194,53 @@ the one page still entirely on the old visual system.
 
 ---
 
+## Design direction — "Technical Light"
+
+What M2 is actually applying. The token layer already exists (`css/styles.base.css`) and the
+homepage is the built reference — read it before restyling anything. This section is the intent
+behind those tokens, which the code cannot state on its own.
+
+**The direction.** Warm paper ground, Swiss grid with visible hairline rules like a drawing sheet,
+mono type for stats and metadata, oversized grotesk headlines, and full-bleed **dark bands** for
+product moments. It replaced a dark "premium consultant" theme with a gold accent, Instrument Serif
+headlines, a particle canvas and a noise overlay — atmospheric, but it signalled luxury where the
+thing being sold is rigorous ISO 19650 tooling. Signal orange is AEC-native and distinctive in a
+category where nearly every competitor is blue. The goal is *precise and engineered*, not premium.
+
+**What a page pass changes, concretely:**
+
+- **Bands, not zebra striping.** Each section opts in with `.band` / `.band--sunk` / `.band--dark`.
+  The old `main > section:nth-child(even)` rule was driven by a mix of `<section>` and `<div>`
+  children, so any reorder silently inverted the stripe. Only the homepage carries `.band--dark`
+  today — a page with no product moment does not need one, but a page with one should use it.
+- **Rules and tint carry the structure, not shadows.** A light ground needs almost no shadow.
+- **Small radii are the point.** Most surfaces are square (`--r-sm: 2px`, `--r-md: 4px`); anything
+  rounder is a leftover from the old theme, which is why job 3 below exists.
+- **Mono for the technical register** — section eyebrows, stat numerals, metadata, nav index
+  numbers. This is the cheapest signal that the page was made by a practitioner.
+- **Hierarchy has to be built, not implied.** The failure being corrected was rows of identical
+  cards with nothing directing the eye: five equal `.value-card`s in a `repeat(3, 1fr)` grid, four
+  equal stats, four equal trust cards. Give one element the weight.
+- **Buttons are orange fill + near-black ink text** (5.53:1). White on `--accent` is 3.68:1 and
+  fails AA. Orange *text* on paper is `--accent-text`.
+- **Show the product.** The single biggest conversion gap was that a site selling Capsar and two
+  diagnostics contained zero pictures of any of them. The homepage dark band fills this with a
+  scaled HTML/CSS replica of the checklist UI; M5 adds real screenshots.
+
+**The three decisions the plan deferred are now settled:** hero copy was rewritten buyer-framed
+("Ten years fixing delivery. Now I build the software that does it."); the dark band shipped as an
+HTML replica rather than a screenshot, with real captures scheduled as M5; and Instrument Serif does
+**not** return as a pull-quote face — no rule references it anywhere in `css/`.
+
+---
+
 ## M2 — Per-page passes: design + tokens + radii + hex
 
 **5 sessions, ~2–3 h each.** The body of the work. **One page per session**, and each session does
 all four jobs on that page rather than deferring any of them:
 
 1. Technical Light design pass — explicit bands (`.band`, `.band--sunk`, `.band--dark`), hairlines,
-   mono labels, real hierarchy. Direction is already written in `REDESIGN_PLAN.md`.
+   mono labels, real hierarchy. Direction is in *Design direction* above.
 2. Replace legacy aliases with direct tokens (`--text-primary` → `--ink`, and so on).
 3. Collapse ad-hoc radii onto the four `--r-*` tokens.
 4. Cut literal hex colours and lower that file's entry in `HEX_BUDGET`.
@@ -266,8 +349,14 @@ green.
   produces a booking is not measurable. That is conversion work, not consolidation — next cycle.
 - **No undo on deploy.** `deploy.sh` overwrites the server with `rsync` and there is no automatic
   rollback: recovering means checking out an older commit and redeploying, which needs git to be
-  available and the right tag to exist. A tarball snapshot taken server-side before the sync would
-  make rollback a one-liner. Not scheduled because it touches production, not the repo.
+  available and the right tag to exist. Today exactly two tags qualify —
+  `production-commercial-2026-06-11` (`94612c0`) and `production-practitioner-2026-06-11` (`9850c16`)
+  — and neither is a recent state any more, so in practice a bad deploy has nothing close to roll
+  back to. Two fixes, both cheap: tag the commit before every deploy, and take a server-side tarball
+  of `/var/www/noeinsol/` before the sync. Not scheduled because it touches production, not the repo.
+- **Ltd incorporation.** Nothing in `src/` may claim "Ltd" before the company exists. When it does,
+  the name and company number go in the footer partial and in `privacy.njk` EN + IT, and the rule
+  above can be retired. Content work, next cycle.
 
 ---
 
@@ -279,5 +368,13 @@ bash deploy.sh --check                      # link/href/canonical/title prefligh
 npm start                                   # visual check on localhost, desktop and mobile
 ```
 
-Before the first deploy after M2: contrast ≥4.5:1 on text and buttons, focus rings visible against
-the paper ground, `prefers-reduced-motion` still honoured.
+Before the first deploy after M2, by hand — none of these is covered by a suite:
+
+- Contrast ≥4.5:1 on body text, on `--accent-text` over paper, and on ink-over-orange buttons.
+- Focus rings visible against the paper ground. The ring is `2px solid var(--accent)`, which was
+  chosen against a near-black background and has never been re-checked against `--paper`.
+- `prefers-reduced-motion` still honoured (`css/styles.utilities.css`).
+- Mobile: multi-column grids collapse into a sensible single-column narrative, not a pile of equal
+  cards — the hierarchy built at desktop width is the thing most easily lost at 375px.
+- Expect `ui-ux.test.js` to flag markup that legitimately changed shape. Update the assertion to
+  match the new structure; do not revert the markup to satisfy an old assertion.

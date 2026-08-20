@@ -86,6 +86,14 @@ bash deploy.sh --check
 
 ## Automated capture
 
+Use the shared runner rather than writing a one-off Playwright script:
+`C:\Personal_utilities\screenshot-kit\` — its `SKILL.md` is the brief to hand
+an agent working inside the build's own repo. Drop a `shotkit.config.mjs` in
+that repo, run `node C:/Personal_utilities/screenshot-kit/shotkit.mjs --serve`,
+and pick the best frame out of `.shots/`. It captures at 1440x900 (16:10) at 2x,
+blocks every external request by default, and can mask elements that carry real
+data &mdash; which is what makes it usable on the two repos flagged below.
+
 The two completed shots were taken by driving the real app with Playwright
 (Chromium is already cached under `~/AppData/Local/ms-playwright`). The pattern:
 launch, load the local dev server, drive the UI into a state worth showing, then

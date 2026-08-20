@@ -101,7 +101,6 @@ See [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) for the full guide, server arch
 | [`docs/PRODUCT_LANDING_PAGE.md`](./docs/PRODUCT_LANDING_PAGE.md) | Product definition, audiences, user journeys, repo scope. |
 | [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) | Deployment guide and server architecture. |
 | [`docs/LOCALIZATION_IT.md`](./docs/LOCALIZATION_IT.md) | EN↔IT terminology and the IT voice/style brief. |
-| [`docs/REDESIGN_PLAN.md`](./docs/REDESIGN_PLAN.md) | "Technical Light" visual redesign — phases and current status. |
 | [`docs/BUILDS_SCREENSHOTS.md`](./docs/BUILDS_SCREENSHOTS.md) | Capture guide for the Builds page dashboard screenshots. |
 
 Internal-only documents are gitignored and never reach the deployed site or the public repo.

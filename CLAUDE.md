@@ -53,10 +53,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 ├── docs/               # Project documentation
 │   ├── DEPLOYMENT.md
 │   ├── PRODUCT_LANDING_PAGE.md
-│   ├── REDESIGN_PLAN.md
 │   ├── BUILDS_SCREENSHOTS.md
-│   ├── LOCALIZATION_IT.md
-│   └── PRE_LEAVE_LONG_TERM_PLAN.md  # gitignored — local planning
+│   └── LOCALIZATION_IT.md
 ├── scripts/            # Build helpers, test runners
 │   ├── smoke-check.js
 │   ├── convert_certs.py
@@ -150,11 +148,9 @@ bash deploy.sh --check        # link/href/canonical/title preflight
 
 This file is the source of truth for how the repo works. `README.md` covers only how to run it locally; `AGENTS.md` is a pointer stub. Do not duplicate this file's content into either — a previous full copy in `AGENTS.md` drifted an entire visual redesign out of date without anything catching it.
 
-- `ROADMAP.md` (repo root, next to `CHANGELOG.md`) — technical-consolidation roadmap: milestones M0–M5 with tick-off checkboxes and a "done when" command each. The **what and in which order**; tick items as they land, and check it before starting a design or CSS session — it is where the outstanding debt is measured
+- `ROADMAP.md` (repo root, next to `CHANGELOG.md`) — technical-consolidation roadmap: milestones M0–M5 with tick-off checkboxes and a "done when" command each. The **what, in which order, and is it done yet** — and, since the separate redesign plan was folded into it, the **how** as well: its *Design direction* section is the intent behind the "Technical Light" tokens, which M2 applies page by page. Tick items as they land, and read it before starting a design or CSS session — it is where the outstanding debt is measured
 - `docs/DEPLOYMENT.md` — full deployment guide and server architecture
 - `docs/PRODUCT_LANDING_PAGE.md` — product definition for the site, its audiences, and repo scope
-- `docs/REDESIGN_PLAN.md` — "Technical Light" visual redesign: phases, current status, deferred decisions. The **how** of the design; `ROADMAP.md` carries the schedule (M2 is the page-by-page pass this plan describes)
 - `docs/LOCALIZATION_IT.md` — EN-IT terminology (the **what**) and the IT voice/style brief (the **how**: anti-patterns, sentence rhythm, pre-commit checklist)
 - `docs/BUILDS_SCREENSHOTS.md` — capture guide for the Builds page dashboard screenshots (filename map, framing, empty-slot swap)
-- `docs/PRE_LEAVE_LONG_TERM_PLAN.md` (gitignored) — practitioner/commercial mode plan and rollback procedure
 - `CHANGELOG.md` — notable site and documentation changes, backfilled from git history
