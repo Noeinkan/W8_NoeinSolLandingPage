@@ -773,3 +773,48 @@ footer {
 }
 
 .footer-bottom a:hover { color: var(--accent-text); }
+
+/* ═══ Section-head alignment modifiers ═══════════════════════
+   The heading inherits alignment from whatever contains it,
+   which is right nearly everywhere. These exist for the blocks
+   that set their own text-align and need the heading to escape
+   it — previously `style="text-align:left"` written at the call
+   site, including at two sites where it was already a no-op. */
+.section-title--left   { text-align: left;   margin-inline: 0; }
+.section-title--center { text-align: center; margin-inline: auto; }
+.section-sub--left     { text-align: left;   margin-inline: 0; }
+.section-sub--center   { text-align: center; margin-inline: auto; }
+
+/* ═══ Full-bleed content block ═══════════════════════════════
+   .section-full and .section-full-inner had no rule anywhere in
+   the stylesheet: the pre-redesign definitions were dropped with
+   the redesign and the eight call sites kept standing only
+   because each carried an inline `padding:6rem 2rem`. Defining
+   them here is what let those inline styles go.
+
+   The measurements come from `section` above rather than from the
+   old inline ones. Those had no max-width, so past 1264px the
+   block ran the full viewport while every <section> stopped at
+   --maxw, and their 2rem gutter indented the content 40px less
+   than the sections above and below — the left rail stepped in
+   and out down the page. Same max-width, same gutter, same
+   vertical rhythm: one straight edge. */
+.section-full {
+  width: 100%;
+  padding-block: var(--section-y);
+}
+
+.section-full-inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-full-inner--narrow {
+  max-width: 700px;
+  text-align: center;
+}
+
+/* The eyebrow above a stats row sits centred with more air under it than a
+   normal section head — Builds set this inline at its only call site. */
+.stats > .section-label { margin-bottom: var(--space-6); }

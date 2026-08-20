@@ -1,0 +1,24 @@
+---json
+{
+  "permalink": "/sitemap.xml",
+  "eleventyExcludeFromCollections": true
+}
+---
+<?xml version="1.0" encoding="UTF-8"?>
+{#- Generated from the pages Eleventy actually built. <loc> reuses the same
+    computed `selfUrl` that renders the canonical tag and og:url, so the three
+    can never point at different URLs for the same page. Priorities and crawl
+    frequency come from src/_data/sitemap.js. -#}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{#- Sorted by source path so the generated file is stable: English block, then
+    Italian, alphabetical within each. An unstable order would show every page as
+    changed in the diff whenever Eleventy reshuffled its internal collection. -#}
+{%- for page in collections.all | sort(false, false, 'inputPath') %}
+{%- set hints = sitemap.for(page.data.slug, page.data.lang) %}
+  <url>
+    <loc>{{ page.data.selfUrl }}</loc>
+    <changefreq>{{ hints.changefreq }}</changefreq>
+    <priority>{{ hints.priority }}</priority>
+  </url>
+{%- endfor %}
+</urlset>

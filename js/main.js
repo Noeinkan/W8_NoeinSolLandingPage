@@ -28,7 +28,15 @@
   });
 
   // ─── Stagger index on grid children ───
-  var grids = document.querySelectorAll('.value-props, .services-grid, .testimonials-grid, .credentials-grid, .module-grid, .pain-grid, .case-studies-grid');
+  // Every multi-item grid on the site, so a row of cards arrives in sequence
+  // rather than as one block. .services-grid, .testimonials-grid and
+  // .case-studies-grid were in this list until their pages were removed; the
+  // Builds, Services and trust-band grids that replaced them were never added,
+  // so the newest pages were the only ones landing flat.
+  var grids = document.querySelectorAll(
+    '.value-props, .credentials-grid, .module-grid, .pain-grid, ' +
+    '.offer-grid, .build-grid, .trust-band-grid, .recognition-grid, .step-flow'
+  );
   grids.forEach(function (grid) {
     var children = grid.children;
     for (var i = 0; i < children.length; i++) {

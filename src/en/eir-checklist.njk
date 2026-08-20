@@ -21,6 +21,7 @@
   "calendly": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <div class="page-hero no-print">
@@ -82,7 +83,7 @@
             <span id="eirScoreNum">0</span><span class="bep-score-max"><span class="eir-score-max-suffix">/ 100</span></span>
           </div>
           <div class="bep-score-bar">
-            <div class="bep-score-bar-fill" id="eirScoreFill" style="width:0%"></div>
+            <div class="bep-score-bar-fill" id="eirScoreFill"></div>
           </div>
           <div class="bep-score-band" id="eirScoreBand">Start rating questions to see your band</div>
           <div class="bep-score-breakdown" id="eirScoreBreakdown"></div>
@@ -96,7 +97,7 @@
       <div class="bep-results-inner">
 
         <div class="bep-report-header">
-          <div class="section-label">Your Clarity Report</div>
+          {{ sectionHead("Your Clarity Report") }}
           <h2 id="eirReportTitle" class="section-title">Your EIR clarity report</h2>
           <div class="bep-report-meta" id="eirReportMeta"></div>
         </div>

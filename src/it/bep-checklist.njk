@@ -20,6 +20,7 @@
   "calendly": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <div class="page-hero no-print">
@@ -88,7 +89,7 @@
             <span id="bepScoreNum">0</span><span class="bep-score-max">/ 35</span>
           </div>
           <div class="bep-score-bar">
-            <div class="bep-score-bar-fill" id="bepScoreFill" style="width:0%"></div>
+            <div class="bep-score-bar-fill" id="bepScoreFill"></div>
           </div>
           <div class="bep-score-band" id="bepScoreBand">Inizia a rispondere per vedere la tua fascia</div>
           <div class="bep-score-breakdown" id="bepScoreBreakdown"></div>
@@ -101,7 +102,7 @@
       <div class="bep-results-inner">
 
         <div class="bep-report-header">
-          <div class="section-label">Il tuo report di prontezza</div>
+          {{ sectionHead("Il tuo report di prontezza") }}
           <h2 id="bepReportTitle" class="section-title">Report prontezza BEP</h2>
           <div class="bep-report-meta" id="bepReportMeta"></div>
         </div>

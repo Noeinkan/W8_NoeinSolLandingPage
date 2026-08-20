@@ -799,3 +799,9 @@
   margin: 0 auto 1.5rem;
   padding: 0 1.5rem;
 }
+
+/* Resting width of the score bar. js/bep-checklist.js and js/eir-checklist.js
+   both drive this inline as the score changes; the markup used to declare the
+   zero state inline too, which put a `style=` attribute on two pages for a
+   value that never varies. */
+.bep-score-bar-fill { width: 0; }

@@ -8,6 +8,10 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 **Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 16 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
 
+**Recurring blocks are macros, not markup.** `src/_includes/macros/blocks.njk` holds the blocks that repeat across pages — `sectionHead(label, title, sub, align)` for the eyebrow/h2/standfirst triplet, `stat(count, label, suffix)` for a counter cell. Import what a page needs at the top (`{% from "macros/blocks.njk" import sectionHead %}`) and call it. The section heading was hand-written 51 times before this; three of those copies had drifted onto an inline `style="justify-content:center"` instead of the `.section-label--center` modifier that already existed. Add a macro whenever a block reaches its third hand-written copy.
+
+**Styling never goes in the markup.** There are no `style=` attributes in `src/`, and `ui-ux.test.js` fails the build if one appears. An inline style is invisible to anyone reading the stylesheet: the eight `.section-full` call sites carried `padding:6rem 2rem` inline, which is the only reason nobody noticed that the `.section-full` rule itself had been deleted in the redesign. Add a modifier class instead — the design system already has more of them than the markup uses. Custom properties set from JS (`--i` for the stagger index) are the one exception, and they are set with `style.setProperty`, not in the template.
+
 **Page numbers are derived, never typed.** `src/_data/builds.js` is the sole definition of the Builds lineup: cards, jump index, `data-count` stats, prose counts on both the Builds page and the homepage teaser, and the assertions in `ui-ux.test.js` all read from it. Adding or pulling a build is one edit there. Counts are deliberately kept out of JSON front matter, which cannot be templated and would go stale silently.
 
 ## File Structure
@@ -15,8 +19,11 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 ```
 ├── src/                # Page sources — the only place to author markup
 │   ├── _data/          # builds.js (Builds lineup + derived counts), nav.js, site.js,
-│   │                   # strings.js, eleventyComputed.js (canonical/hreflang/prefix)
+│   │                   # strings.js, sitemap.js (crawl hints),
+│   │                   # eleventyComputed.js (canonical/hreflang/prefix)
 │   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
+│   │   └── macros/     # blocks.njk — sectionHead, stat
+│   ├── sitemap.njk     # generates _site/sitemap.xml from the built pages
 │   ├── en/*.njk        # 9 English pages
 │   └── it/*.njk        # 7 Italian mirrors (eir-checklist and builds have no IT mirror yet)
 ├── _site/              # Build output — gitignored, and what deploy.sh ships. Never edit.
@@ -68,7 +75,7 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 ## Key Conventions
 
-- **CSS:** Vanilla CSS on a tokenised design system ("Technical Light"). Warm paper ground (`--paper: #FAF9F6`), near-black ink (`--ink: #14161A`), drawing-sheet hairlines, signal-orange accent (`--accent: #F04E23`; use `--accent-text: #C0390F` for orange TEXT on paper — the fill colour is only 3.7:1 and fails AA). Full-bleed dark surfaces opt in via `.band--dark`. Tokens for colour, fluid type scale (`--step--2` … `--step-5`), space, radius, shadow and duration live in `css/styles.base.css`; pre-redesign token names are kept as aliases at the end of that block. Fonts: `Archivo` (display), `DM Sans` (body), `IBM Plex Mono` (labels, stats, metadata) via Google Fonts.
+- **CSS:** Vanilla CSS on a tokenised design system ("Technical Light"). Warm paper ground (`--paper: #FAF9F6`), near-black ink (`--ink: #14161A`), drawing-sheet hairlines, signal-orange accent (`--accent: #F04E23`; use `--accent-text: #C0390F` for orange TEXT on paper — the fill colour is only 3.7:1 and fails AA). Full-bleed dark surfaces opt in via `.band--dark`. Tokens for colour, fluid type scale (`--step--2` … `--step-5`), space, radius, shadow and duration live in `css/styles.base.css`; pre-redesign token names are kept as aliases at the end of that block — except `--white`, which was deleted because it had no honest mapping onto paper and the seven rules still using it rendered white text on a `#FAF9F6` ground. Light text on a dark surface is `--band-text`. Note the space scale skips: `1 2 3 4 5 6 8 10 12 16`, no `--space-7`. Fonts: `Archivo` (display), `DM Sans` (body), `IBM Plex Mono` (labels, stats, metadata) via Google Fonts.
 - **Type sizing lives only in the fluid `--step-*` scale.** `styles.responsive.css` is layout-only and must not set `font-size` — the previous version re-declared sizes across four min-width tiers, giving `.hero h1` three competing systems.
 - **Scroll reveal is progressive.** `.fade-in` is visible by default; `js/main.js` adds `.js-anim` to `<html>` before observing, so a JS failure leaves content visible rather than blank. The observer also reveals elements already scrolled past (`boundingClientRect.top < 0`) — otherwise a visitor who scrolls before its first async delivery leaves a section permanently hidden.
 - **JS:** Single IIFE in `js/main.js`. Vanilla ES5. Intersection Observer for scroll animations. Keyboard-accessible tabs/accordions.
@@ -86,7 +93,7 @@ Every content change to an EN page must be mirrored in its `/it/` counterpart. W
 1. Make the change in `src/en/<page>.njk`
 2. Apply the equivalent change in `src/it/<page>.njk`
 3. Follow the terminology and voice/style brief in `docs/LOCALIZATION_IT.md`
-4. If adding a new page: add hreflang links to both versions, update `sitemap.xml`
+4. If adding a new page: add hreflang links to both versions. The sitemap needs nothing — `src/sitemap.njk` generates it from the pages Eleventy built, reusing the same computed `selfUrl` as the canonical tag, so a page cannot be live and unlisted (which is how `services.html` and `contact.html` first shipped). Give the slug a priority in `src/_data/sitemap.js` only if the default is wrong.
 5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what the style half of `docs/LOCALIZATION_IT.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
@@ -113,13 +120,21 @@ The script validates: all HTML files exist, every link/src/href resolves to a re
 ## Testing
 
 ```bash
-node scripts/tests/ui-ux.test.js            # structural regressions
+npm run check                               # build + all three suites, in one command
+node scripts/tests/ui-ux.test.js            # structural regressions + source hygiene
 node scripts/tests/it-translation.test.js   # IT mirror completeness
 node scripts/tests/smoke/eir-smoke.test.js  # EIR Health Check runtime (jsdom; auto-installs on first run)
 bash deploy.sh --check        # link/href/canonical/title preflight
 ```
 
-- **`scripts/tests/ui-ux.test.js`** — unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support.
+- **`scripts/tests/ui-ux.test.js`** — unique IDs, ARIA semantics, form elements, accordion states, analytics ID gating, reduced-motion support. Plus a **source hygiene** block that reads `src/` and `css/` rather than the build output, each check standing in for a failure the repo had already shipped silently:
+  - no `style=` attribute in any template;
+  - every class in the markup has a rule in `css/` or is attached by JS — `UNSTYLED_CLASSES` lists the known exceptions and is only ever allowed to shrink;
+  - every `var(--token)` is declared somewhere (`--space-7` was not, so the contact columns rendered with no padding);
+  - every `css:`/`js:` entry in front matter resolves to a real file;
+  - every `nav.js` href resolves to a built page;
+  - literal hex colours per file stay within `HEX_BUDGET`, which only goes down;
+  - the sitemap lists exactly as many URLs as the build produced pages.
 - **`scripts/tests/it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
 - **`scripts/tests/smoke/eir-smoke.test.js`** — jsdom-based runtime test for the EIR Health Check. Loads `eir-checklist.html` + `js/eir-checklist.js` into a headless DOM, simulates user ratings, and asserts: DOM render, scoring engine (0–3 scale → /100), band classes, persistence round-trip, report generation, gap-card selection, export-view HTML output, empty-state guard, and href/src resolution. Self-installs `jsdom` into `scripts/tests/smoke/node_modules/` on first run; the directory is gitignored.
 

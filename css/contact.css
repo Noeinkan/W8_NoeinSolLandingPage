@@ -16,7 +16,10 @@
 
 .contact-col {
   background: var(--paper-raised);
-  padding: var(--space-7);
+  /* --space-7 does not exist in the scale (…5, 6, 8, 10…), so this declaration
+     was dropped by the parser and the columns rendered with no padding at all
+     above 900px, where the media query below stops applying. */
+  padding: var(--space-8);
   /* Grid items default to min-width:auto, so this column would refuse to
      shrink below the Calendly embed's intrinsic width and push the whole
      page sideways on a 320px screen. */

@@ -143,3 +143,46 @@ select:hover,
 textarea:hover { border-color: var(--ink-tertiary); }
 
 textarea { min-height: 8rem; resize: vertical; }
+
+/* ─── Lead-magnet success panel ───────────────────────────────
+   .form-success carried no rule at all: the markup hid it with
+   an inline `display:none` and js/main.js revealed it with
+   `display:flex`, so on the one path where it showed it rendered
+   as unstyled body text. The resting state lives here now — the
+   JS still wins when it sets display inline. */
+.form-success {
+  display: none;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink);
+  background: var(--accent-wash);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--r-sm);
+}
+
+.form-success svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  stroke: var(--accent-text);
+}
+
+/* FormSubmit honeypot. Never rendered, never focusable — it exists only for
+   bots that fill every field they find. */
+.form-honeypot { display: none; }
+
+/* ─── Inline link inside body copy ────────────────────────────
+   Was written inline as `color:var(--accent); text-decoration:
+   underline` at four call sites. --accent on paper is 3.7:1 and
+   fails AA for text, which is exactly what --accent-text exists
+   to solve. */
+.link-inline {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.link-inline:hover { text-decoration-thickness: 2px; }

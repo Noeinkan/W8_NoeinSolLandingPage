@@ -108,7 +108,12 @@
   --accent-dim:       var(--accent-text);
   --accent-glow:      var(--accent-wash);
   --accent-glow-strong: var(--accent-wash-strong);
-  --white:            #ffffff;
+  /* --white is deliberately gone. Every alias above still maps to something
+     sensible on paper; --white did not. It was the dark theme's body text, so
+     the seven rules that survived on it — the career-timeline job titles, the
+     Capsar pain-card and step headings, two credential titles and the lightbox
+     close button — rendered white on a #FAF9F6 or #FFFFFF ground and were
+     invisible. Light text on a dark surface is --band-text. */
 }
 
 html {

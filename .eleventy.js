@@ -8,7 +8,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('js');
   eleventyConfig.addPassthroughCopy('assets');
   eleventyConfig.addPassthroughCopy('robots.txt');
-  eleventyConfig.addPassthroughCopy('sitemap.xml');
 
   // Page bodies and metadata are trusted, hand-authored HTML fragments that already
   // carry their own entities (&amp;, &mdash;). Escaping them again would corrupt them.

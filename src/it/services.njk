@@ -11,6 +11,7 @@
   "hasMirror": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <div class="page-hero">
@@ -27,9 +28,7 @@
   </div>
 
   <section class="fade-in" aria-label="Servizi">
-    <div class="section-label">Servizi</div>
-    <h2 class="section-title">Quattro modi di iniziare</h2>
-    <p class="section-sub">Ogni incarico ha un prezzo legato al deliverable, non alle ore, e parte da una conversazione su cosa non sta funzionando davvero.</p>
+    {{ sectionHead("Servizi", "Quattro modi di iniziare", "Ogni incarico ha un prezzo legato al deliverable, non alle ore, e parte da una conversazione su cosa non sta funzionando davvero.") }}
 
     <div class="offer-grid offers-preview">
 
@@ -102,9 +101,7 @@
   </section>
 
   <section class="fade-in" aria-label="Incarichi selezionati">
-    <div class="section-label">Prove</div>
-    <h2 class="section-title">Incarichi selezionati</h2>
-    <p class="section-sub">Anonimizzati, perché quasi tutto questo lavoro è sotto NDA. La parte utile è la forma del problema.</p>
+    {{ sectionHead("Prove", "Incarichi selezionati", "Anonimizzati, perché quasi tutto questo lavoro è sotto NDA. La parte utile è la forma del problema.") }}
 
     <div class="value-props">
       <div class="value-card value-card--half">
@@ -127,9 +124,7 @@
   </section>
 
   <section class="fade-in" aria-label="Come funziona un incarico">
-    <div class="section-label">Processo</div>
-    <h2 class="section-title">Tre passaggi dalla richiesta alla consegna</h2>
-    <p class="section-sub">Niente moduli lunghi, niente discovery di facciata, e nessuna proposta che arriva dopo due settimane.</p>
+    {{ sectionHead("Processo", "Tre passaggi dalla richiesta alla consegna", "Niente moduli lunghi, niente discovery di facciata, e nessuna proposta che arriva dopo due settimane.") }}
 
     <div class="value-props">
       <div class="value-card value-card--third value-card--feature">
@@ -148,8 +143,7 @@
   </section>
 
   <section class="fade-in" aria-label="Domande frequenti">
-    <div class="section-label">Domande frequenti</div>
-    <h2 class="section-title">Prima di prenotare</h2>
+    {{ sectionHead("Domande frequenti", "Prima di prenotare") }}
 
     <div class="value-props">
       <div class="value-card value-card--half">
@@ -173,7 +167,7 @@
 
   <div class="capsar-banner fade-in">
     <div class="capsar-banner-inner">
-      <div class="section-label">Prossimo passo</div>
+      {{ sectionHead("Prossimo passo") }}
       <h2>Mezz&rsquo;ora di solito basta per capirlo.</h2>
       <p>Porta il problema, non un capitolato. Se non sono la persona giusta te lo dico durante la call e ti indirizzo verso chi lo è.</p>
       <div class="hero-actions hero-actions--center">

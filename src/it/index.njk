@@ -12,6 +12,7 @@
   "hasMirror": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead, stat %}
 <main id="main-content">
   <section class="hero" aria-label="Introduzione">
     <div class="hero-inner">
@@ -30,22 +31,10 @@
 
   <div class="stats" aria-label="Numeri chiave">
     <div class="stats-inner">
-      <div class="stat">
-        <div class="stat-number" data-count="35">35</div>
-        <div class="stat-label">Controlli di readiness BEP</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="9">9</div>
-        <div class="stat-label">Sezioni della checklist</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="10" data-suffix="+">10+</div>
-        <div class="stat-label">Anni in digital delivery</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="4">4</div>
-        <div class="stat-label">Certificazioni professionali</div>
-      </div>
+      {{ stat(35, "Controlli di readiness BEP") }}
+      {{ stat(9, "Sezioni della checklist") }}
+      {{ stat(10, "Anni in digital delivery", "+") }}
+      {{ stat(4, "Certificazioni professionali") }}
     </div>
   </div>
 
@@ -64,7 +53,7 @@
 
   <div class="trust-band fade-in" aria-label="Aree di focus">
     <div class="trust-band-inner">
-      <div class="section-label">Focus</div>
+      {{ sectionHead("Focus") }}
       <div class="trust-band-grid">
         <div class="trust-band-card">
           <div class="trust-band-value">ISO 19650</div>
@@ -87,9 +76,7 @@
   </div>
 
   <section class="fade-in" aria-label="Cosa trovi qui">
-    <div class="section-label">Cosa trovi qui</div>
-    <h2 class="section-title">Prodotto e contenuti</h2>
-    <p class="section-sub">Due cose che puoi usare oggi — una piattaforma in beta e un autodiagnostico gratuito.</p>
+    {{ sectionHead("Cosa trovi qui", "Prodotto e contenuti", "Due cose che puoi usare oggi — una piattaforma in beta e un autodiagnostico gratuito.") }}
 
     <div class="value-props">
       <div class="value-card value-card--third value-card--feature">
@@ -122,9 +109,7 @@
   <div class="band band--dark product-band fade-in" aria-label="Anteprima della checklist BEP">
     <div class="product-band-inner">
       <div class="product-band-copy">
-        <div class="section-label">Diagnostico gratuito</div>
-        <h2 class="section-title">Scopri dove il tuo BEP perde punti.</h2>
-        <p class="section-sub">35 controlli in 9 sezioni. Ottieni un punteggio con la fascia di readiness, le aree pi&ugrave; deboli e un report PDF da passare al team di gara. Nessuna email richiesta &mdash; le risposte restano nel tuo browser.</p>
+        {{ sectionHead("Diagnostico gratuito", "Scopri dove il tuo BEP perde punti.", "35 controlli in 9 sezioni. Ottieni un punteggio con la fascia di readiness, le aree pi&ugrave; deboli e un report PDF da passare al team di gara. Nessuna email richiesta &mdash; le risposte restano nel tuo browser.") }}
         <div class="hero-actions">
           <a href="bep-checklist.html" class="btn btn-primary">Apri la checklist BEP</a>
           <a href="capsar.html" class="btn btn-outline">Scopri Capsar.io</a>
@@ -159,8 +144,7 @@
         </div>
       </div>
       <div class="about-preview-content">
-        <div class="section-label">Chi c&rsquo;&egrave; dietro</div>
-        <h2 class="section-title">Andrea Aita</h2>
+        {{ sectionHead("Chi c&rsquo;&egrave; dietro", "Andrea Aita") }}
         <div class="about-preview-bio">
           <p class="about-preview-text">
             Practitioner di gestione informativa con oltre 10 anni tra <strong>Foster + Partners</strong>, <strong>Turner &amp; Townsend</strong>, <strong>Heathrow Airport</strong> e <strong>HA Associates</strong>. Ha formato oltre 500 professionisti a Heathrow e ha redatto i requisiti informativi ISO 19650 per il portafoglio immobiliare di Google.
@@ -193,9 +177,7 @@
   <section class="lead-magnet fade-in" aria-label="Checklist di readiness BEP ISO 19650">
     <div class="lead-magnet-inner">
       <div class="lead-magnet-content">
-        <div class="section-label">Autodiagnostico gratuito</div>
-        <h2 class="section-title">Controlla la readiness BEP in 7 minuti</h2>
-        <p class="section-sub">Un autodiagnostico rapido su allineamento EIR, gap di responsabilit&agrave;, workflow CDE e punti di evidenza che i reviewer di solito chiedono — con punteggio live ed export PDF.</p>
+        {{ sectionHead("Autodiagnostico gratuito", "Controlla la readiness BEP in 7 minuti", "Un autodiagnostico rapido su allineamento EIR, gap di responsabilit&agrave;, workflow CDE e punti di evidenza che i reviewer di solito chiedono — con punteggio live ed export PDF.") }}
         <ul class="lead-magnet-points">
           <li>35 controlli in 9 sezioni — punteggio su 35 con fascia di readiness</li>
           <li>Individua le aree pi&ugrave; deboli e suggerisce come chiuderle</li>
@@ -203,7 +185,7 @@
         </ul>
       </div>
       <div class="lead-magnet-card">
-        <div id="leadMagnetSuccess" class="form-success" style="display:none;">
+        <div id="leadMagnetSuccess" class="form-success">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Grazie &mdash; apro la checklist. Se non si carica, usa il link qui sotto.
         </div>
@@ -211,7 +193,7 @@
           <input type="hidden" name="_subject" value="Lead Magnet Access: ISO 19650 BEP readiness checklist">
           <input type="hidden" name="_next" value="https://noeinsolutions.com/it/bep-checklist.html?lead=iso19650">
           <input type="hidden" name="_captcha" value="false">
-          <input type="text" name="_honey" style="display:none">
+          <input type="text" name="_honey" class="form-honeypot">
           <div class="form-group">
             <label for="lead-email">Email di lavoro</label>
             <input type="email" id="lead-email" name="email" placeholder="tua@email.com" required aria-required="true">
@@ -229,7 +211,7 @@
 
   <div class="capsar-banner fade-in">
     <div class="capsar-banner-inner">
-      <div class="section-label">Piattaforma</div>
+      {{ sectionHead("Piattaforma") }}
       <h2>Capsar.io — redazione BEP guidata dall&rsquo;EIR</h2>
       <p>Strumento costruito da practitioner per la revisione EIR e le risposte BEP. Richiedi accesso beta per capire se fa al caso del tuo team.</p>
       <div class="hero-actions hero-actions--center">

@@ -12,7 +12,8 @@
     "test": "node scripts/tests/ui-ux.test.js",
     "test:it": "node scripts/tests/it-translation.test.js",
     "test:eir": "node scripts/tests/smoke/eir-smoke.test.js",
-    "test:all": "node scripts/tests/ui-ux.test.js && node scripts/tests/it-translation.test.js"
+    "test:all": "node scripts/tests/ui-ux.test.js && node scripts/tests/it-translation.test.js",
+    "check": "eleventy && npm run test:all && npm run test:eir"
   },
   "engines": {
     "node": ">=18"

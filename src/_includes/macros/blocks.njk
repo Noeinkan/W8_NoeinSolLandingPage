@@ -43,7 +43,7 @@
 #}
 {%- macro stat(count, label, suffix='') -%}
 <div class="stat">
-      <div class="stat-number" data-count="{{ count }}"{{ ' data-suffix="' + suffix + '"' if suffix }}>{{ count }}{{ suffix }}</div>
-      <div class="stat-label">{{ label }}</div>
-    </div>
+        <div class="stat-number" data-count="{{ count }}"{{ ' data-suffix="' + suffix + '"' if suffix }}>{{ count }}{{ suffix }}</div>
+        <div class="stat-label">{{ label }}</div>
+      </div>
 {%- endmacro -%}

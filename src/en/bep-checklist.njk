@@ -20,6 +20,7 @@
   "calendly": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <div class="page-hero no-print">
@@ -28,7 +29,7 @@
       <div class="hero-label">Free Tool &middot; ISO 19650</div>
       <h1>BEP readiness <em>in 7 minutes</em></h1>
       <p class="page-hero-sub">Interactive pre-submission diagnostic. Tick what you can evidence, get a readiness score, weak-area diagnosis, and a tailored PDF report.</p>
-      <p class="page-hero-note">Your answers stay in your browser. Nothing is submitted, stored, or transmitted &mdash; not even to us. &nbsp;&middot;&nbsp; Working on the EIR first? Try the <a href="eir-checklist.html" style="color:var(--accent); text-decoration:underline;">EIR clarity check</a>.</p>
+      <p class="page-hero-note">Your answers stay in your browser. Nothing is submitted, stored, or transmitted &mdash; not even to us. &nbsp;&middot;&nbsp; Working on the EIR first? Try the <a href="eir-checklist.html" class="link-inline">EIR clarity check</a>.</p>
     </div>
   </div>
   <div class="eir-cross-link-wrap no-print">
@@ -98,7 +99,7 @@
             <span id="bepScoreNum">0</span><span class="bep-score-max">/ 35</span>
           </div>
           <div class="bep-score-bar">
-            <div class="bep-score-bar-fill" id="bepScoreFill" style="width:0%"></div>
+            <div class="bep-score-bar-fill" id="bepScoreFill"></div>
           </div>
           <div class="bep-score-band" id="bepScoreBand">Start ticking items to see your band</div>
           <div class="bep-score-breakdown" id="bepScoreBreakdown"></div>
@@ -112,7 +113,7 @@
       <div class="bep-results-inner">
 
         <div class="bep-report-header">
-          <div class="section-label">Your Readiness Report</div>
+          {{ sectionHead("Your Readiness Report") }}
           <h2 id="bepReportTitle" class="section-title">Your BEP readiness report</h2>
           <div class="bep-report-meta" id="bepReportMeta"></div>
         </div>

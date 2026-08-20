@@ -132,6 +132,17 @@ categories.forEach((c) => c.builds.forEach((b) => {
 
 const all = categories.flatMap((c) => c.builds);
 
+// The "months" stat was typed as a literal and the range beside it as prose, so
+// both went stale on the first of every month with nothing to catch it. START is
+// the only thing to maintain now.
+const START = new Date(2026, 0, 1); // January 2026
+const now = new Date();
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthsElapsed = (now.getFullYear() - START.getFullYear()) * 12
+  + (now.getMonth() - START.getMonth());
+const spanLabel = `${MONTHS[START.getMonth()]}–${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
 // Spelled-out forms for prose. Only the range this page will plausibly reach.
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
   'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
@@ -146,5 +157,7 @@ module.exports = {
   TotalWord: title(word(all.length)),
   withUi: all.filter((b) => !b.noUi).length,
   domains: categories.length,
+  months: monthsElapsed,
+  spanLabel,
   shots: all.filter((b) => b.shot).length,
 };

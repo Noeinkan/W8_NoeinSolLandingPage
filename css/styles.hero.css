@@ -246,3 +246,15 @@
   opacity: 0;
   animation: fadeUp 0.7s var(--ease-out) 0.15s forwards;
 }
+
+/* Short hero for pages that lead with content rather than a statement —
+   About and Capsar both opened with an inline
+   `style="min-height:auto; padding-bottom:4rem"` to get here. */
+.hero--compact {
+  min-height: auto;
+  padding-bottom: var(--space-10);
+}
+
+/* Tighter gap under the eyebrow, for the legal pages where the label sits
+   directly above a title with no room to spare. */
+.hero-label--tight { margin-bottom: var(--space-4); }

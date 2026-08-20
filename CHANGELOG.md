@@ -12,6 +12,11 @@ This file was added on 2026-05-26. Entries before that date were backfilled from
 - **Booking on every selling page.** `site.calendly` is the single booking URL. A popup CTA (`Calendly.initPopupWidget`) on index, services, about, capsar, builds and both checklists; the inline widget on `contact`. Both are gated behind a per-page `"calendly": true` flag so `privacy.html` does not pull a third-party script it has no use for. Every CTA stays a real `<a href>`, so a blocked script degrades to a plain navigation instead of a dead button — verified with JS disabled and with `assets.calendly.com` aborted.
 - **`testBookingRoutes` guardrail in `ui-ux.test.js`.** Practitioner mode removed every booking route silently and nothing caught it for two months. The test now asserts that each selling page carries a booking link *and* the widget script, that the CTA is an anchor, that non-selling pages do **not** load Calendly, and that a `mailto:` route exists independently of any third party.
 - Generic form-field styling (`input`/`select`/`textarea`) in `styles.ui.css`. Fields previously had focus states but no resting style, so every form on the site — including the homepage lead magnet — rendered as an unstyled browser default.
+- **`src/_includes/macros/blocks.njk`** — the first macros in the repo. `sectionHead(label, title, sub, align)` replaces 51 hand-written copies of the eyebrow/h2/standfirst triplet across twelve pages; `stat(count, label, suffix)` replaces 12 counter cells. Output is unchanged apart from indentation, verified by diffing the build against a pre-refactor snapshot.
+- **Source-hygiene guardrails in `ui-ux.test.js`** — seven checks that read `src/` and `css/` instead of the build output: no inline `style=`; every markup class has a CSS rule or a JS reference; every `var(--token)` is declared; every `css:`/`js:` front-matter entry resolves; every `nav.js` href is a built page; literal hex colours stay inside a per-file budget; the sitemap covers every page. Each was written against a failure the repo had already shipped, and each was verified to fail before being committed green.
+- **`npm run check`** — build plus all three suites in one command.
+- **Generated sitemap.** `src/sitemap.njk` + `src/_data/sitemap.js` replace the hand-written `sitemap.xml`, iterating the pages Eleventy built and reusing the same computed `selfUrl` that renders the canonical tag, so the two cannot disagree and a new page cannot ship unlisted.
+- Staggered reveal extended to `.offer-grid`, `.build-grid`, `.trust-band-grid`, `.recognition-grid` and `.step-flow`. The machinery already existed in `styles.animations.css`; the selector list in `main.js` still named three grids whose pages had been deleted and none of the grids that replaced them, so the newest pages were the only ones landing flat.
 
 ### Changed
 
@@ -39,13 +44,21 @@ This file was added on 2026-05-26. Entries before that date were backfilled from
 - Stat counters rendered `0` without JavaScript; the markup now carries the real value and JS animates up from zero.
 - `.product-band-inner` had no mobile collapse and stayed two columns below 968px.
 - `--bg-secondary`, referenced by `css/about.css:152`, had never been defined in any commit and silently fell back to transparent.
+- **Seven rules rendered white text on paper.** `--white` was the dark theme's body colour and survived the redesign as an alias to `#ffffff`. The career-timeline job titles on About, the Capsar pain-card and step headings, two credential titles and the lightbox close-button hover all still used it, against a `#FAF9F6` or `#FFFFFF` ground — 1.05:1, invisible. All now `--ink`; the one legitimate case, the dark scrim over a certificate thumbnail, is `--band-text`. The alias itself has been deleted so it cannot be reached for again.
+- **The contact columns had no padding above 900px.** `.contact-col` asked for `var(--space-7)`, which is not on the scale (`…5, 6, 8, 10…`). CSS discards a declaration referencing an undeclared custom property, so the desktop padding simply never applied; the `≤900px` media query hid it by setting a valid value. Now `--space-8`, with a test that fails on any undeclared token.
+- **`.section-full` had lost its rule entirely.** The redesign dropped the definition and the eight call sites survived only on an inline `padding:6rem 2rem`. Restored in `styles.sections.css`, matched to `section`'s own max-width, gutter and vertical rhythm — a full-bleed block used to indent its content 40px less than the ordinary sections above and below, so the left rail stepped in and out down the page.
+- `.form-success` likewise had no rule: the markup hid it inline and `main.js` revealed it with `display:flex`, so on the one path where the lead-magnet success panel appeared it rendered as unstyled body text.
+- Four inline links used `--accent` (3.7:1, fails AA for text) instead of `--accent-text`. They now share a `.link-inline` class.
+- The Builds "months" stat and the `Jan–Aug 2026` range beside it were both typed by hand and went stale on the first of every month. Both derive from a single `START` constant in `builds.js` now.
 
 ### Removed
 
 - **2,874 lines of dead CSS** (~35% of the stylesheet tree): `css/services.css`, `css/home.css`, `css/case-studies.css`, `css/contact.css` and `css/styles.faq.css` were referenced by zero pages after the practitioner-version strip in `9850c16`. `home.css` was additionally a stale duplicate of rules that also live in `styles.sections.css`. Roughly 700 further lines inside `styles.sections.css` serving deleted pages (`.testimonial-*`, `.contact-*`, `.process-*`, `.service-card`) also went.
 - **The hero particle canvas.** `#heroCanvas` and its ~75-line driver in `js/main.js`: an uncapped `requestAnimationFrame` loop redrawing ~3,300 dots forever with no visibility pause, whose desktop gate was evaluated once at load so it never re-checked on resize, and which ignored `devicePixelRatio`. The blurred hero blobs, gradient washes, blueprint `.hero-glow` (already self-disabled whenever the canvas was present) and the full-page SVG noise overlay went with it.
 - Dead rules in the live bundle: `.nav-cta` (no page rendered it), `.value-card::after` (declared `opacity: 0` with nothing ever setting it to 1), `.hero-availability-*`, `.cta-micro-proof*`, `.page-hero--compact`.
-- Layout-bearing inline `style=` attributes on the homepage; only the two functional `display:none` hooks remain.
+- **Every inline `style=` attribute in `src/`** — 41 across ten templates, including the two functional `display:none` hooks left on the homepage, now `.form-success` and `.form-honeypot`. A test fails the build if one comes back.
+- `--white` from the token block (see Fixed).
+- The hand-written root `sitemap.xml`, and its passthrough copy in `.eleventy.js`.
 
 
 ### Added

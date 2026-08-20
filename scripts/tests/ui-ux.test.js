@@ -213,6 +213,196 @@ function testBuildsPage() {
 }
 
 
+// ═══ Source hygiene ═════════════════════════════════════════════════════
+// These read src/ and css/ rather than the build output. Each one describes a
+// rule the codebase had already broken silently: styling written inline instead
+// of in the stylesheet, a class whose rule had been deleted from under it, a
+// page asset that no longer existed, a menu entry pointing nowhere.
+
+const srcRoot = path.resolve(__dirname, '..', '..', 'src');
+const cssRoot = path.resolve(__dirname, '..', '..', 'css');
+
+function templateFiles() {
+  return ['en', 'it'].flatMap((lang) =>
+    fs.readdirSync(path.join(srcRoot, lang))
+      .filter((f) => f.endsWith('.njk'))
+      .map((f) => path.join(lang, f))
+  );
+}
+
+function frontMatter(relativePath) {
+  const raw = fs.readFileSync(path.join(srcRoot, relativePath), 'utf8');
+  const match = raw.match(/^---json\n([\s\S]*?)\n---\n/);
+  assert(match, relativePath + ' has no ---json front matter');
+  return JSON.parse(match[1]);
+}
+
+// Styling belongs in a stylesheet, where it can be found, reviewed and reused.
+// The site carried 41 inline style attributes: three re-implemented a modifier
+// class that already existed, four used --accent for text (3.7:1, fails AA)
+// where --accent-text exists for exactly that, and eight were the only thing
+// holding up a block whose CSS rule had been deleted.
+function testNoInlineStyles() {
+  const offenders = [];
+  templateFiles().forEach((relativePath) => {
+    fs.readFileSync(path.join(srcRoot, relativePath), 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        if (line.includes('style="')) offenders.push(relativePath + ':' + (i + 1));
+      });
+  });
+  assert(offenders.length === 0,
+    'inline style attributes belong in css/ as a class:\n  ' + offenders.join('\n  '));
+}
+
+// A class in the markup with no rule anywhere is either dead weight or a
+// stylesheet that lost its definition. .section-full was the second kind — its
+// rule went with the redesign and the eight call sites survived only because
+// each carried an inline padding. Shrink this list; never grow it.
+const UNSTYLED_CLASSES = [
+  // Base class that exists only to hang a --modifier off.
+  'credentials-grid',
+  // Structural wrappers with no styling of their own.
+  'about-preview-content', 'bep-report-sections', 'lead-magnet-content',
+  'lead-magnet-form', 'privacy-content', 'product-band-copy',
+  // Known dead: no rule, no effect. Candidates for deletion from the markup.
+  'hero-glow', 'hero-glow-left', 'mockup-screen--bep',
+  'privacy-meta', 'privacy-table', 'privacy-table-wrap',
+];
+
+function testEveryClassHasARule() {
+  const css = fs.readdirSync(cssRoot)
+    .filter((f) => f.endsWith('.css'))
+    .map((f) => fs.readFileSync(path.join(cssRoot, f), 'utf8'))
+    .join('\n')
+    // Comments name classes in prose. Left in, a comment explaining why a rule
+    // was deleted would itself keep this check quiet about the deletion.
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const js = fs.readdirSync(path.join(root, 'js'))
+    .filter((f) => f.endsWith('.js'))
+    .map((f) => read(path.join('js', f)))
+    .join('\n');
+
+  const defined = new Set((css.match(/\.[A-Za-z][A-Za-z0-9_-]*/g) || []).map((s) => s.slice(1)));
+  const used = new Set();
+  ['', 'it'].forEach((dir) => {
+    fs.readdirSync(path.join(root, dir))
+      .filter((f) => f.endsWith('.html'))
+      .forEach((f) => {
+        (read(path.join(dir, f)).match(/class="([^"]*)"/g) || []).forEach((m) => {
+          m.slice(7, -1).split(/\s+/).forEach((c) => { if (c) used.add(c); });
+        });
+      });
+  });
+
+  // A class the JS attaches behaviour to is not orphaned.
+  const inJs = (c) => js.includes("'" + c + "'") || js.includes('"' + c + '"');
+  const orphans = [...used].filter((c) => !defined.has(c) && !inJs(c)).sort();
+
+  const unexpected = orphans.filter((c) => !UNSTYLED_CLASSES.includes(c));
+  assert(unexpected.length === 0,
+    'these classes appear in the markup with no CSS rule behind them: ' + unexpected.join(', '));
+
+  const resolved = UNSTYLED_CLASSES.filter((c) => !orphans.includes(c));
+  assert(resolved.length === 0,
+    'UNSTYLED_CLASSES is stale — these have rules now and should come off the list: ' + resolved.join(', '));
+}
+
+// A page names its extra stylesheets and scripts in front matter and base.njk
+// renders whatever it is handed, so a typo or a renamed file is a silent 404.
+function testPageAssetsResolve() {
+  templateFiles().forEach((relativePath) => {
+    const data = frontMatter(relativePath);
+    (data.css || []).forEach((file) => {
+      assert(fs.existsSync(path.join(root, 'css', file)),
+        relativePath + ' declares css/' + file + ', which does not exist');
+    });
+    (data.js || []).forEach((file) => {
+      assert(fs.existsSync(path.join(root, 'js', file)),
+        relativePath + ' declares js/' + file + ', which does not exist');
+    });
+  });
+}
+
+// testNavParity proves the menu renders on every page. This proves it goes
+// somewhere: a renamed slug otherwise leaves a dead entry in the header and
+// footer of all sixteen pages at once.
+function testNavTargetsResolve() {
+  const nav = require('../../src/_data/nav.js');
+  Object.keys(nav).forEach((lang) => {
+    nav[lang].forEach((item) => {
+      const target = lang === 'it' ? path.join('it', item.href) : item.href;
+      assert(fs.existsSync(path.join(root, target)),
+        'nav.js[' + lang + '] points at ' + item.href + ', which is not a built page');
+    });
+  });
+}
+
+// Colour belongs in the token block at the top of styles.base.css. These are the
+// literals that predate it — mostly the checklist result bands, which want their
+// own semantic ramp. The budget stops new ones arriving; it only goes down.
+const HEX_BUDGET = {
+  'bep-checklist.css': 49,
+  'eir-checklist.css': 49,
+  'capsar.css': 5,
+  'builds.css': 2,
+  'styles.ui.css': 1,
+};
+
+function testColourBudget() {
+  fs.readdirSync(cssRoot)
+    .filter((f) => f.endsWith('.css') && f !== 'styles.base.css')
+    .forEach((file) => {
+      const count = (fs.readFileSync(path.join(cssRoot, file), 'utf8')
+        .match(/#[0-9a-fA-F]{3,8}\b/g) || []).length;
+      const budget = HEX_BUDGET[file] || 0;
+      assert(count <= budget,
+        'css/' + file + ' has ' + count + ' literal colours against a budget of ' + budget +
+        ' — use a token from styles.base.css, or lower the budget if you removed some');
+    });
+}
+
+// var(--token) against a name that was never declared is not an error in CSS —
+// the whole declaration is simply discarded. contact.css asked for --space-7,
+// which is not on the scale (…5, 6, 8, 10…), and the contact columns rendered
+// with no padding above 900px until this check went in.
+const RUNTIME_PROPERTIES = [
+  '--i', // stagger index, set per grid child by js/main.js
+];
+
+function testEveryTokenIsDefined() {
+  const css = fs.readdirSync(cssRoot)
+    .filter((f) => f.endsWith('.css'))
+    .map((f) => fs.readFileSync(path.join(cssRoot, f), 'utf8'))
+    .join('\n')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+
+  const declared = new Set(
+    (css.match(/(?:^|[;{\s])(--[A-Za-z0-9-]+)\s*:/g) || []).map((s) => s.match(/--[A-Za-z0-9-]+/)[0])
+  );
+  const used = new Set(
+    (css.match(/var\(\s*(--[A-Za-z0-9-]+)/g) || []).map((s) => s.match(/--[A-Za-z0-9-]+/)[0])
+  );
+
+  const missing = [...used]
+    .filter((token) => !declared.has(token) && !RUNTIME_PROPERTIES.includes(token))
+    .sort();
+  assert(missing.length === 0,
+    'these custom properties are used but never declared, so every rule using them is discarded: ' + missing.join(', '));
+}
+
+// The sitemap is generated from the same page list Eleventy builds, so this is
+// a contract check rather than a drift check: if it ever fails, generation has
+// been replaced with something hand-maintained again.
+function testSitemapCoversEveryPage() {
+  const sitemap = read('sitemap.xml');
+  const listed = (sitemap.match(/<loc>/g) || []).length;
+  const built = ['', 'it'].reduce((n, dir) =>
+    n + fs.readdirSync(path.join(root, dir)).filter((f) => f.endsWith('.html')).length, 0);
+  assert(listed === built,
+    'sitemap.xml lists ' + listed + ' URLs but the build produced ' + built + ' pages');
+}
+
 function testMainJs() {
   const js = read(path.join('js', 'main.js'));
   assert(js.includes("var scrollBehavior = reducedMotion ? 'auto' : 'smooth';"), 'reduced-motion scroll behavior missing');
@@ -228,6 +418,13 @@ function run() {
   testBookingRoutes();
   testAnalyticsGating();
   testMainJs();
+  testNoInlineStyles();
+  testEveryClassHasARule();
+  testPageAssetsResolve();
+  testNavTargetsResolve();
+  testColourBudget();
+  testEveryTokenIsDefined();
+  testSitemapCoversEveryPage();
   console.log('UI/UX regression checks passed.');
 }
 

@@ -15,6 +15,7 @@
   "hasMirror": false
 }
 ---
+{% from "macros/blocks.njk" import sectionHead, stat %}
 {#- Cards, jump index and every count come from src/_data/builds.js.
     Adding or pulling a build is one edit there; nothing on this page is
     hand-counted. Counts are deliberately kept out of the front matter above,
@@ -36,31 +37,17 @@
   </div>
 
   <div class="stats" aria-label="Portfolio at a glance">
-    <div class="section-label" style="justify-content:center;margin-bottom:2rem;">At a glance</div>
+    {{ sectionHead("At a glance", "", "", "center") }}
     <div class="stats-inner">
-      <div class="stat">
-        <div class="stat-number" data-count="{{ builds.total }}">0</div>
-        <div class="stat-label">Public repositories</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="7">0</div>
-        <div class="stat-label">Months, Jan&ndash;Aug 2026</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="{{ builds.domains }}">0</div>
-        <div class="stat-label">Domains, not one niche</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-count="{{ builds.withUi }}">0</div>
-        <div class="stat-label">With a working interface</div>
-      </div>
+      {{ stat(builds.total, "Public repositories") }}
+      {{ stat(builds.months, "Months, " + builds.spanLabel) }}
+      {{ stat(builds.domains, "Domains, not one niche") }}
+      {{ stat(builds.withUi, "With a working interface") }}
     </div>
   </div>
 
   <section class="fade-in" aria-label="How these get built">
-    <div class="section-label">Method</div>
-    <h2 class="section-title">How these actually get built</h2>
-    <p class="section-sub">Agents make volume cheap. They do not make correctness cheap &mdash; that still has to be engineered. The discipline is what makes the output trustworthy.</p>
+    {{ sectionHead("Method", "How these actually get built", "Agents make volume cheap. They do not make correctness cheap &mdash; that still has to be engineered. The discipline is what makes the output trustworthy.") }}
 
     <div class="value-props">
       <div class="value-card">
@@ -96,9 +83,7 @@
 {%- for c in builds.categories %}
 
   <section class="fade-in build-group" id="{{ c.id }}" aria-label="{{ c.title }}">
-    <div class="section-label">{{ c.label }}</div>
-    <h2 class="section-title">{{ c.title }}</h2>
-    <p class="section-sub">{{ c.sub }}</p>
+    {{ sectionHead(c.label, c.title, c.sub) }}
 
     <div class="build-grid">
 {%- for b in c.builds %}
@@ -135,7 +120,7 @@
 
   <div class="capsar-banner fade-in">
     <div class="capsar-banner-inner">
-      <div class="section-label">All of it</div>
+      {{ sectionHead("All of it") }}
       <h2>{{ builds.TotalWord }} repositories, nothing hidden behind a case study</h2>
       <p>If you want to know how someone works, read their commits rather than their claims. Everything above is public, including the parts that are still rough. If you have a workflow that should be one of these, let&rsquo;s talk about it.</p>
       <div class="hero-actions hero-actions--center">

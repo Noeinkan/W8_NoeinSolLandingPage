@@ -17,10 +17,11 @@
   "calendly": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <!-- Hero -->
-  <section class="hero" style="min-height:auto; padding-bottom:4rem;">
+  <section class="hero hero--compact">
     <div class="hero-glow"></div>
     <div class="hero-inner hero-inner--split">
       <div class="hero-content">
@@ -46,9 +47,7 @@
 
   <!-- Riconoscimenti & Credentials -->
   <section class="fade-in recognition-section">
-    <div class="section-label">Riconoscimenti</div>
-    <h2 class="section-title">Credenziali e riconoscimenti</h2>
-    <p class="section-sub">Riconoscimenti di settore e certificazioni professionali. Clicca su una tessera per aprire il certificato completo.</p>
+    {{ sectionHead("Riconoscimenti", "Credenziali e riconoscimenti", "Riconoscimenti di settore e certificazioni professionali. Clicca su una tessera per aprire il certificato completo.") }}
 
     <div class="recognition-grid">
       <button class="cert-img-card" data-cert="../assets/certs/autodesk-40-under-40.jpg?v=1" data-cert-title="Autodesk 40 Under 40 &mdash; Champion of Construction" aria-label="Visualizza il certificato Autodesk 40 Under 40">
@@ -116,9 +115,7 @@
 
   <!-- Professional Timeline -->
   <section class="fade-in">
-    <div class="section-label">Percorso professionale</div>
-    <h2 class="section-title">Costruito su programmi reali</h2>
-    <p class="section-sub">Un percorso tra progettazione, delivery client-side, governance di programma e contesti operativi complessi.</p>
+    {{ sectionHead("Percorso professionale", "Costruito su programmi reali", "Un percorso tra progettazione, delivery client-side, governance di programma e contesti operativi complessi.") }}
 
     <div class="timeline">
       <div class="timeline-item">
@@ -152,11 +149,9 @@
   </section>
 
   <!-- Credentials -->
-  <div class="section-full fade-in" style="padding:6rem 2rem;">
+  <div class="section-full fade-in">
     <div class="section-full-inner">
-      <div class="section-label">Formazione</div>
-      <h2 class="section-title">Formazione e qualifiche</h2>
-      <p class="section-sub">Formazione accademica e abilitazione professionale.</p>
+      {{ sectionHead("Formazione", "Formazione e qualifiche", "Formazione accademica e abilitazione professionale.") }}
 
       <!-- Compact text cards for academic / professional registration -->
       <div class="credentials-grid credentials-grid--compact">
@@ -184,8 +179,7 @@
 
   <!-- How I Work -->
   <section class="fade-in">
-    <div class="section-label">Approccio</div>
-    <h2 class="section-title">Come lavoro</h2>
+    {{ sectionHead("Approccio", "Come lavoro") }}
     <p class="approach-text">
       Pragmatico. Informato dagli standard, senza dogmi. Concentrato su adozione e risultati, non sulla documentazione fine a s&eacute; stessa. ISO 19650 &egrave; il framework, non il prodotto: l&rsquo;obiettivo &egrave; un sistema che le persone usano davvero, non carta che nessuno legge.
     </p>

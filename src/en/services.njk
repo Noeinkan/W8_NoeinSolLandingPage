@@ -11,6 +11,7 @@
   "hasMirror": true
 }
 ---
+{% from "macros/blocks.njk" import sectionHead %}
 <main id="main-content">
 
   <div class="page-hero">
@@ -27,9 +28,7 @@
   </div>
 
   <section class="fade-in" aria-label="Engagements">
-    <div class="section-label">Engagements</div>
-    <h2 class="section-title">Four ways in</h2>
-    <p class="section-sub">Every engagement is scoped on the deliverable rather than the hour, and starts with a conversation about what is actually going wrong.</p>
+    {{ sectionHead("Engagements", "Four ways in", "Every engagement is scoped on the deliverable rather than the hour, and starts with a conversation about what is actually going wrong.") }}
 
     <div class="offer-grid offers-preview">
 
@@ -102,9 +101,7 @@
   </section>
 
   <section class="fade-in" aria-label="Selected engagements">
-    <div class="section-label">Proof</div>
-    <h2 class="section-title">Selected engagements</h2>
-    <p class="section-sub">Anonymised, because most of this work sits under NDA. The shape of the problem is the useful part.</p>
+    {{ sectionHead("Proof", "Selected engagements", "Anonymised, because most of this work sits under NDA. The shape of the problem is the useful part.") }}
 
     <div class="value-props">
       <div class="value-card value-card--half">
@@ -127,9 +124,7 @@
   </section>
 
   <section class="fade-in" aria-label="How an engagement runs">
-    <div class="section-label">Process</div>
-    <h2 class="section-title">Three steps from enquiry to delivery</h2>
-    <p class="section-sub">No lengthy forms, no discovery theatre, and no proposal that takes a fortnight to arrive.</p>
+    {{ sectionHead("Process", "Three steps from enquiry to delivery", "No lengthy forms, no discovery theatre, and no proposal that takes a fortnight to arrive.") }}
 
     <div class="value-props">
       <div class="value-card value-card--third value-card--feature">
@@ -148,8 +143,7 @@
   </section>
 
   <section class="fade-in" aria-label="Common questions">
-    <div class="section-label">Common questions</div>
-    <h2 class="section-title">Before you book</h2>
+    {{ sectionHead("Common questions", "Before you book") }}
 
     <div class="value-props">
       <div class="value-card value-card--half">
@@ -173,7 +167,7 @@
 
   <div class="capsar-banner fade-in">
     <div class="capsar-banner-inner">
-      <div class="section-label">Next step</div>
+      {{ sectionHead("Next step") }}
       <h2>Thirty minutes is usually enough to tell.</h2>
       <p>Bring the problem, not a brief. If I am not the right person for it, I will say so on the call and point you at someone who is.</p>
       <div class="hero-actions hero-actions--center">

@@ -41,7 +41,7 @@
 .timeline-item h3 {
   font-family: var(--font-display);
   font-size: 1.25rem;
-  color: var(--white);
+  color: var(--ink);
   margin-bottom: 0.25rem;
 }
 
@@ -179,7 +179,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  color: var(--white);
+  color: var(--band-text);
   opacity: 0;
   transition: opacity 0.25s;
   backdrop-filter: blur(2px);
@@ -217,7 +217,7 @@
 .cert-img-card-title {
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--white);
+  color: var(--ink);
   line-height: 1.3;
 }
 
@@ -292,7 +292,7 @@
 .credential-card h4 {
   font-size: 0.95rem;
   font-weight: 500;
-  color: var(--white);
+  color: var(--ink);
   margin-bottom: 0.35rem;
 }
 
@@ -376,7 +376,7 @@
 
 .cert-lightbox-close:hover {
   background: var(--bg-card-hover);
-  color: var(--white);
+  color: var(--ink);
 }
 
 .cert-lightbox-img-wrap {
