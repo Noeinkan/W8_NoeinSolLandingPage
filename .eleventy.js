@@ -1,4 +1,4 @@
-// Eleventy builds the 12 static pages from src/ into _site/.
+// Eleventy builds the 16 static pages from src/ into _site/.
 // The shared chrome (head, analytics, nav, footer) lives in src/_includes/base.njk;
 // each page under src/en or src/it carries only its own <main> content plus front matter.
 // Output URLs are identical to the hand-written site that preceded this build step.

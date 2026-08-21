@@ -221,6 +221,9 @@ function testBuildsPage() {
 
 const srcRoot = path.resolve(__dirname, '..', '..', 'src');
 const cssRoot = path.resolve(__dirname, '..', '..', 'css');
+// Note the naming: `root` above is _site/. This one is the repository itself,
+// which the markdown and asset checks below need.
+const repoRoot = path.resolve(__dirname, '..', '..');
 
 function templateFiles() {
   return ['en', 'it'].flatMap((lang) =>
@@ -408,6 +411,86 @@ function testSitemapCoversEveryPage() {
     'sitemap.xml lists ' + listed + ' URLs but the build produced ' + built + ' pages');
 }
 
+// og:image:width and :height are hardcoded in base.njk and reach all sixteen
+// pages. They said 1200x630 while assets/og-image.jpg was a byte-identical copy
+// of headshot.jpg — 680x1018, portrait — so every share on every page declared
+// an image size wrong in both axes, and LinkedIn rendered a thumbnail instead of
+// a card. Nothing pointed at it because no check had ever opened the file.
+function jpegSize(file) {
+  const buf = fs.readFileSync(file);
+  let i = 2;
+  while (i < buf.length - 9) {
+    if (buf[i] !== 0xff) { i += 1; continue; }
+    const marker = buf[i + 1];
+    // SOF0-SOF15 carry the frame dimensions; DHT/JPG/DAC share the range.
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      return { width: buf.readUInt16BE(i + 7), height: buf.readUInt16BE(i + 5) };
+    }
+    i += 2 + buf.readUInt16BE(i + 2);
+  }
+  return null;
+}
+
+function testOgImageMatchesDeclaration() {
+  const head = fs.readFileSync(path.join(srcRoot, '_includes', 'base.njk'), 'utf8');
+  const declared = [/og:image:width" content="([0-9]+)"/, /og:image:height" content="([0-9]+)"/]
+    .map((pattern) => {
+      const match = head.match(pattern);
+      assert(match, 'base.njk no longer declares ' + pattern.source);
+      return Number(match[1]);
+    });
+
+  const file = path.join(repoRoot, 'assets', 'og-image.jpg');
+  assert(fs.existsSync(file), 'assets/og-image.jpg is missing — regenerate it with scripts/og/make_og_image.mjs');
+  const actual = jpegSize(file);
+  assert(actual, 'could not read the dimensions of assets/og-image.jpg');
+  assert(actual.width === declared[0] && actual.height === declared[1],
+    'base.njk declares og:image as ' + declared[0] + 'x' + declared[1] + ' but assets/og-image.jpg is ' +
+    actual.width + 'x' + actual.height + ' — regenerate it with scripts/og/make_og_image.mjs');
+}
+
+// The preflight validates hrefs in built HTML; nothing has ever read a link
+// between two markdown files. Moving the roadmap out of docs/ broke every
+// relative link pointing at it and none of the three suites noticed, because
+// none of them opens a .md file at all.
+function markdownFiles() {
+  const dirs = ['.', 'docs', '.cursor/rules', '.github'];
+  return dirs.flatMap((dir) => {
+    const abs = path.join(repoRoot, dir);
+    if (!fs.existsSync(abs)) return [];
+    return fs.readdirSync(abs)
+      .filter((f) => f.endsWith('.md') || f.endsWith('.mdc'))
+      .map((f) => dir === '.' ? f : dir + '/' + f);
+  });
+}
+
+function testMarkdownLinksResolve() {
+  const offenders = [];
+  markdownFiles().forEach((relativePath) => {
+    const lines = fs.readFileSync(path.join(repoRoot, relativePath), 'utf8').split('\n');
+    let inFence = false;
+    lines.forEach((raw, i) => {
+      if (raw.trimStart().startsWith('```')) { inFence = !inFence; return; }
+      if (inFence) return;
+      // Prose names dead and never-existing paths on purpose — the deleted
+      // REDESIGN_PLAN, the old docs/ROADMAP — and always inside backticks.
+      // Strip inline code before looking for links, or the roadmap section
+      // describing this very check fails it.
+      const line = raw.replace(/`[^`]*`/g, '');
+      (line.match(/\]\(([^)\s]+)/g) || []).forEach((match) => {
+        const target = match.slice(2);
+        if (/^(https?:|mailto:|#)/.test(target)) return;
+        const file = decodeURIComponent(target.split('#')[0]);
+        if (!file) return;
+        const resolved = path.resolve(repoRoot, path.dirname(relativePath), file);
+        if (!fs.existsSync(resolved)) offenders.push(relativePath + ':' + (i + 1) + ' -> ' + target);
+      });
+    });
+  });
+  assert(offenders.length === 0,
+    'these markdown links point at files that do not exist:\n  ' + offenders.join('\n  '));
+}
+
 function testMainJs() {
   const js = read(path.join('js', 'main.js'));
   assert(js.includes("var scrollBehavior = reducedMotion ? 'auto' : 'smooth';"), 'reduced-motion scroll behavior missing');
@@ -430,6 +513,8 @@ function run() {
   testColourBudget();
   testEveryTokenIsDefined();
   testSitemapCoversEveryPage();
+  testOgImageMatchesDeclaration();
+  testMarkdownLinksResolve();
   console.log('UI/UX regression checks passed.');
 }
 

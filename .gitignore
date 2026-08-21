@@ -12,6 +12,11 @@ scripts/tests/smoke/node_modules/
 scripts/tests/smoke/package-lock.json
 scripts/tests/smoke/package.json
 
+# OG card generator dependencies (installs playwright into scripts/og/node_modules on first run)
+scripts/og/node_modules/
+scripts/og/package-lock.json
+scripts/og/package.json
+
 # Eleventy build output and dependencies
 _site/
 node_modules/

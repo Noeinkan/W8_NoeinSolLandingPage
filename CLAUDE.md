@@ -60,6 +60,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 │   ├── convert_certs.py
 │   ├── optimize_headshot.py
 │   ├── optimize_screenshots.py
+│   ├── og/
+│   │   └── make_og_image.mjs   # regenerates assets/og-image.jpg at 1200×630 (hand-run, not in the build)
 │   └── tests/
 │       ├── ui-ux.test.js
 │       ├── it-translation.test.js
@@ -134,7 +136,13 @@ bash deploy.sh --check        # link/href/canonical/title preflight
   - every `css:`/`js:` entry in front matter resolves to a real file;
   - every `nav.js` href resolves to a built page;
   - literal hex colours per file stay within `HEX_BUDGET`, which only goes down;
-  - the sitemap lists exactly as many URLs as the build produced pages.
+  - the sitemap lists exactly as many URLs as the build produced pages;
+  - `assets/og-image.jpg`'s real dimensions (read from its JPEG SOF marker) match the
+    `og:image:width`/`height` hardcoded in `base.njk` — the file used to be a 680×1018 copy of the
+    headshot while every page declared 1200×630;
+  - every markdown link resolves relative to its own file, across root `*.md`, `docs/*.md`,
+    `.cursor/rules/*.mdc` and `.github/*.md`. Fenced blocks and inline `code` are stripped first,
+    because the docs name deleted paths on purpose and always inside backticks.
 - **`scripts/tests/it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
 - **`scripts/tests/smoke/eir-smoke.test.js`** — jsdom-based runtime test for the EIR Health Check. Loads `eir-checklist.html` + `js/eir-checklist.js` into a headless DOM, simulates user ratings, and asserts: DOM render, scoring engine (0–3 scale → /100), band classes, persistence round-trip, report generation, gap-card selection, export-view HTML output, empty-state guard, and href/src resolution. Self-installs `jsdom` into `scripts/tests/smoke/node_modules/` on first run; the directory is gitignored.
 
