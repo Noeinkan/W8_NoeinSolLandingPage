@@ -17,29 +17,22 @@
   padding: var(--space-6);
 }
 
-/* ═══ Mockup panel ═══════════════════════════════════════════
+/* ═══ Mockup panel ═══════════════════════════════════════
    Shared by the proof card (on paper) and the preview band (on
-   --band). .mockup-screen used to declare no background at all,
-   so it inherited a near-black from one parent and white from
-   the other, and the same placeholder bar was invisible in the
-   proof card and obvious in the preview. Two levels now, matching
-   .product-panel on the homepage: the panel is --band-raised and
-   everything inset into it is --band. */
+   --band): browser chrome, one 16:10 capture, and a mono caption.
+   The panel is --band-raised and the capture sits on --band, so a
+   bright dashboard reads as a screen on either ground.
+
+   Both families held CSS skeletons — grey bars standing in for a UI —
+   until the app's own shot kit produced real captures. The placeholder
+   ramp (--mock-pass / --mock-warn / --mock-gap) and the twenty-odd bar,
+   cell and file-row rules that consumed it went out with them; the
+   captures carry their own colour now. */
 .capsar-proof-visual,
 .screenshot-mockup {
-  /* The gap matrix is genuinely three-state — the caption below it says
-     "live gap analysis" — so the ramp stays, declared once rather than
-     spelled out at six call sites. Heavier than the old 0.12 because it
-     sits on a dark ground now instead of white. */
-  --mock-pass:      rgba(58, 190, 120, 0.22);
-  --mock-pass-line: rgba(58, 190, 120, 0.45);
-  --mock-warn:      rgba(232, 176, 68, 0.22);
-  --mock-warn-line: rgba(232, 176, 68, 0.45);
-  --mock-gap:       rgba(224, 82, 74, 0.22);
-  --mock-gap-line:  rgba(224, 82, 74, 0.45);
-
   display: flex;
   flex-direction: column;
+  margin: 0;
   background: var(--band-raised);
   border: 1px solid var(--band-rule);
   border-radius: var(--r-md);
@@ -71,7 +64,11 @@
 
 .mockup-url {
   flex: 1;
+  min-width: 0;
   padding: var(--space-1) var(--space-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: var(--band);
   border-radius: var(--r-sm);
   font-family: var(--font-mono);
@@ -81,124 +78,30 @@
   color: var(--band-text-dim);
 }
 
-/* The grid stretches the three panels to a common height. Left alone, each
-   screen keeps its own content height and the caption lands wherever that mock
-   happens to end — 1px, 55px and 31px above the panel base across the three.
-   Growing the screen instead pins all three captions to one baseline. */
-.mockup-screen {
-  display: flex;
-  flex: 1;
-  gap: var(--space-4);
-  padding: var(--space-5);
-  min-height: 140px;
-}
+/* Captures are 1200x750, and the slot holds that ratio: the panel keeps its
+   height before the image lands, so a row of captions sits on one baseline
+   instead of wherever each screen happened to end. The near-black mat behind
+   it matches the Builds media slot — same job, same ground.
 
-.mockup-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 50px;
-  flex-shrink: 0;
-}
-
-.mockup-sidebar-item {
-  height: 8px;
-  border-radius: var(--r-sm);
+   object-position is top left because these are dashboards: the sidebar and
+   the page title are what identify the module, and centring the crop cuts
+   both off first. */
+.mockup-shot {
+  aspect-ratio: 16 / 10;
   background: var(--band);
-  border: 1px solid var(--band-rule);
+  overflow: hidden;
 }
 
-.mockup-sidebar-item.active {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.mockup-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mockup-heading {
-  height: 12px;
-  width: 60%;
-  border-radius: var(--r-sm);
-  background: var(--band-rule);
-}
-
-.mockup-field {
-  height: 24px;
-  border-radius: var(--r-sm);
-  background: var(--band);
-  border: 1px solid var(--band-rule);
-}
-
-.mockup-field.short { width: 65%; }
-
-.mockup-ai-badge {
-  display: inline-flex;
-  align-self: flex-start;
-  margin-top: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  background: var(--accent-wash-strong);
-  border-radius: var(--r-sm);
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.mockup-screen--matrix { flex-direction: column; gap: 4px; }
-
-.mockup-table-header,
-.mockup-table-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-}
-
-.mockup-table-header div {
-  height: 8px;
-  border-radius: var(--r-sm);
-  background: var(--band-rule);
-}
-
-.mockup-cell {
-  height: 20px;
-  border-radius: var(--r-sm);
-  background: var(--band);
-  border: 1px solid var(--band-rule);
-}
-
-.mockup-cell.pass { background: var(--mock-pass); border-color: var(--mock-pass-line); }
-.mockup-cell.warn { background: var(--mock-warn); border-color: var(--mock-warn-line); }
-.mockup-cell.gap  { background: var(--mock-gap);  border-color: var(--mock-gap-line); }
-
-.mockup-screen--dc { flex-direction: column; gap: 8px; }
-
-.mockup-stats-bar { display: flex; gap: 6px; }
-
-.mockup-stat-block {
-  flex: 1;
-  height: 28px;
-  border-radius: var(--r-sm);
-  background: var(--band);
-  border: 1px solid var(--band-rule);
-}
-
-.mockup-stat-block.pass-bg { background: var(--mock-pass); border-color: var(--mock-pass-line); }
-.mockup-stat-block.warn-bg { background: var(--mock-warn); border-color: var(--mock-warn-line); }
-
-.mockup-file-row {
-  height: 14px;
-  border-radius: var(--r-sm);
-  background: var(--band);
-  border: 1px solid var(--band-rule);
+.mockup-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
 }
 
 .mockup-label {
+  margin-top: auto;
   padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--band-rule);
   font-family: var(--font-mono);
@@ -427,7 +330,7 @@
 /* ═══ Screenshot grid — the dark band's product moment ═══════ */
 .screenshot-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-5);
 }
 
@@ -509,13 +412,12 @@
 /* ─── Responsive — layout only. Type sizing lives in the fluid
        --step-* scale, never in a breakpoint. ─── */
 @media (max-width: 968px) {
+  .screenshot-grid { grid-template-columns: 1fr; }
   .capsar-proof-card { grid-template-columns: 1fr; gap: var(--space-5); padding: var(--space-5); }
   .pain-grid       { grid-template-columns: 1fr; }
   .step-flow       { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
   .step-flow::before { display: none; }
   .module-grid     { grid-template-columns: repeat(2, 1fr); }
-  .screenshot-grid { grid-template-columns: 1fr; }
-  .mockup-screen   { min-height: 120px; padding: var(--space-4); }
   .privacy-callout { padding: var(--space-4) var(--space-5); }
 
   /* An incomplete last row in a hairline grid shows the --rule ground as a

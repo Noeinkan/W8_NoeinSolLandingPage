@@ -108,7 +108,11 @@
   var galleries = document.querySelectorAll('[data-gallery]');
   var rotationBtn = document.getElementById('buildRotation');
   if (galleries.length && 'IntersectionObserver' in window) {
-    var FRAME_MS = 4200;
+    var FRAME_MS = 4200;   // hold per frame; paired with the 0.7s/5.5s in css/builds.css
+    var FIRST_MS = 900;    // first advance, once a card is on screen
+    var STEP_MS  = 1000;   // offset between neighbouring cards
+    var COLUMNS  = 3;      // widest .build-grid tier — the stagger only has to
+                           // separate cards a reader can see at the same time
     var rotating = !reducedMotion;
     var cards = [];
 
@@ -149,11 +153,15 @@
         // Stagger the first advance per card. Cards flipping in lockstep read
         // as a glitch rather than an effect, and two tiles changing at the same
         // instant is exactly the movement that draws the eye away from the copy.
+        // The offset wraps at the column count instead of growing with the page
+        // index: at 1200 + index * 1300 the two galleries that sit alone in
+        // their category waited 5.1s and 6.4s after scrolling into view, with
+        // nothing else moving to say the effect existed at all.
         kickoff = setTimeout(function () {
           kickoff = null;
           advance();
           timer = setInterval(advance, FRAME_MS);
-        }, 1200 + index * 1300);
+        }, FIRST_MS + (index % COLUMNS) * STEP_MS);
       }
 
       function stop() {

@@ -764,18 +764,63 @@ self-check against the pre-commit checklist in `LOCALIZATION_IT.md` — the test
 
 ## M5 — Visual proof
 
-The conversion gap the redesign already identified: 11 builds have an interface, 1 has a
-screenshot.
+The conversion gap the redesign identified: twelve builds have an interface, three had a
+screenshot. Nine do now, carrying 23 frames between them.
 
-- [ ] Capture the missing screenshots per `docs/BUILDS_SCREENSHOTS.md` <!-- size: L -->
-      The repos are already checked out locally under `Downloads/` and can be driven with
-      Playwright.
-- [ ] Add each `shot` to `src/_data/builds.js` — the derived stats follow on their own <!-- size: M -->
-- [ ] Confirm every remaining empty slot is a genuine `noUi: true` build <!-- size: S -->
-      Currently `W4_AgenticSupplyChain` and `H9_Voice_Transcriber` — not an unfilled one.
+- [x] Capture the missing screenshots per `docs/BUILDS_SCREENSHOTS.md` <!-- size: L; done: 2026-08-22 -->
+      Six repos captured in one pass with the shared runner
+      (`C:\Personal_utilities\screenshot-kit\`) rather than one-off Playwright scripts:
+      `W4_AgenticSupplyChain`, `F8_F13Screener`, `F9_CongressTrading`, `W7_ZoningVisualiser`,
+      `W5_Mindmap`, `H2_TimeBlock_Planner`. Each keeps its own `shotkit.config.mjs`, so the
+      next capture is one command in that repo instead of relearning how the app boots; the
+      header comment in each records what broke the first time. Two repos needed something
+      written into them first — a seeder for the planner's empty database
+      (`scripts/seed-demo-day.mjs`) and an invented meeting transcript for the mind map
+      (`samples/client-kickoff.txt`) — because both apps screenshot as an empty shell
+      otherwise, and the alternative was putting real data on a public page.
+- [x] Add each `shot` to `src/_data/builds.js` — the derived stats follow on their own <!-- size: M; done: 2026-08-22 -->
+      Fourteen new frames, EN alt text plus the IT overlay in `IT_SHOTS`. `withUi` went from
+      11 to 12 on its own once `W4` left `NO_UI`; nothing else was typed.
+- [x] Confirm every remaining empty slot is a genuine `noUi: true` build <!-- size: S; done: 2026-08-22 -->
+      It was not. `W4_AgenticSupplyChain` was flagged `noUi` while its own repo shipped a
+      React dashboard, an SSE pipeline view and a working screenshot config — the flag
+      recorded that nobody had looked, not that there was nothing to see. It now carries four
+      frames, and `H9_Voice_Transcriber` is the only genuine `noUi` build left.
 
-**Done when:** `builds.shots` has risen, every remaining empty slot is `noUi`, `npm run check`
-green.
+**Closed 2026-08-22.** `npm run check` green, `node scripts/tests/it-translation.test.js`
+green across 9 pairs, `bash deploy.sh --check` validates 18 pages.
+
+**Addendum, same day — the Capsar page.** M5 was scoped to the Builds cards, and closing it made
+the remaining gap obvious: the page that sells the product was still illustrating it with CSS
+skeletons, grey bars in a browser frame. Seven captures from Capsar's own `shotkit.config.mjs`
+replace them — the BEP wizard, the assembled BEP at export, the TIDP dashboard, the MIDP charts,
+the dependency matrix, the LOIN tables and DC Manager — carried in `src/_data/capsar.js` on the
+`builds.js` pattern, with an `IT_SHOTS` overlay so the mirrors cannot show different screenshots.
+The grid went from three columns to two, because at a third of the band a real dashboard reads as
+noise. Still open: no capture exists of the **EIR Responsiveness Matrix**, which is a modal the
+shot kit does not reach — it was the caption on one of the placeholders, and rather than illustrate
+it with another screen, that panel left the page. Capturing it is the one thing that would finish
+this section.
+
+Four slots stay empty, none of them for want of trying, and the reasons are worth keeping
+separate:
+
+- `H9_Voice_Transcriber` — genuinely `noUi`. CLI only.
+- `W8_NoeinSolLandingPage` — this site. The page is the screenshot.
+- `W6_DCWizard` — **blocked.** Needs two-legged ACC OAuth credentials, and everything it
+  would render is client project files. Unblocking it means seeding a synthetic ACC project,
+  not finding the credentials.
+- `W5_JobAlertBot` — **held, deliberately.** It runs and it would screenshot well. But
+  `data/jobs.db` is a live job search and `data/profile.json` is a real CV, and a capture of
+  it publishes Andrea's own job hunt on his consulting site. That is a positioning decision,
+  not a technical one. If it ships, it ships as the aggregate views only.
+
+One capture is honest but partial. `W7_ZoningVisualiser` ships the what-if calculator over
+inner London rather than the England-scale choropleth, because without
+`NEXT_PUBLIC_PMTILES_URL` the app falls back to a bundled twenty-MSOA sample and there is no
+carpet of data to colour. The frame shows the mechanism — constraints switched off, premium
+falling from 13.8–32.1% to 4.7–11% — and is worth re-capturing once the pipeline has run and
+the tiles are on R2.
 
 ---
 

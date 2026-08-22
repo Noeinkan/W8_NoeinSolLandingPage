@@ -16,11 +16,14 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_SHOTS` carry only what needs translating — label, title, standfirst, kicker, blurb, alt — and are overlaid onto the English lineup, so repo, slug, stack, captures and `noUi` exist once. `builds.lang.en` and `builds.lang.it` are the per-language views a template takes with `{% set lineup = builds.lang[lang] %}`; neither page branches on the language itself. The two pages therefore cannot list different builds, and a build added with no IT copy renders the English string rather than a blank card. Spelled-out numbers and the month range have a list per language for the same reason: "13 progetti, 7 mesi" reads as a spec sheet where the headline is meant to read as a sentence.
 
+**The Capsar screenshots are data too.** `src/_data/capsar.js` holds the product captures the way `builds.js` holds the lineup: filename, the URL its browser chrome shows, the mono caption, the alt text — plus an `IT_SHOTS` overlay carrying only caption and alt, so file and order exist once. Both `capsar.njk` pages open with `{% set preview = capsar.lang[lang] %}` and loop, and therefore cannot show different screenshots. The panels held hand-written CSS skeletons before this — grey bars standing in for a UI — and one of them was captioned *EIR Responsiveness Matrix*: a real feature, but one no capture existed for. A caption describes what is in the frame, so a feature with no shot is simply not in the list. Captures come from the app's own shot kit (`W3_capsar_io/shotkit.config.mjs`) run against a throwaway database seeded with an invented project — never client data — and land in `assets/capsar/` at 1200×750 via `scripts/optimize_screenshots.py`, which walks `assets/builds/` and `assets/capsar/` in one pass.
+
 ## File Structure
 
 ```
 ├── src/                # Page sources — the only place to author markup
-│   ├── _data/          # builds.js (Builds lineup, derived counts, IT strings), nav.js, site.js,
+│   ├── _data/          # builds.js (Builds lineup, derived counts, IT strings),
+│   │                   # capsar.js (Capsar captures + IT captions), nav.js, site.js,
 │   │                   # strings.js, sitemap.js (crawl hints),
 │   │                   # eleventyComputed.js (canonical/hreflang/prefix)
 │   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
@@ -41,8 +44,9 @@ The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_
 │   ├── styles.responsive.css
 │   ├── about.css
 │   ├── capsar.css         # Capsar page: hairline pain/module grids, ruled step flow,
-│   │                      # and one dark-panel definition shared by both mockup
-│   │                      # families (proof card on paper, preview on .band--dark)
+│   │                      # and one dark-panel definition shared by both capture
+│   │                      # families (proof card on paper, preview on .band--dark) —
+│   │                      # chrome + a 16:10 .mockup-shot + a mono caption
 │   ├── bep-checklist.css
 │   ├── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
 │   ├── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots (cross-fading
@@ -52,7 +56,7 @@ The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_
 │   ├── main.js              # Single IIFE bundle (all interactivity, analytics, animations)
 │   ├── bep-checklist.js     # Interactive BEP readiness diagnostic
 │   └── eir-checklist.js     # Interactive EIR clarity health check (0–3 scale, /100 score)
-├── assets/             # Images, lead magnet file, credential certs, builds/ screenshots
+├── assets/             # Images, lead magnet file, credential certs, builds/ and capsar/ screenshots
 ├── deploy.sh           # Production deployment script
 ├── deploy/templates/   # Nginx + Docker Compose templates
 ├── docs/               # Project documentation

@@ -16,6 +16,7 @@
 }
 ---
 {% from "macros/blocks.njk" import sectionHead %}
+{% set preview = capsar.lang[lang] %}
 <main id="main-content">
 
   <!-- Hero -->
@@ -39,23 +40,14 @@
         {{ sectionHead("Product Proof", "See the workflow before you commit", "A live preview of BEP authoring and requirement tracking is available below. Teams can evaluate how Capsar maps EIR requirements to BEP responses before onboarding.", "left") }}
         <a href="#platform-preview" class="btn btn-outline">Jump to product preview</a>
       </div>
-      <div class="capsar-proof-visual" aria-hidden="true">
-        <div class="mockup-chrome">
+      <div class="capsar-proof-visual">
+        <div class="mockup-chrome" aria-hidden="true">
           <div class="mockup-dots"><span></span></div>
-          <div class="mockup-url">app.noeinsolutions.com/preview</div>
+          <div class="mockup-url">{{ preview.proof.url }}</div>
         </div>
-        <div class="mockup-screen">
-          <div class="mockup-sidebar">
-            <div class="mockup-sidebar-item active"></div>
-            <div class="mockup-sidebar-item"></div>
-            <div class="mockup-sidebar-item"></div>
-          </div>
-          <div class="mockup-content">
-            <div class="mockup-heading"></div>
-            <div class="mockup-field"></div>
-            <div class="mockup-field short"></div>
-            <div class="mockup-ai-badge">Guided workflow</div>
-          </div>
+        <div class="mockup-shot">
+          <img src="{{ prefix }}assets/capsar/{{ preview.proof.file }}"
+               alt="{{ preview.proof.alt }}" loading="lazy" decoding="async" width="1200" height="750">
         </div>
       </div>
     </div>
@@ -264,62 +256,19 @@
       {{ sectionHead("Platform Preview", "What it looks like", "A glimpse at the Capsar.io interface &mdash; designed for practitioners.") }}
 
       <div class="screenshot-grid">
-        <div class="screenshot-mockup">
-          <div class="mockup-chrome">
+{%- for s in preview.shots %}
+        <figure class="screenshot-mockup">
+          <div class="mockup-chrome" aria-hidden="true">
             <div class="mockup-dots"><span></span></div>
-            <div class="mockup-url">app.noeinsolutions.com/bep</div>
+            <div class="mockup-url">{{ s.url }}</div>
           </div>
-          <div class="mockup-screen">
-            <div class="mockup-sidebar">
-              <div class="mockup-sidebar-item active"></div>
-              <div class="mockup-sidebar-item"></div>
-              <div class="mockup-sidebar-item"></div>
-              <div class="mockup-sidebar-item"></div>
-              <div class="mockup-sidebar-item"></div>
-            </div>
-            <div class="mockup-content">
-              <div class="mockup-heading"></div>
-              <div class="mockup-field"></div>
-              <div class="mockup-field short"></div>
-              <div class="mockup-field"></div>
-              <div class="mockup-ai-badge">Smart Help AI</div>
-            </div>
+          <div class="mockup-shot">
+            <img src="{{ prefix }}assets/capsar/{{ s.file }}"
+                 alt="{{ s.alt }}" loading="lazy" decoding="async" width="1200" height="750">
           </div>
-          <div class="mockup-label">BEP Manager &mdash; Smart Help AI on every field</div>
-        </div>
-        <div class="screenshot-mockup">
-          <div class="mockup-chrome">
-            <div class="mockup-dots"><span></span></div>
-            <div class="mockup-url">app.noeinsolutions.com/matrix</div>
-          </div>
-          <div class="mockup-screen mockup-screen--matrix">
-            <div class="mockup-table-header">
-              <div></div><div></div><div></div><div></div>
-            </div>
-            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div><div class="mockup-cell pass"></div></div>
-            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell gap"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div></div>
-            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div></div>
-          </div>
-          <div class="mockup-label">EIR Responsiveness Matrix &mdash; live gap analysis</div>
-        </div>
-        <div class="screenshot-mockup">
-          <div class="mockup-chrome">
-            <div class="mockup-dots"><span></span></div>
-            <div class="mockup-url">app.noeinsolutions.com/dc</div>
-          </div>
-          <div class="mockup-screen mockup-screen--dc">
-            <div class="mockup-stats-bar">
-              <div class="mockup-stat-block pass-bg"></div>
-              <div class="mockup-stat-block warn-bg"></div>
-              <div class="mockup-stat-block"></div>
-            </div>
-            <div class="mockup-file-row"></div>
-            <div class="mockup-file-row"></div>
-            <div class="mockup-file-row"></div>
-            <div class="mockup-file-row"></div>
-          </div>
-          <div class="mockup-label">DC Manager &mdash; validation &amp; compliance</div>
-        </div>
+          <figcaption class="mockup-label">{{ s.label }}</figcaption>
+        </figure>
+{%- endfor %}
       </div>
     </div>
   </div>

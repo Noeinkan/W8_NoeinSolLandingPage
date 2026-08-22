@@ -32,13 +32,24 @@ const categories = [
         slug: 'f8-f13-screener', repo: 'F8_F13Screener',
         name: '13F Screener', kicker: 'Regulatory filings',
         blurb: 'Monitors SEC 13F filings for a watchlist of funds matched on CIK, parses holdings from XML with an HTML fallback for the filings that ignore the schema, keeps both realtime and historical positions, and pushes position changes to Telegram. Serves a React and FastAPI dashboard.',
-        stack: ['Python', 'FastAPI', 'React', 'SQLite', 'Telegram']
+        stack: ['Python', 'FastAPI', 'React', 'SQLite', 'Telegram'],
+        shots: [
+          { file: 'f8-f13-screener.jpg', alt: 'The database status view: 1.15 million holding rows across 1,513 filings from 56 tracked funds, with the latest filing per fund and its CUSIP-normalised position count' },
+          { file: 'f8-f13-screener-holdings.jpg', alt: 'A holdings search for one ticker: every tracked fund holding NVIDIA in its latest filing, with purchases, calls and puts separated and sized' },
+          { file: 'f8-f13-screener-consensus.jpg', alt: 'Consensus accumulation across the tracked funds: the names most funds opened or increased over the last four filing quarters' },
+          { file: 'f8-f13-screener-fund.jpg', alt: 'One fund workspace: the quarter picker, raw versus CUSIP-normalised line counts, and the top ten positions by value' }
+        ]
       },
       {
         slug: 'f9-congress-trading', repo: 'F9_CongressTrading',
         name: 'Congressional Disclosure Tracker', kicker: 'Civic data extraction',
         blurb: 'Ingests House and Senate periodic transaction reports, retains the raw filings, then normalises transactions and assets into SQLite and exports an analysis-ready dataset. Ticker mapping runs through Polygon with an OpenFIGI fallback and a local cache, and the source rate limits are respected by design rather than by accident.',
-        stack: ['Python', 'SQLite', 'React', 'Polygon API']
+        stack: ['Python', 'SQLite', 'React', 'Polygon API'],
+        shots: [
+          { file: 'f9-congress-trading.jpg', alt: 'The active reporting slice: 1,145 transactions from 56 members across 425 resolved tickers, with the disclosed range and the latest filings underneath' },
+          { file: 'f9-congress-trading-committees.jpg', alt: 'Committee relevance: each member ranked by the share of their trades falling inside the sectors their committee oversees' },
+          { file: 'f9-congress-trading-trades.jpg', alt: 'Trade history for one symbol: disclosure date, member, amount band, price at trade against price now, and the return since' }
+        ]
       }
     ]
   },
@@ -52,7 +63,13 @@ const categories = [
         slug: 'w4-agentic-supply-chain', repo: 'W4_AgenticSupplyChain',
         name: 'Agentic Supply-Chain Orchestrator', kicker: 'Multi-agent systems',
         blurb: 'Autonomous agents monitor tariffs, weather, strikes and geopolitical shocks, simulate over a thousand scenarios with Monte Carlo and linear-programming optimisation, then recommend reroutes. A human-approval gate stands between a recommendation and any action, which is the only reason a system like this is deployable at all.',
-        stack: ['LangGraph', 'FastAPI', 'PostgreSQL', 'pgvector', 'PuLP', 'Docker']
+        stack: ['LangGraph', 'FastAPI', 'PostgreSQL', 'pgvector', 'PuLP', 'Docker'],
+        shots: [
+          { file: 'w4-agentic-supply-chain.jpg', alt: 'The supplier network view: sourcing capacity concentrated by country as a ranked bar chart, beside a live feed of tariff, weather and strike events scored for severity' },
+          { file: 'w4-agentic-supply-chain-approval.jpg', alt: 'The pipeline suspended at its human-approval gate: a proposed supplier switch worth $33,656 awaiting a c-suite decision, with worst-case cost, service level and portfolio ESG beside it' },
+          { file: 'w4-agentic-supply-chain-governance.jpg', alt: 'The governance tab: the approval queue, an audit trail recording who decided what and when, and the escalation policy that routes each cost band' },
+          { file: 'w4-agentic-supply-chain-esg.jpg', alt: 'The ESG tab: supplier composite scores broken into stacked environmental, social and governance bars and ranked into a leaderboard' }
+        ]
       },
       {
         slug: 'w6-dc-wizard', repo: 'W6_DCWizard',
@@ -64,7 +81,10 @@ const categories = [
         slug: 'w7-zoning-visualiser', repo: 'W7_ZoningVisualiser',
         name: 'Planning Constraint Visualiser', kicker: 'Spatial economics',
         blurb: 'Overlays twelve planning-constraint layers from planning.data.gov.uk onto MSOA-level housing costs for England and estimates a directional planning premium. Constraint weights come from an OLS regression on log price where the data supports it, falling back to calibrated defaults where it does not, and a &ldquo;what if&rdquo; calculator switches a constraint off to show the counterfactual.',
-        stack: ['TypeScript', 'PMTiles', 'Python', 'OLS regression']
+        stack: ['TypeScript', 'PMTiles', 'Python', 'OLS regression'],
+        shots: [
+          { file: 'w7-zoning-visualiser.jpg', alt: 'A Kensington MSOA inspected in constraint-intensity mode, with the what-if calculator switching conservation areas and listed buildings off: the estimated planning premium falls from 13.8–32.1% to 4.7–11%' }
+        ]
       },
       {
         slug: 'w8-noein-site', repo: 'W8_NoeinSolLandingPage',
@@ -121,13 +141,19 @@ const categories = [
         slug: 'w5-mindmap', repo: 'W5_Mindmap',
         name: 'Transcript Mindmap', kicker: 'Local LLM extraction',
         blurb: 'Turns a raw transcript into a typed knowledge graph using a local Ollama model, then renders it as an editable D3 force-directed layout you can drag into shape. Everything runs on the machine &mdash; no transcript leaves it, which is the point when the transcript is a client meeting.',
-        stack: ['Node.js', 'Ollama', 'D3.js']
+        stack: ['Node.js', 'Ollama', 'D3.js'],
+        shots: [
+          { file: 'w5-mindmap.jpg', alt: 'A meeting transcript turned into a typed graph by a model running on the machine: handover, EIR and sequencing nodes linked by causes and relates edges, laid out with D3 force simulation and editable in place' }
+        ]
       },
       {
         slug: 'h2-timeblock-planner', repo: 'H2_TimeBlock_Planner',
         name: 'TimeBlock Planner', kicker: 'Full-stack productivity',
         blurb: 'Time-blocking on a drag-and-drop grid, modelled on a paper daily planner: variable-duration blocks, a capped list of most-important tasks, a capture inbox, a shutdown ritual, and a redraw-from-now that reflows the rest of the day when reality intervenes. Deployed with Docker Compose behind an existing reverse proxy.',
-        stack: ['React', 'TypeScript', 'FastAPI', 'SQLModel', 'Docker']
+        stack: ['React', 'TypeScript', 'FastAPI', 'SQLModel', 'Docker'],
+        shots: [
+          { file: 'h2-timeblock-planner.jpg', alt: 'A day laid out on the grid — deep-work, meeting, break and buffer blocks, the finished ones struck through — beside the day’s three most-important tasks, the capture inbox and the shutdown notes' }
+        ]
       },
       {
         slug: 'h9-voice-transcriber', repo: 'H9_Voice_Transcriber',
@@ -139,8 +165,10 @@ const categories = [
   }
 ];
 
-// Mark the builds that have no interface worth screenshotting.
-const NO_UI = ['W4_AgenticSupplyChain', 'H9_Voice_Transcriber'];
+// Mark the builds that have no interface worth screenshotting. W4 was on this
+// list until its repo turned out to ship a React dashboard behind `npm start`;
+// "no interface" has to mean the repo has none, not that nobody had looked.
+const NO_UI = ['H9_Voice_Transcriber'];
 categories.forEach((c) => c.builds.forEach((b) => {
   if (NO_UI.includes(b.repo)) b.noUi = true;
 }));
@@ -241,6 +269,20 @@ const IT_SHOTS = {
   'f2-search-for-alpha-terminal.jpg': 'Il terminale: candele giornaliere TSLA sotto le bande di Bollinger, con i pannelli volume, RSI, CCI e MACD sotto e la barra degli indicatori a sinistra',
   'f2-search-for-alpha-optimizer.jpg': 'L’ottimizzatore di combinazioni di segnali dopo una grid search da cento combinazioni, con gli stack di acquisto e vendita ordinati per rendimento, Sharpe e drawdown',
   'f2-search-for-alpha-fundamentals.jpg': 'Il workspace fondamentali: una tabella di qualità Big Five su undici esercizi, con i grafici di crescita di ROIC, patrimonio netto, utili e free cash flow',
+  'w4-agentic-supply-chain.jpg': 'La vista della rete fornitori: la capacità di sourcing concentrata per paese in un grafico a barre ordinato, accanto a un feed live di dazi, meteo e scioperi con la severità assegnata',
+  'w4-agentic-supply-chain-approval.jpg': 'La pipeline sospesa al gate di approvazione umana: un cambio fornitore da 33.656 $ in attesa di una decisione c-suite, con costo peggiore, livello di servizio ed ESG di portafoglio accanto',
+  'w4-agentic-supply-chain-governance.jpg': 'La scheda governance: la coda di approvazione, un audit trail che registra chi ha deciso cosa e quando, e la policy di escalation che instrada ogni fascia di costo',
+  'w4-agentic-supply-chain-esg.jpg': 'La scheda ESG: i punteggi compositi dei fornitori scomposti in barre impilate ambientale, sociale e governance, ordinati in una classifica',
+  'w5-mindmap.jpg': 'La trascrizione di una riunione trasformata in un grafo tipizzato da un modello che gira sulla macchina: nodi su handover, EIR e sequenziamento collegati da archi causes e relates, disposti con la force simulation D3 e modificabili sul posto',
+  'h2-timeblock-planner.jpg': 'Una giornata disposta sulla griglia — blocchi di lavoro profondo, riunioni, pause e buffer, con quelli conclusi barrati — accanto alle tre attività prioritarie del giorno, all’inbox di raccolta e alle note di chiusura',
+  'f8-f13-screener.jpg': 'La vista sullo stato del database: 1,15 milioni di righe di posizioni su 1.513 filing di 56 fondi monitorati, con l’ultimo filing per fondo e il conteggio delle posizioni normalizzate per CUSIP',
+  'f8-f13-screener-holdings.jpg': 'Una ricerca per singolo ticker: tutti i fondi monitorati che detengono NVIDIA nell’ultimo filing, con acquisti, call e put separati e dimensionati',
+  'f8-f13-screener-consensus.jpg': 'L’accumulazione di consenso fra i fondi monitorati: i titoli che più fondi hanno aperto o incrementato negli ultimi quattro trimestri di filing',
+  'f8-f13-screener-fund.jpg': 'Il workspace di un singolo fondo: il selettore di trimestre, il confronto fra righe grezze e posizioni normalizzate per CUSIP, e le prime dieci posizioni per valore',
+  'f9-congress-trading.jpg': 'La finestra di rilevazione attiva: 1.145 transazioni di 56 parlamentari su 425 ticker risolti, con la forbice degli importi dichiarati e i filing più recenti sotto',
+  'f9-congress-trading-committees.jpg': 'Rilevanza per commissione: ogni parlamentare ordinato per quota di operazioni che cade nei settori vigilati dalla commissione in cui siede',
+  'f9-congress-trading-trades.jpg': 'Lo storico operazioni di un singolo titolo: data di dichiarazione, parlamentare, fascia di importo, prezzo al momento dell’operazione contro prezzo attuale e rendimento da allora',
+  'w7-zoning-visualiser.jpg': 'Un MSOA di Kensington ispezionato in modalità intensità di vincolo, con il calcolatore «e se» che spegne conservation area e listed building: il premio di vincolo stimato scende dal 13,8–32,1% al 4,7–11%',
   'h11-asterbloom.png': 'L’asteroide Lumenum con un albero frattale cresciuto proceduralmente sul bordo, e le seedling in orbita dentro il suo anello di energia',
   'h10-voxel-city.jpg': 'Una città voxel isometrica cresciuta su un’isola terrazzata, con la barra risorse che segna 8.681 residenti e il dock di costruzione in basso',
   'h10-voxel-city-neon.jpg': 'La stessa città con una palette notturna al neon, cambiata a runtime senza rigenerare la geometria, accanto al selettore di tema',
