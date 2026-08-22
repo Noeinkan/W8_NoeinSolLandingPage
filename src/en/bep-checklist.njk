@@ -38,8 +38,9 @@
     </div>
   </div>
 
-  <section class="bep-tool" aria-label="BEP readiness checklist">
-    <div class="bep-layout">
+  <section class="band band--sunk bep-tool" aria-label="BEP readiness checklist">
+    <div class="band-inner">
+      <div class="bep-layout">
 
       <!-- Left column: the form -->
       <form id="bepForm" class="bep-form" novalidate autocomplete="off">
@@ -105,60 +106,60 @@
         </div>
       </aside>
 
-    </div>
-
-    <!-- Results panel: shown after user clicks "See my report" and always rendered for print -->
-    <section id="bepResults" class="bep-results" aria-label="Your readiness report" hidden>
-      <div class="bep-results-inner">
-
-        <div class="bep-report-header">
-          {{ sectionHead("Your Readiness Report") }}
-          <h2 id="bepReportTitle" class="section-title">Your BEP readiness report</h2>
-          <div class="bep-report-meta" id="bepReportMeta"></div>
-        </div>
-
-        <div class="bep-report-grid">
-          <div class="bep-report-score">
-            <div class="bep-report-score-num" id="bepReportScoreNum">0 / 35</div>
-            <div class="bep-report-score-band" id="bepReportBand">&mdash;</div>
-            <p class="bep-report-score-interp" id="bepReportInterp"></p>
-          </div>
-          <div class="bep-report-sections">
-            <h3 class="bep-report-h3">Section-by-section breakdown</h3>
-            <div class="bep-report-sections-list" id="bepReportSectionsList"></div>
-          </div>
-        </div>
-
-        <div class="bep-report-diagnosis">
-          <h3 class="bep-report-h3">Your weakest areas &amp; how to close them</h3>
-          <div id="bepReportDiagnosis"></div>
-        </div>
-
-        <div class="bep-report-cta no-print">
-          <h3 class="bep-report-h3">Want the gaps closed, not just listed?</h3>
-          <p class="bep-report-cta-sub">Capsar.io reads your EIR and guides your BEP response. If the gaps above are structural rather than clerical, a 30-minute call is usually faster than another revision.</p>
-          <div class="hero-actions">
-            <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
-            <a href="capsar.html" class="btn btn-outline">Learn about Capsar.io</a>
-          </div>
-        </div>
-
-        <div class="bep-report-actions no-print">
-          <button type="button" id="bepPrintBtn" class="btn btn-primary">
-            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            Export PDF report
-          </button>
-          <p class="form-note">Opens a clean export view optimised for PDF. In the print dialog, choose <strong>&ldquo;Save as PDF&rdquo;</strong>; if your browser adds headers or footers, switch them off in More settings.</p>
-        </div>
-
-        <div class="bep-report-footer">
-          <p>Generated with the ISO 19650 BEP Readiness Checklist &middot; <a href="https://noeinsolutions.com/bep-checklist.html">noeinsolutions.com/bep-checklist.html</a></p>
-          <p class="bep-report-disclaimer">This is practical guidance and does not replace contractual or legal review.</p>
-        </div>
-
       </div>
-    </section>
-
+    </div>
   </section>
 
-  </main>
+  <!-- Results panel: shown after user clicks "See my report" and always rendered for print -->
+  <section id="bepResults" class="band bep-results" aria-label="Your readiness report" hidden>
+    <div class="band-inner">
+
+      <div class="bep-report-header">
+        {{ sectionHead("Your Readiness Report") }}
+        <h2 id="bepReportTitle" class="section-title">Your BEP readiness report</h2>
+        <div class="bep-report-meta" id="bepReportMeta"></div>
+      </div>
+
+      <div class="bep-report-grid">
+        <div class="bep-report-score">
+          <div class="bep-report-score-num" id="bepReportScoreNum">0 / 35</div>
+          <div class="bep-report-score-band" id="bepReportBand">&mdash;</div>
+          <p class="bep-report-score-interp" id="bepReportInterp"></p>
+        </div>
+        <div class="bep-report-sections">
+          <h3 class="bep-report-h3">Section-by-section breakdown</h3>
+          <div class="bep-report-sections-list" id="bepReportSectionsList"></div>
+        </div>
+      </div>
+
+      <div class="bep-report-diagnosis">
+        <h3 class="bep-report-h3">Your weakest areas &amp; how to close them</h3>
+        <div id="bepReportDiagnosis"></div>
+      </div>
+
+      <div class="bep-report-cta no-print">
+        <h3 class="bep-report-h3">Want the gaps closed, not just listed?</h3>
+        <p class="bep-report-cta-sub">Capsar.io reads your EIR and guides your BEP response. If the gaps above are structural rather than clerical, a 30-minute call is usually faster than another revision.</p>
+        <div class="hero-actions">
+          <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+          <a href="capsar.html" class="btn btn-outline btn-outline--on-dark">Learn about Capsar.io</a>
+        </div>
+      </div>
+
+      <div class="bep-report-actions no-print">
+        <button type="button" id="bepPrintBtn" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Export PDF report
+        </button>
+        <p class="form-note">Opens a clean export view optimised for PDF. In the print dialog, choose <strong>&ldquo;Save as PDF&rdquo;</strong>; if your browser adds headers or footers, switch them off in More settings.</p>
+      </div>
+
+      <div class="bep-report-footer">
+        <p>Generated with the ISO 19650 BEP Readiness Checklist &middot; <a href="https://noeinsolutions.com/bep-checklist.html">noeinsolutions.com/bep-checklist.html</a></p>
+        <p class="bep-report-disclaimer">This is practical guidance and does not replace contractual or legal review.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>

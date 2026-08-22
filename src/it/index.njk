@@ -19,7 +19,7 @@
       <div class="hero-label">Consulenza e software &middot; Londra</div>
       <h1>Dieci anni a risolvere problemi di delivery.<br><em>Ora costruisco il software che li risolve.</em></h1>
       <p class="hero-sub">
-        Information management ISO 19650 su infrastrutture e programmi complessi — e gli strumenti che servono. {{ builds.total }} progetti pubblici quest’anno, su <a href="{{ site.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>. Il codice è la prova.
+        Information management ISO 19650 su infrastrutture e programmi complessi — e gli strumenti che servono. {{ builds.lang[lang].TotalWord }} progetti pubblici quest’anno, sulla <a href="builds.html">pagina Builds</a>. Il codice è la prova.
       </p>
       <div class="hero-actions">
         <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary btn--lg">Prenota una call di 30 min</a>
@@ -79,7 +79,7 @@
     {{ sectionHead("Cosa trovi qui", "Prodotto e contenuti", "Due cose che puoi usare oggi — una piattaforma in beta e un autodiagnostico gratuito.") }}
 
     <div class="value-props">
-      <div class="value-card value-card--third value-card--feature">
+      <div class="value-card value-card--half value-card--feature">
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         </div>
@@ -87,7 +87,7 @@
         <p>Piattaforma BEP ed EIR privacy-first con authoring guidato, tracciamento dei requisiti ed export strutturati per progetti sensibili alla riservatezza.</p>
         <a href="capsar.html" class="offer-card-link">Scopri Capsar <span>&rarr;</span></a>
       </div>
-      <div class="value-card value-card--third">
+      <div class="value-card value-card--half">
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg>
         </div>
@@ -97,11 +97,27 @@
       </div>
       <div class="value-card value-card--third">
         <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Health Check EIR</h3>
+        <p>12 domande in 4 sezioni su una scala di chiarezza 0&ndash;3. Valuti l&rsquo;EIR su 100, vedi i 3 gap che ti costano di pi&ugrave; ed esporti un report PDF. Nessuna email richiesta.</p>
+        <a href="eir-checklist.html" class="offer-card-link">Apri il check <span>&rarr;</span></a>
+      </div>
+      <div class="value-card value-card--third">
+        <div class="value-icon">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
         <h3>Background</h3>
         <p>Oltre 10 anni tra studi di design, team client-side e supply chain complesse. Credenziali, timeline di carriera e come penso la gestione informativa.</p>
         <a href="about.html" class="offer-card-link">Leggi il profilo completo <span>&rarr;</span></a>
+      </div>
+      <div class="value-card value-card--third">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3>Builds</h3>
+        <p>{{ builds.lang[lang].TotalWord }} repository pubblici da {{ builds.lang[lang].monthsWord }} mesi di sviluppo assistito da agenti: ricerca sul trading, analisi urbanistica, giochi per browser, integrazioni con piattaforme di costruzione.</p>
+        <a href="builds.html" class="offer-card-link">Vedi i progetti <span>&rarr;</span></a>
       </div>
     </div>
   </section>

@@ -12,10 +12,11 @@
   ],
   "footerGithub": true,
   "calendly": true,
-  "hasMirror": false
+  "hasMirror": true
 }
 ---
 {% from "macros/blocks.njk" import sectionHead, stat %}
+{%- set lineup = builds.lang[lang] %}
 {#- Cards, jump index and every count come from src/_data/builds.js.
     Adding or pulling a build is one edit there; nothing on this page is
     hand-counted. Counts are deliberately kept out of the front matter above,
@@ -25,12 +26,12 @@
   <div class="page-hero">
     <div class="page-hero-inner">
       <div class="hero-label">Agentic development</div>
-      <h1>{{ builds.TotalWord }} builds, seven months, <em>one pair of hands</em></h1>
+      <h1>{{ lineup.TotalWord }} builds, {{ lineup.monthsWord }} months, <em>one pair of hands</em></h1>
       <p class="page-hero-sub">Market research tooling, planning and supply-chain systems, browser games and rendering engines, local-first automation. Different domains, different stacks &mdash; one method: specify tightly, let agents do the volume, gate everything behind tests.</p>
       <p class="page-hero-note">Every repository below is public. The code is the evidence &mdash; read it, clone it, argue with it.</p>
       <div class="hero-actions hero-actions--center build-hero-actions">
         <a href="https://github.com/Noeinkan" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Browse the GitHub profile</a>
-        <a href="#{{ builds.categories[0].id }}" class="btn btn-outline">Jump to the builds</a>
+        <a href="#{{ lineup.categories[0].id }}" class="btn btn-outline">Jump to the builds</a>
       </div>
     </div>
   </div>
@@ -39,31 +40,35 @@
     {{ sectionHead("At a glance", "", "", "center") }}
     <div class="stats-inner">
       {{ stat(builds.total, "Public repositories") }}
-      {{ stat(builds.months, "Months, " + builds.spanLabel) }}
+      {{ stat(builds.months, "Months, " + lineup.spanLabel) }}
       {{ stat(builds.domains, "Domains, not one niche") }}
       {{ stat(builds.withUi, "With a working interface") }}
     </div>
   </div>
 
-  <section class="fade-in" aria-label="How these get built">
+  <section class="band fade-in" aria-label="How these get built">
+    <div class="band-inner">
     {{ sectionHead("Method", "How these actually get built", "Agents make volume cheap. They do not make correctness cheap &mdash; that still has to be engineered. The discipline is what makes the output trustworthy.") }}
 
+    {#- .value-props is a 6-column bento; a card with no span modifier takes one
+        column of six. These three carried none, so they rendered a third of the
+        width they needed with three empty columns beside them. -#}
     <div class="value-props">
-      <div class="value-card">
+      <div class="value-card value-card--third">
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
         </div>
         <h3>Specification before code</h3>
         <p>Each project starts as a written contract &mdash; what it must do, what it must never do, what &ldquo;done&rdquo; means. Ambiguity is the one thing agents amplify rather than absorb, so it gets removed before a single file is generated.</p>
       </div>
-      <div class="value-card">
+      <div class="value-card value-card--third">
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.2 4.2l4.3 4.3m7 7l4.3 4.3M1 12h6m10 0h6M4.2 19.8l4.3-4.3m7-7l4.3-4.3"/></svg>
         </div>
         <h3>Agents do the volume</h3>
         <p>Scaffolding, integrations, migrations, test fixtures &mdash; the work that is large but not subtle gets delegated. I stay responsible for architecture and for reading every diff. Delegation is not abdication.</p>
       </div>
-      <div class="value-card">
+      <div class="value-card value-card--third">
         <div class="value-icon">
           <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         </div>
@@ -71,26 +76,57 @@
         <p>Generated code earns trust by passing something. This very site is the clearest example: guardrail tests for structure and accessibility, translation-parity checks across languages, and a deploy preflight that resolves every link before anything ships.</p>
       </div>
     </div>
+    </div>
   </section>
 
-  <div class="build-index fade-in" aria-label="Jump to a category">
-{%- for c in builds.categories %}
-    <a href="#{{ c.id }}" class="build-index-link"><span class="build-index-count">{{ c.builds.length }}</span> {{ c.label }}</a>
+  {#- A control strip, so it takes the sunk band: hairlines top and bottom, and
+      the max-width and gutter that .band-inner carries. As a bare <div> child of
+      <main> it had neither, and the first pill sat flush against the viewport. -#}
+  <div class="band band--sunk band--tight fade-in">
+    <div class="band-inner build-toolbar">
+    <div class="build-index" aria-label="Jump to a category">
+{%- for c in lineup.categories %}
+      <a href="#{{ c.id }}" class="build-index-link"><span class="build-index-count">{{ c.builds.length }}</span> {{ c.label }}</a>
 {%- endfor %}
+    </div>
+{%- if builds.withGallery %}
+    <button type="button" id="buildRotation" class="build-rotation-btn"
+            data-label-stop="Pause screenshot rotation"
+            data-label-start="Play screenshot rotation" hidden>
+      <span class="build-rotation-icon" aria-hidden="true"></span>
+      <span class="build-rotation-text">Pause screenshot rotation</span>
+    </button>
+{%- endif %}
+    </div>
   </div>
 
-{%- for c in builds.categories %}
+{#- Categories alternate paper and sunk so four peer sections stop reading as one
+    undifferentiated run. Ordering falls out of the loop, not out of hand-written
+    classes, so adding a domain in src/_data/builds.js keeps the alternation. -#}
+{%- for c in lineup.categories %}
 
-  <section class="fade-in build-group" id="{{ c.id }}" aria-label="{{ c.title }}">
+  <section class="band{{ ' band--sunk' if loop.index0 % 2 }} fade-in" id="{{ c.id }}" aria-label="{{ c.title }}">
+    <div class="band-inner">
     {{ sectionHead(c.label, c.title, c.sub) }}
 
     <div class="build-grid">
 {%- for b in c.builds %}
 
       <article class="build-card">
-{%- if b.shot %}
-        <div class="build-card-media">
-          <img src="{{ prefix }}assets/builds/{{ b.shot }}" alt="{{ b.alt }}" loading="lazy" decoding="async" width="1200" height="750">
+{%- if b.shots %}
+        <div class="build-card-media{% if b.shots.length > 1 %} build-card-media--gallery{% endif %}"{% if b.shots.length > 1 %} data-gallery{% endif %}>
+{%- for s in b.shots %}
+          <img class="build-card-frame{% if loop.first %} is-active{% endif %}"
+               {% if loop.first %}src="{{ prefix }}assets/builds/{{ s.file }}"{% else %}data-src="{{ prefix }}assets/builds/{{ s.file }}" aria-hidden="true"{% endif %}
+               alt="{{ s.alt }}" loading="lazy" decoding="async" width="1200" height="750">
+{%- endfor %}
+{%- if b.shots.length > 1 %}
+          <div class="build-card-dots" aria-hidden="true">
+{%- for s in b.shots %}
+            <span class="build-card-dot{% if loop.first %} is-active{% endif %}"></span>
+{%- endfor %}
+          </div>
+{%- endif %}
         </div>
 {%- else %}
         <div class="build-card-media build-card-media--empty" aria-hidden="true">
@@ -114,13 +150,14 @@
 {%- endfor %}
 
     </div>
+    </div>
   </section>
 {%- endfor %}
 
   <div class="capsar-banner fade-in">
     <div class="capsar-banner-inner">
       {{ sectionHead("All of it") }}
-      <h2>{{ builds.TotalWord }} repositories, nothing hidden behind a case study</h2>
+      <h2>{{ lineup.TotalWord }} repositories, nothing hidden behind a case study</h2>
       <p>If you want to know how someone works, read their commits rather than their claims. Everything above is public, including the parts that are still rough. If you have a workflow that should be one of these, let&rsquo;s talk about it.</p>
       <div class="hero-actions hero-actions--center">
         <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>

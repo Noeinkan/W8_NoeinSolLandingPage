@@ -40,6 +40,7 @@ if (!fs.existsSync(ROOT)) {
   process.exit(1);
 }
 const html = fs.readFileSync(path.join(ROOT, 'eir-checklist.html'), 'utf8');
+const htmlIt = fs.readFileSync(path.join(ROOT, 'it', 'eir-checklist.html'), 'utf8');
 const js = fs.readFileSync(path.join(ROOT, 'js', 'eir-checklist.js'), 'utf8');
 
 let failures = 0;
@@ -56,8 +57,8 @@ vc.on('warn', (msg) => console.log('  [page warn] ' + msg));
 // All 12 question IDs in eir-checklist.js (format q{s}_{n})
 const ALL_QS = ['q1_1','q1_2','q1_3','q2_1','q2_2','q2_3','q3_1','q3_2','q3_3','q4_1','q4_2','q4_3'];
 
-function makeDom(url) {
-  const dom = new JSDOM(html, {
+function makeDom(url, markup) {
+  const dom = new JSDOM(markup || html, {
     runScripts: 'outside-only',
     url: url,
     pretendToBeVisual: true,
@@ -210,10 +211,11 @@ if (afterReset) {
   check(Object.keys(parsed.answers).length === 0, 'stored answers is empty (got ' + Object.keys(parsed.answers).length + ' keys)');
 }
 
-// ─── 9. lang-switcher is # (not a broken link) ───
+// ─── 9. lang-switcher reaches the IT mirror ───
 console.log('\n[9] hreflang/lang-switch sanity');
 const langSwitch = dom.window.document.querySelector('a.lang-switch');
-check(langSwitch.getAttribute('href') === '#', 'lang-switch href is #');
+check(langSwitch.getAttribute('href') === 'it/eir-checklist.html',
+  'lang-switch points at the IT mirror (got "' + langSwitch.getAttribute('href') + '")');
 
 // ─── 10. Export view HTML generation ───
 console.log('\n[10] Export view generation');
@@ -268,6 +270,42 @@ const reportScore = dom6.window.document.getElementById('eirReportScoreNum').tex
 check(/100/.test(reportScore), 'report score shows /100 (got "' + reportScore + '")');
 const reportBandEl = dom6.window.document.getElementById('eirReportBand');
 check(/is-high|band-high/.test(reportBandEl.className), 'report band has is-high/band-high class (got "' + reportBandEl.className + '")');
+
+// ─── 14. Italian branch: the tool speaks the page's language ───
+// js/eir-checklist.js picks its strings off <html lang>, so the IT mirror runs
+// the same file down a branch nothing else exercises. Everything checked below
+// is written by the JS, not by the template — a literal left inline shows up
+// here and nowhere in the translation-parity test, which only ever sees the
+// static markup.
+console.log('\n[14] Italian branch');
+const domIt = makeDom('https://noeinsolutions-it.local/it/eir-checklist.html', htmlIt);
+domIt.window.eval(js);
+const docIt = domIt.window.document;
+check(docIt.documentElement.lang === 'it', 'IT page declares lang="it" (got "' + docIt.documentElement.lang + '")');
+const legendsIt = [...docIt.querySelectorAll('.eir-q-legend')];
+check(legendsIt.length === ALL_QS.length, 'IT page renders all ' + ALL_QS.length + ' questions (got ' + legendsIt.length + ')');
+check(/Requisiti di consegna/.test(docIt.body.textContent), 'IT section titles come from the Italian SECTIONS array');
+check(/Mancante/.test(docIt.body.textContent) && !/Missing/.test(docIt.body.textContent),
+  'IT scale labels rendered, with no English label left beside them');
+ALL_QS.forEach(q => rate(domIt, q, 1));
+const bandIt = docIt.getElementById('eirScoreBand').textContent;
+check(/Bassa/.test(bandIt), 'IT band label (got "' + bandIt + '")');
+docIt.getElementById('eirJumpResults').dispatchEvent(new domIt.window.Event('click', { bubbles: true }));
+const gapsIt = docIt.getElementById('eirReportGaps').textContent;
+check(/Gap principale/.test(gapsIt) && !/Top gap/.test(gapsIt), 'IT gap-card rank label, no English "Top gap" left');
+check(/Come chiuderlo/.test(gapsIt), 'IT remediation lead-in on the gap cards');
+const interpIt = docIt.getElementById('eirReportInterp').textContent;
+check(/non è ancora pronto/.test(interpIt), 'IT interpretation copy (got "' + interpIt.slice(0, 40) + '...")');
+
+// The export view is a standalone document the visitor hands to their team, so
+// its chrome has to be Italian too — and its own <html lang> has to say so.
+let capturedIt = '';
+domIt.window.open = () => ({ document: { open: () => {}, write: (h) => { capturedIt = h; }, close: () => {} } });
+docIt.getElementById('eirPrintBtn').dispatchEvent(new domIt.window.Event('click', { bubbles: true }));
+check(/<html lang="it">/.test(capturedIt), 'IT export view declares lang="it"');
+check(/Diagnostica chiarezza EIR ISO 19650/.test(capturedIt), 'IT export kicker');
+check(/Il tuo report di chiarezza/.test(capturedIt), 'IT export section label');
+check(!/Your Clarity Report|Top gap|Score overview/.test(capturedIt), 'no English chrome left in the IT export view');
 
 console.log('\n' + (failures === 0
   ? `SMOKE: all ${passes} checks passed`

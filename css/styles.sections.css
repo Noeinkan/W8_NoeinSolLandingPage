@@ -810,9 +810,23 @@ footer {
   padding-inline: var(--gutter);
 }
 
-.section-full-inner--narrow {
-  max-width: 700px;
-  text-align: center;
+/* ═══ Cross-link between the two free tools ═════════════════
+   Used on capsar, bep-checklist and eir-checklist. Its only
+   definition was in capsar.css, which neither checklist page
+   loads, under a comment claiming it lived in bep-checklist.css
+   — that file defines .eir-cross-link-wrap, a different class.
+   Capsar's own top margin is .capsar-cross-link, in capsar.css. */
+.eir-cross-link {
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-secondary);
+}
+
+.eir-cross-link strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin-bottom: var(--space-1);
 }
 
 /* The eyebrow above a stats row sits centred with more air under it than a

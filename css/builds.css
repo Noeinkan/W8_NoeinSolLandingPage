@@ -1,91 +1,150 @@
 /* ═══════════════════════════════════════════════════════════
    Builds — agentic development portfolio
-   Extends the .value-card visual language from styles.sections.css.
-   Media slots reserve their aspect ratio before screenshots land,
-   so dropping an <img> in later causes no layout shift.
+
+   The grid is the site's ruled contact sheet, not a row of
+   detached cards: one hairline lattice shared with .value-props,
+   .trust-band-grid and .offer-grid. Media slots reserve their
+   aspect ratio before screenshots land, so dropping an <img> in
+   later causes no layout shift, and they sit on a near-black mat
+   so a capture reads as a screen rather than as a pale panel.
+
+   Category sections opt into .band / .band--sunk in the template
+   and delegate their width to .band-inner.
    ═══════════════════════════════════════════════════════════ */
 
-.build-hero-actions { margin-top: 2rem; }
+.build-hero-actions { margin-top: var(--space-6); }
 
 /* ─── Category index ─── */
+/* Jump index and the rotation control share one row: the control has to sit
+   before the first rotating card in the tab sequence, and it is a pill like
+   every other thing in this row. The row is a .band--sunk strip in the markup,
+   which is also what gives it a max-width and a gutter — as a bare <div> child
+   of <main> it had neither, and the first pill sat flush against the viewport. */
+.build-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
 .build-index {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 4rem;
+  gap: var(--space-3);
 }
+
+/* One control for the page, not one per card. WCAG 2.2.2 asks for a mechanism
+   to stop moving content, not for thirteen of them. Hidden until js/main.js
+   unhides it: with no JS nothing rotates, so there is nothing to pause. */
+.build-rotation-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+
+.build-rotation-btn:hover,
+.build-rotation-btn:focus-visible {
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+/* Pause bars, and a play triangle once paused — drawn with borders so there is
+   no icon asset to ship and nothing to keep in sync with the label. */
+.build-rotation-icon {
+  width: 9px;
+  height: 10px;
+  border-left: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+}
+
+.build-rotation-btn.is-paused .build-rotation-icon {
+  width: 0;
+  height: 0;
+  border-left: 8px solid currentColor;
+  border-right: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.build-rotation-text { line-height: 1; }
 
 .build-index-link {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: 999px;
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  color: var(--ink-secondary);
+  font-size: var(--step--1);
   text-decoration: none;
-  transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  transition: border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
 }
 
 .build-index-link:hover,
 .build-index-link:focus-visible {
-  border-color: var(--border);
-  color: var(--text-primary);
+  border-color: var(--rule-strong);
+  color: var(--ink);
 }
 
-/* Monospaced so the counts line up down the row */
+/* Mono with tabular figures, so the counts line up down the row. This asked for
+   --font-display until the M2.1 pass — the comment had been right and the
+   declaration wrong since the row was written. */
 .build-index-count {
-  font-family: var(--font-display);
-  font-size: 1rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--step-0);
   color: var(--accent-text);
 }
 
-/* ─── Category section ─── */
-/* Each category is a peer of every other: same heading weight, same grid,
-   same card treatment. Nothing is demoted to a list. */
-.build-group + .build-group { margin-top: 1rem; }
 /* ─── Card grid ─── */
+/* Each category is a peer of every other: same heading weight, same grid,
+   same card treatment. Nothing is demoted to a list, and no card is featured.
+   The lattice is one shared hairline — cells butt together over a --rule
+   ground rather than floating apart, which is the idiom every other card grid
+   on the site uses. */
 .build-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
 }
 
 .build-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
   display: flex;
   flex-direction: column;
-  transition: border-color 0.2s var(--ease-out);
+  background: var(--paper-raised);
+  transition: background-color var(--dur) var(--ease-out);
 }
 
-/* Gold top-edge sweep, matching .value-card::before */
-.build-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
-  z-index: 2;
-}
-
-.build-card:hover { border-color: var(--border); }
-.build-card:hover::before { opacity: 1; }
+.build-card:hover { background: var(--paper-sunk); }
 
 /* ─── Media slot ─── */
+/* Near-black mat: a screenshot reads as a screen against it, and the rotation
+   dots below sit on one consistent ground instead of straddling bright
+   dashboards and black terminals. The hairline underneath is what separates a
+   bright capture from the paper body. */
 .build-card-media {
   aspect-ratio: 16 / 10;
   width: 100%;
   overflow: hidden;
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--rule);
+  background: var(--band);
   position: relative;
 }
 
@@ -97,15 +156,72 @@
   display: block;
 }
 
-/* Deliberate no-screenshot state: blueprint grid + typographic stack mark.
-   Every card ships in this state until assets/builds/ is populated. */
+/* ─── Rotating frames ───
+   Frames stack in the same 16:10 box and cross-fade. Only the first carries a
+   src in the markup; js/main.js promotes the rest from data-src as the card
+   comes into view. Opacity and transform only, so the whole effect stays on the
+   compositor and never touches layout.
+
+   The 0.7s and 5.5s below stay literal on purpose: they are tuned against
+   FRAME_MS = 4200 in js/main.js, and no --dur-* token matches them. Moving them
+   onto the motion scale would silently retune the effect. */
+.build-card-media--gallery .build-card-frame {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.045);
+  transition: opacity 0.7s var(--ease-in-out), transform 0.7s var(--ease-in-out);
+}
+
+/* The frame that is showing settles out of its slight zoom across the hold,
+   which is what stops a cross-fade reading as a slideshow from 2009. */
+.build-card-media--gallery .build-card-frame.is-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.7s var(--ease-in-out), transform 5.5s linear;
+}
+
+/* Position indicators, not controls: they tell the reader there is more than
+   one frame without adding four tab stops per card. */
+.build-card-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-3);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  pointer-events: none;
+}
+
+/* Light fill with a dark ring, so the dots read against a bright dashboard and
+   a near-black terminal alike. */
+.build-card-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--r-pill);
+  background: var(--band-text);
+  box-shadow: 0 0 0 1px rgba(var(--ink-rgb), 0.4);
+  opacity: 0.5;
+  transition: opacity var(--dur) var(--ease-out), width var(--dur) var(--ease-out);
+}
+
+.build-card-dot.is-active {
+  width: 15px;
+  opacity: 1;
+}
+
+/* Deliberate no-screenshot state: blueprint grid + typographic stack mark, now
+   drawn as a dark drawing sheet to match the mat. Two builds are permanently
+   here by nature — W4_AgenticSupplyChain and H9_Voice_Transcriber are marked
+   noUi in src/_data/builds.js because they have no interface to capture. */
 .build-card-media--empty {
   display: flex;
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(135deg, rgba(var(--accent-rgb), 0.05) 0%, transparent 55%),
-    linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.10) 0%, transparent 55%),
+    linear-gradient(180deg, var(--band-raised) 0%, var(--band) 100%);
 }
 
 .build-card-media--empty::before {
@@ -113,69 +229,79 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(var(--accent-rgb), 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(var(--accent-rgb), 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(var(--accent-rgb), 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--accent-rgb), 0.16) 1px, transparent 1px);
   background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
+  /* A mask stop is an alpha stencil rather than a colour choice, and no token
+     means "fully opaque" — so the keyword, not a literal. */
+  mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
 }
 
+/* --accent, not --accent-text: the dark red that carries orange text on paper
+   disappears against the mat. Weight is explicit because the loaded Archivo is
+   500..800 and an inherited 400 gets synthesised. */
 .build-card-glyph {
   position: relative;
   font-family: var(--font-display);
-  font-size: 1.75rem;
-  color: var(--accent-text);
-  opacity: 0.42;
+  font-weight: 600;
+  font-size: var(--step-2);
+  color: var(--accent);
+  opacity: 0.85;
   letter-spacing: 0.08em;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(var(--accent-rgb), 0.28);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.45);
 }
 
 /* ─── Card body ─── */
 .build-card-body {
-  padding: 2rem;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
+/* Mono for the technical register, matching the .mono utility's tracking. */
 .build-card-kicker {
-  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: var(--accent-text);
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-3);
 }
 
 .build-card-body h3 {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 400;
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.025em;
   color: var(--ink);
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-3);
 }
 
 .build-card-problem {
   font-size: var(--copy-size-compact);
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   line-height: var(--copy-line-height);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-5);
 }
 
 .build-card-stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
 }
 
 /* Push the link to the bottom so cards of unequal copy length align */
 .build-card-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--space-1);
   color: var(--accent-text);
-  font-size: 0.85rem;
+  font-size: var(--step--1);
   font-weight: 500;
   text-decoration: none;
   margin-top: auto;
@@ -184,7 +310,7 @@
 
 .build-card-link span {
   display: inline-block;
-  transition: transform 0.3s var(--ease-out);
+  transition: transform var(--dur) var(--ease-out);
 }
 
 .build-card-link:hover span { transform: translateX(4px); }
@@ -194,13 +320,11 @@
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 968px) {
   .build-grid { grid-template-columns: 1fr; }
-  .build-index { gap: 0.5rem; margin-bottom: 3rem; }
-  .build-index-link { padding: 0.5rem 0.9rem; font-size: 0.8rem; }
+  .build-index { gap: var(--space-2); }
 }
 
 @media (max-width: 640px) {
-  .build-card-body { padding: 1.5rem; }
-  .build-card-glyph { font-size: 1.4rem; }
+  .build-card-body { padding: var(--space-5); }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -209,10 +333,20 @@
 @media (prefers-reduced-motion: reduce) {
   .build-card,
   .build-index-link,
-  .build-card::before,
-  .build-card-link span {
+  .build-rotation-btn,
+  .build-card-link span,
+  .build-card-dot {
     transition: none;
   }
 
   .build-card-link:hover span { transform: none; }
+
+  /* js/main.js does not start the rotation at all under this preference, but
+     the control can still opt back in — so the frames swap without motion
+     rather than not swapping at all. */
+  .build-card-media--gallery .build-card-frame,
+  .build-card-media--gallery .build-card-frame.is-active {
+    transform: none;
+    transition: none;
+  }
 }

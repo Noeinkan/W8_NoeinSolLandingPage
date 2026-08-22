@@ -15,7 +15,16 @@
   /* ─── Ink ────────────────────────────────────────────────── */
   --ink:           #14161A;
   --ink-secondary: #4A5058;
-  --ink-tertiary:  #767C85;
+  --ink-tertiary:  #686E77;
+  --ink-rgb:       20, 22, 26;   /* for rgba() — see --accent-rgb */
+  /* --ink-tertiary was #767C85, which is 4.00:1 on --paper, 3.69:1 on
+     --paper-sunk and 4.21:1 on --paper-raised — under 4.5:1 on every ground it
+     is used on, so every quiet register on the site failed AA at once: the
+     footer headings and copyright (all 16 pages), .page-hero-note, .form-note,
+     the language switcher, and the checklist metadata. Darkened 14 points along
+     the same hue to 4.51 / 4.88 / 5.14. It stays well clear of --ink-secondary
+     (7.14 on sunk), so this is still a distinct third step, not a collapse of
+     the ink scale into two tones. */
 
   /* ─── Rules (drawing-sheet hairlines) ────────────────────── */
   --rule:          #DFDBD2;
@@ -34,6 +43,7 @@
   --band-text:     #F5F3EE;
   --band-text-dim: #9AA0A9;
   --band-rule:     #2C3038;
+
 
   /* ─── Type families ──────────────────────────────────────── */
   --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
@@ -79,10 +89,48 @@
   --r-lg:   8px;
   --r-pill: 999px;
 
+  /* ─── Scrims — dimming a surface behind an overlay ────────
+     Strong is the default for anything with text on top: the
+     cert thumbnails are white documents, and at 0.55 an accent
+     label over one came out at about 1.1:1. */
+  --scrim:         rgba(20, 22, 26, 0.55);
+  --scrim-strong:  rgba(20, 22, 26, 0.88);
+
+  /* ─── Diagnostic status ──────────────────────────────────
+     The two checklists band a score three ways, and nothing in
+     the palette said "good / watch / at risk". Verified against
+     every ground they land on: each *-text clears 4.5:1 on
+     --paper, --paper-sunk and --paper-raised; each *-line clears
+     the 3:1 graphics threshold as a bar fill or a border.
+     The pre-redesign set (#a6d69c, #e8c27d, #e89c8c) was mixed
+     for a near-black ground and computes to roughly 1.6:1 on
+     paper — so the band label, which is the one sentence a
+     diagnostic exists to deliver, was the least readable text on
+     the page. Muted on purpose: this is engineering annotation,
+     not a dashboard. */
+  --ok-text:   #1F6B2A;
+  --ok-line:   #3F8C44;
+  --ok-wash:   rgba(31, 107, 42, 0.08);
+  --warn-text: #7A5510;
+  --warn-line: #A8790A;
+  --warn-wash: rgba(122, 85, 16, 0.08);
+  --risk-text: #A32316;
+  --risk-line: #C4402C;
+  --risk-wash: rgba(163, 35, 22, 0.08);
+
+  /* The same three signals on a dark surface. These are the values the two
+     checklists already carried — they were never wrong, they were just being
+     painted onto paper. The BEP score panel is the dark ground they were
+     mixed for, and each clears 8:1 on --band. */
+  --ok-on-band:   #86C27B;
+  --warn-on-band: #E0B052;
+  --risk-on-band: #E89C8C;
+
   /* ─── Elevation — light grounds use rules, not shadows ───── */
   --shadow-card:   0 1px 2px rgba(20, 22, 26, 0.04);
   --shadow-raised: 0 12px 32px rgba(20, 22, 26, 0.10);
   --shadow-band:   0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-lift:   0 -8px 24px rgba(20, 22, 26, 0.10);  /* upward — sticky CTA */
 
   /* ─── Motion ─────────────────────────────────────────────── */
   --dur-fast: 0.15s;
@@ -91,29 +139,18 @@
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 
-  /* ─── Legacy aliases ─────────────────────────────────────────
-     The pre-redesign token names are kept mapped onto the new
-     palette so every partial that still references them renders
-     correctly. Retire these as each component is reworked. */
-  --bg-primary:       var(--paper);
-  --bg-elevated:      var(--paper-sunk);
-  --bg-card:          var(--paper-raised);
-  --bg-card-hover:    var(--paper-sunk);
-  --bg-secondary:     var(--paper-sunk);   /* never defined pre-redesign; about.css:152 relied on it */
-  --border:           var(--rule-strong);
-  --border-subtle:    var(--rule);
-  --text-primary:     var(--ink);
-  --text-secondary:   var(--ink-secondary);
-  --text-tertiary:    var(--ink-tertiary);
-  --accent-dim:       var(--accent-text);
-  --accent-glow:      var(--accent-wash);
-  --accent-glow-strong: var(--accent-wash-strong);
-  /* --white is deliberately gone. Every alias above still maps to something
-     sensible on paper; --white did not. It was the dark theme's body text, so
-     the seven rules that survived on it — the career-timeline job titles, the
-     Capsar pain-card and step headings, two credential titles and the lightbox
-     close button — rendered white on a #FAF9F6 or #FFFFFF ground and were
-     invisible. Light text on a dark surface is --band-text. */
+  /* ─── No aliases ─────────────────────────────────────────────
+     The pre-redesign names (--text-primary, --bg-card, --border-subtle
+     and ten more) were mapped onto this palette so the partials that
+     still referenced them would render while M2 reworked them page by
+     page. The last consumer went with M2.5, and the block went with it.
+     Nothing translates an old name into a new one any more: a rule
+     asking for one gets no value, and CSS discards that declaration
+     without a word — which is how --white, deleted here first for
+     having no honest mapping onto paper, painted seven rules invisible.
+     testLegacyTokenBudget in scripts/tests/ui-ux.test.js fails the
+     build before a reintroduced name can ship. Light text on a dark
+     surface is --band-text. */
 }
 
 html {
@@ -170,6 +207,16 @@ p { text-wrap: pretty; }
 .band {
   background: var(--paper);
   padding-block: var(--section-y);
+}
+
+/* A bare <section> is width-capped and gutter-padded by styles.sections.css.
+   A band is full-bleed and delegates both to .band-inner, so a <section> that
+   opts into the band system has to give those back. The homepage sidestepped
+   this by making its dark band a <div>; Builds keeps its four category
+   landmarks as <section aria-label> and needs the reset instead. */
+section.band {
+  max-width: none;
+  padding-inline: 0;
 }
 
 .band--sunk {

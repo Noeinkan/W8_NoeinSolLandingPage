@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════════
+   Privacy policy — legal long-form
+   Lifted out of the `inlineStyle` front-matter field that both
+   privacy.njk pages carried — an identical 65-line duplicate,
+   invisible to every check that reads css/ — and ported off the
+   pre-redesign aliases in the same move. The 8rem top pad it
+   arrived with was clearing a fixed nav; the nav has been
+   sticky, and in flow, since the redesign.
+   ═══════════════════════════════════════════════════════════ */
+
+.privacy-content {
+  /* Wider than --measure: the legal-basis table needs four columns,
+     and the prose is set at --copy-size-compact to compensate. */
+  max-width: 760px;
+  margin-inline: auto;
+  padding: var(--space-10) var(--gutter) var(--space-12);
+}
+
+.privacy-content h1 {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  /* The loaded face is Archivo 500..800. The blob asked for 400, which
+     no instance provides, so every browser synthesised it. */
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+}
+
+/* Metadata goes in mono, like every other label and stat on the site. */
+.privacy-meta {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--rule);
+}
+
+.privacy-content h2 {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+.privacy-content p,
+.privacy-content li {
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height);
+  color: var(--ink-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.privacy-content ul {
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-3);
+}
+
+/* --accent is 3.7:1 on paper and fails AA for text; --accent-text
+   exists for exactly this. Same fix the four .link-inline links got. */
+.privacy-content a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.privacy-content a:hover,
+.privacy-content a:focus-visible { color: var(--ink); }
+
+/* The table overflowed the viewport at 390px and 320px and dragged the
+   whole page sideways with it. It scrolls inside its own container. */
+.privacy-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* The vertical margin belongs here, not on the table: overflow-x makes this
+     a block formatting context, so a margin on the table cannot collapse out
+     through it and the gap before the next h2 came out half again too big. */
+  margin: var(--space-5) 0;
+}
+
+.privacy-table {
+  width: 100%;
+  /* Below this the four columns squeeze to roughly a word per line instead of
+     using the scroll the wrapper exists to provide. The wrapper contains the
+     overflow, so the page itself still does not move sideways at 320px. */
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: var(--copy-size-small);
+}
+
+.privacy-table th {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: var(--space-3);
+  background: var(--paper-sunk);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  /* The header row is the only heavier rule; the grid below it stays hairline. */
+  border-bottom: 2px solid var(--rule-strong);
+}
+
+.privacy-table td {
+  padding: var(--space-3);
+  color: var(--ink-secondary);
+  border: 1px solid var(--rule);
+  vertical-align: top;
+}

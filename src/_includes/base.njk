@@ -28,11 +28,6 @@
   {%- for file in (css or []) %}
   <link rel="stylesheet" href="{{ prefix }}css/{{ file }}">
   {%- endfor %}
-  {%- if inlineStyle %}
-  <style>
-{{ inlineStyle }}
-  </style>
-  {%- endif %}
   {%- if jsonLd %}
   <script type="application/ld+json">
 {{ jsonLd }}

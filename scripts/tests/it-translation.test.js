@@ -25,6 +25,8 @@ const PAGES = [
   'about.html',
   'capsar.html',
   'bep-checklist.html',
+  'eir-checklist.html',
+  'builds.html',
   'privacy.html',
 ];
 

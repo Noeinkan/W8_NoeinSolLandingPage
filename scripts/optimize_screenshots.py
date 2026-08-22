@@ -37,6 +37,12 @@ for name in images:
 
     if name.lower().endswith(".png"):
         img.save(path, "PNG", optimize=True)
+    elif original_w == img.width and img.info.get("progressive"):
+        # Already been through here: PNG re-encodes losslessly but JPEG does
+        # not, so a re-run would quietly degrade the file every time.
+        print(f"{name}: {img.width}x{img.height}  "
+              f"{os.path.getsize(path) // 1024} KB  (already optimised)")
+        continue
     else:
         img.convert("RGB").save(path, "JPEG", quality=82, optimize=True, progressive=True)
 

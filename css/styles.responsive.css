@@ -14,8 +14,13 @@
   .hero-inner--split      { grid-template-columns: 1fr; text-align: center; }
   .hero-sub               { margin-inline: auto; }
   .hero-actions           { justify-content: center; }
-  .hero-label             { justify-content: center; }
-  .hero-label::after      { display: none; }
+  /* Scoped to the split hero these rules were written for. Unscoped, they
+     centred the eyebrow on every left-aligned hero — index, services, builds,
+     contact, both checklists and privacy — while the h1 beneath it stayed
+     left. Capsar keeps its centring from .hero-inner--centered in
+     styles.hero.css, which no breakpoint touches. */
+  .hero-inner--split .hero-label        { justify-content: center; }
+  .hero-inner--split .hero-label::after { display: none; }
   .hero-photo-wrapper     { order: -1; }
   .hero-photo             { width: 260px; height: 320px; }
 

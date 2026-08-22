@@ -2,11 +2,11 @@
 
 Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice. Built with Eleventy; no client-side framework.
 
-**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 16 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
+**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 18 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
 
 `css/`, `js/`, `assets/` and `robots.txt` are passthrough-copied from the project root (`.eleventy.js:7-10`), so those are still edited in place. `_site/css/` is a *copy*: a CSS edit is invisible to the browser until the build runs again.
 
-**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 16 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
+**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 18 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
 
 **Recurring blocks are macros, not markup.** `src/_includes/macros/blocks.njk` holds the blocks that repeat across pages — `sectionHead(label, title, sub, align)` for the eyebrow/h2/standfirst triplet, `stat(count, label, suffix)` for a counter cell. Import what a page needs at the top (`{% from "macros/blocks.njk" import sectionHead %}`) and call it. The section heading was hand-written 51 times before this; three of those copies had drifted onto an inline `style="justify-content:center"` instead of the `.section-label--center` modifier that already existed. Add a macro whenever a block reaches its third hand-written copy.
 
@@ -14,18 +14,20 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 **Page numbers are derived, never typed.** `src/_data/builds.js` is the sole definition of the Builds lineup: cards, jump index, `data-count` stats, prose counts on both the Builds page and the homepage teaser, and the assertions in `ui-ux.test.js` all read from it. Adding or pulling a build is one edit there. Counts are deliberately kept out of JSON front matter, which cannot be templated and would go stale silently.
 
+The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_SHOTS` carry only what needs translating — label, title, standfirst, kicker, blurb, alt — and are overlaid onto the English lineup, so repo, slug, stack, captures and `noUi` exist once. `builds.lang.en` and `builds.lang.it` are the per-language views a template takes with `{% set lineup = builds.lang[lang] %}`; neither page branches on the language itself. The two pages therefore cannot list different builds, and a build added with no IT copy renders the English string rather than a blank card. Spelled-out numbers and the month range have a list per language for the same reason: "13 progetti, 7 mesi" reads as a spec sheet where the headline is meant to read as a sentence.
+
 ## File Structure
 
 ```
 ├── src/                # Page sources — the only place to author markup
-│   ├── _data/          # builds.js (Builds lineup + derived counts), nav.js, site.js,
+│   ├── _data/          # builds.js (Builds lineup, derived counts, IT strings), nav.js, site.js,
 │   │                   # strings.js, sitemap.js (crawl hints),
 │   │                   # eleventyComputed.js (canonical/hreflang/prefix)
 │   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
 │   │   └── macros/     # blocks.njk — sectionHead, stat
 │   ├── sitemap.njk     # generates _site/sitemap.xml from the built pages
 │   ├── en/*.njk        # 9 English pages
-│   └── it/*.njk        # 7 Italian mirrors (eir-checklist and builds have no IT mirror yet)
+│   └── it/*.njk        # 9 Italian mirrors — every EN page now has one
 ├── _site/              # Build output — gitignored, and what deploy.sh ships. Never edit.
 ├── css/                # Styles split into per-concern partials
 │   ├── styles.css      # 8-line @import manifest for the global bundle
@@ -38,10 +40,13 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 │   ├── styles.sections.css
 │   ├── styles.responsive.css
 │   ├── about.css
-│   ├── capsar.css
+│   ├── capsar.css         # Capsar page: hairline pain/module grids, ruled step flow,
+│   │                      # and one dark-panel definition shared by both mockup
+│   │                      # families (proof card on paper, preview on .band--dark)
 │   ├── bep-checklist.css
 │   ├── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
-│   ├── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots, empty-state panel
+│   ├── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots (cross-fading
+│   │                      # frame stack where a build has several captures), empty-state panel
 │   └── contact.css        # Contact page: two-column booking/brief grid + Calendly slot
 ├── js/
 │   ├── main.js              # Single IIFE bundle (all interactivity, analytics, animations)
@@ -77,7 +82,7 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 
 ## Key Conventions
 
-- **CSS:** Vanilla CSS on a tokenised design system ("Technical Light"). Warm paper ground (`--paper: #FAF9F6`), near-black ink (`--ink: #14161A`), drawing-sheet hairlines, signal-orange accent (`--accent: #F04E23`; use `--accent-text: #C0390F` for orange TEXT on paper — the fill colour is only 3.7:1 and fails AA). Full-bleed dark surfaces opt in via `.band--dark`. Tokens for colour, fluid type scale (`--step--2` … `--step-5`), space, radius, shadow and duration live in `css/styles.base.css`; pre-redesign token names are kept as aliases at the end of that block — except `--white`, which was deleted because it had no honest mapping onto paper and the seven rules still using it rendered white text on a `#FAF9F6` ground. Light text on a dark surface is `--band-text`. Note the space scale skips: `1 2 3 4 5 6 8 10 12 16`, no `--space-7`. Fonts: `Archivo` (display), `DM Sans` (body), `IBM Plex Mono` (labels, stats, metadata) via Google Fonts.
+- **CSS:** Vanilla CSS on a tokenised design system ("Technical Light"). Warm paper ground (`--paper: #FAF9F6`), near-black ink (`--ink: #14161A`), drawing-sheet hairlines, signal-orange accent (`--accent: #F04E23`; use `--accent-text: #C0390F` for orange TEXT on paper — the fill colour is only 3.7:1 and fails AA). Full-bleed dark surfaces opt in via `.band--dark`. Tokens for colour, fluid type scale (`--step--2` … `--step-5`), space, radius, shadow and duration live in `css/styles.base.css`; the pre-redesign token names (`--text-primary`, `--bg-card`, `--border-subtle` and ten more) were kept aliased onto this palette until M2 took the last consumer off them, and the alias block is now **deleted** — `testLegacyTokenBudget` fails the build if one reappears, as a use or as a re-declaration. There is no old name to fall back on: write the palette token. `--white` went first and for the sharpest reason — it had no honest mapping onto paper, so the seven rules still using it rendered white text on a `#FAF9F6` ground. Light text on a dark surface is `--band-text`. Note the space scale skips: `1 2 3 4 5 6 8 10 12 16`, no `--space-7`. Fonts: `Archivo` (display), `DM Sans` (body), `IBM Plex Mono` (labels, stats, metadata) via Google Fonts.
 - **Type sizing lives only in the fluid `--step-*` scale.** `styles.responsive.css` is layout-only and must not set `font-size` — the previous version re-declared sizes across four min-width tiers, giving `.hero h1` three competing systems.
 - **Scroll reveal is progressive.** `.fade-in` is visible by default; `js/main.js` adds `.js-anim` to `<html>` before observing, so a JS failure leaves content visible rather than blank. The observer also reveals elements already scrolled past (`boundingClientRect.top < 0`) — otherwise a visitor who scrolls before its first async delivery leaves a section permanently hidden.
 - **JS:** Single IIFE in `js/main.js`. Vanilla ES5. Intersection Observer for scroll animations. Keyboard-accessible tabs/accordions.
@@ -85,7 +90,7 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 - **SEO:** Each page has canonical URL, hreflang alternates (en/it/x-default), OpenGraph tags, JSON-LD on homepage.
 - **Accessibility:** ARIA labels, `aria-expanded`/`aria-selected` states, `prefers-reduced-motion` respected throughout.
 - **Forms:** lead-magnet / contact forms post to FormSubmit.co (`https://formsubmit.co/andrea.aita@noeinsolutions.com`) with a honeypot `_honey` field. Present on `index`, `contact`, `bep-checklist`, `eir-checklist` and IT mirrors. Required fields carry `aria-required="true"`. Field styling (input/select/textarea) is global, in `styles.ui.css`.
-- **Booking:** `site.calendly` in `src/_data/site.js` is the one booking URL. Two mechanisms: a **popup** CTA (`Calendly.initPopupWidget`) on every selling page, and the **inline** widget on `contact` only. Both need `"calendly": true` in that page's front matter, which is what loads the widget script — `base.njk` reaches all 16 pages, so loading it globally would put a third-party script on `privacy.html` for nothing. Keep the popup CTA a real `<a href>`: when the script is blocked the `onclick` throws, the default is never prevented, and the link just navigates to Calendly. `testBookingRoutes` in `ui-ux.test.js` enforces all of this. Calendly's `background_color`/`text_color`/`primary_color` params are sent but ignored on the free plan.
+- **Booking:** `site.calendly` in `src/_data/site.js` is the one booking URL. Two mechanisms: a **popup** CTA (`Calendly.initPopupWidget`) on every selling page, and the **inline** widget on `contact` only. Both need `"calendly": true` in that page's front matter, which is what loads the widget script — `base.njk` reaches all 18 pages, so loading it globally would put a third-party script on `privacy.html` for nothing. Keep the popup CTA a real `<a href>`: when the script is blocked the `onclick` throws, the default is never prevented, and the link just navigates to Calendly. `testBookingRoutes` in `ui-ux.test.js` enforces all of this. Calendly's `background_color`/`text_color`/`primary_color` params are sent but ignored on the free plan.
 - **Conversion target:** business mode. Every page routes to a booking CTA (`contact.html` / the Calendly popup), with the Capsar app at `app.noeinsolutions.com` and GitHub as secondary destinations. External links use `target="_blank" rel="noopener"`; below-fold images use `loading="lazy"`.
 - **No published rates.** Pricing is scoped on enquiry; the archived `js/services-pricing.js` estimator stays retired. `services.njk` uses `.offer-card-price-section` for scope/timeline, not money.
 
@@ -95,7 +100,7 @@ Every content change to an EN page must be mirrored in its `/it/` counterpart. W
 1. Make the change in `src/en/<page>.njk`
 2. Apply the equivalent change in `src/it/<page>.njk`
 3. Follow the terminology and voice/style brief in `docs/LOCALIZATION_IT.md`
-4. If adding a new page: set `"hasMirror": true` in the front matter of **both** versions — `src/_data/eleventyComputed.js` derives the hreflang set and the language-toggle target from it, so an EN page whose mirror does not exist yet keeps `"hasMirror": false` and its toggle points at `#` rather than at a 404 (that is the state of `builds` and `eir-checklist`). The sitemap needs nothing — `src/sitemap.njk` generates it from the pages Eleventy built, reusing the same computed `selfUrl` as the canonical tag, so a page cannot be live and unlisted (which is how `services.html` and `contact.html` first shipped). Give the slug a priority in `src/_data/sitemap.js` only if the default is wrong.
+4. If adding a new page: set `"hasMirror": true` in the front matter of **both** versions — `src/_data/eleventyComputed.js` derives the hreflang set and the language-toggle target from it, so an EN page whose mirror does not exist yet keeps `"hasMirror": false` and its toggle points at `#` rather than at a 404. Every page currently has a mirror, so nothing is on `false` — a new EN page starts there until its IT counterpart lands. The sitemap needs nothing — `src/sitemap.njk` generates it from the pages Eleventy built, reusing the same computed `selfUrl` as the canonical tag, so a page cannot be live and unlisted (which is how `services.html` and `contact.html` first shipped). Give the slug a priority in `src/_data/sitemap.js` only if the default is wrong.
 5. Run `node scripts/tests/it-translation.test.js` — guardrail for EN-leakage, find/replace scars, accent misses, and structural drift vs. EN. **Note:** the test does not catch voice or AI-tells; that's what the style half of `docs/LOCALIZATION_IT.md` is for — self-check against its pre-commit checklist.
 
 Conventions for IT copy:
@@ -136,6 +141,8 @@ bash deploy.sh --check        # link/href/canonical/title preflight
   - every `css:`/`js:` entry in front matter resolves to a real file;
   - every `nav.js` href resolves to a built page;
   - literal hex colours per file stay within `HEX_BUDGET`, which only goes down;
+  - no file in `css/` names a retired pre-redesign token (`LEGACY_TOKEN_BUDGET`, zero everywhere,
+    and it counts re-declaring one as well as using it — `styles.base.css` included);
   - the sitemap lists exactly as many URLs as the build produced pages;
   - `assets/og-image.jpg`'s real dimensions (read from its JPEG SOF marker) match the
     `og:image:width`/`height` hardcoded in `base.njk` — the file used to be a 680×1018 copy of the
@@ -144,7 +151,7 @@ bash deploy.sh --check        # link/href/canonical/title preflight
     `.cursor/rules/*.mdc` and `.github/*.md`. Fenced blocks and inline `code` are stripped first,
     because the docs name deleted paths on purpose and always inside backticks.
 - **`scripts/tests/it-translation.test.js`** — per EN/IT pair: `<html lang="it">`, self-canonical, reciprocal hreflang, JS-referenced IDs preserved, no find/replace scars (`con`/`per un` + EN word), no untranslated EN phrases, no missing accents (`perché`, `più`, `conformità`, ...), loose `<section>`/`<details>`/`<blockquote>` count parity with EN.
-- **`scripts/tests/smoke/eir-smoke.test.js`** — jsdom-based runtime test for the EIR Health Check. Loads `eir-checklist.html` + `js/eir-checklist.js` into a headless DOM, simulates user ratings, and asserts: DOM render, scoring engine (0–3 scale → /100), band classes, persistence round-trip, report generation, gap-card selection, export-view HTML output, empty-state guard, and href/src resolution. Self-installs `jsdom` into `scripts/tests/smoke/node_modules/` on first run; the directory is gitignored.
+- **`scripts/tests/smoke/eir-smoke.test.js`** — jsdom-based runtime test for the EIR Health Check. Loads `eir-checklist.html` + `js/eir-checklist.js` into a headless DOM, simulates user ratings, and asserts: DOM render, scoring engine (0–3 scale → /100), band classes, persistence round-trip, report generation, gap-card selection, export-view HTML output, empty-state guard, and href/src resolution. A final block runs `it/eir-checklist.html` through the same file to exercise the Italian branch, which nothing else reaches: the questions, bands, gap cards and the whole export document are written by JS, so an English literal left inline there is invisible to `it-translation.test.js`, which only ever sees the static markup. Self-installs `jsdom` into `scripts/tests/smoke/node_modules/` on first run; the directory is gitignored.
 
 ## Analytics
 

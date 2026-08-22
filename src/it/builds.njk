@@ -1,0 +1,160 @@
+---json
+{
+  "lang": "it",
+  "slug": "builds",
+  "title": "Builds — Portfolio di sviluppo agentico | Andrea Aita",
+  "description": "Repository pubblici costruiti in sette mesi: orchestrazione multi-agente, pipeline di dati finanziari, analisi geospaziale, giochi per browser e integrazioni con piattaforme AEC. Sviluppo assistito da agenti, i test come cancello.",
+  "ogTitle": "Builds — Portfolio di sviluppo agentico | Andrea Aita",
+  "ogDescription": "Orchestrazione multi-agente, pipeline di dati finanziari, analisi geospaziale, integrazioni di piattaforma. Repository pubblici su quattro domini, sette mesi.",
+  "ogImageAlt": "Andrea Aita — portfolio di sviluppo agentico",
+  "css": [
+    "builds.css"
+  ],
+  "footerGithub": true,
+  "calendly": true,
+  "hasMirror": true
+}
+---
+{% from "macros/blocks.njk" import sectionHead, stat %}
+{%- set lineup = builds.lang[lang] %}
+{#- Mirror of src/en/builds.njk. Cards, jump index and counts come from the
+    same src/_data/builds.js: `builds.lang[lang]` returns the Italian strings
+    over the identical lineup, so the two pages cannot list different builds. -#}
+<main id="main-content">
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-label">Sviluppo agentico</div>
+      <h1>{{ lineup.TotalWord }} progetti, {{ lineup.monthsWord }} mesi, <em>un paio di mani</em></h1>
+      <p class="page-hero-sub">Strumenti di ricerca di mercato, sistemi di pianificazione e filiera, giochi per browser e motori di rendering, automazione che gira in locale. Domini diversi, stack diversi. Un solo metodo: specifica stretta, il volume lo fanno gli agenti, tutto passa dai test.</p>
+      <p class="page-hero-note">Ogni repository qui sotto &egrave; pubblico. Il codice &egrave; la prova: leggilo, clonalo, contestalo.</p>
+      <div class="hero-actions hero-actions--center build-hero-actions">
+        <a href="https://github.com/Noeinkan" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Vai al profilo GitHub</a>
+        <a href="#{{ lineup.categories[0].id }}" class="btn btn-outline">Salta ai progetti</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats" aria-label="Il portfolio in sintesi">
+    {{ sectionHead("In sintesi", "", "", "center") }}
+    <div class="stats-inner">
+      {{ stat(builds.total, "Repository pubblici") }}
+      {{ stat(builds.months, "Mesi, " + lineup.spanLabel) }}
+      {{ stat(builds.domains, "Domini, non una nicchia") }}
+      {{ stat(builds.withUi, "Con un&rsquo;interfaccia funzionante") }}
+    </div>
+  </div>
+
+  <section class="band fade-in" aria-label="Come nascono questi progetti">
+    <div class="band-inner">
+    {{ sectionHead("Metodo", "Come nascono davvero", "Gli agenti rendono economico il volume. Non rendono economica la correttezza: quella va ancora progettata. &Egrave; la disciplina a rendere affidabile il risultato.") }}
+
+    <div class="value-props">
+      <div class="value-card value-card--third">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+        </div>
+        <h3>Prima la specifica, poi il codice</h3>
+        <p>Ogni progetto parte come un contratto scritto: cosa deve fare, cosa non deve fare mai, cosa significa &laquo;finito&raquo;. L&rsquo;ambiguit&agrave; &egrave; l&rsquo;unica cosa che gli agenti amplificano invece di assorbire, quindi la tolgo prima che venga generato un solo file.</p>
+      </div>
+      <div class="value-card value-card--third">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6M4.2 4.2l4.3 4.3m7 7l4.3 4.3M1 12h6m10 0h6M4.2 19.8l4.3-4.3m7-7l4.3-4.3"/></svg>
+        </div>
+        <h3>Il volume lo fanno gli agenti</h3>
+        <p>Scaffolding, integrazioni, migrazioni, fixture di test: il lavoro grande ma non sottile lo delego. Restano mie l&rsquo;architettura e la lettura di ogni diff. Delegare non &egrave; abdicare.</p>
+      </div>
+      <div class="value-card value-card--third">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>I test sono il cancello</h3>
+        <p>Il codice generato si guadagna fiducia passando qualcosa. Questo sito &egrave; l&rsquo;esempio pi&ugrave; chiaro: test di struttura e accessibilit&agrave;, controlli di parit&agrave; fra le due lingue e un preflight di deploy che risolve ogni link prima che parta qualcosa.</p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div class="band band--sunk band--tight fade-in">
+    <div class="band-inner build-toolbar">
+    <div class="build-index" aria-label="Vai a una categoria">
+{%- for c in lineup.categories %}
+      <a href="#{{ c.id }}" class="build-index-link"><span class="build-index-count">{{ c.builds.length }}</span> {{ c.label }}</a>
+{%- endfor %}
+    </div>
+{%- if builds.withGallery %}
+    <button type="button" id="buildRotation" class="build-rotation-btn"
+            data-label-stop="Ferma la rotazione degli screenshot"
+            data-label-start="Avvia la rotazione degli screenshot" hidden>
+      <span class="build-rotation-icon" aria-hidden="true"></span>
+      <span class="build-rotation-text">Ferma la rotazione degli screenshot</span>
+    </button>
+{%- endif %}
+    </div>
+  </div>
+
+{%- for c in lineup.categories %}
+
+  <section class="band{{ ' band--sunk' if loop.index0 % 2 }} fade-in" id="{{ c.id }}" aria-label="{{ c.title }}">
+    <div class="band-inner">
+    {{ sectionHead(c.label, c.title, c.sub) }}
+
+    <div class="build-grid">
+{%- for b in c.builds %}
+
+      <article class="build-card">
+{%- if b.shots %}
+        <div class="build-card-media{% if b.shots.length > 1 %} build-card-media--gallery{% endif %}"{% if b.shots.length > 1 %} data-gallery{% endif %}>
+{%- for s in b.shots %}
+          <img class="build-card-frame{% if loop.first %} is-active{% endif %}"
+               {% if loop.first %}src="{{ prefix }}assets/builds/{{ s.file }}"{% else %}data-src="{{ prefix }}assets/builds/{{ s.file }}" aria-hidden="true"{% endif %}
+               alt="{{ s.alt }}" loading="lazy" decoding="async" width="1200" height="750">
+{%- endfor %}
+{%- if b.shots.length > 1 %}
+          <div class="build-card-dots" aria-hidden="true">
+{%- for s in b.shots %}
+            <span class="build-card-dot{% if loop.first %} is-active{% endif %}"></span>
+{%- endfor %}
+          </div>
+{%- endif %}
+        </div>
+{%- else %}
+        <div class="build-card-media build-card-media--empty" aria-hidden="true">
+          <span class="build-card-glyph">{{ b.stack[0] }}</span>
+        </div>
+{%- endif %}
+        <div class="build-card-body">
+          <div class="build-card-kicker">{{ b.kicker }}</div>
+          <h3>{{ b.name }}</h3>
+          <p class="build-card-problem">{{ b.blurb }}</p>
+          <div class="build-card-stack">
+{%- for s in b.stack %}
+            <span class="credential-tag">{{ s }}</span>
+{%- endfor %}
+          </div>
+          <a href="https://github.com/Noeinkan/{{ b.repo }}" target="_blank" rel="noopener noreferrer" class="build-card-link">
+            Vedi il repository <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </article>
+{%- endfor %}
+
+    </div>
+    </div>
+  </section>
+{%- endfor %}
+
+  <div class="capsar-banner fade-in">
+    <div class="capsar-banner-inner">
+      {{ sectionHead("Tutto quanto") }}
+      <h2>{{ lineup.TotalWord }} repository, niente nascosto dietro un case study</h2>
+      <p>Se vuoi sapere come lavora qualcuno, leggi i suoi commit invece delle sue dichiarazioni. Tutto quello che vedi sopra &egrave; pubblico, comprese le parti ancora ruvide. Se hai un flusso di lavoro che dovrebbe diventare uno di questi, parliamone.</p>
+      <div class="hero-actions hero-actions--center">
+        <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Prenota una call di 30 minuti</a>
+        <a href="{{ site.github }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Vedi tutti i repository</a>
+      </div>
+      <div class="capsar-badge">github.com/Noeinkan</div>
+    </div>
+  </div>
+
+  </main>

@@ -17,7 +17,7 @@
   "navClass": "no-print",
   "footerClass": "no-print",
   "footerGithub": true,
-  "hasMirror": false,
+  "hasMirror": true,
   "calendly": true
 }
 ---
@@ -40,8 +40,9 @@
     </div>
   </div>
 
-  <section class="eir-tool" aria-label="EIR clarity health check">
-    <div class="bep-layout">
+  <section class="band band--sunk bep-tool" aria-label="EIR clarity health check">
+    <div class="band-inner">
+      <div class="bep-layout">
 
       <!-- Left column: the form -->
       <form id="eirForm" class="eir-form bep-form" novalidate autocomplete="off">
@@ -89,11 +90,13 @@
         </div>
       </aside>
 
+      </div>
     </div>
+  </section>
 
-    <!-- Results panel: shown after user clicks "See my report" and always rendered for print -->
-    <section id="eirResults" class="bep-results" aria-label="Your clarity report" hidden>
-      <div class="bep-results-inner">
+  <!-- Results panel: shown after user clicks "See my report" and always rendered for print -->
+  <section id="eirResults" class="band bep-results" aria-label="Your clarity report" hidden>
+    <div class="band-inner">
 
         <div class="bep-report-header">
           {{ sectionHead("Your Clarity Report") }}
@@ -115,12 +118,12 @@
 
         <div class="bep-report-diagnosis">
           <h3 class="bep-report-h3">Your three most expensive gaps</h3>
-          <div id="eirReportGaps"></div>
+          <div class="eir-gap-grid" id="eirReportGaps"></div>
         </div>
 
         <div class="bep-report-diagnosis">
           <h3 class="bep-report-h3">Full 12-question breakdown</h3>
-          <div id="eirReportBreakdown"></div>
+          <div class="eir-breakdown" id="eirReportBreakdown"></div>
         </div>
 
         <div class="bep-report-cta no-print eir-cta-block">
@@ -128,7 +131,7 @@
           <p class="eir-cta-sub">Book a 30-minute call and I&rsquo;ll give you a short, no-pressure read of what would tighten it most &mdash; or send the report over by email if a call is premature.</p>
           <div class="hero-actions">
             <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
-            <a href="mailto:{{ site.email }}?subject=EIR%20Health%20Check%20follow-up" class="btn btn-outline">Email me the report</a>
+            <a href="mailto:{{ site.email }}?subject=EIR%20Health%20Check%20follow-up" class="btn btn-outline btn-outline--on-dark">Email me the report</a>
           </div>
           <div class="eir-cta-divider">or jump to</div>
           <div class="eir-crosslinks">
@@ -151,9 +154,7 @@
           <p class="bep-report-disclaimer">Practical guidance &mdash; not a substitute for contractual or legal review.</p>
         </div>
 
-      </div>
-    </section>
-
+    </div>
   </section>
 
   </main>

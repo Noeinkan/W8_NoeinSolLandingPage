@@ -144,6 +144,37 @@ textarea:hover { border-color: var(--ink-tertiary); }
 
 textarea { min-height: 8rem; resize: vertical; }
 
+/* ─── Field group + form caption ──────────────────────────────
+   .form-group and .form-note had no global rule at all. Their
+   only definitions in the repo were descendant selectors inside
+   the two checklist stylesheets (.bep-project .form-group,
+   .bep-report-actions .form-note), so the homepage lead-magnet
+   form — which loads neither — rendered an unstyled label above
+   an input and a body-copy caption under the button. That is the
+   four entries PAGE_SCOPED_EXCEPTIONS in ui-ux.test.js was
+   carrying for M6; they are paid off here. */
+.form-group { margin-bottom: var(--space-4); min-width: 0; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.form-note {
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-tertiary);
+}
+
+.form-note a { color: var(--accent-text); }
+
 /* ─── Lead-magnet success panel ───────────────────────────────
    .form-success carried no rule at all: the markup hid it with
    an inline `display:none` and js/main.js revealed it with

@@ -1,110 +1,81 @@
 /* ═══════════════════════════════════════════════════════════
    EIR Health Check — interactive tool
-   Reuses .bep-* classes from bep-checklist.css for layout,
-   score sidebar, results panel, and print scaffolding.
-   Adds .eir-q (question fieldset) and .eir-q-scale (0-3 radios)
-   plus .eir-gap-card (top-3 highlight cards).
+   Reuses the .bep-* scaffolding from bep-checklist.css for the
+   working band, cards, section accordion, score sidebar, results
+   panel and print rules. This file adds only what is its own:
+   .eir-q (the 0–3 rating fieldset), .eir-gap-card (top-3 gaps)
+   and .eir-breakdown-* (the full 12-question table).
    No blur / lock / gate patterns. Everything is fully visible.
    ═══════════════════════════════════════════════════════════ */
 
-.page-hero-note {
-  margin-top: 0.85rem;
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  letter-spacing: 0.01em;
-}
+/* .page-hero-note moved to styles.hero.css — see the note in bep-checklist.css. */
 
-/* ─── Layout — reuses .bep-tool / .bep-layout ─── */
-.eir-tool {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 5rem;
-  position: relative;
-  z-index: 1;
-}
+/* ─── Layout ───────────────────────────────────────────────────
+   The page had zero .band* blocks — hero, tool and report all on one
+   flat paper ground. It now carries the same structure M2.4 gave the
+   BEP checklist: the tool is a `band band--sunk` working surface and
+   the report a `band` sheet below it, so the two read as worksheet
+   then output rather than as one undifferentiated column.
 
-@media (max-width: 960px) {
-  .bep-layout {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
+   That is markup, not CSS, so .eir-tool is gone entirely: it carried a
+   duplicate max-width, padding and stacking context, and an @media
+   block restating the .bep-layout breakpoint verbatim — every line of
+   it repeating what bep-checklist.css already set on a page that loads
+   both files. The section is plain `band band--sunk bep-tool` now. */
 
 .eir-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-4);
   min-width: 0;
 }
 
-/* ─── Project card (renamed eir-project reuses .bep-card styling) ─── */
-.eir-project { padding-bottom: 1.2rem; }
-
+/* ─── Project card (reuses .bep-card; the field and label rules it
+       used to redeclare are global, in styles.ui.css) ─── */
+.eir-project { padding-bottom: var(--space-4); }
 .eir-project .form-group { margin-bottom: 0; }
-.eir-project input[type="text"],
-.eir-project input[type="date"] {
-  width: 100%;
-  padding: 0.7rem 0.9rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 1rem;
-  transition: border-color 0.2s var(--ease-out);
-}
-.eir-project input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.eir-project label {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-tertiary);
-  margin-bottom: 0.4rem;
-  font-weight: 500;
-}
 
 .eir-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: var(--space-4);
 }
 @media (max-width: 640px) {
   .eir-grid-3 { grid-template-columns: 1fr; }
 }
 
-/* ─── Section accordion — reuses .bep-section markup ─── */
-.eir-section { /* all visual rules inherited from .bep-section */ }
-
-/* ─── Question (the new 0-3 scale fieldset) ─── */
+/* ─── Question (the 0–3 scale fieldset) ─── */
 .eir-q {
   border: 0;
-  padding: 0.85rem 0 0.6rem;
+  padding: var(--space-4) 0;
   margin: 0;
   min-width: 0;
 }
+.eir-q + .eir-q { border-top: 1px solid var(--rule); }
 
 .eir-q-legend {
   display: block;
   font-size: var(--copy-size);
   line-height: var(--copy-line-height-tight);
-  color: var(--text-secondary);
-  padding: 0 0 0.7rem;
+  color: var(--ink);
+  padding: 0 0 var(--space-3);
   font-family: var(--font-body);
   font-weight: 400;
   letter-spacing: 0;
 }
 
-/* The 0-3 scale row */
+/* The 0–3 scale row. One hairline-divided control rather than four
+   floating pills: the scale is a single axis from 0 to 3, and now
+   reads as one. */
 .eir-q-scale {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 0;
   margin: 0;
   padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  overflow: hidden;
 }
 
 .eir-q-scale label {
@@ -113,19 +84,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 0.4rem 0.55rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  gap: 0.15rem;
+  padding: var(--space-3) var(--space-2);
+  background: var(--paper-raised);
   cursor: pointer;
-  transition: all 0.2s var(--ease-out);
+  transition: background-color var(--dur) var(--ease-out);
   text-align: center;
   line-height: 1.2;
 }
-.eir-q-scale label:hover {
-  border-color: var(--accent-dim);
-  background: var(--bg-card-hover);
-}
+.eir-q-scale label + label { border-left: 1px solid var(--rule); }
+.eir-q-scale label:hover { background: var(--paper-sunk); }
+
 .eir-q-scale input {
   position: absolute;
   opacity: 0;
@@ -133,39 +102,37 @@
   width: 1px; height: 1px;
 }
 .eir-q-scale-num {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--ink-tertiary);
   line-height: 1;
-  transition: color 0.2s var(--ease-out);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur) var(--ease-out);
 }
 .eir-q-scale-text {
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  margin-top: 0.25rem;
-  letter-spacing: 0.02em;
-  transition: color 0.2s var(--ease-out);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--ink-tertiary);
+  letter-spacing: 0.04em;
+  transition: color var(--dur) var(--ease-out);
 }
-.eir-q-scale label:has(input:checked) {
-  border-color: var(--accent);
-  background: var(--accent-glow);
-}
-.eir-q-scale label:has(input:checked) .eir-q-scale-num {
-  color: var(--accent);
-}
-.eir-q-scale label:has(input:checked) .eir-q-scale-text {
-  color: var(--text-primary);
-}
+.eir-q-scale label:has(input:checked) { background: var(--accent-wash); }
+.eir-q-scale label:has(input:checked) .eir-q-scale-num { color: var(--accent-text); }
+.eir-q-scale label:has(input:checked) .eir-q-scale-text { color: var(--ink); }
+/* Same defect as the BEP radios: focus was a 16%-alpha orange box-shadow,
+   picked against a near-black ground and invisible on paper — on a control
+   whose own input is opacity:0, so this outline is all a keyboard user has. */
 .eir-q-scale label:has(input:focus-visible) {
-  box-shadow: 0 0 0 2px var(--accent-glow-strong);
-  outline: 0;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
-/* Stacked vertical on very small screens */
+/* Two-up rather than four-up on the narrowest screens */
 @media (max-width: 520px) {
-  .eir-q-scale {
-    grid-template-columns: 1fr 1fr;
-  }
+  .eir-q-scale { grid-template-columns: 1fr 1fr; }
+  .eir-q-scale label:nth-child(3) { border-left: 0; }
+  .eir-q-scale label:nth-child(n + 3) { border-top: 1px solid var(--rule); }
 }
 
 /* Honor reduced motion */
@@ -177,143 +144,154 @@
   }
 }
 
-/* ─── Top-3 gap cards (the highlight, not blurred/locked) ─── */
+/* ─── Top-3 gap cards (the highlight, not blurred/locked) ───────
+   These were a gold gradient wash inside a gold border — the retired
+   theme, a whole redesign later, on the three cards the entire report
+   exists to deliver. */
 .eir-gap-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0 0.5rem;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 var(--space-2);
 }
 @media (max-width: 860px) {
-  .eir-gap-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .eir-gap-grid { grid-template-columns: 1fr; gap: var(--space-3); }
 }
 
 .eir-gap-card {
-  background: linear-gradient(180deg, rgba(201, 165, 90, 0.08) 0%, var(--bg-elevated) 100%);
-  border: 1px solid rgba(201, 165, 90, 0.35);
-  border-radius: 12px;
-  padding: 1.1rem 1.1rem 1.05rem;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--r-md);
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: var(--space-3);
   position: relative;
 }
 
 .eir-gap-rank {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.7rem;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-text);
+  font-weight: 500;
 }
+/* Ink on the accent fill, not paper: a numeral is text, and paper on accent
+   is 3.4:1 against ink at 5.0:1. Square, like every other badge on the site. */
 .eir-gap-rank-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px; height: 22px;
-  border-radius: 50%;
+  width: 20px; height: 20px;
+  border-radius: var(--r-sm);
   background: var(--accent);
-  color: var(--bg-primary);
-  font-size: 0.72rem;
-  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 .eir-gap-section {
-  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-tertiary);
+  color: var(--ink-tertiary);
   font-weight: 500;
 }
 
 .eir-gap-q {
-  font-size: 0.95rem;
+  font-size: var(--copy-size-small);
   line-height: 1.45;
-  color: var(--text-primary);
+  color: var(--ink);
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .eir-gap-rating {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-top: 0.1rem;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-secondary);
 }
 .eir-gap-rating-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.15rem 0.6rem;
-  border-radius: 99px;
-  background: var(--bg-primary);
-  border: 1px solid rgba(216, 110, 92, 0.35);
-  color: #e89c8c;
-  font-size: 0.78rem;
+  padding: 0.1rem var(--space-2);
+  border-radius: var(--r-pill);
+  background: var(--risk-wash);
+  border: 1px solid var(--risk-line);
+  color: var(--risk-text);
+  font-size: var(--step--2);
   font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 .eir-gap-fix {
-  font-size: 0.88rem;
+  font-size: var(--copy-size-small);
   line-height: 1.55;
-  color: var(--text-secondary);
-  margin-top: 0.25rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid rgba(201, 165, 90, 0.18);
+  color: var(--ink-secondary);
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--rule);
 }
 .eir-gap-fix strong {
-  color: var(--accent);
+  color: var(--accent-text);
+  font-family: var(--font-mono);
   font-weight: 500;
   display: block;
-  font-size: 0.74rem;
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-1);
 }
 
 /* ─── Full breakdown list (all 12 questions visible) ─── */
 .eir-breakdown {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 0;
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--rule);
 }
 
 .eir-breakdown-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: center;
-  padding: 0.75rem 0.95rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  font-size: 0.9rem;
+  padding: var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--copy-size-small);
 }
 .eir-breakdown-q {
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   line-height: 1.4;
 }
 .eir-breakdown-q-section {
   display: block;
-  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  margin-bottom: 0.2rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--space-1);
 }
 .eir-breakdown-rating {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-tertiary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -323,198 +301,92 @@
   justify-content: center;
   min-width: 1.6rem;
   height: 1.4rem;
-  padding: 0 0.4rem;
-  border-radius: 99px;
-  background: var(--bg-primary);
-  font-size: 0.78rem;
+  padding: 0 var(--space-2);
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   font-weight: 500;
-  border: 1px solid var(--border);
+  border: 1px solid var(--rule-strong);
 }
-.eir-breakdown-rating-pill.is-high { color: #a6d69c; border-color: rgba(134, 194, 123, 0.3); }
-.eir-breakdown-rating-pill.is-med  { color: #e8c27d; border-color: rgba(224, 176, 82, 0.3); }
-.eir-breakdown-rating-pill.is-low  { color: #e89c8c; border-color: rgba(216, 110, 92, 0.3); }
-.eir-breakdown-rating-pill.is-none { color: var(--text-tertiary); border-color: var(--border); }
+.eir-breakdown-rating-pill.is-high { color: var(--ok-text);   border-color: var(--ok-line);   background: var(--ok-wash); }
+.eir-breakdown-rating-pill.is-med  { color: var(--warn-text); border-color: var(--warn-line); background: var(--warn-wash); }
+.eir-breakdown-rating-pill.is-low  { color: var(--risk-text); border-color: var(--risk-line); background: var(--risk-wash); }
+.eir-breakdown-rating-pill.is-none { color: var(--ink-tertiary); border-color: var(--rule); }
 
-/* ─── Score sidebar — reuses .bep-score-*; we add a /100 max label ─── */
+/* ─── Score sidebar — reuses .bep-score-*; we add a /100 max label ───
+   M2.4 made .bep-score-card a dark panel, so this sits on --band and
+   inherits its colour from .bep-score-max rather than restating an ink
+   grey written for paper (which came out at 4.1:1 there against the
+   7.4:1 the rest of the card gets). */
 .eir-score-max-suffix {
-  font-size: 0.95rem;
-  color: var(--text-tertiary);
-  margin-left: 0.3rem;
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
+  font-size: inherit;
+  color: inherit;
   letter-spacing: 0;
   font-weight: 400;
 }
 
-/* ─── Result hero with primary mailto CTA ─── */
-.eir-cta-block {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.6rem;
-  text-align: center;
-  margin: 2rem 0 1.5rem;
-}
-.eir-cta-block .hero-actions {
-  justify-content: center;
-  margin-top: 1rem;
-}
+/* ─── Result CTA block ─────────────────────────────────────────
+   The markup carries `bep-report-cta eir-cta-block`, and M2.4 made
+   .bep-report-cta a dark panel. This file loads second, so an
+   .eir-cta-block that painted its own light ground won the
+   background while .bep-report-cta kept the colour — near-white
+   .band-text on near-white .paper-sunk, about 1.02:1, with the
+   "Need help closing the gaps?" heading invisible on the block
+   whose whole job is the conversion. The surface belongs to
+   .bep-report-cta; everything below is on band colours. */
+.eir-cta-block { margin-top: var(--space-6); }
+
 .eir-cta-sub {
   font-size: var(--copy-size-compact);
-  color: var(--text-secondary);
-  line-height: var(--copy-line-height-tight);
-  max-width: 600px;
-  margin: 0 auto 0.5rem;
+  color: var(--band-text-dim);
+  line-height: var(--copy-line-height);
+  max-width: 60ch;
+  margin: 0 auto var(--space-2);
 }
 .eir-cta-divider {
-  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary);
-  margin: 1.5rem auto 0.5rem;
+  letter-spacing: 0.12em;
+  color: var(--band-text-dim);
+  margin: var(--space-5) auto var(--space-3);
   text-align: center;
 }
 .eir-crosslinks {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-3);
   justify-content: center;
 }
 .eir-crosslinks a {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
+  font-size: var(--copy-size-small);
+  color: var(--band-text);
   text-decoration: none;
-  padding: 0.4rem 0.85rem;
-  border-radius: 99px;
-  border: 1px solid var(--border);
-  transition: all 0.2s var(--ease-out);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--band-rule);
+  transition: color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out),
+              background-color var(--dur) var(--ease-out);
 }
 .eir-crosslinks a:hover {
-  color: var(--text-primary);
+  color: var(--accent);
   border-color: var(--accent);
-  background: var(--accent-glow);
 }
 
-/* ─── Print: hide cross-link secondary, expand for clean export ─── */
+/* ─── Print ────────────────────────────────────────────────────
+   bep-checklist.css carries the shared print rules and this page loads
+   it first, so only the EIR-specific blocks belong here. The page
+   carries `bep-tool` now, so the working band is hidden by the same
+   rule that hides it on the BEP checklist rather than by a second one.
+
+   The old copy restated the whole thing — the palette repaint, the
+   @page box, the report grid — as a second set of !important
+   overrides that had already drifted from the first. */
 @media print {
-  @page {
-    size: A4;
-    margin: 15mm 14mm;
-  }
-
-  html, body {
-    background: #fff !important;
-    color: #111 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  body::before { display: none !important; }
-
-  .no-print,
-  .skip-link,
-  nav,
-  footer,
-  .page-hero,
-  .eir-form,
-  .bep-sidebar,
-  .bep-actions,
-  .eir-cta-block,
-  .bep-report-actions { display: none !important; }
-
-  main { padding: 0 !important; }
-  .eir-tool { padding: 0; max-width: 100%; }
-  .bep-layout { display: block; }
-
-  .bep-results {
-    margin: 0;
-    padding: 0;
-    display: block !important;
-  }
-  .bep-results[hidden] { display: block !important; }
-
-  .bep-results-inner {
-    background: #fff !important;
-    border: none !important;
-    border-radius: 0;
-    padding: 0;
-  }
-
-  .section-label {
-    color: #7a5d1e !important;
-    font-size: 10pt;
-    letter-spacing: 0.12em;
-  }
-  .section-title,
-  .bep-report-h3,
-  .eir-gap-q,
-  .bep-diag-title {
-    color: #111 !important;
-  }
-  .section-title { font-size: 22pt; margin: 4pt 0 8pt; }
-  .bep-report-h3 { font-size: 14pt; margin-top: 14pt; }
-
-  .bep-report-meta,
-  .bep-report-score-interp,
-  .bep-diag-body,
-  .bep-report-section-row-title,
-  .bep-report-section-row-count,
-  .eir-gap-fix,
-  .bep-report-footer {
-    color: #333 !important;
-  }
-
-  .bep-report-grid {
-    grid-template-columns: 200px 1fr;
-    gap: 16pt;
-    margin-bottom: 14pt;
-    page-break-inside: avoid;
-  }
-
-  .bep-report-score {
-    background: #faf6eb !important;
-    border: 1px solid #d9c790 !important;
-    padding: 14pt;
-  }
-  .bep-report-score-num { color: #111 !important; font-size: 28pt; }
-
-  .band-high { background: #e8f3e4 !important; color: #2d6a22 !important; border-color: #9bc992 !important; }
-  .band-med  { background: #fbf1d8 !important; color: #7a5d1e !important; border-color: #d9c790 !important; }
-  .band-low  { background: #fbe5e0 !important; color: #8a3322 !important; border-color: #d89a8c !important; }
-
-  .bep-report-section-row {
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-    page-break-inside: avoid;
-  }
-  .bep-report-section-row.is-weak { border-color: #d89a8c !important; }
-  .bep-report-section-row.is-strong { border-color: #9bc992 !important; }
-  .bep-report-section-row-bar { background: #eee !important; }
-  .bep-report-section-row-bar span { background: #7a5d1e !important; }
-  .bep-report-section-row.is-weak .bep-report-section-row-bar span { background: #c2553e !important; }
-  .bep-report-section-row.is-strong .bep-report-section-row-bar span { background: #4a8a3d !important; }
-
-  .eir-gap-card {
-    background: #fff !important;
-    border: 1px solid #d9c790 !important;
-    page-break-inside: avoid;
-  }
-  .eir-gap-rank { color: #7a5d1e !important; }
-  .eir-gap-rank-num { background: #7a5d1e !important; color: #fff !important; }
-  .eir-gap-fix { color: #333 !important; }
-
-  .eir-breakdown-row {
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-    page-break-inside: avoid;
-  }
-  .eir-breakdown-rating-pill.is-high { color: #2d6a22 !important; border-color: #9bc992 !important; }
-  .eir-breakdown-rating-pill.is-med  { color: #7a5d1e !important; border-color: #d9c790 !important; }
-  .eir-breakdown-rating-pill.is-low  { color: #8a3322 !important; border-color: #d89a8c !important; }
-  .eir-breakdown-rating-pill.is-none { color: #666 !important; border-color: #ddd !important; }
-
-  .bep-report-footer {
-    border-top: 1px solid #ddd !important;
-    color: #666 !important;
-    font-size: 9pt;
-  }
-  .bep-report-footer a { color: #7a5d1e !important; }
+  .eir-gap-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .eir-gap-card,
+  .eir-breakdown-row { page-break-inside: avoid; }
 }

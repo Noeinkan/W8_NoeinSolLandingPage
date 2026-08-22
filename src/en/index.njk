@@ -19,7 +19,7 @@
       <div class="hero-label">Consulting &amp; software &middot; London</div>
       <h1>Ten years fixing delivery.<br><em>Now I build the software that does it.</em></h1>
       <p class="hero-sub">
-        ISO 19650 information management on infrastructure and complex programmes — and the tooling to go with it. {{ builds.TotalWord }} public builds this year. The code is the evidence.
+        ISO 19650 information management on infrastructure and complex programmes — and the tooling to go with it. {{ builds.lang[lang].TotalWord }} public builds this year. The code is the evidence.
       </p>
       <div class="hero-actions">
         <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary btn--lg">Book a 30-min call</a>
@@ -116,7 +116,7 @@
           <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
         <h3>Builds</h3>
-        <p>{{ builds.TotalWord }} public repositories from seven months of agent-assisted development &mdash; trading research, planning analytics, browser games, construction platform integrations.</p>
+        <p>{{ builds.lang[lang].TotalWord }} public repositories from {{ builds.lang[lang].monthsWord }} months of agent-assisted development &mdash; trading research, planning analytics, browser games, construction platform integrations.</p>
         <a href="builds.html" class="offer-card-link">See the builds <span>&rarr;</span></a>
       </div>
     </div>

@@ -1,136 +1,127 @@
 /* ═══════════════════════════════════════════════════════════
    BEP Readiness Checklist — interactive tool
+   Technical Light: the page is an instrument, so it is built
+   like a working sheet — hairline rules, mono for every numeral
+   and metadata register, square-ish surfaces, and exactly one
+   tonal contrast event (the sticky score panel).
+
+   Colour comes from the status ramp in styles.base.css
+   (--ok / --warn / --risk, plus the *-on-band trio for the dark
+   panel). This file declares no colour of its own.
    ═══════════════════════════════════════════════════════════ */
 
-.page-hero-note {
-  margin-top: 0.85rem;
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  letter-spacing: 0.01em;
-}
+/* .page-hero-note moved to styles.hero.css — it was declared here and in
+   eir-checklist.css identically, and Builds uses it while loading neither. */
 
-/* ─── Layout ─── */
-.bep-tool {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 5rem;
-  position: relative;
-  z-index: 1;
-}
+/* ─── Layout ─────────────────────────────────────────────────
+   .bep-tool is a full-bleed .band--sunk work surface: the cards
+   read as sheets laid on a bench rather than as floating boxes
+   on the same ground they sit on. .bep-results is a separate
+   paper band below it — the output, on clean stock. */
+.bep-tool { padding-block: var(--space-10) var(--space-12); }
 
 .bep-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 2.25rem;
+  gap: var(--space-6);
   align-items: start;
 }
 
 @media (max-width: 960px) {
   .bep-layout {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: var(--space-5);
   }
 }
 
 .bep-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-4);
   min-width: 0;
 }
 
 /* ─── Cards (project info + each section) ─── */
 .bep-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.6rem 1.6rem 1.4rem;
-  transition: border-color 0.3s var(--ease-out);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  padding: var(--space-5);
+  transition: border-color var(--dur) var(--ease-out);
 }
-.bep-card:focus-within {
-  border-color: rgba(201, 165, 90, 0.35);
-}
+.bep-card:focus-within { border-color: var(--rule-strong); }
 
-.bep-project { padding-bottom: 1.2rem; }
+.bep-project { padding-bottom: var(--space-5); }
 
 .bep-card-title {
   font-family: var(--font-display);
-  font-size: 1.45rem;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-size: var(--step-2);
+  color: var(--ink);
+  letter-spacing: -0.02em;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
   padding: 0;
-  float: none;
   width: 100%;
+  /* A <legend> is laid out in the fieldset's border notch, not in the card's
+     padding box, so the title straddled the top rule and ignored the card's
+     padding. Per the HTML rendering spec a legend leaves that special layout
+     only if it is floated or absolutely positioned, so: float, plus a clear on
+     everything after it. Without the clear the next block is a grid or flex
+     container, which establishes its own formatting context, sits *beside* the
+     full-width float in the 0px left over, and spills its columns out of the
+     card — which is what put 15px of horizontal scroll on both checklist
+     pages at 390px. */
+  float: left;
 }
+.bep-card > *:not(.bep-card-title) { clear: both; }
 
 .bep-optional {
-  font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
   font-weight: 400;
-  color: var(--text-tertiary);
-  letter-spacing: 0;
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
 }
 
 .bep-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 @media (max-width: 640px) {
   .bep-grid-3 { grid-template-columns: 1fr; }
 }
 
-.bep-project .form-group { margin-bottom: 0; }
-.bep-project input[type="text"],
-.bep-project input[type="date"] {
-  width: 100%;
-  padding: 0.7rem 0.9rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 1rem;
-  transition: border-color 0.2s var(--ease-out);
-}
-.bep-project input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-.bep-project label {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-tertiary);
-  margin-bottom: 0.4rem;
-  font-weight: 500;
-}
+/* The field and label rules that used to live here were a duplicate of the
+   global ones in styles.ui.css, written before those existed and running on
+   legacy aliases. Deleting them is what makes this form match every other
+   form on the site. */
 
 /* ─── Context radio pills ─── */
 .bep-context {
-  margin-top: 1.2rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--border-subtle);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--rule);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: center;
 }
 
 .bep-context-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-tertiary);
+  font-family: var(--font-mono);
   font-weight: 500;
-  margin-right: 0.5rem;
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  margin-right: var(--space-2);
 }
 
 .bep-radio {
@@ -147,99 +138,111 @@
 .bep-radio-label {
   display: inline-flex;
   flex-direction: column;
-  padding: 0.55rem 1rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  transition: all 0.2s var(--ease-out);
-  line-height: 1.3;
+  padding: var(--space-2) var(--space-4);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  transition: border-color var(--dur) var(--ease-out),
+              background-color var(--dur) var(--ease-out);
+  line-height: var(--copy-line-height-tight);
 }
 .bep-radio-label strong {
-  font-size: 0.9rem;
-  color: var(--text-primary);
+  font-size: var(--step--1);
+  color: var(--ink);
   font-weight: 500;
 }
 .bep-radio-sub {
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  margin-top: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--ink-tertiary);
+  margin-top: var(--space-1);
 }
 .bep-radio input:checked + .bep-radio-label {
   border-color: var(--accent);
-  background: var(--accent-glow);
+  background: var(--accent-wash);
 }
+/* The house focus ring, not a bespoke glow. The old rule painted a 2px
+   accent-wash halo, which on paper is a barely-visible cream smudge. */
 .bep-radio input:focus-visible + .bep-radio-label {
-  box-shadow: 0 0 0 2px var(--accent-glow-strong);
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 /* ─── Checklist section ─── */
 .bep-section {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
   overflow: hidden;
-  transition: border-color 0.3s var(--ease-out);
+  transition: border-color var(--dur) var(--ease-out);
 }
-.bep-section--highlight { border-color: rgba(201, 165, 90, 0.28); }
+/* A section with every box ticked. */
+.bep-section--highlight { border-color: var(--ok-line); }
 
 .bep-section-head {
   display: grid;
   grid-template-columns: auto 1fr auto auto;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: center;
   width: 100%;
-  padding: 1.15rem 1.4rem;
+  padding: var(--space-4) var(--space-5);
   background: transparent;
   border: none;
   color: inherit;
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  transition: background 0.2s var(--ease-out);
+  transition: background-color var(--dur) var(--ease-out);
 }
-.bep-section-head:hover { background: rgba(255, 255, 255, 0.015); }
+.bep-section-head::-webkit-details-marker { display: none; }
+.bep-section-head:hover { background: var(--paper-sunk); }
 .bep-section-head:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: -2px;
 }
 
+/* Mono numerals — the index down the left edge of the sheet. The old rule
+   asked Archivo for an italic it does not ship (the loaded range is 500..800,
+   upright only), so every browser synthesised a slanted grotesk. */
 .bep-section-num {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--accent);
-  font-style: italic;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step--1);
+  color: var(--ink-tertiary);
   line-height: 1;
   min-width: 1.5rem;
+  font-variant-numeric: tabular-nums;
 }
+/* Sections 8 and 9 are marked with a glyph, not an index — they are the two
+   that decide the verdict, so they take the accent. */
 .bep-section--special .bep-section-num {
-  font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-style: normal;
+  color: var(--accent-text);
   font-weight: 500;
 }
 
 .bep-section-title {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--text-primary);
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  font-size: var(--step-1);
+  color: var(--ink);
+  letter-spacing: -0.015em;
   line-height: 1.25;
 }
 
 .bep-section-progress {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.82rem;
-  color: var(--text-secondary);
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--ink-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .bep-section-progress-bar {
   width: 60px;
-  height: 4px;
-  background: var(--border-subtle);
-  border-radius: 99px;
+  height: 3px;
+  background: var(--rule);
   overflow: hidden;
 }
 .bep-section-progress-fill {
@@ -247,37 +250,50 @@
   height: 100%;
   width: 0;
   background: var(--accent);
-  border-radius: inherit;
-  transition: width 0.3s var(--ease-out);
+  transition: width var(--dur) var(--ease-out);
 }
 
 .bep-section-chevron {
   width: 18px; height: 18px;
-  color: var(--text-tertiary);
-  transition: transform 0.25s var(--ease-out);
+  color: var(--ink-tertiary);
+  transition: transform var(--dur) var(--ease-out);
 }
 .bep-section[open] .bep-section-chevron { transform: rotate(180deg); }
 
+/* At 390 the four-column head leaves the title 109px of a 390px viewport, and
+   three of the nine section names wrap to four lines beside a 60px progress bar.
+   Below 640 the bar drops under the title instead, which is the one place the
+   row has spare space. */
+@media (max-width: 640px) {
+  .bep-section-head {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: var(--space-2) var(--space-3);
+  }
+  .bep-section-num      { grid-column: 1; grid-row: 1; }
+  .bep-section-title    { grid-column: 2; grid-row: 1; }
+  .bep-section-chevron  { grid-column: 3; grid-row: 1; }
+  .bep-section-progress { grid-column: 2 / -1; grid-row: 2; justify-self: start; }
+}
+
 .bep-section-body {
-  padding: 0 1.4rem 1.3rem;
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 1rem;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  border-top: 1px solid var(--rule);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 /* ─── Individual check item ─── */
 .bep-check {
   display: flex;
   align-items: flex-start;
-  gap: 0.85rem;
-  padding: 0.7rem 0.6rem;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--r-sm);
   cursor: pointer;
-  transition: background 0.15s var(--ease-out);
+  transition: background-color var(--dur-fast) var(--ease-out);
 }
-.bep-check:hover { background: rgba(255, 255, 255, 0.02); }
+.bep-check:hover { background: var(--paper-sunk); }
 
 .bep-check input {
   position: absolute;
@@ -289,22 +305,26 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  border: 1.5px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-elevated);
+  border: 1.5px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s var(--ease-out);
+  transition: background-color var(--dur) var(--ease-out),
+              border-color var(--dur) var(--ease-out);
   margin-top: 1px;
 }
+/* Ink on orange (5.5:1), not paper on orange (3.7:1) — the same rule the
+   primary button follows. */
 .bep-check-box svg {
   width: 13px; height: 13px;
-  color: var(--bg-primary);
+  color: var(--ink);
   stroke-width: 3;
   opacity: 0;
   transform: scale(0.6);
-  transition: all 0.15s var(--ease-out);
+  transition: opacity var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
 }
 .bep-check input:checked ~ .bep-check-box {
   background: var(--accent);
@@ -315,30 +335,32 @@
   transform: scale(1);
 }
 .bep-check input:focus-visible ~ .bep-check-box {
-  box-shadow: 0 0 0 2px var(--accent-glow-strong);
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 .bep-check-text {
   font-size: var(--copy-size-compact);
   line-height: var(--copy-line-height-tight);
-  color: var(--text-secondary);
-  transition: color 0.2s var(--ease-out);
+  color: var(--ink-secondary);
+  transition: color var(--dur) var(--ease-out);
 }
-.bep-check input:checked ~ .bep-check-text {
-  color: var(--text-primary);
-}
+.bep-check input:checked ~ .bep-check-text { color: var(--ink); }
 
 /* ─── Actions row ─── */
 .bep-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: var(--space-3);
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: var(--space-2);
 }
 
-/* ─── Sticky score sidebar ─── */
+/* ─── Sticky score panel ──────────────────────────────────────
+   The page's one tonal contrast event, and the reason the three
+   band colours below are the *-on-band trio: those values were
+   designed for a dark surface, and this is that surface. */
 .bep-sidebar {
   position: sticky;
   top: 92px;
@@ -353,194 +375,194 @@
 }
 
 .bep-score-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.5rem 1.4rem;
-  transition: border-color 0.3s var(--ease-out);
+  background: var(--band);
+  color: var(--band-text);
+  border: 1px solid var(--band-rule);
+  border-radius: var(--r-md);
+  padding: var(--space-5);
+  transition: border-color var(--dur) var(--ease-out);
 }
-.bep-score-card.is-high { border-color: rgba(134, 194, 123, 0.35); }
-.bep-score-card.is-med { border-color: rgba(224, 176, 82, 0.4); }
-.bep-score-card.is-low { border-color: rgba(216, 110, 92, 0.35); }
+.bep-score-card.is-high { border-color: var(--ok-on-band); }
+.bep-score-card.is-med  { border-color: var(--warn-on-band); }
+.bep-score-card.is-low  { border-color: var(--risk-on-band); }
 
 .bep-score-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary);
+  font-family: var(--font-mono);
   font-weight: 500;
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--band-text-dim);
 }
 .bep-score-value {
-  font-family: var(--font-display);
-  font-size: 3rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step-4);
   line-height: 1;
-  color: var(--text-primary);
-  margin: 0.4rem 0 1rem;
-  letter-spacing: -0.01em;
+  color: var(--band-text);
+  margin: var(--space-3) 0 var(--space-4);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
 }
 .bep-score-max {
-  font-size: 1.2rem;
-  color: var(--text-tertiary);
-  margin-left: 0.3rem;
+  font-size: var(--step-1);
+  color: var(--band-text-dim);
+  margin-left: var(--space-2);
+  letter-spacing: 0;
 }
 .bep-score-bar {
   width: 100%;
-  height: 6px;
-  background: var(--border-subtle);
-  border-radius: 99px;
+  height: 4px;
+  background: var(--band-rule);
   overflow: hidden;
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--space-3);
 }
 .bep-score-bar-fill {
   height: 100%;
   background: var(--accent);
-  border-radius: inherit;
-  transition: width 0.4s var(--ease-out), background 0.3s var(--ease-out);
+  transition: width var(--dur-slow) var(--ease-out),
+              background-color var(--dur) var(--ease-out);
 }
-.is-high .bep-score-bar-fill { background: #86c27b; }
-.is-med .bep-score-bar-fill  { background: #e0b052; }
-.is-low .bep-score-bar-fill  { background: #d86e5c; }
+.is-high .bep-score-bar-fill { background: var(--ok-on-band); }
+.is-med  .bep-score-bar-fill { background: var(--warn-on-band); }
+.is-low  .bep-score-bar-fill { background: var(--risk-on-band); }
 
 .bep-score-band {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  line-height: 1.45;
+  font-size: var(--copy-size-small);
+  color: var(--band-text-dim);
+  margin-bottom: var(--space-4);
+  line-height: var(--copy-line-height-tight);
 }
-.is-high .bep-score-band { color: #a6d69c; }
-.is-med .bep-score-band  { color: #e8c27d; }
-.is-low .bep-score-band  { color: #e89c8c; }
+.is-high .bep-score-band { color: var(--ok-on-band); }
+.is-med  .bep-score-band { color: var(--warn-on-band); }
+.is-low  .bep-score-band { color: var(--risk-on-band); }
 
 .bep-score-breakdown {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 0.9rem;
+  border-top: 1px solid var(--band-rule);
+  padding-top: var(--space-3);
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: var(--space-2);
 }
 .bep-score-breakdown-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
-  line-height: 1.3;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: var(--step--1);
+  color: var(--band-text-dim);
+  line-height: var(--copy-line-height-tight);
 }
 .bep-score-breakdown-row strong {
-  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  color: var(--band-text);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 /* ─── Results panel ─── */
-.bep-results {
-  margin-top: 3rem;
-  scroll-margin-top: 90px;
-}
-.bep-results-inner {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-}
-@media (max-width: 640px) {
-  .bep-results-inner { padding: 1.75rem 1.25rem; }
-}
+.bep-results { scroll-margin-top: 90px; }
 
-.bep-report-header { margin-bottom: 1.8rem; }
-.bep-report-header .section-title { margin-top: 0.4rem; }
+.bep-report-header {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.bep-report-header .section-title { margin-top: var(--space-2); }
 .bep-report-meta {
-  margin-top: 0.75rem;
-  font-size: 0.85rem;
-  color: var(--text-tertiary);
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.04em;
+  color: var(--ink-tertiary);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.25rem;
+  gap: var(--space-2) var(--space-5);
 }
 .bep-report-meta span strong {
-  color: var(--text-secondary);
+  color: var(--ink);
   font-weight: 500;
-  margin-right: 0.35rem;
+  margin-right: var(--space-2);
 }
 
 .bep-report-grid {
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 @media (max-width: 720px) {
-  .bep-report-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .bep-report-grid { grid-template-columns: 1fr; gap: var(--space-5); }
 }
 
 .bep-report-score {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.4rem;
-  text-align: center;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  padding: var(--space-5);
+  align-self: start;
 }
 .bep-report-score-num {
-  font-family: var(--font-display);
-  font-size: 2.6rem;
-  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--step-3);
+  color: var(--ink);
   line-height: 1;
-  margin-bottom: 0.4rem;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--space-3);
 }
 .bep-report-score-band {
   display: inline-block;
-  padding: 0.25rem 0.7rem;
-  border-radius: 99px;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 500;
-  margin-bottom: 0.85rem;
+  margin-bottom: var(--space-3);
 }
-.band-high { background: rgba(134, 194, 123, 0.15); color: #a6d69c; border: 1px solid rgba(134, 194, 123, 0.3); }
-.band-med  { background: rgba(224, 176, 82, 0.15);  color: #e8c27d; border: 1px solid rgba(224, 176, 82, 0.3); }
-.band-low  { background: rgba(216, 110, 92, 0.15);  color: #e89c8c; border: 1px solid rgba(216, 110, 92, 0.3); }
+.band-high { background: var(--ok-wash);   color: var(--ok-text);   border: 1px solid var(--ok-line); }
+.band-med  { background: var(--warn-wash); color: var(--warn-text); border: 1px solid var(--warn-line); }
+.band-low  { background: var(--risk-wash); color: var(--risk-text); border: 1px solid var(--risk-line); }
 
 .bep-report-score-interp {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.55;
+  font-size: var(--copy-size-small);
+  color: var(--ink-secondary);
+  line-height: var(--copy-line-height);
   margin: 0;
 }
 
 .bep-report-h3 {
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  letter-spacing: -0.005em;
+  font-weight: 600;
+  font-size: var(--step-2);
+  color: var(--ink);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
 }
 
-.bep-report-sections-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
+/* Section-by-section: a ruled register, one row per section. */
+.bep-report-sections-list { border-top: 1px solid var(--rule); }
 .bep-report-section-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: center;
-  padding: 0.65rem 0.9rem;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  font-size: 0.88rem;
+  padding: var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--copy-size-small);
 }
 .bep-report-section-row-title {
-  color: var(--text-secondary);
-  line-height: 1.3;
+  color: var(--ink-secondary);
+  line-height: var(--copy-line-height-tight);
 }
 .bep-report-section-row-bar {
   width: 70px;
-  height: 5px;
-  background: var(--border-subtle);
-  border-radius: 99px;
+  height: 3px;
+  background: var(--rule);
   overflow: hidden;
 }
 .bep-report-section-row-bar span {
@@ -549,190 +571,201 @@
   background: var(--accent);
 }
 .bep-report-section-row-count {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  color: var(--text-tertiary);
-  font-size: 0.8rem;
+  color: var(--ink-tertiary);
+  font-size: var(--step--2);
   white-space: nowrap;
 }
-.bep-report-section-row.is-weak { border-color: rgba(216, 110, 92, 0.3); }
-.bep-report-section-row.is-weak .bep-report-section-row-bar span { background: #d86e5c; }
-.bep-report-section-row.is-strong .bep-report-section-row-bar span { background: #86c27b; }
+.bep-report-section-row.is-weak .bep-report-section-row-title { color: var(--risk-text); }
+.bep-report-section-row.is-weak .bep-report-section-row-bar span { background: var(--risk-line); }
+.bep-report-section-row.is-strong .bep-report-section-row-bar span { background: var(--ok-line); }
 
-/* Diagnosis cards */
-.bep-report-diagnosis { margin-bottom: 2rem; }
+/* ─── Diagnosis cards ─────────────────────────────────────────
+   The weak areas are the point of the report, so they carry the
+   weight: an accent edge, not another equal hairline box. */
+.bep-report-diagnosis { margin-bottom: var(--space-8); }
 
 .bep-diag-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.3rem 1.4rem;
-  margin-bottom: 0.85rem;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--risk-text);
+  border-radius: var(--r-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 .bep-diag-card--good {
-  border-color: rgba(134, 194, 123, 0.25);
-  background: rgba(134, 194, 123, 0.04);
+  border-left-color: var(--ok-text);
+  background: var(--ok-wash);
+  border-color: var(--ok-line);
 }
 .bep-diag-title {
   font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.6rem;
+  font-weight: 600;
+  font-size: var(--step-1);
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-3);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--space-3);
 }
 .bep-diag-badge {
   display: inline-block;
-  padding: 0.15rem 0.55rem;
-  background: rgba(216, 110, 92, 0.15);
-  color: #e89c8c;
-  border-radius: 99px;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
+  padding: var(--space-1) var(--space-2);
+  background: var(--risk-wash);
+  color: var(--risk-text);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 .bep-diag-body {
   font-size: var(--copy-size);
-  color: var(--text-secondary);
+  color: var(--ink-secondary);
   line-height: var(--copy-line-height-tight);
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--space-3);
 }
 .bep-diag-unchecked {
   list-style: none;
   padding: 0;
-  margin: 0 0 0.85rem;
+  margin: 0 0 var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: var(--space-2);
 }
 .bep-diag-unchecked li {
   position: relative;
-  padding-left: 1.1rem;
+  padding-left: var(--space-5);
   font-size: var(--copy-size-small);
-  color: var(--text-tertiary);
+  color: var(--ink-tertiary);
   line-height: var(--copy-line-height-tight);
 }
+/* The house dash, shortened — the same mark .section-label::before uses. */
 .bep-diag-unchecked li::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.55rem;
-  width: 6px; height: 6px;
-  border: 1.5px solid var(--text-tertiary);
-  border-radius: 2px;
+  top: 0.6em;
+  width: 12px;
+  height: 1px;
+  background: var(--rule-strong);
 }
 .bep-diag-fix {
-  font-size: 0.85rem;
-  color: var(--accent);
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink);
+}
+.bep-diag-fix strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
   font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: var(--space-1);
 }
 
+/* ─── Report CTA + export ─── */
 .bep-report-cta {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.6rem;
+  background: var(--band);
+  color: var(--band-text);
+  border-radius: var(--r-md);
+  padding: var(--space-8) var(--space-6);
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--space-6);
 }
+.bep-report-cta .bep-report-h3 { color: var(--band-text); }
 .bep-report-cta .hero-actions {
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: var(--space-4);
 }
 .bep-report-cta-sub {
   font-size: var(--copy-size-compact);
-  color: var(--text-secondary);
-  line-height: var(--copy-line-height-tight);
-  max-width: 560px;
+  color: var(--band-text-dim);
+  line-height: var(--copy-line-height);
+  max-width: 60ch;
   margin: 0 auto;
 }
 
 .bep-report-actions {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-6);
 }
-.bep-report-actions .btn { display: inline-flex; align-items: center; gap: 0.5rem; }
-.bep-report-actions .form-note { margin-top: 0.7rem; }
+.bep-report-actions .btn { display: inline-flex; align-items: center; gap: var(--space-2); }
+.bep-report-actions .form-note {
+  margin-top: var(--space-3);
+  max-width: 60ch;
+  margin-inline: auto;
+}
 
 .bep-report-footer {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 1.2rem;
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-tertiary);
   text-align: center;
 }
-.bep-report-footer p { margin: 0 0 0.3rem; }
-.bep-report-footer a { color: var(--accent); text-decoration: none; }
+.bep-report-footer p { margin: 0 0 var(--space-1); }
+.bep-report-footer a { color: var(--accent-text); text-decoration: none; }
 .bep-report-disclaimer { font-style: italic; }
 
-/* ─── Print styles (Save as PDF) ─── */
+/* ─── Print (Save as PDF) ─────────────────────────────────────
+   This used to be a second theme: ~120 lines converting a dark
+   site to paper, every rule !important, on a colour set of its
+   own. The site *is* paper now and the status ramp is already
+   print-safe, so all that is left is the page furniture — what
+   to drop, where to break, and true-white stock under it. */
 @media print {
   @page {
     size: A4;
     margin: 15mm 14mm;
   }
 
+  :root {
+    --paper: white;
+    --paper-sunk: white;
+    --paper-raised: white;
+  }
+
   html, body {
-    background: #fff !important;
-    color: #111 !important;
+    background: var(--paper);
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  body::before { display: none !important; }
 
   .no-print,
   .skip-link,
   nav,
   footer,
   .page-hero,
-  .bep-form,
-  .bep-sidebar,
-  .bep-actions,
+  .bep-tool,
   .bep-report-cta,
   .bep-report-actions { display: none !important; }
 
-  main { padding: 0 !important; }
-  .bep-tool { padding: 0; max-width: 100%; }
-  .bep-layout { display: block; }
+  main { padding: 0; }
 
-  .bep-results {
+  .bep-results,
+  .bep-results[hidden] {
+    display: block !important;
     margin: 0;
     padding: 0;
-    display: block !important;
   }
-  .bep-results[hidden] { display: block !important; }
+  .bep-results .band-inner { padding-inline: 0; max-width: none; }
 
-  .bep-results-inner {
-    background: #fff !important;
-    border: none !important;
-    border-radius: 0;
-    padding: 0;
-  }
-
-  .section-label {
-    color: #7a5d1e !important;
-    font-size: 10pt;
-    letter-spacing: 0.12em;
-  }
-  .section-title,
-  .bep-report-h3,
-  .bep-diag-title {
-    color: #111 !important;
-  }
+  .section-label { font-size: 10pt; }
   .section-title { font-size: 22pt; margin: 4pt 0 8pt; }
   .bep-report-h3 { font-size: 14pt; margin-top: 14pt; }
+  .bep-report-score-num { font-size: 28pt; }
+  .bep-report-footer { font-size: 9pt; }
 
-  .bep-report-meta,
-  .bep-report-score-interp,
-  .bep-diag-body,
-  .bep-report-section-row-title,
-  .bep-report-section-row-count,
-  .bep-diag-unchecked li,
-  .bep-report-footer {
-    color: #333 !important;
-  }
+  .bep-report-score { background: var(--warn-wash); border-color: var(--warn-line); }
 
   .bep-report-grid {
     grid-template-columns: 200px 1fr;
@@ -740,64 +773,17 @@
     margin-bottom: 14pt;
     page-break-inside: avoid;
   }
-
-  .bep-report-score {
-    background: #faf6eb !important;
-    border: 1px solid #d9c790 !important;
-    padding: 14pt;
-  }
-  .bep-report-score-num { color: #111 !important; font-size: 28pt; }
-
-  .band-high { background: #e8f3e4 !important; color: #2d6a22 !important; border-color: #9bc992 !important; }
-  .band-med  { background: #fbf1d8 !important; color: #7a5d1e !important; border-color: #d9c790 !important; }
-  .band-low  { background: #fbe5e0 !important; color: #8a3322 !important; border-color: #d89a8c !important; }
-
-  .bep-report-section-row {
-    background: #fff !important;
-    border: 1px solid #ddd !important;
-    page-break-inside: avoid;
-  }
-  .bep-report-section-row.is-weak { border-color: #d89a8c !important; }
-  .bep-report-section-row.is-strong { border-color: #9bc992 !important; }
-  .bep-report-section-row-bar { background: #eee !important; }
-  .bep-report-section-row-bar span { background: #7a5d1e !important; }
-  .bep-report-section-row.is-weak .bep-report-section-row-bar span { background: #c2553e !important; }
-  .bep-report-section-row.is-strong .bep-report-section-row-bar span { background: #4a8a3d !important; }
-
-  .bep-diag-card {
-    background: #fff !important;
-    border: 1px solid #ccc !important;
-    padding: 10pt 12pt;
-    margin-bottom: 8pt;
-    page-break-inside: avoid;
-  }
-  .bep-diag-card--good {
-    background: #f3faf0 !important;
-    border-color: #9bc992 !important;
-  }
-  .bep-diag-badge {
-    background: #fbe5e0 !important;
-    color: #8a3322 !important;
-  }
-  .bep-diag-unchecked li::before {
-    border-color: #888 !important;
-  }
-  .bep-diag-fix { color: #7a5d1e !important; }
-
-  .bep-report-footer {
-    border-top: 1px solid #ddd !important;
-    color: #666 !important;
-    font-size: 9pt;
-  }
-  .bep-report-footer a { color: #7a5d1e !important; }
+  .bep-report-section-row,
+  .bep-diag-card { page-break-inside: avoid; }
 }
 
 /* ─── Cross-link container (used on bep-checklist + eir-checklist to surface
        the sibling tool between the hero and the main tool) ─── */
 .eir-cross-link-wrap {
-  max-width: 1180px;
-  margin: 0 auto 1.5rem;
-  padding: 0 1.5rem;
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto var(--space-6);
+  padding: 0 var(--gutter);
 }
 
 /* Resting width of the score bar. js/bep-checklist.js and js/eir-checklist.js

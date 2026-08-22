@@ -1,0 +1,160 @@
+---json
+{
+  "lang": "it",
+  "slug": "eir-checklist",
+  "title": "Health Check EIR ISO 19650 | Andrea Aita",
+  "description": "Diagnostica gratuita di chiarezza dell'EIR secondo ISO 19650. Valuta 12 domande su scala 0–3, vedi il punteggio /100, i 3 gap più costosi ed esporta un report PDF. Nessuna email richiesta.",
+  "ogTitle": "Health Check EIR ISO 19650 | Andrea Aita",
+  "ogDescription": "Valuta il tuo EIR su 12 domande in 4 sezioni, vedi il punteggio /100 e i 3 gap più costosi, esporta un report PDF. Nessuna email, nessun gate.",
+  "ogImageAlt": "Noein Solutions &mdash; Gestione informativa e consulenza digital delivery",
+  "css": [
+    "bep-checklist.css",
+    "eir-checklist.css"
+  ],
+  "js": [
+    "eir-checklist.js"
+  ],
+  "navClass": "no-print",
+  "footerClass": "no-print",
+  "footerGithub": true,
+  "hasMirror": true,
+  "calendly": true
+}
+---
+{% from "macros/blocks.njk" import sectionHead %}
+<main id="main-content">
+
+  <div class="page-hero no-print">
+    <div class="page-hero-inner">
+      <div class="hero-label">Strumento gratuito &middot; ISO 19650</div>
+      <h1>Chiarezza dell&rsquo;EIR <em>in 5 minuti</em></h1>
+      <p class="page-hero-sub">Valuti 12 domande su 4 sezioni con una scala di chiarezza 0&ndash;3, vedi il punteggio /100, i 3 gap pi&ugrave; costosi e il dettaglio completo. Esporti un report PDF quando ti serve.</p>
+      <p class="page-hero-note">Le tue risposte restano nel tuo browser. Non le raccolgo, non le salvo, non le invio da nessuna parte. Nemmeno a me.</p>
+    </div>
+  </div>
+
+  <div class="eir-cross-link-wrap no-print">
+    <div class="eir-cross-link">
+      <strong>Il prossimo passo &egrave; il BEP?</strong>
+      <span>Quando l&rsquo;EIR &egrave; a posto, prova la <a href="bep-checklist.html">Checklist Readiness BEP</a>: 35 controlli su 9 sezioni, punteggio di prontezza e un report PDF per il team di gara.</span>
+    </div>
+  </div>
+
+  <section class="band band--sunk bep-tool" aria-label="Health check di chiarezza EIR">
+    <div class="band-inner">
+      <div class="bep-layout">
+
+      <!-- Colonna sinistra: il form -->
+      <form id="eirForm" class="eir-form bep-form" novalidate autocomplete="off">
+
+        <!-- Dati progetto -->
+        <fieldset class="bep-card eir-project">
+          <legend class="bep-card-title">Dettagli progetto <span class="bep-optional">(opzionali, compaiono sul PDF)</span></legend>
+          <div class="bep-grid-3 eir-grid-3">
+            <div class="form-group">
+              <label for="eir-project">Progetto</label>
+              <input type="text" id="eir-project" name="project" placeholder="Nome progetto">
+            </div>
+            <div class="form-group">
+              <label for="eir-author">Preparato da</label>
+              <input type="text" id="eir-author" name="author" placeholder="Il tuo nome">
+            </div>
+            <div class="form-group">
+              <label for="eir-date">Data</label>
+              <input type="date" id="eir-date" name="date">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Sezioni della checklist (renderizzate da js/eir-checklist.js) -->
+        <div id="eirSections"></div>
+
+        <div class="bep-actions no-print">
+          <button type="button" id="eirReset" class="btn btn-outline">Azzera tutte le risposte</button>
+          <button type="button" id="eirJumpResults" class="btn btn-primary">Vedi punteggio e report</button>
+        </div>
+      </form>
+
+      <!-- Colonna destra: punteggio sticky + risultati -->
+      <aside class="bep-sidebar" aria-label="Punteggio di chiarezza in tempo reale">
+        <div class="bep-score-card" id="eirScoreCard" aria-live="polite">
+          <div class="bep-score-label">Punteggio chiarezza</div>
+          <div class="bep-score-value">
+            <span id="eirScoreNum">0</span><span class="bep-score-max"><span class="eir-score-max-suffix">/ 100</span></span>
+          </div>
+          <div class="bep-score-bar">
+            <div class="bep-score-bar-fill" id="eirScoreFill"></div>
+          </div>
+          <div class="bep-score-band" id="eirScoreBand">Inizia a rispondere per vedere la tua fascia</div>
+          <div class="bep-score-breakdown" id="eirScoreBreakdown"></div>
+        </div>
+      </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Pannello risultati: compare dopo il clic su "Vedi punteggio e report", sempre renderizzato per la stampa -->
+  <section id="eirResults" class="band bep-results" aria-label="Il tuo report di chiarezza" hidden>
+    <div class="band-inner">
+
+        <div class="bep-report-header">
+          {{ sectionHead("Il tuo report di chiarezza") }}
+          <h2 id="eirReportTitle" class="section-title">Report chiarezza EIR</h2>
+          <div class="bep-report-meta" id="eirReportMeta"></div>
+        </div>
+
+        <div class="bep-report-grid">
+          <div class="bep-report-score">
+            <div class="bep-report-score-num" id="eirReportScoreNum">0 / 100</div>
+            <div class="bep-report-score-band" id="eirReportBand">&mdash;</div>
+            <p class="bep-report-score-interp" id="eirReportInterp"></p>
+          </div>
+          <div class="bep-report-sections">
+            <h3 class="bep-report-h3">Dettaglio per sezione</h3>
+            <div class="bep-report-sections-list" id="eirReportSectionsList"></div>
+          </div>
+        </div>
+
+        <div class="bep-report-diagnosis">
+          <h3 class="bep-report-h3">I tuoi tre gap pi&ugrave; costosi</h3>
+          <div class="eir-gap-grid" id="eirReportGaps"></div>
+        </div>
+
+        <div class="bep-report-diagnosis">
+          <h3 class="bep-report-h3">Dettaglio completo delle 12 domande</h3>
+          <div class="eir-breakdown" id="eirReportBreakdown"></div>
+        </div>
+
+        <div class="bep-report-cta no-print eir-cta-block">
+          <h3 class="bep-report-h3">Ti serve una mano per chiudere i gap?</h3>
+          <p class="eir-cta-sub">Prenota una call di 30 minuti e ti do una lettura breve, senza pressione, di cosa lo stringerebbe di pi&ugrave;. Oppure ti mando il report via email, se una call &egrave; prematura.</p>
+          <div class="hero-actions">
+            <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Prenota una call di 30 minuti</a>
+            <a href="mailto:{{ site.email }}?subject=Health%20Check%20EIR%20-%20follow-up" class="btn btn-outline btn-outline--on-dark">Mandami il report via email</a>
+          </div>
+          <div class="eir-cta-divider">oppure vai a</div>
+          <div class="eir-crosslinks">
+            <a href="bep-checklist.html">Checklist Readiness BEP</a>
+            <a href="capsar.html">Piattaforma Capsar.io</a>
+            <a href="about.html">Chi &egrave; Andrea</a>
+          </div>
+        </div>
+
+        <div class="bep-report-actions no-print">
+          <button type="button" id="eirPrintBtn" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="1.8" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Esporta il report PDF
+          </button>
+          <p class="form-note">Apre una vista pulita ottimizzata per il PDF. Nella finestra di stampa scegli <strong>&laquo;Salva come PDF&raquo;</strong>; se il browser aggiunge intestazioni o pi&egrave; di pagina, disattivali in Altre impostazioni.</p>
+        </div>
+
+        <div class="bep-report-footer">
+          <p>Generato con l&rsquo;Health Check EIR ISO 19650 &middot; <a href="https://noeinsolutions.com/it/eir-checklist.html">noeinsolutions.com/it/eir-checklist.html</a></p>
+          <p class="bep-report-disclaimer">Indicazioni pratiche. Non sostituiscono una revisione contrattuale o legale.</p>
+        </div>
+
+    </div>
+  </section>
+
+  </main>

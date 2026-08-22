@@ -1,155 +1,88 @@
 /* ═══════════════════════════════════════════════════════════
-   About Page — Timeline, Credentials, Approach
+   About Page — Technical Light
+
+   Two banded sections carry the page's tonal rhythm, both opting
+   in from the markup (see the band system in styles.base.css):
+   Recognition on .band--dark, Academic on .band--sunk. This file
+   styles what sits inside them; the surfaces themselves are the
+   shared system.
+
+   Every class here belongs to this page alone — nothing outside
+   src/{en,it}/about.njk and partials/cert-lightbox.njk uses a
+   .timeline-*, .cert-*, .credential-*, .recognition-* or
+   .approach-* class, so the dark values below are stated flat
+   rather than scoped under .band--dark.
    ═══════════════════════════════════════════════════════════ */
 
-.timeline {
-  position: relative;
-  padding-left: 2.5rem;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent), var(--accent-dim), transparent);
-}
-
-.timeline-item {
-  position: relative;
-  padding-bottom: 3rem;
-}
-
-.timeline-item:last-child { padding-bottom: 0; }
-
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -2.5rem;
-  top: 6px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--bg-primary);
-  border: 2px solid var(--accent);
-  z-index: 1;
-  transform: translateX(-5px);
-}
-
-.timeline-item h3 {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--ink);
-  margin-bottom: 0.25rem;
-}
-
-.timeline-org {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--accent-dim);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.02em;
-}
-
-.timeline-date { color: var(--text-tertiary); font-weight: 400; }
-
-.timeline-item p {
-  font-size: var(--copy-size);
-  color: var(--text-secondary);
-  line-height: var(--copy-line-height);
-  max-width: 600px;
-}
-
-.timeline-points {
-  list-style: none;
-  margin: 0.85rem 0 0;
-  padding: 0;
-  max-width: 600px;
-}
-
-.timeline-points li {
-  position: relative;
-  padding: 0.25rem 0 0.25rem 1rem;
-  font-size: var(--copy-size-compact);
-  color: var(--text-secondary);
-  line-height: var(--copy-line-height-tight);
-}
-
-.timeline-points li::before {
-  content: '\2022';
-  position: absolute;
-  left: 0;
-  color: var(--accent-dim);
-}
-
-/* ── Recognition section: 2×2 cert grid with tall thumbnails ── */
-.recognition-section { padding-top: 1rem; }
-
+/* ═══ Recognition — the certificate wall, on the dark band ═══
+   A hairline grid in the .trust-band-grid / .value-props idiom:
+   the 1px gaps show the grid's own background, so the rules are
+   drawn by the layout rather than by a border on each cell.
+   The award spans the left column against three certificates
+   stacked at the right — four equal cells gave the page's
+   strongest proof block nothing to read first. */
 .recognition-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.recognition-footnote {
-  margin-top: 1.5rem;
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
-  line-height: 1.5;
-}
-
-.recognition-footnote a {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(201, 165, 90, 0.35);
-  transition: border-color 0.2s;
-}
-
-.recognition-footnote a:hover {
-  border-bottom-color: var(--accent);
-}
-
-/* Override thumbnail height for recognition grid — taller = more cert visible */
-.recognition-grid .cert-img-card-thumb {
-  aspect-ratio: 3 / 2;
-}
-
-/* ── Credentials: 2×2 image card grid ── */
-.credentials-grid--image {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 1.25rem;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1px;
+  background: var(--band-rule);
+  border: 1px solid var(--band-rule);
+  margin-top: var(--space-6);
 }
 
 .cert-img-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
+  display: grid;
+  background: var(--band-raised);
+  border: 0;
   padding: 0;
-  transition: border-color 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
+  width: 100%;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
   font-family: var(--font-body);
 }
 
-.cert-img-card:hover {
-  border-color: rgba(201, 165, 90, 0.4);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+/* The feature cell spans all three rows of the right column, so its
+   height is whatever they add up to. The thumbnail takes that slack
+   (1fr) instead of the caption trailing a gap under it, and the
+   min-height is the floor for when the card is the taller side. */
+.cert-img-card--feature {
+  grid-row: 1 / span 3;
+  grid-template-rows: 1fr auto;
+  border-left: 3px solid var(--accent);
 }
+
+/* The thumbnail column stretches to the row height rather than holding a
+   ratio of its own: the rows are sized by the feature cell beside them, and
+   a square crop left most of the cell as empty dark ground. At the resulting
+   ~148×215 it is close to the portrait proportion of the documents. */
+.cert-img-card--compact { grid-template-columns: 148px 1fr; }
 
 .cert-img-card-thumb {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: var(--bg-secondary);
+  background: var(--band);
+}
+
+.cert-img-card--feature .cert-img-card-thumb {
+  aspect-ratio: auto;
+  min-height: 240px;
+}
+
+.cert-img-card--compact .cert-img-card-thumb {
+  aspect-ratio: auto;
+  min-height: 104px;
+}
+
+/* Taken out of flow so the three certificates cannot each size their own row
+   from their own intrinsic ratio — the rows are the feature cell's height in
+   thirds, and in flow these came out 282/177/187 against it. */
+.cert-img-card--compact .cert-img-card-thumb img {
+  position: absolute;
+  inset: 0;
 }
 
 .cert-img-card-thumb img {
@@ -158,7 +91,7 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: transform var(--dur-slow) var(--ease-out), filter var(--dur-slow) ease;
   filter: grayscale(15%);
   pointer-events: none;
   user-select: none;
@@ -166,36 +99,43 @@
 }
 
 .cert-img-card:hover .cert-img-card-thumb img {
-  transform: scale(1.04);
+  transform: scale(1.03);
   filter: grayscale(0%);
 }
 
+/* The scrim has to be strong, not atmospheric: these thumbnails are
+   white documents, and at the old 55% the orange label on top of one
+   came out at about 1.1:1. Against --scrim-strong the label reads at
+   ~12:1 in --band-text, with the accent left on the icon. */
 .cert-img-card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 10, 0.55);
+  z-index: 2;
+  background: var(--scrim-strong);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  color: var(--band-text);
+  gap: var(--space-2);
   opacity: 0;
-  transition: opacity 0.25s;
+  transition: opacity var(--dur) var(--ease-out);
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
+
+.cert-img-card:hover .cert-img-card-overlay,
+.cert-img-card:focus-visible .cert-img-card-overlay { opacity: 1; }
 
 .cert-img-card-overlay svg { color: var(--accent); }
 
 .cert-img-card-overlay span {
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
   font-weight: 500;
-  letter-spacing: 0.05em;
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--band-text);
 }
-
-.cert-img-card:hover .cert-img-card-overlay { opacity: 1; }
 
 /* Transparent guard: prevents right-click/drag on the thumbnail */
 .cert-img-card-thumb::after {
@@ -205,128 +145,215 @@
   z-index: 1;
 }
 
-.cert-img-card-overlay { z-index: 2; }
-
 .cert-img-card-info {
-  padding: 0.9rem 1rem 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-4);
+}
+
+.cert-img-card--feature .cert-img-card-info {
+  gap: var(--space-2);
+  padding: var(--space-5);
 }
 
 .cert-img-card-title {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--ink);
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--band-text);
 }
+
+.cert-img-card--feature .cert-img-card-title { font-size: var(--step-2); }
 
 .cert-img-card-sub {
-  font-size: 0.76rem;
-  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--band-text-dim);
 }
 
-/* ── Credentials: compact text row (MSc + Civil Engineer) ── */
-.credentials-grid--compact {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+/* Colour comes from `.band--dark p` in styles.base.css, which outranks
+   a single class — restating it here would be the declaration that
+   loses. */
+.recognition-footnote {
+  margin-top: var(--space-5);
+  max-width: var(--measure);
+  font-size: var(--step--1);
+  line-height: var(--copy-line-height-tight);
 }
 
-.credential-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 1.75rem;
-  text-align: center;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+.recognition-footnote a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--band-rule);
+  transition: border-color var(--dur-fast) ease;
+}
+
+.recognition-footnote a:hover { border-bottom-color: var(--accent); }
+
+/* ═══ Career timeline ════════════════════════════════════════
+   A drawing-sheet rule with a tick per entry. It was a three-stop
+   gradient fading to transparent and a round node — the glow
+   belonged to the theme this replaced. */
+.timeline {
   position: relative;
-  overflow: hidden;
+  margin-top: var(--space-6);
+  padding-left: var(--space-6);
 }
 
-.credential-card::after {
+.timeline::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  background: radial-gradient(circle at 50% 0%, rgba(201, 165, 90, 0.08) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
+  left: 0;
+  top: var(--space-2);
+  bottom: var(--space-2);
+  width: 1px;
+  background: var(--rule-strong);
 }
 
-.credential-card:hover {
-  border-color: var(--border);
-  background: var(--bg-card-hover);
-  transform: translateY(-4px);
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--space-8);
 }
 
-.credential-card:hover::after { opacity: 1; }
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-6) * -1);
+  top: var(--space-2);
+  width: 9px;
+  height: 9px;
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  border: 2px solid var(--accent);
+  transform: translateX(-4px);
+  z-index: 1;
+}
+
+.timeline-item h3 {
+  font-size: var(--step-2);
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+}
+
+/* Mono metadata line. The accent moves off the whole line and onto
+   the year, which is the part that is actually data. */
+.timeline-org {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--space-3);
+}
+
+.timeline-date { color: var(--accent-text); }
+
+.timeline-item p {
+  font-size: var(--copy-size);
+  color: var(--ink-secondary);
+  line-height: var(--copy-line-height);
+  max-width: var(--measure);
+}
+
+.timeline-points {
+  list-style: none;
+  margin-top: var(--space-3);
+  max-width: var(--measure);
+}
+
+.timeline-points li {
+  position: relative;
+  padding: var(--space-1) 0 var(--space-1) var(--space-5);
+  font-size: var(--copy-size-compact);
+  color: var(--ink-secondary);
+  line-height: var(--copy-line-height-tight);
+}
+
+/* The .section-label::before dash, at list scale — a bullet is the
+   only mark on the page that would not be a rule. */
+.timeline-points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 12px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ═══ Academic — on the sunk band ════════════════════════════ */
+.credentials-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: var(--space-6);
+}
+
+.credentials-grid--compact { grid-template-columns: repeat(2, 1fr); }
+
+.credential-card {
+  background: var(--paper-raised);
+  padding: var(--space-6);
+  text-align: center;
+  transition: background-color var(--dur) var(--ease-out);
+}
+
+.credential-card:hover { background: var(--paper); }
 
 .credential-card--compact {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
   text-align: left;
-  padding: 1.25rem 1.5rem;
+  padding: var(--space-5);
 }
 
+/* Matches .value-icon on the homepage: square, hairline, accent glyph. */
 .credential-card-icon {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  margin: 0 auto 1rem;
-  border-radius: 10px;
-  background: var(--accent-glow);
-  border: 1px solid rgba(201, 165, 90, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
+  width: 40px;
+  height: 40px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule-strong);
+  background: var(--paper);
+  color: var(--accent-text);
 }
 
-.credential-card--compact .credential-card-icon {
-  margin: 0;
-}
+.credential-card--compact .credential-card-icon { margin: 0; }
 
 .credential-card h4 {
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: var(--step-1);
+  font-weight: 600;
   color: var(--ink);
-  margin-bottom: 0.35rem;
+  margin-bottom: var(--space-1);
 }
 
 .credential-card p {
-  font-size: 0.8rem;
-  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   line-height: 1.5;
-  margin: 0;
+  color: var(--ink-tertiary);
 }
 
-/* View certificate button */
-.cert-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.35rem 0.9rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  background: transparent;
-  border: 1px solid rgba(201, 165, 90, 0.35);
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-  font-family: var(--font-body);
-}
-
-.cert-btn:hover {
-  background: rgba(201, 165, 90, 0.12);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Certificate lightbox */
+/* ═══ Certificate lightbox ═══════════════════════════════════
+   Chrome is band-native: it only ever appears over --scrim-strong. */
 .cert-lightbox {
   position: fixed;
   inset: 0;
@@ -334,7 +361,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: var(--space-5);
 }
 
 .cert-lightbox[hidden] { display: none; }
@@ -342,7 +369,7 @@
 .cert-lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 10, 0.88);
+  background: var(--scrim-strong);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -359,33 +386,33 @@
 
 .cert-lightbox-close {
   align-self: flex-end;
-  margin-bottom: 0.75rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s, color 0.2s;
+  width: 36px;
+  height: 36px;
+  margin-bottom: var(--space-3);
+  border-radius: var(--r-sm);
+  background: var(--band-raised);
+  border: 1px solid var(--band-rule);
+  color: var(--band-text);
+  cursor: pointer;
   font-family: var(--font-body);
+  transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 
 .cert-lightbox-close:hover {
-  background: var(--bg-card-hover);
-  color: var(--ink);
+  background: var(--band);
+  border-color: var(--accent);
 }
 
 .cert-lightbox-img-wrap {
   position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
   max-height: 78vh;
+  overflow: hidden;
+  border: 1px solid var(--band-rule);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-band);
 }
 
 /* Transparent overlay blocks right-click/drag on the image */
@@ -408,19 +435,25 @@
 }
 
 .cert-lightbox-title {
-  margin-top: 1rem;
-  font-size: 0.82rem;
-  color: var(--text-tertiary);
+  margin-top: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--band-text-dim);
   text-align: center;
 }
 
-/* How I work */
+/* ═══ How I work ═════════════════════════════════════════════ */
 .approach-text {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  max-width: 720px;
+  font-size: var(--step-1);
+  color: var(--ink-secondary);
+  line-height: var(--copy-line-height);
+  max-width: var(--measure);
 }
+
+/* Replaces two bare <br> that were spacing the paragraphs apart. */
+.approach-text + .approach-text { margin-top: var(--space-5); }
 
 /* Replaces an inline style="margin-top:3rem" so the spacing comes from a
    token like everything else. Not animated — .hero-actions carries an
@@ -431,55 +464,25 @@
   animation: none;
 }
 
-/* ─── Responsive ─── */
+/* ─── Responsive — layout only ────────────────────────────────
+   No font-size here. The fluid --step-* scale is the one system
+   (styles.base.css), and this file used to re-declare sizes
+   across all three tiers, the 1440px one existing for nothing
+   else. */
 @media (max-width: 968px) {
-  .timeline {
-    padding-left: 1.7rem;
-  }
-  .timeline-item::before {
-    left: -1.7rem;
-    width: 10px;
-    height: 10px;
-    transform: translateX(-4px);
-  }
-  .timeline-item {
-    padding-bottom: 2.25rem;
-  }
-  .recognition-grid,
-  .credentials-grid--image,
-  .credentials-grid--compact {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .credential-card--compact {
-    align-items: flex-start;
-  }
-  .approach-text {
-    font-size: 1rem;
-    line-height: 1.75;
-  }
+  .recognition-grid { grid-template-columns: 1fr; }
+  .cert-img-card--feature { grid-row: auto; }
+  .credentials-grid--compact { grid-template-columns: 1fr; }
+  .credential-card--compact { align-items: flex-start; }
+  .timeline { padding-left: var(--space-5); }
+  .timeline-item::before { left: calc(var(--space-5) * -1); }
+  .timeline-item { padding-bottom: var(--space-6); }
 }
 
 @media (max-width: 640px) {
-  .credentials-grid--image,
-  .credentials-grid--compact { grid-template-columns: 1fr; }
-  .timeline-item h3 { font-size: 1.12rem; }
-  .timeline-item p,
-  .timeline-points li { font-size: var(--copy-size-compact); }
-  .cert-lightbox { padding: 1rem; }
-  .cert-lightbox-img-wrap { max-height: 72vh; }
+  .cert-img-card--compact { grid-template-columns: 120px 1fr; }
+  .cert-img-card--feature .cert-img-card-thumb { min-height: 200px; }
+  .cert-lightbox { padding: var(--space-4); }
+  .cert-lightbox-img-wrap,
   .cert-lightbox-img-wrap img { max-height: 72vh; }
-}
-
-@media (min-width: 1440px) {
-  .credential-card    { padding: 2rem; }
-  .credential-card h4 { font-size: 1.05rem; }
-  .credential-card p  { font-size: 0.88rem; }
-  .cert-img-card-title { font-size: 0.95rem; }
-  .cert-img-card-sub   { font-size: 0.82rem; }
-  .timeline-item h3   { font-size: 1.4rem; }
-  .timeline-item p    { font-size: 1rem; max-width: 680px; }
-  .timeline-points,
-  .timeline-points li { max-width: 680px; }
-  .approach-text      { font-size: 1.15rem; max-width: 800px; }
 }

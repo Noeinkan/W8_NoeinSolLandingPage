@@ -247,6 +247,19 @@
   animation: fadeUp 0.7s var(--ease-out) 0.15s forwards;
 }
 
+/* The qualifying line some heroes carry under the standfirst. It belongs to the
+   shared hero, not to any one page: it was declared identically in both
+   bep-checklist.css and eir-checklist.css, and Builds — which uses it too —
+   loads neither, so its note rendered as plain body copy. testEveryClassHasARule
+   could not see that; it concatenates all of css/ and the class did have a rule
+   somewhere. See testPageScopedClassesResolve in ui-ux.test.js. */
+.page-hero-note {
+  margin-top: var(--space-3);
+  font-size: var(--step--1);
+  letter-spacing: 0.01em;
+  color: var(--ink-tertiary);
+}
+
 /* Short hero for pages that lead with content rather than a statement —
    About and Capsar both opened with an inline
    `style="min-height:auto; padding-bottom:4rem"` to get here. */

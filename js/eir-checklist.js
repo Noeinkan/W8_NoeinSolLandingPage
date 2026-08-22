@@ -13,8 +13,10 @@
   var isItalian = document.documentElement.lang === 'it';
 
   // ─── i18n strings ───
-  // Single EN branch now; IT branch is stubbed for the later
-  // mirror pass and follows the LOCALIZATION_IT.md brief.
+  // Both branches are live: the page is mirrored at /it/eir-checklist.html.
+  // Every string the tool writes into the DOM belongs here — a literal left
+  // inline renders English inside the Italian report, which is exactly how
+  // "Top gap" and the export header survived the first pass.
   var I = isItalian ? {
     scaleNone: 'Mancante',
     scaleVague: 'Vago',
@@ -47,6 +49,8 @@
     breakdownSub: 'Ogni domanda, il tuo punteggio, niente nascosto. Usalo come foglio di lavoro per il team.',
     ratingLabels: { 0: 'Mancante', 1: 'Vago', 2: 'Parziale', 3: 'Chiaro' },
     fixLead: 'Come chiuderlo: ',
+    gapRank: 'Gap principale',
+    reportKicker: 'Il tuo report di chiarezza',
     resetConfirm: 'Azzerare tutte le risposte?',
     notRated: 'Non valutato'
   } : {
@@ -81,6 +85,8 @@
     breakdownSub: 'Every question, your rating, nothing hidden. Use this as a working sheet to brief your team.',
     ratingLabels: { 0: 'Missing', 1: 'Vague', 2: 'Partial', 3: 'Clear' },
     fixLead: 'How to close it: ',
+    gapRank: 'Top gap',
+    reportKicker: 'Your Clarity Report',
     resetConfirm: 'Reset all answers?',
     notRated: 'Not rated'
   };
@@ -151,7 +157,7 @@
         },
         {
           id: 'q3_2',
-          text: 'La piattaforma CDE è specificata, o i criteri di scelta/approvazione sono chiari (noein terms).',
+          text: 'La piattaforma CDE è specificata, o i criteri di scelta/approvazione sono chiari (nessun lock-in proprietario).',
           fix: 'O specifichi la piattaforma (con estensioni supportate), o specifichi i criteri di equivalenza. Altrimenti ti trovi a discutere di vendor in clarification.'
         },
         {
@@ -582,7 +588,7 @@
       var displayValue = g.value === null ? I.notRated : (g.value + ' / 3 · ' + scaleLabel(g.value));
       var pillLabel = g.value === null ? '—' : (g.value + '/3');
       gapHtml += '<div class="eir-gap-card">';
-      gapHtml +=   '<div class="eir-gap-rank"><span class="eir-gap-rank-num">' + (i + 1) + '</span> Top gap</div>';
+      gapHtml +=   '<div class="eir-gap-rank"><span class="eir-gap-rank-num">' + (i + 1) + '</span> ' + escapeHtml(I.gapRank) + '</div>';
       gapHtml +=   '<div class="eir-gap-section">' + escapeHtml(g.sectionTitle) + '</div>';
       gapHtml +=   '<div class="eir-gap-q">' + escapeHtml(g.text) + '</div>';
       gapHtml +=   '<div class="eir-gap-rating">';
@@ -615,89 +621,130 @@
 
   // ─── PDF export — reuses the BEP buildExportStyles scaffolding with eir- IDs ───
   function buildExportStyles() {
-    // Identical structure to bep-checklist.js — same class names. Reuse as-is.
+    // The exported report is a standalone document: it loads none of css/, so
+    // the Technical Light values are restated here as literals. That is why the
+    // colour budgets in ui-ux.test.js cannot see this file — they scan css/ —
+    // and it is how an entire second brand survived the redesign in here: gold
+    // #b68a33, Instrument Serif, a #d8d0c5 ground. The PDF a visitor hands to
+    // their bid team was the last thing on the site still wearing the old skin.
+    //
+    // The class names below are the ones the report markup actually emits.
+    // The previous set styled .eir-export-gap* and .eir-export-row*, which are
+    // generated nowhere — buildReport() writes .eir-gap-* and .eir-breakdown-*
+    // — so fourteen rules matched nothing and the three gap cards and the
+    // twelve-question breakdown printed as unstyled text.
     return [
       ':root {',
       '  color-scheme: light only;',
-      '  --ink: #18130d;',
-      '  --muted: #5f574c;',
-      '  --accent: #b68a33;',
-      '  --accent-strong: #7a5d1e;',
-      '  --border: #ddd2c1;',
-      '  --paper-alt: #fbf8f2;',
-      '  --good: #38762f;',
-      '  --good-soft: #e8f3e4;',
-      '  --warn: #7a5d1e;',
-      '  --warn-soft: #fbf1d8;',
-      '  --risk: #8a3322;',
-      '  --risk-soft: #fbe5e0;',
+      '  --paper: #FAF9F6;',
+      '  --paper-sunk: #F2F0EA;',
+      '  --paper-raised: #FFFFFF;',
+      '  --ink: #14161A;',
+      '  --ink-secondary: #4A5058;',
+      '  --ink-tertiary: #767C85;',
+      '  --rule: #DFDBD2;',
+      '  --rule-strong: #C3BDB1;',
+      '  --accent: #F04E23;',
+      '  --accent-text: #C0390F;',
+      '  --ok-text: #1F6B2A;',
+      '  --ok-line: #3F8C44;',
+      '  --ok-wash: rgba(31, 107, 42, 0.08);',
+      '  --warn-text: #7A5510;',
+      '  --warn-line: #A8790A;',
+      '  --warn-wash: rgba(122, 85, 16, 0.08);',
+      '  --risk-text: #A32316;',
+      '  --risk-line: #C4402C;',
+      '  --risk-wash: rgba(163, 35, 22, 0.08);',
+      '  --font-display: Archivo, "Helvetica Neue", Arial, sans-serif;',
+      '  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;',
+      '  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;',
       '}',
       '* { box-sizing: border-box; }',
-      'html, body { margin: 0; padding: 0; background: #d8d0c5; color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; }',
+      'html, body { margin: 0; padding: 0; background: var(--paper-sunk); color: var(--ink); font-family: var(--font-body); }',
       'body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }',
-      '.export-toolbar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.85rem 1rem; padding: 1rem 1.25rem; background: rgba(17, 14, 10, 0.92); color: #f7f3ea; }',
-      '.export-toolbar-copy { margin: 0; max-width: 48rem; font-size: 0.92rem; line-height: 1.5; }',
+
+      /* Toolbar — the one dark surface, matching .band--dark on the site */
+      '.export-toolbar { position: sticky; top: 0; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.85rem 1rem; padding: 1rem 1.25rem; background: #14161A; color: #F5F3EE; }',
+      '.export-toolbar-copy { margin: 0; max-width: 48rem; font-size: 0.92rem; line-height: 1.5; color: #9AA0A9; }',
       '.export-toolbar-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }',
-      '.export-toolbar-actions button { appearance: none; border: 0; border-radius: 999px; padding: 0.75rem 1.1rem; font: inherit; font-weight: 600; cursor: pointer; background: #c9a55a; color: #16110a; }',
-      '.export-toolbar-actions .is-secondary { background: transparent; color: #f7f3ea; border: 1px solid rgba(255, 255, 255, 0.25); }',
+      /* Ink on orange (5.0:1). The old button was paper-on-gold. */
+      '.export-toolbar-actions button { appearance: none; border: 1px solid transparent; border-radius: 4px; padding: 0.7rem 1.1rem; font: inherit; font-family: var(--font-body); font-weight: 500; cursor: pointer; background: var(--accent); color: var(--ink); }',
+      '.export-toolbar-actions .is-secondary { background: transparent; color: #F5F3EE; border-color: #2C3038; }',
+
       '.export-shell { padding: 1.5rem; }',
-      '.export-page { width: min(190mm, calc(100vw - 3rem)); min-height: 267mm; margin: 0 auto; background: #fff; box-shadow: 0 22px 64px rgba(23, 16, 6, 0.18); padding: 14mm 13mm 12mm; }',
-      '.export-header { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.3fr); gap: 1.25rem; align-items: end; padding-bottom: 1.1rem; border-bottom: 1px solid var(--border); }',
+      '.export-page { width: min(190mm, calc(100vw - 3rem)); min-height: 267mm; margin: 0 auto; background: var(--paper-raised); box-shadow: 0 12px 32px rgba(20, 22, 26, 0.10); padding: 14mm 13mm 12mm; }',
+
+      /* Header */
+      '.export-header { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.3fr); gap: 1.25rem; align-items: end; padding-bottom: 1.1rem; border-bottom: 1px solid var(--rule-strong); }',
       '.export-brand-lockup { align-self: start; }',
-      '.export-brand { font-family: "Instrument Serif", Georgia, serif; font-size: 2.2rem; line-height: 0.95; color: var(--ink); }',
+      '.export-brand { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; line-height: 0.95; letter-spacing: -0.03em; color: var(--ink); }',
       '.export-brand span { color: var(--accent); }',
-      '.export-kicker { margin-top: 0.45rem; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-strong); }',
-      '.section-label { font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-strong); }',
-      '.export-report-title { margin: 0.35rem 0 0; font-family: "Instrument Serif", Georgia, serif; font-size: 2.35rem; line-height: 1.02; letter-spacing: -0.02em; color: var(--ink); }',
-      '.bep-report-meta { margin-top: 1rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem 1rem; font-size: 0.86rem; color: var(--muted); }',
-      '.bep-report-meta span { display: flex; flex-wrap: wrap; gap: 0.3rem; padding-top: 0.55rem; border-top: 1px solid var(--border); }',
-      '.bep-report-meta span strong { color: var(--ink); font-weight: 600; }',
+      '.export-kicker { margin-top: 0.45rem; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }',
+      /* The site draws .section-label with a 20px accent dash before it. */
+      '.section-label { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text); }',
+      '.section-label::before { content: ""; width: 20px; height: 1px; background: var(--accent); flex-shrink: 0; }',
+      '.export-report-title { margin: 0.35rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 2.1rem; line-height: 1.04; letter-spacing: -0.035em; color: var(--ink); }',
+      '.bep-report-meta { margin-top: 1rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem 1rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-tertiary); }',
+      '.bep-report-meta span { display: flex; flex-wrap: wrap; gap: 0.3rem; padding-top: 0.55rem; border-top: 1px solid var(--rule); }',
+      '.bep-report-meta span strong { color: var(--ink-secondary); font-weight: 500; }',
+
+      /* Summary */
       '.export-summary { display: grid; grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); gap: 1rem; margin-top: 1.2rem; margin-bottom: 1.3rem; break-inside: avoid; }',
-      '.export-card { background: var(--paper-alt); border: 1px solid var(--border); border-radius: 16px; padding: 1rem 1rem 1.05rem; break-inside: avoid; }',
-      '.export-score-card { background: linear-gradient(180deg, #faf4e8 0%, #f4ebdb 100%); }',
-      '.export-eyebrow { margin-bottom: 0.5rem; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-strong); }',
-      '.bep-report-score-num { font-family: "Instrument Serif", Georgia, serif; font-size: 3.05rem; line-height: 0.94; color: var(--ink); margin: 0 0 0.75rem; }',
-      '.bep-report-score-band { display: inline-block; padding: 0.34rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.85rem; }',
-      '.band-high { background: var(--good-soft); color: var(--good); border: 1px solid rgba(74, 138, 61, 0.24); }',
-      '.band-med { background: var(--warn-soft); color: var(--warn); border: 1px solid rgba(122, 93, 30, 0.22); }',
-      '.band-low { background: var(--risk-soft); color: var(--risk); border: 1px solid rgba(138, 51, 34, 0.18); }',
-      '.bep-report-score-interp { margin: 0; font-size: 0.94rem; line-height: 1.6; color: var(--muted); }',
-      '.bep-report-h3 { margin: 0 0 0.95rem; font-family: "Instrument Serif", Georgia, serif; font-size: 1.35rem; line-height: 1.1; letter-spacing: -0.01em; color: var(--ink); }',
-      '.bep-report-sections-list { display: flex; flex-direction: column; gap: 0.55rem; }',
-      '.bep-report-section-row { display: grid; grid-template-columns: minmax(0, 1fr) 78px auto; gap: 0.7rem; align-items: center; padding: 0.72rem 0.85rem; background: #fff; border: 1px solid var(--border); border-radius: 12px; break-inside: avoid; }',
-      '.bep-report-section-row-title { color: var(--ink); font-size: 0.9rem; line-height: 1.35; }',
-      '.bep-report-section-row-bar { height: 6px; border-radius: 999px; background: #e7e0d3; overflow: hidden; }',
+      '.export-card { background: var(--paper-sunk); border: 1px solid var(--rule); border-radius: 4px; padding: 1rem 1rem 1.05rem; break-inside: avoid; }',
+      '.export-score-card { border-top: 3px solid var(--accent); }',
+      '.export-eyebrow { margin-bottom: 0.5rem; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-tertiary); }',
+      '.bep-report-score-num { font-family: var(--font-mono); font-weight: 500; font-size: 2.6rem; line-height: 0.94; letter-spacing: -0.03em; color: var(--ink); margin: 0 0 0.75rem; font-variant-numeric: tabular-nums; }',
+      '.bep-report-score-band { display: inline-block; padding: 0.28rem 0.7rem; border-radius: 999px; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.85rem; }',
+      '.band-high { background: var(--ok-wash); color: var(--ok-text); border: 1px solid var(--ok-line); }',
+      '.band-med { background: var(--warn-wash); color: var(--warn-text); border: 1px solid var(--warn-line); }',
+      '.band-low { background: var(--risk-wash); color: var(--risk-text); border: 1px solid var(--risk-line); }',
+      '.bep-report-score-interp { margin: 0; font-size: 0.9rem; line-height: 1.6; color: var(--ink-secondary); }',
+      '.bep-report-h3 { margin: 0 0 0.95rem; font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); }',
+
+      /* Section rows */
+      '.bep-report-sections-list { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }',
+      '.bep-report-section-row { display: grid; grid-template-columns: minmax(0, 1fr) 70px auto; gap: 0.7rem; align-items: center; padding: 0.6rem 0.2rem; border-bottom: 1px solid var(--rule); break-inside: avoid; }',
+      '.bep-report-section-row-title { color: var(--ink-secondary); font-size: 0.85rem; line-height: 1.35; }',
+      '.bep-report-section-row-bar { height: 3px; background: var(--rule); overflow: hidden; }',
       '.bep-report-section-row-bar span { display: block; height: 100%; background: var(--accent); }',
-      '.bep-report-section-row-count { font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }',
-      '.bep-report-section-row.is-weak { border-color: rgba(138, 51, 34, 0.22); }',
-      '.bep-report-section-row.is-weak .bep-report-section-row-bar span { background: var(--risk); }',
-      '.bep-report-section-row.is-strong { border-color: rgba(74, 138, 61, 0.24); }',
-      '.bep-report-section-row.is-strong .bep-report-section-row-bar span { background: var(--good); }',
+      '.bep-report-section-row-count { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }',
+      '.bep-report-section-row.is-weak .bep-report-section-row-bar span { background: var(--risk-line); }',
+      '.bep-report-section-row.is-strong .bep-report-section-row-bar span { background: var(--ok-line); }',
+
       '.export-analysis { margin-top: 1.15rem; }',
+
+      /* Top-3 gap cards — .eir-gap-*, which is what buildReport() emits */
       '.eir-export-gaps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; margin-top: 0.5rem; }',
-      '.eir-export-gap { background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 0.85rem 0.9rem; break-inside: avoid; }',
-      '.eir-export-gap-rank { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-strong); font-weight: 700; }',
-      '.eir-export-gap-section { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }',
-      '.eir-export-gap-q { font-size: 0.9rem; line-height: 1.4; color: var(--ink); margin: 0.35rem 0 0.45rem; }',
-      '.eir-export-gap-rating { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--risk-soft); color: var(--risk); font-size: 0.74rem; font-weight: 600; margin-bottom: 0.5rem; }',
-      '.eir-export-gap-rating.is-med { background: var(--warn-soft); color: var(--warn); }',
-      '.eir-export-gap-rating.is-high { background: var(--good-soft); color: var(--good); }',
-      '.eir-export-gap-fix { font-size: 0.84rem; line-height: 1.55; color: var(--muted); }',
-      '.eir-export-gap-fix strong { color: var(--accent-strong); display: block; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.2rem; }',
-      '.eir-export-breakdown { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.45rem; }',
-      '.eir-export-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.7rem; align-items: center; padding: 0.55rem 0.75rem; background: #fff; border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; break-inside: avoid; }',
-      '.eir-export-row-section { display: block; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.15rem; }',
-      '.eir-export-row-q { color: var(--ink); line-height: 1.4; }',
-      '.eir-export-row-rating { display: inline-flex; align-items: center; gap: 0.4rem; font-variant-numeric: tabular-nums; white-space: nowrap; }',
-      '.eir-export-row-pill { display: inline-flex; align-items: center; justify-content: center; min-width: 1.7rem; height: 1.4rem; padding: 0 0.45rem; border-radius: 999px; border: 1px solid var(--border); font-size: 0.78rem; font-weight: 600; }',
-      '.eir-export-row-pill.is-high { color: var(--good); border-color: rgba(74, 138, 61, 0.3); }',
-      '.eir-export-row-pill.is-med { color: var(--warn); border-color: rgba(122, 93, 30, 0.3); }',
-      '.eir-export-row-pill.is-low { color: var(--risk); border-color: rgba(138, 51, 34, 0.3); }',
-      '.eir-export-row-pill.is-none { color: var(--muted); border-color: var(--border); }',
-      '.bep-report-footer { margin-top: 1.25rem; padding-top: 0.95rem; border-top: 1px solid var(--border); text-align: left; font-size: 0.8rem; line-height: 1.55; color: var(--muted); }',
+      '.eir-gap-card { display: flex; flex-direction: column; gap: 0.5rem; background: var(--paper-sunk); border: 1px solid var(--rule); border-top: 2px solid var(--accent); border-radius: 4px; padding: 0.85rem 0.9rem; break-inside: avoid; }',
+      '.eir-gap-rank { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-text); font-weight: 500; }',
+      '.eir-gap-rank-num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 2px; background: var(--accent); color: var(--ink); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; }',
+      '.eir-gap-section { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-tertiary); }',
+      '.eir-gap-q { font-size: 0.88rem; line-height: 1.4; font-weight: 500; color: var(--ink); }',
+      '.eir-gap-rating { display: flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-secondary); }',
+      '.eir-gap-rating-pill { display: inline-flex; align-items: center; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--risk-wash); border: 1px solid var(--risk-line); color: var(--risk-text); font-size: 0.6875rem; font-weight: 500; }',
+      '.eir-gap-rating-pill.is-med { background: var(--warn-wash); border-color: var(--warn-line); color: var(--warn-text); }',
+      '.eir-gap-rating-pill.is-high { background: var(--ok-wash); border-color: var(--ok-line); color: var(--ok-text); }',
+      '.eir-gap-fix { margin-top: auto; padding-top: 0.55rem; border-top: 1px solid var(--rule); font-size: 0.82rem; line-height: 1.5; color: var(--ink-secondary); }',
+      '.eir-gap-fix strong { display: block; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 0.2rem; }',
+
+      /* Full breakdown — .eir-breakdown-*, likewise */
+      '.eir-export-breakdown { margin-top: 1rem; display: flex; flex-direction: column; border-top: 1px solid var(--rule); }',
+      '.eir-breakdown-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.7rem; align-items: center; padding: 0.5rem 0.2rem; border-bottom: 1px solid var(--rule); font-size: 0.82rem; break-inside: avoid; }',
+      '.eir-breakdown-q { color: var(--ink-secondary); line-height: 1.4; }',
+      '.eir-breakdown-q-section { display: block; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-tertiary); margin-bottom: 0.15rem; }',
+      '.eir-breakdown-rating { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }',
+      '.eir-breakdown-rating-pill { display: inline-flex; align-items: center; justify-content: center; min-width: 1.6rem; height: 1.3rem; padding: 0 0.4rem; border-radius: 999px; border: 1px solid var(--rule-strong); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500; }',
+      '.eir-breakdown-rating-pill.is-high { color: var(--ok-text); border-color: var(--ok-line); background: var(--ok-wash); }',
+      '.eir-breakdown-rating-pill.is-med { color: var(--warn-text); border-color: var(--warn-line); background: var(--warn-wash); }',
+      '.eir-breakdown-rating-pill.is-low { color: var(--risk-text); border-color: var(--risk-line); background: var(--risk-wash); }',
+      '.eir-breakdown-rating-pill.is-none { color: var(--ink-tertiary); border-color: var(--rule); }',
+
+      /* Footer */
+      '.bep-report-footer { margin-top: 1.25rem; padding-top: 0.95rem; border-top: 1px solid var(--rule); text-align: left; font-family: var(--font-mono); font-size: 0.6875rem; line-height: 1.6; color: var(--ink-tertiary); }',
       '.bep-report-footer p { margin: 0 0 0.25rem; }',
-      '.bep-report-footer a { color: var(--accent-strong); text-decoration: none; }',
+      '.bep-report-footer a { color: var(--accent-text); text-decoration: none; }',
       '.bep-report-disclaimer { font-style: italic; }',
+
       '@media (max-width: 960px) {',
       '  .export-header, .export-summary { grid-template-columns: 1fr; }',
       '  .export-page { width: calc(100vw - 2rem); padding: 1.2rem; min-height: auto; }',
@@ -706,11 +753,11 @@
       '}',
       '@media print {',
       '  @page { size: A4; margin: 12mm 10mm 12mm; }',
-      '  html, body { background: #fff !important; }',
+      '  html, body { background: var(--paper-raised); }',
       '  .no-print, .export-toolbar { display: none !important; }',
       '  .export-shell { padding: 0; }',
       '  .export-page { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }',
-      '  .export-card, .eir-export-gap, .eir-export-row, .export-summary, .export-analysis { break-inside: avoid; page-break-inside: avoid; }',
+      '  .export-card, .eir-gap-card, .eir-breakdown-row, .export-summary, .export-analysis { break-inside: avoid; page-break-inside: avoid; }',
       '}',
       ''
     ].join('\n');
@@ -736,7 +783,7 @@
       '<title>' + escapeHtml(exportTitle) + '</title>',
       '<link rel="preconnect" href="https://fonts.googleapis.com">',
       '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-      '<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">',
+      '<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500..800&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">',
       '<style>' + buildExportStyles() + '</style>',
       '</head>',
       '<body>',
@@ -755,7 +802,7 @@
       '<div class="export-kicker">' + escapeHtml(I.exportKicker) + '</div>',
       '</div>',
       '<div class="export-report-head">',
-      '<div class="section-label">Your Clarity Report</div>',
+      '<div class="section-label">' + escapeHtml(I.reportKicker) + '</div>',
       '<h1 class="export-report-title">' + escapeHtml(reportTitle.textContent) + '</h1>',
       '<div class="bep-report-meta">' + reportMeta.innerHTML + '</div>',
       '</div>',

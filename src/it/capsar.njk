@@ -41,7 +41,7 @@
       </div>
       <div class="capsar-proof-visual" aria-hidden="true">
         <div class="mockup-chrome">
-          <div class="mockup-dots"><span></span><span></span><span></span></div>
+          <div class="mockup-dots"><span></span></div>
           <div class="mockup-url">app.noeinsolutions.com/preview</div>
         </div>
         <div class="mockup-screen">
@@ -76,7 +76,7 @@
         <h3>EIR complessi e poco strutturati</h3>
         <p>I requisiti del committente sono sparsi in documenti di 30&ndash;50 pagine senza ordine. Estrarre quello che conta (e tracciare se il BEP risponde davvero) &egrave; un lavoro manuale, pieno di errori.</p>
       </div>
-      <div class="pain-card">
+      <div class="pain-card pain-card--feature">
         <div class="pain-num">03</div>
         <h3>Nessuna AI adatta a progetti riservati</h3>
         <p>Gli strumenti di AI generica inviano i dati di progetto a provider terzi. Su infrastrutture sensibili e progetti della difesa non &egrave; praticabile. Serve assistenza AI senza il rischio privacy.</p>
@@ -90,8 +90,8 @@
   </section>
 
   <!-- Come funziona -->
-  <div class="section-full fade-in">
-    <div class="section-full-inner">
+  <div class="band band--sunk fade-in">
+    <div class="band-inner">
       {{ sectionHead("Come funziona", "Da EIR a BEP conforme, passo per passo", "Cinque passaggi, una sola piattaforma, zero pagine bianche. Disegnata per come i team rispondono davvero agli EIR.") }}
 
       <div class="step-flow">
@@ -128,7 +128,7 @@
   <section class="fade-in">
     {{ sectionHead("Piattaforma", "10 moduli integrati", "I workflow centrali della gestione informativa ISO 19650: connessi, mai a silos, disegnati sulle criticit&agrave; viste sul campo.") }}
 
-    <div class="page-hero-sub capsar-module-lede">
+    <div class="capsar-module-lede">
       Costruita attorno alle attivit&agrave; che occupano pi&ugrave; tempo al team: capire l&rsquo;EIR, scrivere il BEP, tracciare la copertura. Pi&ugrave; la pianificazione della delivery e la coerenza degli output.
     </div>
 
@@ -207,8 +207,8 @@
   </section>
 
   <!-- Confronto -->
-  <div class="section-full fade-in">
-    <div class="section-full-inner">
+  <div class="band band--sunk fade-in">
+    <div class="band-inner">
       {{ sectionHead("Confronto", "La differenza di Capsar", "Confronto diretto: approccio tradizionale vs approccio Capsar.") }}
 
       <table class="comparison-table">
@@ -237,6 +237,10 @@
           </tr>
         </tbody>
       </table>
+      <div class="eir-cross-link capsar-cross-link">
+        <strong>Devi rivedere un EIR prima di emetterlo?</strong>
+        <span>Parti dall&rsquo;<a href="eir-checklist.html">EIR Health Check</a> gratuito: 12 domande su una scala di chiarezza 0&ndash;3, i 3 gap che ti costano di pi&ugrave; e un report PDF da scaricare.</span>
+      </div>
     </div>
   </div>
 
@@ -249,77 +253,80 @@
       <div>
         <h4>I tuoi dati restano tuoi</h4>
         <p>L&rsquo;AI di Capsar.io gira su infrastruttura dedicata. I dati di progetto non vengono mai inviati a OpenAI, Google, Anthropic o altri provider AI terzi. Adatto a infrastrutture sensibili, settore pubblico e contesti dove la sovranit&agrave; dei dati &egrave; un requisito.</p>
+        <p class="capsar-note">Hai una gara aperta in questo momento? Prova il <a href="eir-checklist.html" class="link-inline">controllo di chiarezza dell&rsquo;EIR</a> e la <a href="bep-checklist.html" class="link-inline">checklist di prontezza BEP</a>: gratis, senza email e senza form.</p>
       </div>
     </div>
   </section>
 
   <!-- Screenshots -->
-  <section class="fade-in" id="platform-preview">
-    {{ sectionHead("Anteprima piattaforma", "Come si presenta", "Uno sguardo all&rsquo;interfaccia di Capsar.io. Pensata per chi lavora sul campo.") }}
+  <div class="band band--dark fade-in" id="platform-preview">
+    <div class="band-inner">
+      {{ sectionHead("Anteprima piattaforma", "Come si presenta", "Uno sguardo all&rsquo;interfaccia di Capsar.io. Pensata per chi lavora sul campo.") }}
 
-    <div class="screenshot-grid">
-      <div class="screenshot-mockup">
-        <div class="mockup-chrome">
-          <div class="mockup-dots"><span></span><span></span><span></span></div>
-          <div class="mockup-url">app.noeinsolutions.com/bep</div>
-        </div>
-        <div class="mockup-screen">
-          <div class="mockup-sidebar">
-            <div class="mockup-sidebar-item active"></div>
-            <div class="mockup-sidebar-item"></div>
-            <div class="mockup-sidebar-item"></div>
-            <div class="mockup-sidebar-item"></div>
-            <div class="mockup-sidebar-item"></div>
+      <div class="screenshot-grid">
+        <div class="screenshot-mockup">
+          <div class="mockup-chrome">
+            <div class="mockup-dots"><span></span></div>
+            <div class="mockup-url">app.noeinsolutions.com/bep</div>
           </div>
-          <div class="mockup-content">
-            <div class="mockup-heading"></div>
-            <div class="mockup-field"></div>
-            <div class="mockup-field short"></div>
-            <div class="mockup-field"></div>
-            <div class="mockup-ai-badge">Smart Help AI</div>
+          <div class="mockup-screen">
+            <div class="mockup-sidebar">
+              <div class="mockup-sidebar-item active"></div>
+              <div class="mockup-sidebar-item"></div>
+              <div class="mockup-sidebar-item"></div>
+              <div class="mockup-sidebar-item"></div>
+              <div class="mockup-sidebar-item"></div>
+            </div>
+            <div class="mockup-content">
+              <div class="mockup-heading"></div>
+              <div class="mockup-field"></div>
+              <div class="mockup-field short"></div>
+              <div class="mockup-field"></div>
+              <div class="mockup-ai-badge">Smart Help AI</div>
+            </div>
           </div>
+          <div class="mockup-label">BEP Manager: Smart Help AI su ogni campo</div>
         </div>
-        <div class="mockup-label">BEP Manager: Smart Help AI su ogni campo</div>
-      </div>
-      <div class="screenshot-mockup">
-        <div class="mockup-chrome">
-          <div class="mockup-dots"><span></span><span></span><span></span></div>
-          <div class="mockup-url">app.noeinsolutions.com/matrix</div>
-        </div>
-        <div class="mockup-screen mockup-screen--matrix">
-          <div class="mockup-table-header">
-            <div></div><div></div><div></div><div></div>
+        <div class="screenshot-mockup">
+          <div class="mockup-chrome">
+            <div class="mockup-dots"><span></span></div>
+            <div class="mockup-url">app.noeinsolutions.com/matrix</div>
           </div>
-          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div><div class="mockup-cell pass"></div></div>
-          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell gap"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div></div>
-          <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div></div>
-        </div>
-        <div class="mockup-label">Matrice di Rispondenza EIR: analisi gap in tempo reale</div>
-      </div>
-      <div class="screenshot-mockup">
-        <div class="mockup-chrome">
-          <div class="mockup-dots"><span></span><span></span><span></span></div>
-          <div class="mockup-url">app.noeinsolutions.com/dc</div>
-        </div>
-        <div class="mockup-screen mockup-screen--dc">
-          <div class="mockup-stats-bar">
-            <div class="mockup-stat-block pass-bg"></div>
-            <div class="mockup-stat-block warn-bg"></div>
-            <div class="mockup-stat-block"></div>
+          <div class="mockup-screen mockup-screen--matrix">
+            <div class="mockup-table-header">
+              <div></div><div></div><div></div><div></div>
+            </div>
+            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div><div class="mockup-cell pass"></div></div>
+            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell gap"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div></div>
+            <div class="mockup-table-row"><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell pass"></div><div class="mockup-cell warn"></div></div>
           </div>
-          <div class="mockup-file-row"></div>
-          <div class="mockup-file-row"></div>
-          <div class="mockup-file-row"></div>
-          <div class="mockup-file-row"></div>
+          <div class="mockup-label">Matrice di Rispondenza EIR: analisi gap in tempo reale</div>
         </div>
-        <div class="mockup-label">DC Manager: validazione e conformit&agrave;</div>
+        <div class="screenshot-mockup">
+          <div class="mockup-chrome">
+            <div class="mockup-dots"><span></span></div>
+            <div class="mockup-url">app.noeinsolutions.com/dc</div>
+          </div>
+          <div class="mockup-screen mockup-screen--dc">
+            <div class="mockup-stats-bar">
+              <div class="mockup-stat-block pass-bg"></div>
+              <div class="mockup-stat-block warn-bg"></div>
+              <div class="mockup-stat-block"></div>
+            </div>
+            <div class="mockup-file-row"></div>
+            <div class="mockup-file-row"></div>
+            <div class="mockup-file-row"></div>
+            <div class="mockup-file-row"></div>
+          </div>
+          <div class="mockup-label">DC Manager: validazione e conformit&agrave;</div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Beta CTA -->
-  <div class="section-full fade-in">
-    <div class="section-full-inner section-full-inner--narrow">
+  <div class="band fade-in">
+    <div class="band-inner capsar-cta-inner">
       {{ sectionHead("Accesso anticipato", "Accesso anticipato aperto", "", "center") }}
       <p class="capsar-cta-lede">Gratuito durante la beta. Posti limitati. Se scrivi BEP, gestisci EIR o guidi la digital delivery su progetti AEC, Capsar.io parla la tua lingua.</p>
       <div class="hero-actions hero-actions--center">

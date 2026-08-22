@@ -89,6 +89,121 @@
     });
   }
 
+  // ─── Build-card screenshot rotation ───
+  // Cards with more than one capture cross-fade through them. The research on
+  // auto-rotating content is blunt about what makes it tolerable, and all of it
+  // is enforced here:
+  //   - nothing rotates on load under prefers-reduced-motion (WAI-ARIA APG);
+  //   - a card stops while it is hovered, and stops for good once it has held
+  //     keyboard focus — a reader who tabbed to it is reading, not watching;
+  //   - one control stops every card (WCAG 2.2.2 Pause, Stop, Hide). It lives
+  //     before the grid in the tab sequence, and it is the only mechanism the
+  //     criterion needs — thirteen pause buttons would outweigh what they pause.
+  // A card also only rotates while it is genuinely on screen, and its later
+  // frames are fetched at that moment rather than on page load: a visitor who
+  // never scrolls this far downloads one image per card, not four.
+  // No aria-live region here, deliberately: with no next/previous controls
+  // there is no user-driven slide change to announce, and a live region that
+  // never fires is noise in the accessibility tree.
+  var galleries = document.querySelectorAll('[data-gallery]');
+  var rotationBtn = document.getElementById('buildRotation');
+  if (galleries.length && 'IntersectionObserver' in window) {
+    var FRAME_MS = 4200;
+    var rotating = !reducedMotion;
+    var cards = [];
+
+    galleries.forEach(function (media, index) {
+      var frames = media.querySelectorAll('.build-card-frame');
+      var dots = media.querySelectorAll('.build-card-dot');
+      var card = media.closest ? media.closest('.build-card') : media.parentNode;
+      var current = 0;
+      var timer = null;
+      var kickoff = null;
+      var onScreen = false;
+      var hovered = false;
+      var focusHeld = false;
+
+      function load(n) {
+        var frame = frames[n];
+        if (frame && !frame.getAttribute('src')) {
+          frame.setAttribute('src', frame.getAttribute('data-src'));
+        }
+      }
+
+      function show(n) {
+        frames[current].classList.remove('is-active');
+        frames[current].setAttribute('aria-hidden', 'true');
+        if (dots[current]) dots[current].classList.remove('is-active');
+        current = n;
+        frames[current].classList.add('is-active');
+        frames[current].removeAttribute('aria-hidden');
+        if (dots[current]) dots[current].classList.add('is-active');
+        load((current + 1) % frames.length);
+      }
+
+      function advance() { show((current + 1) % frames.length); }
+
+      function start() {
+        if (timer || kickoff || !rotating || !onScreen || hovered || focusHeld) return;
+        load((current + 1) % frames.length);
+        // Stagger the first advance per card. Cards flipping in lockstep read
+        // as a glitch rather than an effect, and two tiles changing at the same
+        // instant is exactly the movement that draws the eye away from the copy.
+        kickoff = setTimeout(function () {
+          kickoff = null;
+          advance();
+          timer = setInterval(advance, FRAME_MS);
+        }, 1200 + index * 1300);
+      }
+
+      function stop() {
+        if (kickoff) { clearTimeout(kickoff); kickoff = null; }
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+      var entry = { start: start, stop: stop, unlock: function () { focusHeld = false; } };
+      cards.push(entry);
+
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+        if (onScreen) start();
+        else stop();
+      }, { threshold: 0.6 }).observe(media);
+
+      if (card) {
+        card.addEventListener('mouseenter', function () { hovered = true; stop(); });
+        card.addEventListener('mouseleave', function () { hovered = false; start(); });
+        card.addEventListener('focusin', function () { focusHeld = true; stop(); });
+      }
+    });
+
+    function setRotating(on) {
+      rotating = on;
+      cards.forEach(function (card) {
+        if (on) { card.unlock(); card.start(); } else { card.stop(); }
+      });
+      if (rotationBtn) {
+        var label = rotationBtn.getAttribute(on ? 'data-label-stop' : 'data-label-start');
+        rotationBtn.querySelector('.build-rotation-text').textContent = label;
+        rotationBtn.classList.toggle('is-paused', !on);
+      }
+    }
+
+    if (rotationBtn) {
+      rotationBtn.hidden = false;
+      setRotating(rotating);
+      rotationBtn.addEventListener('click', function () { setRotating(!rotating); });
+    }
+
+    // A background tab should not be running timers or decoding frames.
+    document.addEventListener('visibilitychange', function () {
+      cards.forEach(function (card) {
+        if (document.hidden) card.stop();
+        else card.start();
+      });
+    });
+  }
+
   // ─── Nav scroll behaviour ───
   var nav = document.querySelector('nav');
   var navToggle = document.querySelector('.nav-toggle');

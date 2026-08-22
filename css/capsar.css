@@ -1,272 +1,96 @@
 /* ═══════════════════════════════════════════════════════════
    Capsar.io — Page-specific Styles
+
+   Technical Light: hairline grids on paper, one dark band for the
+   product moment, and a single dark-panel definition shared by
+   both mockup families so they cannot drift apart again.
    ═══════════════════════════════════════════════════════════ */
 
-/* Pain points grid */
+/* ═══ Proof card — copy beside a product panel ═══════════════ */
 .capsar-proof-card {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: 2rem;
+  gap: var(--space-8);
   align-items: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 14px;
-  padding: 2rem;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  padding: var(--space-6);
 }
 
-.capsar-proof-visual {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  background: #121216;
-}
-
-.pain-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.pain-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 2rem;
-  transition: transform 0.25s var(--ease-out), border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
-}
-
-.pain-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(201, 165, 90, 0.25);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.28);
-}
-
-.pain-card .pain-num {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  color: var(--accent);
-  opacity: 0.4;
-  line-height: 1;
-  margin-bottom: 0.75rem;
-}
-
-.pain-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  color: var(--ink);
-  margin-bottom: 0.5rem;
-}
-
-.pain-card p {
-  font-size: var(--copy-size);
-  color: var(--text-secondary);
-  line-height: var(--copy-line-height-tight);
-}
-
-/* Step flow */
-.step-flow {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0;
-  position: relative;
-}
-
-.step-flow::before {
-  content: '';
-  position: absolute;
-  top: 28px;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-dim), transparent);
-}
-
-.step-item {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  padding: 0 0.75rem;
-}
-
-.step-num {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 2px solid var(--accent-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--accent);
-}
-
-.step-item h4 {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink);
-  margin-bottom: 0.35rem;
-}
-
-.step-item p {
-  font-size: var(--copy-size-small);
-  color: var(--text-tertiary);
-  line-height: var(--copy-line-height-tight);
-}
-
-/* Module grid */
-.module-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-}
-
-.module-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 1.5rem 1rem;
-  text-align: center;
-  transition: all 0.3s var(--ease-out);
-}
-
-.module-item:hover {
-  border-color: rgba(201, 165, 90, 0.3);
-  background: var(--bg-card-hover);
-  transform: translateY(-3px);
-}
-
-.module-item-icon {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 0.75rem;
-  border-radius: 8px;
-  background: var(--accent-glow);
-  border: 1px solid rgba(201, 165, 90, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-  font-size: 1rem;
-}
-
-.module-item h4 {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.module-item p {
-  font-size: 0.72rem;
-  color: var(--text-tertiary);
-  line-height: 1.4;
-}
-
-/* Comparison table */
-.comparison-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-}
-
-.comparison-table thead th {
-  padding: 1.25rem 1.5rem;
-  text-align: left;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--text-secondary);
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.comparison-table thead th:first-child {
-  color: var(--text-tertiary);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.comparison-table thead th:last-child { color: var(--accent); }
-
-.comparison-table tbody td {
-  padding: 1.25rem 1.5rem;
-  font-size: var(--copy-size-compact);
-  color: var(--text-secondary);
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-subtle);
-  line-height: var(--copy-line-height-tight);
-}
-
-.comparison-table tbody td:last-child { color: var(--text-primary); }
-.comparison-table tbody tr:last-child td { border-bottom: none; }
-
-/* Screenshot mockups */
-.screenshot-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
+/* ═══ Mockup panel ═══════════════════════════════════════════
+   Shared by the proof card (on paper) and the preview band (on
+   --band). .mockup-screen used to declare no background at all,
+   so it inherited a near-black from one parent and white from
+   the other, and the same placeholder bar was invisible in the
+   proof card and obvious in the preview. Two levels now, matching
+   .product-panel on the homepage: the panel is --band-raised and
+   everything inset into it is --band. */
+.capsar-proof-visual,
 .screenshot-mockup {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+  /* The gap matrix is genuinely three-state — the caption below it says
+     "live gap analysis" — so the ramp stays, declared once rather than
+     spelled out at six call sites. Heavier than the old 0.12 because it
+     sits on a dark ground now instead of white. */
+  --mock-pass:      rgba(58, 190, 120, 0.22);
+  --mock-pass-line: rgba(58, 190, 120, 0.45);
+  --mock-warn:      rgba(232, 176, 68, 0.22);
+  --mock-warn-line: rgba(232, 176, 68, 0.45);
+  --mock-gap:       rgba(224, 82, 74, 0.22);
+  --mock-gap-line:  rgba(224, 82, 74, 0.45);
 
-.screenshot-mockup:hover {
-  border-color: rgba(201, 165, 90, 0.25);
-  transform: translateY(-4px);
+  display: flex;
+  flex-direction: column;
+  background: var(--band-raised);
+  border: 1px solid var(--band-rule);
+  border-radius: var(--r-md);
+  overflow: hidden;
 }
 
 .mockup-chrome {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 1rem;
-  background: #1a1a1f;
-  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--band-rule);
 }
 
-.mockup-dots { display: flex; gap: 5px; }
+/* One signal-orange dot, as on .product-panel. The three macOS traffic
+   lights were a skeuomorph and three of this file's five hex literals. */
+.mockup-dots {
+  display: flex;
+  align-items: center;
+}
 
 .mockup-dots span {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--border);
+  background: var(--accent);
+  flex-shrink: 0;
 }
-
-.mockup-dots span:first-child  { background: #ff5f57; }
-.mockup-dots span:nth-child(2) { background: #ffbd2e; }
-.mockup-dots span:last-child   { background: #28c840; }
 
 .mockup-url {
-  font-size: 0.65rem;
-  color: var(--text-tertiary);
-  background: var(--bg-primary);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
   flex: 1;
+  padding: var(--space-1) var(--space-3);
+  background: var(--band);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.04em;
   text-align: center;
-  letter-spacing: 0.02em;
+  color: var(--band-text-dim);
 }
 
+/* The grid stretches the three panels to a common height. Left alone, each
+   screen keeps its own content height and the caption lands wherever that mock
+   happens to end — 1px, 55px and 31px above the panel base across the three.
+   Growing the screen instead pins all three captions to one baseline. */
 .mockup-screen {
-  padding: 1.25rem;
-  min-height: 140px;
   display: flex;
-  gap: 1rem;
+  flex: 1;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  min-height: 140px;
 }
 
 .mockup-sidebar {
@@ -279,13 +103,14 @@
 
 .mockup-sidebar-item {
   height: 8px;
-  border-radius: 4px;
-  background: var(--border-subtle);
+  border-radius: var(--r-sm);
+  background: var(--band);
+  border: 1px solid var(--band-rule);
 }
 
 .mockup-sidebar-item.active {
   background: var(--accent);
-  opacity: 0.6;
+  border-color: var(--accent);
 }
 
 .mockup-content {
@@ -298,16 +123,15 @@
 .mockup-heading {
   height: 12px;
   width: 60%;
-  border-radius: 4px;
-  background: var(--text-tertiary);
-  opacity: 0.3;
+  border-radius: var(--r-sm);
+  background: var(--band-rule);
 }
 
 .mockup-field {
   height: 24px;
-  border-radius: 6px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  background: var(--band);
+  border: 1px solid var(--band-rule);
 }
 
 .mockup-field.short { width: 65%; }
@@ -315,15 +139,15 @@
 .mockup-ai-badge {
   display: inline-flex;
   align-self: flex-start;
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  margin-top: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  background: var(--accent-wash-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  background: var(--accent-glow);
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  margin-top: 4px;
 }
 
 .mockup-screen--matrix { flex-direction: column; gap: 4px; }
@@ -337,21 +161,20 @@
 
 .mockup-table-header div {
   height: 8px;
-  border-radius: 3px;
-  background: var(--text-tertiary);
-  opacity: 0.2;
+  border-radius: var(--r-sm);
+  background: var(--band-rule);
 }
 
 .mockup-cell {
   height: 20px;
-  border-radius: 4px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  background: var(--band);
+  border: 1px solid var(--band-rule);
 }
 
-.mockup-cell.pass { background: rgba(40, 200, 64, 0.12);  border-color: rgba(40, 200, 64, 0.2); }
-.mockup-cell.warn { background: rgba(255, 189, 46, 0.12); border-color: rgba(255, 189, 46, 0.2); }
-.mockup-cell.gap  { background: rgba(255, 95, 87, 0.12);  border-color: rgba(255, 95, 87, 0.2); }
+.mockup-cell.pass { background: var(--mock-pass); border-color: var(--mock-pass-line); }
+.mockup-cell.warn { background: var(--mock-warn); border-color: var(--mock-warn-line); }
+.mockup-cell.gap  { background: var(--mock-gap);  border-color: var(--mock-gap-line); }
 
 .mockup-screen--dc { flex-direction: column; gap: 8px; }
 
@@ -360,161 +183,314 @@
 .mockup-stat-block {
   flex: 1;
   height: 28px;
-  border-radius: 6px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  background: var(--band);
+  border: 1px solid var(--band-rule);
 }
 
-.mockup-stat-block.pass-bg { border-color: rgba(40, 200, 64, 0.2); }
-.mockup-stat-block.warn-bg { border-color: rgba(255, 189, 46, 0.2); }
+.mockup-stat-block.pass-bg { background: var(--mock-pass); border-color: var(--mock-pass-line); }
+.mockup-stat-block.warn-bg { background: var(--mock-warn); border-color: var(--mock-warn-line); }
 
 .mockup-file-row {
   height: 14px;
-  border-radius: 4px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  background: var(--band);
+  border: 1px solid var(--band-rule);
 }
 
 .mockup-label {
-  padding: 0.75rem 1rem;
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--band-rule);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
   text-align: center;
-  border-top: 1px solid var(--border-subtle);
-  letter-spacing: 0.02em;
+  color: var(--band-text-dim);
 }
 
-/* Privacy callout */
-.privacy-callout {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+/* ═══ Pain grid — hairline cells, one carrying the weight ════ */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.pain-card {
+  background: var(--paper-raised);
+  padding: var(--space-6);
+  transition: background-color var(--dur) var(--ease-out);
+}
+
+.pain-card:hover { background: var(--paper-sunk); }
+
+/* Privacy is the differentiator the rest of the page turns on, so card 03
+   is weighted instead of four identical cells. Same device as
+   .value-card--feature on the homepage. */
+.pain-card--feature {
+  background: var(--paper-sunk);
   border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  padding: 1.5rem 2rem;
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
 }
 
-.privacy-callout-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--accent-glow);
+.pain-card--feature:hover { background: var(--paper-raised); }
+
+.pain-num {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+  margin-bottom: var(--space-4);
+}
+
+.pain-card h3 {
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+}
+
+.pain-card p {
+  font-size: var(--copy-size);
+  line-height: var(--copy-line-height);
+  color: var(--ink-secondary);
+}
+
+/* ═══ Step flow — five cells on a drawing-sheet line ═════════ */
+.step-flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  position: relative;
+}
+
+/* The connector was a gradient into the retired gold token. It is a
+   hairline now, and it runs through the centre of the numerals. */
+.step-flow::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+.step-item {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--space-3);
+  text-align: center;
+}
+
+.step-num {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: var(--accent);
-  font-size: 1rem;
-}
-
-.privacy-callout h4 {
-  font-size: 0.95rem;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto var(--space-4);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
   font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-text);
 }
 
-.privacy-callout p {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
+.step-item h4 {
+  font-size: var(--copy-size-compact);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 968px) {
-  .capsar-proof-card { grid-template-columns: 1fr; gap: 1.4rem; padding: 1.5rem; }
-  .capsar-proof-visual { border-radius: 10px; }
-  .pain-grid        { grid-template-columns: 1fr; }
-  .step-flow        { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-  .step-flow::before { display: none; }
-  .module-grid      { grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
-  .module-item      { padding: 1.2rem 0.85rem; }
-  .screenshot-grid  { grid-template-columns: 1fr; }
-  .mockup-screen { min-height: 120px; padding: 1rem; }
-  .comparison-table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 10px;
-  }
-  .comparison-table thead,
-  .comparison-table tbody {
-    display: table;
-    min-width: 760px;
-    width: 100%;
-    table-layout: fixed;
-  }
-  .comparison-table thead th,
-  .comparison-table tbody td {
-    padding: 1rem 1.1rem;
-    font-size: var(--copy-size-small);
-  }
-  .privacy-callout { padding: 1.2rem 1.3rem; }
+.step-item p {
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-tertiary);
 }
 
-@media (max-width: 640px) {
-  .step-flow        { grid-template-columns: repeat(2, 1fr); }
-  .module-grid      { grid-template-columns: repeat(2, 1fr); }
-  .comparison-table thead,
-  .comparison-table tbody { min-width: 680px; }
-  .mockup-url { font-size: 0.6rem; }
-  .mockup-label { font-size: 0.7rem; }
-  .privacy-callout {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-  .step-flow > .step-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
-}
-
-@media (max-width: 480px) {
-  .step-flow { grid-template-columns: 1fr; }
-  .module-grid { grid-template-columns: 1fr; }
-  .module-item h4 { font-size: 0.86rem; }
-  .module-item p { font-size: 0.76rem; }
-}
-
-@media (max-width: 360px) {
-  .capsar-proof-card { padding: 1.1rem; }
-  .pain-card { padding: 1.35rem; }
-  .mockup-screen { padding: 0.8rem; min-height: 108px; }
-  .comparison-table thead,
-  .comparison-table tbody { min-width: 620px; }
-  .privacy-callout { padding: 1rem 1rem; }
-}
-
-@media (min-width: 1440px) {
-  .pain-card    { padding: 2.5rem; }
-  .pain-card h3 { font-size: 1.25rem; }
-  .pain-card p  { font-size: 0.95rem; }
-}
-
-@media (min-width: 2560px) {
-  .pain-card p { font-size: 1rem; }
-  .step-item h4 { font-size: 1rem; }
-  .step-item p  { font-size: 0.92rem; }
-  .module-item h4 { font-size: 0.92rem; }
-  .module-item p  { font-size: 0.82rem; }
-}
-
-/* ═══ Blocks that used to be styled inline ══════════════════════════
-   Four rules that lived in `style="..."` attributes on capsar.njk and
-   its IT mirror, i.e. twice each, with no stylesheet entry to find. */
-
-/* Standfirst above the module grid. */
+/* ═══ Module grid ════════════════════════════════════════════ */
+/* Standfirst above the grid. It used to borrow .page-hero-sub, which carries
+   a load-time fadeUp animation — 2,500px down the page that entrance had
+   always finished before anyone scrolled to it, and it overlapped the
+   .fade-in reveal on the section around it. */
 .capsar-module-lede {
-  max-width: 760px;
+  max-width: 70ch;
   margin: 0 auto var(--space-8);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--ink-secondary);
   text-align: center;
 }
 
-/* Footnote under a CTA — the cross-links to the free checklists. */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.module-item {
+  background: var(--paper-raised);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  transition: background-color var(--dur) var(--ease-out);
+}
+
+.module-item:hover { background: var(--paper-sunk); }
+
+.module-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-3);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  color: var(--accent-text);
+}
+
+.module-item h4 {
+  font-size: var(--copy-size-compact);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: var(--space-2);
+}
+
+.module-item p {
+  font-size: var(--copy-size-small);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-tertiary);
+}
+
+/* ═══ Comparison table ═══════════════════════════════════════
+   Hairline rows with one heavier rule under the header, as on
+   the privacy page. */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--rule);
+}
+
+.comparison-table thead th {
+  padding: var(--space-4) var(--space-5);
+  background: var(--paper-sunk);
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: var(--ink-secondary);
+}
+
+.comparison-table thead th:first-child {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+/* --accent is 3.7:1 on paper and fails AA. Orange text is --accent-text. */
+.comparison-table thead th:last-child { color: var(--accent-text); }
+
+.comparison-table tbody td {
+  padding: var(--space-4) var(--space-5);
+  background: var(--paper-raised);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--copy-size-compact);
+  line-height: var(--copy-line-height-tight);
+  color: var(--ink-secondary);
+}
+
+.comparison-table tbody td:first-child {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.comparison-table tbody td:last-child { color: var(--ink); }
+.comparison-table tbody tr:last-child td { border-bottom: none; }
+
+/* ═══ Screenshot grid — the dark band's product moment ═══════ */
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.screenshot-mockup { transition: border-color var(--dur) var(--ease-out); }
+.screenshot-mockup:hover { border-color: var(--accent); }
+
+/* Elevation only where the panel sits on the dark band — a light ground
+   carries structure with rules, not shadows. */
+.band--dark .screenshot-mockup { box-shadow: var(--shadow-band); }
+
+/* ═══ Privacy callout ════════════════════════════════════════ */
+.privacy-callout {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-5) var(--space-6);
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+}
+
+.privacy-callout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  color: var(--accent-text);
+}
+
+.privacy-callout h4 {
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: var(--space-3);
+}
+
+.privacy-callout p {
+  font-size: var(--copy-size);
+  line-height: var(--copy-line-height);
+  color: var(--ink-secondary);
+}
+
+/* ═══ Blocks that used to be styled inline ══════════════════ */
+
+/* Footnote under the privacy callout — the cross-links to the free checklists. */
 .capsar-note {
   margin-top: var(--space-3);
   font-size: var(--copy-size-compact);
   color: var(--ink-secondary);
+}
+
+/* The beta CTA reads as one statement, so it takes a narrower measure than
+   the full --maxw column .band-inner gives it. Capsar is the only block on the
+   site that wants this, so it is not a .band-inner modifier. */
+.capsar-cta-inner {
+  max-width: 700px;
+  text-align: center;
 }
 
 /* Lede paragraph in the beta CTA band. */
@@ -525,6 +501,56 @@
   margin-bottom: var(--space-6);
 }
 
-/* .eir-cross-link is defined in bep-checklist.css, which this page does not
-   load — only the spacing was ever applied here, and only inline. */
-.eir-cross-link { margin-top: var(--space-6); }
+/* Spacing hook for the cross-link under the comparison table. The block
+   itself is .eir-cross-link, which lives in styles.sections.css because
+   bep-checklist and eir-checklist use it too and neither loads this file. */
+.capsar-cross-link { margin-top: var(--space-6); }
+
+/* ─── Responsive — layout only. Type sizing lives in the fluid
+       --step-* scale, never in a breakpoint. ─── */
+@media (max-width: 968px) {
+  .capsar-proof-card { grid-template-columns: 1fr; gap: var(--space-5); padding: var(--space-5); }
+  .pain-grid       { grid-template-columns: 1fr; }
+  .step-flow       { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+  .step-flow::before { display: none; }
+  .module-grid     { grid-template-columns: repeat(2, 1fr); }
+  .screenshot-grid { grid-template-columns: 1fr; }
+  .mockup-screen   { min-height: 120px; padding: var(--space-4); }
+  .privacy-callout { padding: var(--space-4) var(--space-5); }
+
+  /* An incomplete last row in a hairline grid shows the --rule ground as a
+     solid block, so an odd tail spans instead. */
+  .module-grid > .module-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  .comparison-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .comparison-table thead,
+  .comparison-table tbody {
+    display: table;
+    min-width: 760px;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .comparison-table thead th,
+  .comparison-table tbody td { padding: var(--space-3) var(--space-4); }
+}
+
+@media (max-width: 640px) {
+  .step-flow { grid-template-columns: repeat(2, 1fr); }
+  .step-flow > .step-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .comparison-table thead,
+  .comparison-table tbody { min-width: 680px; }
+  .privacy-callout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .step-flow   { grid-template-columns: 1fr; }
+  .module-grid { grid-template-columns: 1fr; }
+}
