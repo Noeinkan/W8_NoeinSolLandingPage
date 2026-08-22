@@ -110,6 +110,12 @@
 
 .hero-actions--center { justify-content: center; }
 
+/* .hero-actions carries no margin of its own -- on the index hero the gap
+   comes from .hero-sub's bottom margin, which .page-hero-sub does not have.
+   Five inner pages were therefore butting their CTA row straight against
+   the last line of the standfirst. */
+.page-hero .hero-actions { margin-top: var(--space-5); }
+
 /* Email fallback under the booking CTA — a third-party widget must never be
    the only route to a human. Listed in the reduced-motion reset in
    styles.utilities.css, or the opacity:0 below would strand it invisible. */
@@ -213,7 +219,9 @@
    ═══════════════════════════════════════════════════════════ */
 .page-hero {
   position: relative;
-  padding: var(--space-12) var(--gutter) var(--space-8);
+  /* 6rem/3rem put 144px of pure padding above the fold on a 768px
+     laptop, before the h1 had said anything. */
+  padding: var(--space-10) var(--gutter) var(--space-6);
   background: var(--paper);
   border-bottom: 1px solid var(--rule);
 }

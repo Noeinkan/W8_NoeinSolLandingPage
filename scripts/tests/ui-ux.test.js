@@ -110,6 +110,7 @@ function testAnalyticsGating() {
     'contact.html',
     'about.html',
     'capsar.html',
+    'iso-19650.html',
     'bep-checklist.html',
     'eir-checklist.html',
     'builds.html',
@@ -131,10 +132,11 @@ function testNavParity() {
   const nav = require('../../src/_data/nav.js');
   const pages = {
     en: ['index.html', 'services.html', 'contact.html', 'about.html', 'capsar.html',
-         'bep-checklist.html', 'eir-checklist.html', 'builds.html', 'privacy.html'],
+         'iso-19650.html', 'bep-checklist.html', 'eir-checklist.html', 'builds.html',
+         'privacy.html'],
     it: ['it/index.html', 'it/services.html', 'it/contact.html', 'it/about.html',
-         'it/capsar.html', 'it/bep-checklist.html', 'it/eir-checklist.html',
-         'it/builds.html', 'it/privacy.html'],
+         'it/capsar.html', 'it/iso-19650.html', 'it/bep-checklist.html',
+         'it/eir-checklist.html', 'it/builds.html', 'it/privacy.html'],
   };
 
   Object.keys(pages).forEach((lang) => {
@@ -701,7 +703,9 @@ function testLegacyTokenBudget() {
 // which is not on the scale (…5, 6, 8, 10…), and the contact columns rendered
 // with no padding above 900px until this check went in.
 const RUNTIME_PROPERTIES = [
-  '--i', // stagger index, set per grid child by js/main.js
+  '--i',  // stagger index, set per grid child by js/main.js
+  '--mx', // pointer position inside a .value-card, set on pointermove by js/main.js
+  '--my',
 ];
 
 function testEveryTokenIsDefined() {

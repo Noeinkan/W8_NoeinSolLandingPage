@@ -1,0 +1,165 @@
+---json
+{
+  "lang": "en",
+  "slug": "iso-19650",
+  "title": "ISO 19650 — EIR, BEP and the Handshake Between Them | Andrea Aita",
+  "description": "How the EIR and the BEP fit together under ISO 19650, where the handover between them usually breaks, and two free interactive diagnostics — an EIR clarity health check and a BEP readiness checklist.",
+  "ogTitle": "ISO 19650 — EIR, BEP and the Handshake Between Them",
+  "ogDescription": "What the EIR asks, what the BEP answers, where it breaks — plus a free diagnostic for each side. No email required.",
+  "ogImageAlt": "Noein Solutions — Information Management and Digital Delivery Consulting",
+  "css": [
+    "iso-19650.css"
+  ],
+  "hasMirror": true,
+  "calendly": true
+}
+---
+{% from "macros/blocks.njk" import sectionHead %}
+<main id="main-content">
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-label">ISO 19650 &middot; Information management</div>
+      <h1>The EIR asks. <em>The BEP answers.</em></h1>
+      <p class="page-hero-sub">Most information management failures on a project are not failures of either document. They are failures of the handover between them &mdash; a requirement written loosely enough that the response can be vague, and nobody notices until the information arrives wrong.</p>
+      <div class="hero-actions">
+        <a href="eir-checklist.html" class="btn btn-primary btn--lg">Check an EIR</a>
+        <a href="bep-checklist.html" class="btn btn-outline btn--lg">Check a BEP</a>
+      </div>
+      <p class="page-hero-note">Both are free, interactive, and run entirely in your browser. No email, no gate, nothing transmitted &mdash; not even to me.</p>
+    </div>
+  </div>
+
+  <section class="fade-in" aria-label="How the EIR and BEP fit together">
+    {{ sectionHead("The handshake", "Two documents, two sides of one appointment", "ISO 19650-2 puts a specific exchange at the centre of the delivery phase: the appointing party states what information it needs, and the prospective lead appointed party states how it will produce it. Everything downstream inherits the quality of that exchange.") }}
+
+    <div class="iso-handshake">
+      <div class="iso-handshake-side">
+        <div class="iso-handshake-role">Client side &middot; asks</div>
+        <div class="iso-handshake-title">Exchange Information Requirements</div>
+        <p>What the appointing party needs delivered, when, in what form, and to what level of information need. Issued with the tender documentation, so it is the thing the supply chain prices against. An EIR that cannot be priced is an EIR that will be answered with a paragraph of intent.</p>
+        <div class="iso-handshake-meta">
+          <b>Written by</b> &nbsp;appointing party<br>
+          <b>Issued at</b> &nbsp;tender / pre-appointment<br>
+          <b>Feeds from</b> &nbsp;OIR, AIR, PIR
+        </div>
+      </div>
+
+      <div class="iso-handshake-arrow">
+        <span class="iso-handshake-arrow-line" aria-hidden="true"></span>
+        <span class="iso-handshake-arrow-label">responded to by</span>
+      </div>
+
+      <div class="iso-handshake-side">
+        <div class="iso-handshake-role">Supplier side &middot; answers</div>
+        <div class="iso-handshake-title">BIM Execution Plan</div>
+        <p>How the delivery team will meet those requirements &mdash; method, standards, capability, and the people responsible for each information container. Submitted pre-appointment as a proposal, then confirmed after appointment with the TIDPs and MIDP that turn the promise into a schedule.</p>
+        <div class="iso-handshake-meta">
+          <b>Written by</b> &nbsp;lead appointed party<br>
+          <b>Issued at</b> &nbsp;pre- then post-appointment<br>
+          <b>Feeds into</b> &nbsp;TIDP, MIDP, CDE setup
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Where the handover breaks">
+    {{ sectionHead("Failure modes", "Where the handover actually breaks", "None of these are exotic. They are the four that turn up on almost every programme, and every one of them is visible before appointment if somebody looks.") }}
+
+    <div class="value-props">
+      <div class="value-card value-card--half">
+        <h3>Level of information need is undefined</h3>
+        <p>The EIR asks for models and drawings but never says how much detail, in whose format, or for which decision. The supply chain guesses, prices its guess, and delivers something defensible that is not what anyone wanted. This one gap generates more rework than the other three combined.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>The BEP answers a template, not the EIR</h3>
+        <p>A pre-appointment BEP written from the last job&rsquo;s document is quick to produce and easy to spot: it responds to requirements the client never issued, and stays silent on half the ones they did. Nobody scores it clause by clause, so it passes.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>The CDE exists, but the workflow does not</h3>
+        <p>Both documents name a common data environment. Neither states the naming convention, the status codes, who approves a transition, or what happens to a container that fails one. The platform gets bought and the governance never arrives.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Handover is not tied to a stage</h3>
+        <p>Information delivery milestones sit on a separate list from the project programme, so they slip without anyone reporting a slip. By the time the asset information model is due, the data that should have accumulated across the stages was never captured.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Free diagnostics">
+    {{ sectionHead("Free diagnostics", "Score the side you are actually on", "Two separate tools, because they are two separate jobs at two different moments. Both run in the browser, both export a report, and neither asks for an email address.") }}
+
+    <div class="offer-grid">
+
+      <article class="offer-card offer-card--featured">
+        <div class="offer-card-badge">Client side</div>
+        <h3 class="offer-card-title">EIR <em>Health Check</em></h3>
+        <p class="offer-card-intro">You are writing or reviewing an EIR and need to know whether the supply chain can actually respond to it. Twelve questions across four sections, each rated 0&ndash;3 for clarity rather than simply ticked.</p>
+        <div class="offer-card-price-section">
+          <div class="iso-tool-spec"><b>12 questions</b> &middot; 4 sections &middot; scored /100 &middot; about 5 minutes</div>
+        </div>
+        <ul class="offer-card-list">
+          <li>A clarity score out of 100 with a banded verdict</li>
+          <li>Your three most expensive gaps, ranked by what they cost downstream</li>
+          <li>Full section-by-section breakdown</li>
+          <li>A PDF report to hand to the client or the bid team</li>
+        </ul>
+        <a href="eir-checklist.html" class="offer-card-link">Run the health check <span>&rarr;</span></a>
+      </article>
+
+      <article class="offer-card">
+        <div class="offer-card-badge">Supplier side</div>
+        <h3 class="offer-card-title">BEP <em>Readiness Checklist</em></h3>
+        <p class="offer-card-intro">You have a BEP drafted and a submission deadline. Thirty-five evidence checks across nine sections, including a set flagged ISO-critical and a final go / no-go.</p>
+        <div class="offer-card-price-section">
+          <div class="iso-tool-spec"><b>35 checks</b> &middot; 9 sections &middot; readiness band &middot; about 7 minutes</div>
+        </div>
+        <ul class="offer-card-list">
+          <li>A readiness score with a submit / do-not-submit verdict</li>
+          <li>Weakest sections diagnosed, with what to do about each</li>
+          <li>ISO-critical checks separated from the nice-to-haves</li>
+          <li>A PDF report for the bid team</li>
+        </ul>
+        <a href="bep-checklist.html" class="offer-card-link">Open the checklist <span>&rarr;</span></a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Common questions about ISO 19650">
+    {{ sectionHead("Common questions", "The ones that come up first") }}
+
+    <div class="value-props">
+      <div class="value-card value-card--half">
+        <h3>Which one do I need?</h3>
+        <p>Whichever side of the appointment you sit on. If you are commissioning the work, you own the EIR. If you are bidding for it or delivering it, you own the BEP. Advisors working with both sides need to read each document as the other party will.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Pre-appointment or post-appointment BEP?</h3>
+        <p>Both, and they are not the same document. The pre-appointment version is a proposal submitted with the tender. The confirmed version comes after appointment, carrying the mobilisation detail, the TIDPs and the MIDP that the proposal could only promise.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Where do OIR, AIR and PIR fit?</h3>
+        <p>Upstream of the EIR. Organisational and asset information requirements describe what the business needs from its estate over the long run; project information requirements narrow that to one project. The EIR is where they become something a supplier can price.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Do the tools store anything?</h3>
+        <p>No. Both run entirely in your browser and keep your answers in local storage so a refresh does not lose them. Nothing is transmitted. There is no form, no email gate, and no copy of your project on any server of mine.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="capsar-banner fade-in">
+    <div class="capsar-banner-inner">
+      {{ sectionHead("Next step") }}
+      <h2>If the score came back low, the fix is usually specific.</h2>
+      <p>I write EIRs client-side and BEPs supplier-side, and I built <a href="capsar.html">Capsar.io</a> to keep the requirements traceable between them. Bring the document and the deadline &mdash; thirty minutes is usually enough to say what is actually wrong with it.</p>
+      <div class="hero-actions hero-actions--center">
+        <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Book a 30-min call</a>
+        <a href="services.html" class="btn btn-outline">How I work</a>
+      </div>
+      <div class="capsar-badge">{{ site.email }}</div>
+    </div>
+  </div>
+
+</main>

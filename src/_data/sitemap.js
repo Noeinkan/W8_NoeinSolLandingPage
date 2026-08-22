@@ -22,6 +22,7 @@ const BY_SLUG = {
   services:         { priority: 0.9 },
   contact:          { priority: 0.9 },
   about:            { priority: 0.9 },
+  'iso-19650':      { priority: 0.9 },
   capsar:           { priority: 0.8 },
   'bep-checklist':  { priority: 0.8 },
   'eir-checklist':  { priority: 0.8 },

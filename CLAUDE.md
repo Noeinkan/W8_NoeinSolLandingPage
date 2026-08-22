@@ -2,11 +2,11 @@
 
 Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita's digital delivery consulting practice. Built with Eleventy; no client-side framework.
 
-**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 18 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
+**Single source of truth: `src/`.** `npx @11ty/eleventy` builds the 20 pages into `_site/`, and `_site/` is what ships — `deploy.sh` runs the build then `rsync`s `_site/`, the preflight validates `_site/`, and both test suites read `_site/`. There are **no hand-written root `*.html` files any more**; the vestigial copies were removed once it was confirmed nothing consumed them. Never author HTML at the repo root — edit `src/**/*.njk` and rebuild.
 
 `css/`, `js/`, `assets/` and `robots.txt` are passthrough-copied from the project root (`.eleventy.js:7-10`), so those are still edited in place. `_site/css/` is a *copy*: a CSS edit is invisible to the browser until the build runs again.
 
-**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 18 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
+**Shared chrome is single-sourced.** `src/_includes/base.njk` holds head, analytics and body scaffolding; `src/_includes/partials/` holds nav and footer; `src/_data/nav.js` is the menu. Adding a nav entry is one edit, not twelve. The flip side: a change to `base.njk` reaches all 20 pages at once — a Calendly `<script>` added there once put a third-party script on every page including `privacy.html`, which is why it is now behind a per-page `calendly` flag.
 
 **Recurring blocks are macros, not markup.** `src/_includes/macros/blocks.njk` holds the blocks that repeat across pages — `sectionHead(label, title, sub, align)` for the eyebrow/h2/standfirst triplet, `stat(count, label, suffix)` for a counter cell. Import what a page needs at the top (`{% from "macros/blocks.njk" import sectionHead %}`) and call it. The section heading was hand-written 51 times before this; three of those copies had drifted onto an inline `style="justify-content:center"` instead of the `.section-label--center` modifier that already existed. Add a macro whenever a block reaches its third hand-written copy.
 
@@ -17,6 +17,8 @@ Static site for [noeinsolutions.com](https://noeinsolutions.com) — Andrea Aita
 The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_SHOTS` carry only what needs translating — label, title, standfirst, kicker, blurb, alt — and are overlaid onto the English lineup, so repo, slug, stack, captures and `noUi` exist once. `builds.lang.en` and `builds.lang.it` are the per-language views a template takes with `{% set lineup = builds.lang[lang] %}`; neither page branches on the language itself. The two pages therefore cannot list different builds, and a build added with no IT copy renders the English string rather than a blank card. Spelled-out numbers and the month range have a list per language for the same reason: "13 progetti, 7 mesi" reads as a spec sheet where the headline is meant to read as a sentence.
 
 **The Capsar screenshots are data too.** `src/_data/capsar.js` holds the product captures the way `builds.js` holds the lineup: filename, the URL its browser chrome shows, the mono caption, the alt text — plus an `IT_SHOTS` overlay carrying only caption and alt, so file and order exist once. Both `capsar.njk` pages open with `{% set preview = capsar.lang[lang] %}` and loop, and therefore cannot show different screenshots. The panels held hand-written CSS skeletons before this — grey bars standing in for a UI — and one of them was captioned *EIR Responsiveness Matrix*: a real feature, but one no capture existed for. A caption describes what is in the frame, so a feature with no shot is simply not in the list. Captures come from the app's own shot kit (`W3_capsar_io/shotkit.config.mjs`) run against a throwaway database seeded with an invented project — never client data — and land in `assets/capsar/` at 1200×750 via `scripts/optimize_screenshots.py`, which walks `assets/builds/` and `assets/capsar/` in one pass.
+
+**The two free tools hang off a hub, and are still two pages.** `iso-19650.njk` is the pillar: what the EIR asks, what the BEP answers, where the handover between them breaks, and the routing to both diagnostics. It is the single nav entry — `nav.js` used to spend two of its eight slots on the tools, and each tool then re-did the routing itself with a cross-link box under its own hero pointing at its sibling. Those boxes are gone; each tool now carries one line back to the hub instead, and `.eir-cross-link` survives only for Capsar's contextual pointer. What did *not* happen is a merge: `bep-checklist` and `eir-checklist` keep their own URLs, titles and canonicals because they answer different searches for different people at different stages — the EIR is client-side and pre-appointment, the BEP is the supplier's response — and one URL would be one keyword target instead of two, on the site's two top-of-funnel lead magnets. They are also 1,938 lines of JS between them with separate scoring models, so a merged page would load both to serve one.
 
 ## File Structure
 
@@ -29,8 +31,8 @@ The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_
 │   ├── _includes/      # base.njk + partials/ (nav, footer, cert lightbox)
 │   │   └── macros/     # blocks.njk — sectionHead, stat
 │   ├── sitemap.njk     # generates _site/sitemap.xml from the built pages
-│   ├── en/*.njk        # 9 English pages
-│   └── it/*.njk        # 9 Italian mirrors — every EN page now has one
+│   ├── en/*.njk        # 10 English pages
+│   └── it/*.njk        # 10 Italian mirrors — every EN page now has one
 ├── _site/              # Build output — gitignored, and what deploy.sh ships. Never edit.
 ├── css/                # Styles split into per-concern partials
 │   ├── styles.css      # 8-line @import manifest for the global bundle
@@ -47,6 +49,8 @@ The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_
 │   │                      # and one dark-panel definition shared by both capture
 │   │                      # families (proof card on paper, preview on .band--dark) —
 │   │                      # chrome + a 16:10 .mockup-shot + a mono caption
+│   ├── iso-19650.css      # ISO 19650 hub: the EIR/BEP handshake block. Everything
+│   │                      # else on that page is a shared block
 │   ├── bep-checklist.css
 │   ├── eir-checklist.css  # EIR Health Check: reuses .bep-* scaffolding, adds .eir-q + .eir-gap-card
 │   ├── builds.css         # Builds page: .build-card grid by domain, 16:10 media slots (cross-fading
@@ -94,7 +98,7 @@ The same module holds the Italian strings. `IT_CATEGORIES`, `IT_BUILDS` and `IT_
 - **SEO:** Each page has canonical URL, hreflang alternates (en/it/x-default), OpenGraph tags, JSON-LD on homepage.
 - **Accessibility:** ARIA labels, `aria-expanded`/`aria-selected` states, `prefers-reduced-motion` respected throughout.
 - **Forms:** lead-magnet / contact forms post to FormSubmit.co (`https://formsubmit.co/andrea.aita@noeinsolutions.com`) with a honeypot `_honey` field. Present on `index`, `contact`, `bep-checklist`, `eir-checklist` and IT mirrors. Required fields carry `aria-required="true"`. Field styling (input/select/textarea) is global, in `styles.ui.css`.
-- **Booking:** `site.calendly` in `src/_data/site.js` is the one booking URL. Two mechanisms: a **popup** CTA (`Calendly.initPopupWidget`) on every selling page, and the **inline** widget on `contact` only. Both need `"calendly": true` in that page's front matter, which is what loads the widget script — `base.njk` reaches all 18 pages, so loading it globally would put a third-party script on `privacy.html` for nothing. Keep the popup CTA a real `<a href>`: when the script is blocked the `onclick` throws, the default is never prevented, and the link just navigates to Calendly. `testBookingRoutes` in `ui-ux.test.js` enforces all of this. Calendly's `background_color`/`text_color`/`primary_color` params are sent but ignored on the free plan.
+- **Booking:** `site.calendly` in `src/_data/site.js` is the one booking URL. Two mechanisms: a **popup** CTA (`Calendly.initPopupWidget`) on every selling page, and the **inline** widget on `contact` only. Both need `"calendly": true` in that page's front matter, which is what loads the widget script — `base.njk` reaches all 20 pages, so loading it globally would put a third-party script on `privacy.html` for nothing. Keep the popup CTA a real `<a href>`: when the script is blocked the `onclick` throws, the default is never prevented, and the link just navigates to Calendly. `testBookingRoutes` in `ui-ux.test.js` enforces all of this. Calendly's `background_color`/`text_color`/`primary_color` params are sent but ignored on the free plan.
 - **Conversion target:** business mode. Every page routes to a booking CTA (`contact.html` / the Calendly popup), with the Capsar app at `app.noeinsolutions.com` and GitHub as secondary destinations. External links use `target="_blank" rel="noopener"`; below-fold images use `loading="lazy"`.
 - **No published rates.** Pricing is scoped on enquiry; the archived `js/services-pricing.js` estimator stays retired. `services.njk` uses `.offer-card-price-section` for scope/timeline, not money.
 

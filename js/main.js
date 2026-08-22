@@ -45,6 +45,36 @@
     }
   });
 
+  // ─── Pointer wash on the bento panels ───
+  // The whole panel is the click target (the stretched .offer-card-link in
+  // styles.sections.css), so it should read as one object under the cursor
+  // too: --mx/--my move the soft accent light in .value-card::before to
+  // wherever the pointer is. It lives here because CSS has no unit for the
+  // cursor. Skipped under reduced motion, where the gradient keeps its
+  // default position and only fades. One listener per grid, rAF-throttled —
+  // pointermove fires far faster than the panel can repaint.
+  if (!reducedMotion) {
+    document.querySelectorAll('.value-props').forEach(function (grid) {
+      var frame = null;
+
+      grid.addEventListener('pointermove', function (e) {
+        if (frame || !e.target.closest) return;
+        var card = e.target.closest('.value-card');
+        if (!card) return;
+        var x = e.clientX;
+        var y = e.clientY;
+
+        frame = requestAnimationFrame(function () {
+          frame = null;
+          var rect = card.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          card.style.setProperty('--mx', ((x - rect.left) / rect.width * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', ((y - rect.top) / rect.height * 100).toFixed(1) + '%');
+        });
+      });
+    });
+  }
+
   // ─── Animated stat counters ───
   var statsAnimated = false;
   var statsObserver = new IntersectionObserver(function (entries) {

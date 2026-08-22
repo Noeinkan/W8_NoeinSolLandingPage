@@ -1,0 +1,165 @@
+---json
+{
+  "lang": "it",
+  "slug": "iso-19650",
+  "title": "ISO 19650 — EIR, BEP e il passaggio tra i due | Andrea Aita",
+  "description": "Come stanno insieme EIR e BEP sotto la ISO 19650, dove si rompe il passaggio tra i due e due diagnostiche interattive gratuite: un health check di chiarezza dell'EIR e una checklist di readiness del BEP.",
+  "ogTitle": "ISO 19650 — EIR, BEP e il passaggio tra i due",
+  "ogDescription": "Cosa chiede l'EIR, cosa risponde il BEP, dove si rompe. Con una diagnostica gratuita per ciascun lato. Nessuna email richiesta.",
+  "ogImageAlt": "Noein Solutions — Information management e digital delivery",
+  "css": [
+    "iso-19650.css"
+  ],
+  "hasMirror": true,
+  "calendly": true
+}
+---
+{% from "macros/blocks.njk" import sectionHead %}
+<main id="main-content">
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-label">ISO 19650 &middot; Information management</div>
+      <h1>L&rsquo;EIR chiede. <em>Il BEP risponde.</em></h1>
+      <p class="page-hero-sub">Quasi mai il problema sta in uno dei due documenti. Sta nel passaggio tra loro: un requisito scritto in modo abbastanza vago da permettere una risposta altrettanto vaga. Nessuno se ne accorge finch&eacute; l&rsquo;informazione non arriva sbagliata.</p>
+      <div class="hero-actions">
+        <a href="eir-checklist.html" class="btn btn-primary btn--lg">Valuta un EIR</a>
+        <a href="bep-checklist.html" class="btn btn-outline btn--lg">Valuta un BEP</a>
+      </div>
+      <p class="page-hero-note">Sono gratuiti, interattivi e girano interamente nel tuo browser. Nessuna email, nessun gate, niente che venga trasmesso. Nemmeno a me.</p>
+    </div>
+  </div>
+
+  <section class="fade-in" aria-label="Come stanno insieme EIR e BEP">
+    {{ sectionHead("Il passaggio", "Due documenti, due lati dello stesso incarico", "La ISO 19650-2 mette uno scambio preciso al centro della fase di consegna. Il committente dichiara quale informazione gli serve, l&rsquo;incaricato principale dichiara come la produrr&agrave;. Tutto quello che viene dopo eredita la qualit&agrave; di quello scambio.") }}
+
+    <div class="iso-handshake">
+      <div class="iso-handshake-side">
+        <div class="iso-handshake-role">Chi commissiona &middot; chiede</div>
+        <div class="iso-handshake-title">Exchange Information Requirements</div>
+        <p>Quale informazione serve al committente, quando, in che forma e con quale livello di fabbisogno informativo. Esce con i documenti di gara, quindi &egrave; su questo che la supply chain fa il prezzo. Un EIR che non si riesce a quotare viene risposto con una dichiarazione di intenti.</p>
+        <div class="iso-handshake-meta">
+          <b>Lo scrive</b> &nbsp;il committente<br>
+          <b>Esce</b> &nbsp;in gara, prima dell&rsquo;incarico<br>
+          <b>Deriva da</b> &nbsp;OIR, AIR, PIR
+        </div>
+      </div>
+
+      <div class="iso-handshake-arrow">
+        <span class="iso-handshake-arrow-line" aria-hidden="true"></span>
+        <span class="iso-handshake-arrow-label">risposto da</span>
+      </div>
+
+      <div class="iso-handshake-side">
+        <div class="iso-handshake-role">Chi consegna &middot; risponde</div>
+        <div class="iso-handshake-title">BIM Execution Plan</div>
+        <p>Come il team di consegna soddisfer&agrave; quei requisiti: metodo, standard, capacit&agrave; e chi risponde di ogni contenitore informativo. Si presenta prima dell&rsquo;incarico come proposta, poi si conferma dopo l&rsquo;incarico con i TIDP e il MIDP che trasformano la promessa in un calendario.</p>
+        <div class="iso-handshake-meta">
+          <b>Lo scrive</b> &nbsp;l&rsquo;incaricato principale<br>
+          <b>Esce</b> &nbsp;prima e dopo l&rsquo;incarico<br>
+          <b>Alimenta</b> &nbsp;TIDP, MIDP, setup del CDE
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Dove si rompe il passaggio">
+    {{ sectionHead("Modi di fallire", "Dove si rompe davvero il passaggio", "Nessuno di questi &egrave; esotico. Sono i quattro che trovo su quasi tutti i programmi, e ognuno di loro si vede gi&agrave; prima dell&rsquo;incarico, se qualcuno guarda.") }}
+
+    <div class="value-props">
+      <div class="value-card value-card--half">
+        <h3>Il livello di fabbisogno informativo non c&rsquo;&egrave;</h3>
+        <p>L&rsquo;EIR chiede modelli ed elaborati, ma non dice con quanto dettaglio, in che formato e per quale decisione. La supply chain tira a indovinare, quota la sua ipotesi e consegna qualcosa di difendibile che per&ograve; non &egrave; quello che serviva. Questa singola lacuna produce pi&ugrave; rilavorazione delle altre tre messe insieme.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Il BEP risponde a un template, non all&rsquo;EIR</h3>
+        <p>Un BEP pre-incarico scritto sul documento del lavoro precedente si produce in fretta e si riconosce subito: risponde a requisiti che il committente non ha mai emesso e tace su met&agrave; di quelli veri. Nessuno lo valuta clausola per clausola, quindi passa.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Il CDE esiste, il workflow no</h3>
+        <p>Entrambi i documenti nominano un common data environment. Nessuno dei due dichiara la convenzione di denominazione, i codici di stato, chi approva una transizione o cosa succede a un contenitore che ne fallisce una. La piattaforma viene comprata e la governance non arriva mai.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>La consegna non &egrave; agganciata alle fasi</h3>
+        <p>Le milestone di consegna informativa vivono su una lista separata dal programma di progetto, quindi slittano senza che nessuno riporti uno slittamento. Quando arriva la scadenza dell&rsquo;asset information model, il dato che doveva accumularsi lungo le fasi non &egrave; mai stato raccolto.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Diagnostiche gratuite">
+    {{ sectionHead("Diagnostiche gratuite", "Valuta il lato su cui stai davvero", "Due strumenti separati, perch&eacute; sono due lavori diversi in due momenti diversi. Girano entrambi nel browser, esportano entrambi un report e nessuno dei due ti chiede un&rsquo;email.") }}
+
+    <div class="offer-grid">
+
+      <article class="offer-card offer-card--featured">
+        <div class="offer-card-badge">Lato di chi commissiona</div>
+        <h3 class="offer-card-title">Health Check <em>EIR</em></h3>
+        <p class="offer-card-intro">Stai scrivendo o rivedendo un EIR e vuoi sapere se la supply chain riesce davvero a rispondere. Dodici domande su quattro sezioni, ognuna valutata da 0 a 3 per chiarezza invece che spuntata.</p>
+        <div class="offer-card-price-section">
+          <div class="iso-tool-spec"><b>12 domande</b> &middot; 4 sezioni &middot; punteggio /100 &middot; circa 5 minuti</div>
+        </div>
+        <ul class="offer-card-list">
+          <li>Un punteggio di chiarezza su 100 con la fascia di giudizio</li>
+          <li>I tuoi 3 gap pi&ugrave; costosi, ordinati per quanto pesano a valle</li>
+          <li>Il dettaglio completo sezione per sezione</li>
+          <li>Un report PDF da passare al committente o al team di gara</li>
+        </ul>
+        <a href="eir-checklist.html" class="offer-card-link">Apri il check <span>&rarr;</span></a>
+      </article>
+
+      <article class="offer-card">
+        <div class="offer-card-badge">Lato di chi consegna</div>
+        <h3 class="offer-card-title">Checklist <em>readiness BEP</em></h3>
+        <p class="offer-card-intro">Hai un BEP in bozza e una scadenza di consegna. Trentacinque controlli di evidenza su nove sezioni, con un gruppo marcato ISO-critical e un go / no-go finale.</p>
+        <div class="offer-card-price-section">
+          <div class="iso-tool-spec"><b>35 controlli</b> &middot; 9 sezioni &middot; fascia di readiness &middot; circa 7 minuti</div>
+        </div>
+        <ul class="offer-card-list">
+          <li>Un punteggio di prontezza con il verdetto: consegna o non consegnare</li>
+          <li>Le sezioni pi&ugrave; deboli, con cosa fare su ognuna</li>
+          <li>I controlli ISO-critical separati da quelli accessori</li>
+          <li>Un report PDF per il team di gara</li>
+        </ul>
+        <a href="bep-checklist.html" class="offer-card-link">Apri la checklist <span>&rarr;</span></a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="fade-in" aria-label="Domande frequenti sulla ISO 19650">
+    {{ sectionHead("Domande frequenti", "Quelle che arrivano per prime") }}
+
+    <div class="value-props">
+      <div class="value-card value-card--half">
+        <h3>Quale dei due mi serve?</h3>
+        <p>Dipende da che lato dell&rsquo;incarico stai. Se commissioni il lavoro, l&rsquo;EIR &egrave; tuo. Se vai in gara o consegni, il BEP &egrave; tuo. Chi fa consulenza per entrambe le parti deve saper leggere ciascun documento come lo legger&agrave; l&rsquo;altra.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>BEP prima o dopo l&rsquo;incarico?</h3>
+        <p>Tutti e due, e non sono lo stesso documento. La versione pre-incarico &egrave; una proposta che va con l&rsquo;offerta. Quella confermata arriva dopo l&rsquo;incarico e porta il dettaglio di mobilitazione, i TIDP e il MIDP che la proposta poteva solo promettere.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Dove stanno OIR, AIR e PIR?</h3>
+        <p>A monte dell&rsquo;EIR. OIR e AIR descrivono cosa serve all&rsquo;organizzazione dal suo patrimonio nel lungo periodo, i PIR restringono quel quadro a un singolo progetto. L&rsquo;EIR &egrave; il punto in cui diventano qualcosa che un fornitore riesce a quotare.</p>
+      </div>
+      <div class="value-card value-card--half">
+        <h3>Gli strumenti salvano qualcosa?</h3>
+        <p>No. Girano interamente nel tuo browser e tengono le risposte nel local storage, cos&igrave; un refresh non te le fa perdere. Non trasmettono niente. Non c&rsquo;&egrave; nessun form, nessun gate email e nessuna copia del tuo progetto su un mio server.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="capsar-banner fade-in">
+    <div class="capsar-banner-inner">
+      {{ sectionHead("Prossimo passo") }}
+      <h2>Se il punteggio &egrave; basso, di solito il rimedio &egrave; preciso.</h2>
+      <p>Scrivo EIR per i committenti e BEP per chi consegna, e ho costruito <a href="capsar.html">Capsar.io</a> per tenere i requisiti tracciabili tra i due. Porta il documento e la scadenza: trenta minuti bastano quasi sempre per dirti cosa non va davvero.</p>
+      <div class="hero-actions hero-actions--center">
+        <a href="{{ site.calendly }}" onclick="Calendly.initPopupWidget({url:'{{ site.calendly }}'});return false;" class="btn btn-primary">Prenota una call di 30 minuti</a>
+        <a href="services.html" class="btn btn-outline">Come lavoro</a>
+      </div>
+      <div class="capsar-badge">{{ site.email }}</div>
+    </div>
+  </div>
+
+</main>

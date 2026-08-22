@@ -777,15 +777,6 @@
   .bep-diag-card { page-break-inside: avoid; }
 }
 
-/* ─── Cross-link container (used on bep-checklist + eir-checklist to surface
-       the sibling tool between the hero and the main tool) ─── */
-.eir-cross-link-wrap {
-  width: 100%;
-  max-width: var(--maxw);
-  margin: 0 auto var(--space-6);
-  padding: 0 var(--gutter);
-}
-
 /* Resting width of the score bar. js/bep-checklist.js and js/eir-checklist.js
    both drive this inline as the score changes; the markup used to declare the
    zero state inline too, which put a `style=` attribute on two pages for a

@@ -86,7 +86,29 @@
   .hero-actions { width: 100%; }
 }
 
+/* ─── Card grids: step the columns, never orphan one ──────── */
+/* .offer-grid is four declared columns above these. It halves at the
+   same width the nav collapses -- one break point for "the layout is
+   now narrow" -- and steps to 2 rather than straight to 1 because two
+   ~500px cards stack shorter than four ~250px ones, which is the whole
+   point of the exercise. */
+@media (max-width: 1180px) {
+  .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .offer-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── Large screens: widen the measure, nothing else ──────── */
+/* A 1366-wide laptop held the 1200px measure, leaving ~120px of dead
+   margin each side on exactly the screens with the least vertical room
+   to spare. Widening here spends that width on the 4-up engagement
+   cards instead, which come back 60px shorter. */
+@media (min-width: 1280px) {
+  :root { --maxw: 1260px; }
+}
+
 @media (min-width: 1440px) {
   :root { --maxw: 1340px; }
 }

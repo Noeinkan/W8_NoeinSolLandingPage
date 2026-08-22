@@ -405,8 +405,9 @@
 }
 
 /* Spacing hook for the cross-link under the comparison table. The block
-   itself is .eir-cross-link, which lives in styles.sections.css because
-   bep-checklist and eir-checklist use it too and neither loads this file. */
+   itself is .eir-cross-link, in styles.sections.css: it was shared with the
+   two checklist pages, which do not load this file. Capsar is its only
+   consumer now — the checklists route through the ISO 19650 hub instead. */
 .capsar-cross-link { margin-top: var(--space-6); }
 
 /* ─── Responsive — layout only. Type sizing lives in the fluid

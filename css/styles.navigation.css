@@ -48,10 +48,10 @@ nav.nav-scrolled {
 }
 
 .nav-links a {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: var(--step--1);
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   color: var(--ink-secondary);
   text-decoration: none;
   /* Multi-word labels ("Work with me", "EIR Health Check") otherwise break
@@ -88,10 +88,10 @@ nav.nav-scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: var(--step--2);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
   color: var(--ink-tertiary);
